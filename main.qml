@@ -22,7 +22,7 @@ ApplicationWindow {
     Component {
         id: splashPage
         SplashView {
-            onStartClicked: mainStack.push(tableViewPage)
+            // onStartClicked: mainStack.push(tableViewPage)
         }
     }
 
@@ -30,5 +30,36 @@ ApplicationWindow {
     Component {
         id: tableViewPage
         MainTableView {}
+    }
+
+    DropArea {
+        id: dropArea
+        anchors.fill: parent
+        // keys: ["text/plain"] // Only accept this specific type
+
+        onDropped: (drop) => {
+
+            if (drop.hasText) {
+                console.log("Dropped data:", drop.text)
+                // drop.acceptProposedAction()
+            }
+            if (drop.hasUrls) {
+                // 1. Loop through all dropped items
+                for (var i = 0; i < drop.urls.length; i++) {
+                    let rawUrl = drop.urls[i].toString();
+
+                    // 2. Convert to a clean local path
+                    // Using Qt.resolvedUrl or simple regex to remove 'file://'
+                    let localPath = rawUrl.replace(/^(file:\/{2})/,"");
+
+                    // On Linux/Kubuntu, the path might still have a leading /
+                    // e.g., /home/user/Documents/project.txt
+                    console.log("Accepted file:", localPath);
+                }
+                drop.acceptProposedAction();
+
+                mainStack.push(tableViewPage)
+            }
+        }
     }
 }

@@ -33,7 +33,8 @@ qt_add_qml_module(vBoard
             assets/splash.png
             assets/LEDred.png
             assets/LEDgreen.png
-            assets/github.png)
+            assets/github.png
+            assets/fonts/SourceSans3-VariableFont_wght.ttf)
 
 target_link_libraries(vBoard PRIVATE
         Qt6::Core

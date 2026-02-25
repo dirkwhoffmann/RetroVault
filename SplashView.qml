@@ -5,6 +5,11 @@ import QtQuick.Layouts
 Item {
     signal startClicked()
 
+    FontLoader {
+        id: brandFont
+        source: "assets/fonts/SourceSans3-VariableFont_wght.ttf"
+    }
+
     // Background Image
     Image {
         anchors.fill: parent
@@ -17,15 +22,15 @@ Item {
         anchors.centerIn: parent
         spacing: 30
 
-    /*
-        Button {
-            text: "Enter Application"
-            highlighted: true
-            Layout.preferredWidth: 200
-            onClicked: startClicked()
-            Layout.alignment: Qt.AlignHCenter
-        }
-    */
+        /*
+            Button {
+                text: "Enter Application"
+                highlighted: true
+                Layout.preferredWidth: 200
+                onClicked: startClicked()
+                Layout.alignment: Qt.AlignHCenter
+            }
+        */
 
         GridLayout {
             columns: 2
@@ -48,18 +53,21 @@ Item {
             // 2. Upper Right: Multi-line Text
             ColumnLayout {
                 Layout.alignment: Qt.AlignTop // | Qt.AlignLeft
-                spacing: 5
+                // spacing: 5
                 Label {
                     text: "Retro Vault"
                     font.pixelSize: 36
-                    font.bold: true
+                    font.family: brandFont.name
+                    font.weight: 600 // Font.Bold
+                    // font.bold: true
                     color: palette.windowText
                     Layout.alignment: Qt.AlignLeft
                 }
                 Label {
                     text: "Where Sectors Come to Life"
                     font.pixelSize: 24
-                    font.bold: false
+                    // font.bold: false
+                    font.weight: 300 // Font.Light
                     color: palette.mid
                     Layout.alignment: Qt.AlignLeft
                 }
@@ -100,58 +108,72 @@ Item {
                     Layout.alignment: Qt.AlignLeft
                     Layout.topMargin: 25
                 }
-    /*
-                Item {
-                    Layout.preferredHeight: 20
-                    Layout.fillWidth: true
-                }
-*/
+                /*
+                            Item {
+                                Layout.preferredHeight: 20
+                                Layout.fillWidth: true
+                            }
+            */
                 GridLayout {
                     columns: 2
                     rowSpacing: 5
                     columnSpacing: 10
                     Layout.topMargin: 10
 
-                    Label { text: ".ADF:"; color: "gray"; font.bold: false }
-                    Label { text: "Commodore Amiga Floppy Disk"; color: "gray" }
+                    Label {
+                        text: ".ADF:"; color: "gray"; font.bold: false
+                    }
+                    Label {
+                        text: "Commodore Amiga Floppy Disk"; color: "gray"
+                    }
 
-                    Label { text: ".D64:"; color: "gray"; font.bold: false }
-                    Label { text: "Commodore 64 Floppy Disk"; color: "gray" }
+                    Label {
+                        text: ".D64:"; color: "gray"; font.bold: false
+                    }
+                    Label {
+                        text: "Commodore 64 Floppy Disk"; color: "gray"
+                    }
                 }
             }
         }
     }
     RowLayout {
-            // This pins the layout to the bottom edge
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
+        // This pins the layout to the bottom edge
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
 
-            // Add some breathing room from the window edges
-            anchors.margins: 20
+        // Add some breathing room from the window edges
+        // anchors.margins: 10
+        anchors {
+            leftMargin: 15
+            rightMargin: 15
+            topMargin: 10
+            bottomMargin: 10
+        }
 
-            // BOTTOM LEFT: Icon + Label
-            RowLayout {
-                spacing: 8
-                Image {
-                    source: "assets/LEDred.png"
-                    sourceSize: Qt.size(18, 18)
-                }
-                Label {
-                    text: "macFUSE not installed"
-                    font.pixelSize: 12
-                }
-            }
-
-            // SPACER: This invisible item eats all available middle space
-            Item {
-                Layout.fillWidth: true
-            }
-
-            // BOTTOM RIGHT: Single Icon
+        // BOTTOM LEFT: Icon + Label
+        RowLayout {
+            spacing: 8
             Image {
-                source: "assets/github.png"
+                source: "assets/LEDred.png"
                 sourceSize: Qt.size(18, 18)
             }
+            Label {
+                text: "macFUSE not installed"
+                font.pixelSize: 12
+            }
         }
+
+        // SPACER: This invisible item eats all available middle space
+        Item {
+            Layout.fillWidth: true
+        }
+
+        // BOTTOM RIGHT: Single Icon
+        Image {
+            source: "assets/github.png"
+            sourceSize: Qt.size(18, 18)
+        }
+    }
 }
