@@ -24,7 +24,16 @@ qt_policy(SET QTP0001 NEW)
 qt_add_qml_module(vBoard
         URI vBoardUI
         VERSION 1.0
-        QML_FILES main.qml)
+        QML_FILES
+            main.qml
+            SplashView.qml
+            MainTableView.qml
+        RESOURCES
+            assets/AppIcon.png
+            assets/splash.png
+            assets/LEDred.png
+            assets/LEDgreen.png
+            assets/github.png)
 
 target_link_libraries(vBoard PRIVATE
         Qt6::Core
