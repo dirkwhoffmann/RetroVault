@@ -7,13 +7,13 @@ Item {
 
     FontLoader {
         id: brandFont
-        source: "assets/fonts/SourceSans3-VariableFont_wght.ttf"
+        source: "../assets/fonts/SourceSans3-VariableFont_wght.ttf"
     }
 
     // Background Image
     Image {
         anchors.fill: parent
-        source: "assets/splash.png"
+        source: "../assets/splash.png"
         fillMode: Image.PreserveAspectCrop
         opacity: 0.6
     }
@@ -42,7 +42,7 @@ Item {
 
             // 1. Upper Left: Image
             Image {
-                source: "assets/AppIcon.png"
+                source: "../assets/AppIcon.png"
                 // fillMode: Image.PreserveAspectFit
                 Layout.preferredWidth: 100
                 Layout.preferredHeight: 100
@@ -56,9 +56,9 @@ Item {
                 // spacing: 5
                 Label {
                     text: "Retro Vault"
-                    font.pixelSize: 36
+                    font.pixelSize: 38
                     font.family: brandFont.name
-                    font.weight: 600 // Font.Bold
+                    font.weight: 700 // Font.Bold
                     // font.bold: true
                     color: palette.windowText
                     Layout.alignment: Qt.AlignLeft
@@ -156,7 +156,7 @@ Item {
         RowLayout {
             spacing: 8
             Image {
-                source: "assets/LEDred.png"
+                source: "../assets/LEDred.png"
                 sourceSize: Qt.size(18, 18)
             }
             Label {
@@ -172,7 +172,7 @@ Item {
 
         // BOTTOM RIGHT: Single Icon
         Image {
-            source: "assets/github.png"
+            source: "../assets/github.png"
             sourceSize: Qt.size(18, 18)
         }
     }

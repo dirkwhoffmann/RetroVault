@@ -52,14 +52,18 @@ target_compile_options(retrovault PRIVATE ${FUSE_CFLAGS_OTHER})
 #        _FILE_OFFSET_BITS=64)
 
 qt_policy(SET QTP0001 NEW)
+qt_policy(SET QTP0004 NEW)
 
 qt_add_qml_module(retrovault
+
         URI retrovaultUI
         VERSION 1.0
+
         QML_FILES
-        main.qml
-        SplashView.qml
-        MainTableView.qml
+        qml/main.qml
+        qml/SplashView.qml
+        qml/MainTableView.qml
+
         RESOURCES
         assets/AppIcon.png
         assets/splash.png

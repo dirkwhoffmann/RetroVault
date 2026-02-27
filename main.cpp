@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("cppBackend", &myBackend);
 
     // Load the QML file
-    const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/qml/main.qml"));
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject *obj, const QUrl &objUrl) {
