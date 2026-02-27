@@ -11,10 +11,10 @@
 
 #include "FuseAPI.h"
 #include "FuseFileSystemTypes.h"
-#include "FuseDebug.h"
+#include "utl/abilities/Loggable.h"
 #include <thread>
 
-class FuseMountPoint {
+class FuseMountPoint : public utl::Loggable {
 
     // Background thread
     std::thread fuseThread;

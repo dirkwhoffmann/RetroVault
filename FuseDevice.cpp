@@ -17,13 +17,13 @@ using retro::vault::image::D64File;
 
 FuseDevice::FuseDevice(const fs::path &filename)
 {
-    mylog("Scanning image %s...\n", filename.string().c_str());
+    loginfo(FUSE_DEBUG, "Scanning image %s...\n", filename.string().c_str());
 
     ImageFormat format = ImageFormat::UNKNOWN;
     if (auto info = DiskImage::about(filename))
         format = info->format;
 
-    mylog("Format: %s\n", ImageFormatEnum::key(format));
+    loginfo(FUSE_DEBUG, "Format: %s\n", ImageFormatEnum::key(format));
 
     switch (format) {
             
@@ -60,7 +60,7 @@ FuseDevice::FuseDevice(const fs::path &filename)
     // mylog("Creating FuseVolume...\n");
     // volumes.push_back(make_unique<FuseAmigaVolume>(std::move(vol)));
 
-    mylog("Installed volumes: %zu\n", volumes.size());
+    loginfo(FUSE_DEBUG, "Installed volumes: %zu\n", volumes.size());
 }
 
 template<typename I, typename V> void

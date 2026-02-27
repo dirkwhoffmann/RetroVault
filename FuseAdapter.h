@@ -12,7 +12,6 @@
 #include "FuseAPI.h"
 #include "FuseDelegate.h"
 #include "FuseAdapterDelegate.h"
-#include "FuseDebug.h"
 #include <thread>
 
 class FuseFileSystem {

@@ -23,7 +23,6 @@ add_subdirectory(rvlib)
 add_executable(retrovault
         backend.cpp
         debug.cpp
-        FuseDebug.cpp
         FuseDevice.cpp
         FuseMountPoint.cpp
         FuseVolume.cpp

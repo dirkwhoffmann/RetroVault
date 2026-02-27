@@ -7,11 +7,12 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "FuseMountPoint.h"
-// #include "FileSystem.h"
 #include <fuse.h>
-#include <iostream>
 #include <sys/mount.h>
+
+using namespace utl;
 
 fuse_operations
 FuseMountPoint::callbacks = {
@@ -50,7 +51,7 @@ FuseMountPoint::mount(const fs::path &mp)
     volname = mp.stem().string();
 
     // Unmount existing volume (if any)
-    mylog("Unmounting existing volume %s...\n", mountPoint.string().c_str());
+    loginfo(FUSE_DEBUG, "Unmounting existing volume %s...\n", mountPoint.string().c_str());
     (void)::unmount(mountPoint.c_str(), 0);
 
     fuseThread = std::thread([&]() {
@@ -148,84 +149,84 @@ FuseMountPoint::unmount()
 int
 FuseMountPoint::hooks::getattr(const char *path, struct stat* st)
 {
-    mylog("[getattr]  %s\n", path);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[getattr]  %s\n", path);
     return self().getattr(path, st);
 }
 
 int
 FuseMountPoint::hooks::mkdir(const char *path, mode_t mode)
 {
-    mylog("[mkdir]    %s, %x\n", path, mode);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[mkdir]    %s, %x\n", path, mode);
     return self().mkdir(path, mode);
 }
 
 int
 FuseMountPoint::hooks::unlink(const char *path)
 {
-    mylog("[unlink]   %s\n", path);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[unlink]   %s\n", path);
     return self().unlink(path);
 }
 
 int
 FuseMountPoint::hooks::rmdir(const char *path)
 {
-    mylog("[rmdir]    %s\n", path);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[rmdir]    %s\n", path);
     return self().rmdir(path);
 }
 
 int
 FuseMountPoint::hooks::rename(const char *oldpath, const char *newpath)
 {
-    mylog("[rename]   %s, %s\n", oldpath, newpath);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[rename]   %s, %s\n", oldpath, newpath);
     return self().rename(oldpath, newpath);
 }
 
 int
 FuseMountPoint::hooks::chmod(const char *path, mode_t mode)
 {
-    mylog("[chmod]    %s, %x\n", path, mode);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[chmod]    %s, %x\n", path, mode);
     return self().chmod(path, mode);
 }
 
 int
 FuseMountPoint::hooks::truncate(const char* path, off_t size)
 {
-    mylog("[truncate] %s, %lld\n", path, size);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[truncate] %s, %lld\n", path, size);
     return self().truncate(path, size);
 }
 
 int
 FuseMountPoint::hooks::open(const char* path, struct fuse_file_info* fi)
 {
-    mylog("[open]     %s\n", path);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[open]     %s\n", path);
     return self().open(path, fi);
 }
 
 int
 FuseMountPoint::hooks::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
-    mylog("[read]     %s, %ld, %lld\n", path, size, offset);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[read]     %s, %ld, %lld\n", path, size, offset);
     return self().read(path, buf, size, offset, fi);
 }
 
 int
 FuseMountPoint::hooks::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
-    mylog("[write]    %s, %ld, %lld\n", path, size, offset);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[write]    %s, %ld, %lld\n", path, size, offset);
     return self().write(path, buf, size, offset, fi);
 }
 
 int
 FuseMountPoint::hooks::statfs(const char *path, struct statvfs *st)
 {
-    mylog("[statfs]   %s\n", path);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[statfs]   %s\n", path);
     return self().statfs(path, st);
 }
 
 int
 FuseMountPoint::hooks::release(const char *path, struct fuse_file_info *fi)
 {
-    mylog("[release]  %s\n", path);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[release]  %s\n", path);
     return self().release(path, fi);
 }
 
@@ -233,14 +234,14 @@ int
 FuseMountPoint::hooks::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
                off_t offset, struct fuse_file_info* fi)
 {
-    mylog("[readdir]  %s, %lld\n", path, offset);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[readdir]  %s, %lld\n", path, offset);
     return self().readdir(path, buf, filler, offset, fi);
 }
 
 void *
 FuseMountPoint::hooks::init(struct fuse_conn_info* conn)
 {
-    mylog("[init]");
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[init]");
 
     // We ignore the result of the delegate method
     (void)self().init(conn);
@@ -252,27 +253,27 @@ FuseMountPoint::hooks::init(struct fuse_conn_info* conn)
 void
 FuseMountPoint::hooks::destroy(void *ptr)
 {
-    mylog("[destroy]  %p\n", ptr);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[destroy]  %p\n", ptr);
     self().destroy(ptr);
 }
 
 int
 FuseMountPoint::hooks::access(const char *path, const int mask)
 {
-    mylog("[access]   %s, %x\n", path, mask);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[access]   %s, %x\n", path, mask);
     return self().access(path, mask);
 }
 
 int
 FuseMountPoint::hooks::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
-    mylog("[create]   %s, %x\n", path, mode);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[create]   %s, %x\n", path, mode);
     return self().create(path, mode, fi);
 }
 
 int
 FuseMountPoint::hooks::utimens(const char *path, const struct timespec tv[2])
 {
-    mylog("[utimens]  %s\n", path);
+    if constexpr (debug::FUSE_DEBUG) fprintf(stderr, "[utimens]  %s\n", path);
     return self().utimens(path, tv);
 }

@@ -9,13 +9,14 @@
 
 #pragma once
 
+#include "config.h"
 #include "FuseMountPoint.h"
-#include "FuseDebug.h"
 #include "Devices/BlockDevice.h"
 #include "FileSystems/FSError.h"
 #include "FileSystems/PosixView.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include "FileSystems/CBM/FileSystem.h"
+#include "utl/abilities/Loggable.h"
 
 using namespace retro::vault;
 
@@ -113,17 +114,17 @@ protected:
 
         } catch (const FSError &err) {
 
-            mylog("           FSError: %ld (%s)\n", err.payload, err.what());
+            loginfo(FUSE_DEBUG, "           FSError: %ld (%s)\n", err.payload, err.what());
             return -err.posixErrno();
             
         } catch (const Error &err) {
             
-            mylog("           Error: %ld (%s)\n", err.payload, err.what());
+            loginfo(FUSE_DEBUG, "           Error: %ld (%s)\n", err.payload, err.what());
             return -EIO;
             
         } catch (...) {
             
-            mylog("           Exception: %d\n", EIO);
+            loginfo(FUSE_DEBUG, "           Exception: %d\n", EIO);
             return -EIO;
         }
     }

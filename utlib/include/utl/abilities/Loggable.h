@@ -25,6 +25,7 @@
 #pragma once
 
 #include "utl/abilities/Reflectable.h"
+#include "utl/abilities/Loggable.h"
 #include <source_location>
 
 namespace utl {

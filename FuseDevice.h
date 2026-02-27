@@ -12,6 +12,7 @@
 #include "FuseVolume.h"
 #include "Images/DiskImage.h"
 #include "Devices/BlockDevice.h"
+#include "utl/abilities/Loggable.h"
 
 using namespace retro::vault;
 
@@ -49,7 +50,7 @@ using namespace retro::vault;
  *    ------------------          ------------------       ------------------
  */
 
-class FuseDevice {
+class FuseDevice : Loggable {
         
     friend class FuseVolume;
     

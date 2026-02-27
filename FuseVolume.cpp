@@ -10,7 +10,6 @@
 #include "config.h"
 #include "FuseVolume.h"
 #include "FuseDevice.h"
-#include "FuseDebug.h"
 #include "FileSystems/Amiga/PosixAdapter.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include "FileSystems/CBM/PosixAdapter.h"
@@ -27,27 +26,27 @@ device(d), vol(std::move(v))
 
 FuseAmigaVolume::FuseAmigaVolume(FuseDevice &d, unique_ptr<Volume> v) : FuseVolume(d, std::move(v))
 {
-    mylog("Creating Amiga file system...\n");
+    loginfo(FUSE_DEBUG, "Creating Amiga file system...\n");
     fs = std::make_unique<amiga::FileSystem>(*vol);
 
     std::stringstream ss;
     fs->dumpInfo(ss);
     std::cout << ss.str();
 
-    mylog("Wrapping into API layer...\n");
+    loginfo(FUSE_DEBUG, "Wrapping into API layer...\n");
     dos = std::make_unique<amiga::PosixAdapter>(*this->fs);
 }
 
 FuseCBMVolume::FuseCBMVolume(class FuseDevice &d, unique_ptr<Volume> v) : FuseVolume(d, std::move(v))
 {
-    mylog("Creating CBM file system...\n");
+    loginfo(FUSE_DEBUG, "Creating CBM file system...\n");
     fs = std::make_unique<cbm::FileSystem>(*vol);
 
     std::stringstream ss;
     fs->dumpStatfs(ss);
     std::cout << ss.str();
 
-    mylog("Wrapping into API layer...\n");
+    loginfo(FUSE_DEBUG, "Wrapping into API layer...\n");
     dos = std::make_unique<cbm::PosixAdapter>(*this->fs);
 }
 
