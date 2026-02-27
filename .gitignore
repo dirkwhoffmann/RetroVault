@@ -47,6 +47,9 @@ cmake-build-*/
 *.iml
 *.ipr
 
+# QTCreator
+.qtcreator/
+
 # macOS
 .DS_Store
 .DS_Store?
