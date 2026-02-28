@@ -10,6 +10,8 @@ ApplicationWindow {
     // minimumWidth: 900
     // minimumHeight: 450
 
+    // header: Toolbar {} // Pinned to the top
+
     visible: true
     title: "RetroVault"
     // flags: Qt.Window | Qt.CustomizeWindowHint | Qt.WindowTitleHint

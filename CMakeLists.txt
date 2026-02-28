@@ -62,10 +62,13 @@ qt_add_qml_module(retrovault
 
         QML_FILES
         qml/DevicePanel.qml
+        qml/Logo.qml
         qml/main.qml
+        qml/MainTableView.qml
         qml/Sidebar.qml
         qml/SplashView.qml
-        qml/MainTableView.qml
+        qml/StatusBar.qml
+        qml/Toolbar.qml
 
         RESOURCES
         assets/AppIcon.png
