@@ -12,6 +12,7 @@ find_package(Qt6 COMPONENTS
         Gui
         QuickControls2
         QuickDialogs2
+        QuickEffects
         REQUIRED)
 
 find_package(PkgConfig REQUIRED)
@@ -41,7 +42,8 @@ target_link_libraries(retrovault PRIVATE
         Qt6::Quick
         Qt6::Gui
         Qt6::QuickControls2
-        Qt6::QuickDialogs2)
+        Qt6::QuickDialogs2
+        Qt6::QuickEffects)
 
 target_include_directories(retrovault PRIVATE ${FUSE_INCLUDE_DIRS})
 target_link_libraries(retrovault PRIVATE ${FUSE_LIBRARIES})
@@ -59,7 +61,9 @@ qt_add_qml_module(retrovault
         VERSION 1.0
 
         QML_FILES
+        qml/DevicePanel.qml
         qml/main.qml
+        qml/Sidebar.qml
         qml/SplashView.qml
         qml/MainTableView.qml
 

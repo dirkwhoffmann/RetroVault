@@ -5,17 +5,64 @@ import QtQuick.Effects
 import QtGraphs
 
 ApplicationWindow {
-    width: 800
-    height: 600
+    width: 900
+    height: 450
+    // minimumWidth: 900
+    // minimumHeight: 450
+
     visible: true
     title: "RetroVault"
     // flags: Qt.Window | Qt.CustomizeWindowHint | Qt.WindowTitleHint
 
-    StackView {
-        id: mainStack
+    RowLayout {
         anchors.fill: parent
-        // The first page to show
-        initialItem: splashPage
+        spacing: 0
+
+        // --- 1. THE SIDEBAR ---
+        Sidebar {
+            Layout.fillHeight: true
+            Layout.preferredWidth: 200
+            Layout.minimumWidth: 200
+            z: 1
+        }
+
+        StackView {
+            id: mainStack
+            // anchors.fill: parent
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            z: 0
+
+            // The first page to show
+            initialItem: splashPage
+
+            replaceEnter: Transition {
+                NumberAnimation {
+                    property: "opacity"
+                    from: 0.0
+                    to: 1.0
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
+            // When the old item is removed
+            replaceExit: Transition {
+                NumberAnimation {
+                    property: "opacity"
+                    from: 1.0
+                    to: 0.0
+                    duration: 400
+                    easing.type: Easing.InOutQuad
+                }
+            }
+            /*
+            pushEnter: null
+            pushExit: null
+            popEnter: null
+            popExit: null
+            */
+        }
     }
 
     // Component for the Splash Screen
@@ -26,15 +73,21 @@ ApplicationWindow {
         }
     }
 
+    Component {
+        id: devicePanel
+        DevicePanel {}
+    }
+
     // Component for the Main Table View
     Component {
         id: tableViewPage
         MainTableView {}
     }
 
+    /*
     DropArea {
         id: dropArea
-        anchors.fill: parent
+        // anchors.fill: parent
         // keys: ["text/plain"] // Only accept this specific type
 
         onDropped: (drop) => {
@@ -62,4 +115,6 @@ ApplicationWindow {
             }
         }
     }
+
+     */
 }

@@ -15,7 +15,7 @@ Item {
         anchors.fill: parent
         source: "../assets/splash.png"
         fillMode: Image.PreserveAspectCrop
-        opacity: 0.6
+        opacity: 1.0
     }
 
     ColumnLayout {
@@ -36,7 +36,7 @@ Item {
             columns: 2
             // rows: 3
             // anchors.fill: parent
-            anchors.margins: 40
+            // anchors.margins: 40
             columnSpacing: 20
             rowSpacing: 20
 
@@ -113,7 +113,7 @@ Item {
                                 Layout.preferredHeight: 20
                                 Layout.fillWidth: true
                             }
-            */
+                */
                 GridLayout {
                     columns: 2
                     rowSpacing: 5
@@ -126,7 +126,6 @@ Item {
                     Label {
                         text: "Commodore Amiga Floppy Disk"; color: "gray"
                     }
-
                     Label {
                         text: ".D64:"; color: "gray"; font.bold: false
                     }
