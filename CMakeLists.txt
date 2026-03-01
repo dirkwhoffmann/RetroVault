@@ -49,31 +49,30 @@ target_include_directories(retrovault PRIVATE ${FUSE_INCLUDE_DIRS})
 target_link_libraries(retrovault PRIVATE ${FUSE_LIBRARIES})
 target_compile_options(retrovault PRIVATE ${FUSE_CFLAGS_OTHER})
 
-#target_compile_definitions(retrovault PRIVATE
-#        _FILE_OFFSET_BITS=64)
-
+qt_standard_project_setup()
 qt_policy(SET QTP0001 NEW)
 qt_policy(SET QTP0004 NEW)
 
+# Find all QML files and assers
+file(GLOB_RECURSE QML_SOURCES CONFIGURE_DEPENDS
+        "qml/*.qml")
+
+file(GLOB_RECURSE ASSET_RESOURCES CONFIGURE_DEPENDS
+        "assets/fonts/*.ttf"
+        "assets/icons/*.svg"
+        "assets/icons/*.png"
+        "assets/images/*.png")
+
+list(TRANSFORM QML_SOURCES REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
+list(TRANSFORM ASSET_RESOURCES REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
+
+# Declare singletons
+set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
+# Add all files
 qt_add_qml_module(retrovault
 
         URI retrovaultUI
         VERSION 1.0
-
-        QML_FILES
-        qml/DevicePanel.qml
-        qml/Logo.qml
-        qml/main.qml
-        qml/MainTableView.qml
-        qml/Sidebar.qml
-        qml/SplashView.qml
-        qml/StatusBar.qml
-        qml/Toolbar.qml
-
-        RESOURCES
-        assets/AppIcon.png
-        assets/splash.png
-        assets/LEDred.png
-        assets/LEDgreen.png
-        assets/github.png
-        assets/fonts/SourceSans3-VariableFont_wght.ttf)
+        QML_FILES ${QML_SOURCES}
+        RESOURCES ${ASSET_RESOURCES})

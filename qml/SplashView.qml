@@ -13,7 +13,7 @@ Item {
     // Background Image
     Image {
         anchors.fill: parent
-        source: "../assets/splash.png"
+        source: "../assets/images/splash.png"
         fillMode: Image.PreserveAspectCrop
         opacity: 1.0
     }

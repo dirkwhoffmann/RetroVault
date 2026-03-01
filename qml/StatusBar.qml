@@ -14,7 +14,7 @@ RowLayout {
         spacing: 8
 
         Image {
-            source: "../assets/LEDred.png"
+            source: "../assets/images/LEDred.png"
             sourceSize: Qt.size(18, 18)
         }
         Label {
@@ -30,7 +30,7 @@ RowLayout {
 
     // BOTTOM RIGHT: Single Icon
     Image {
-        source: "../assets/github.png"
+        source: "../assets/icons/github.png"
         sourceSize: Qt.size(18, 18)
     }
 }

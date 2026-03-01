@@ -4,54 +4,38 @@ import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 
-Item {
+ToolBar {
 
     anchors.fill: parent
 
-    Rectangle {
-
-        anchors.margins: 6
-        radius: 15 // This rounds all four corners
-        clip: true
-        id: myToolbar
+    RowLayout {
         anchors.fill: parent
-        //    anchors.leftMargin: 10
-        //    anchors.rightMargin: 10
-        // z: 10
 
-        RowLayout {
-            anchors.centerIn: parent
-            anchors.leftMargin: 10
-            anchors.rightMargin: 10
+        NavButton {
+            icon.source: "../assets/icons/folder-search-svgrepo-com.svg"
+        }
+        NavButton {
+            icon.source: "../assets/icons/arrow-up-from-arc-svgrepo-com.svg"
+        }
+        NavButton {
+            icon.source: "../assets/icons/refresh-ccw-alt-3-svgrepo-com.svg"
+        }
 
-            ToolButton {
-                text: "\u2630" // Hamburger icon (or use an Image)
-                onClicked: console.log("Menu clicked")
-            }
+        Label {
+            text: "My Application"
+            font.bold: true
+        }
 
-            Label {
-                text: "My Application"
-                font.bold: true
-                font.pixelSize: 18
-                Layout.fillWidth: true // Pushes subsequent buttons to the right
-                verticalAlignment: Qt.AlignVCenter
-            }
+        Item {
+            Layout.fillWidth: true
+        }
 
-            ToolButton {
-                text: "\uD83D\uDD0D" // Search icon
-            }
-
-            // Spacer
-            Item {
-                Layout.fillWidth: true
-            }
-
-            ToolButton {
-                text: "\u2699" // Settings icon
-            }
+        NavButton {
+            icon.source: "../assets/icons/lock-svgrepo-com.svg"
         }
     }
 
+    /*
     MultiEffect {
         source: myToolbar
         // z: 9
@@ -63,4 +47,6 @@ Item {
         shadowVerticalOffset: 0
         shadowOpacity: 0.2    // Keep it subtle
     }
+
+     */
 }

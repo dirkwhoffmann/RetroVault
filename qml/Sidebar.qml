@@ -13,7 +13,7 @@ Item {
         id: sidebarRect
         anchors.fill: parent
         anchors.margins: 6
-        radius: 15 // This rounds all four corners
+        radius: 8 // This rounds all four corners
         clip: true
 
         // Layout.fillHeight: true
