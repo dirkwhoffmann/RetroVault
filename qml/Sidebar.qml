@@ -6,14 +6,14 @@ import QtQuick.Layouts
 Item {
 
     id: sidebar
-    width: 200
+    // width: 248 // + navSeparator.width
     height: parent.height
 
     Rectangle {
         id: sidebarRect
         anchors.fill: parent
-        anchors.margins: 6
-        radius: 8 // This rounds all four corners
+        // anchors.margins: 6
+        // radius: 8 // This rounds all four corners
         clip: true
 
         // Layout.fillHeight: true
@@ -78,7 +78,7 @@ Item {
         }
     }
 
-    /*
+
     // A thin divider line instead of a heavy shadow
     Rectangle {
         width: 1
@@ -87,7 +87,7 @@ Item {
         anchors.bottom: parent.bottom
         color: "#d0d0d0"
     }
-    */
+
     /*
     // The "Fake" Shadow
     Rectangle {
@@ -104,6 +104,7 @@ Item {
 
      */
 
+    /*
     // A real shadow effect
     MultiEffect {
         source: sidebarRect
@@ -115,4 +116,6 @@ Item {
         shadowVerticalOffset: 0
         shadowOpacity: 0.2    // Keep it subtle
     }
+
+     */
 }

@@ -22,12 +22,15 @@ Item {
         anchors.fill: parent
         spacing: 0
 
+        /*
         Rectangle {
             Layout.preferredHeight: 48
             Layout.fillWidth: true
             color: "transparent"
             Toolbar { }
         }
+        */
+
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true

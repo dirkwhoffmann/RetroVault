@@ -15,13 +15,15 @@ QtObject {
     // Dimensions
     readonly property int toolbarHeight: 22
     readonly property int iconSize: 22
-    readonly property int fontSize: 22
+    readonly property int fontSize: 16
     readonly property int borderRadius: 4
 
     // Typography
+    /*
     readonly property font labelFont: Qt.font({
         family: "Roboto",
         pixelSize: 14,
         weight: Font.Medium
     })
+    */
 }

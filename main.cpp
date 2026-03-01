@@ -9,7 +9,11 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     // This makes it look like a desktop app instead of a mobile app
-    QQuickStyle::setStyle("FluentWinUI3");
+    // QQuickStyle::setStyle("FluentWinUI3");
+    // QQuickStyle::setStyle("Material");
+    QQuickStyle::setStyle("Fusion");
+
+    QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
     Backend myBackend; // Create the C++ backend
     QQmlApplicationEngine engine;

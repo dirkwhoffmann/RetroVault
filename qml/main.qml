@@ -5,14 +5,18 @@ import QtQuick.Effects
 import QtGraphs
 
 ApplicationWindow {
+    visible: true
     width: 900
     height: 450
     // minimumWidth: 900
     // minimumHeight: 450
 
-    // header: Toolbar {} // Pinned to the top
+    // menuBar: MainMenu { }
 
-    visible: true
+    header: MyToolbar {
+        id: mainToolbar
+    }
+
     title: "RetroVault"
     // flags: Qt.Window | Qt.CustomizeWindowHint | Qt.WindowTitleHint
 
@@ -22,10 +26,15 @@ ApplicationWindow {
 
         // --- 1. THE SIDEBAR ---
         Sidebar {
+            id: mySidebar
             Layout.fillHeight: true
-            Layout.preferredWidth: 200
+            Layout.preferredWidth: 256
             Layout.minimumWidth: 200
             z: 1
+
+            Component.onCompleted: {
+                mainToolbar.sidebarWidth = mySidebar.width
+            }
         }
 
         StackView {
