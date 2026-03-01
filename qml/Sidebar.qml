@@ -7,6 +7,7 @@ Item {
     height: parent.height
 
     // 1. Define a structured model
+    /*
     ListModel {
         id: sidebarModel
         ListElement {
@@ -20,6 +21,7 @@ Item {
             iconSource: "../assets/icons/github.png"; expanded: false
         }
     }
+    */
 
     Rectangle {
         id: sidebarRect
@@ -30,6 +32,10 @@ Item {
             id: sidebarList
             anchors.fill: parent
             clip: true
+
+            signal mapChanged()
+
+            property var expandedMap: ({})
 
             // We use the count as the model.
             // To refresh, we just re-assign the count or use a Connections block.
@@ -51,6 +57,13 @@ Item {
             delegate: Column {
                 width: sidebarList.width
                 readonly property int devIdx: index // Capture our position
+
+                // 2. Look up the title once for this delegate
+                readonly property string deviceTitle: vaultProxy.deviceTitle(index)
+
+                // 3. Check the map for our specific title
+                // We use '|| false' to default to collapsed if the key doesn't exist
+                readonly property bool expanded: sidebarList.expandedMap[deviceTitle] || false
 
                 // --- TOP LEVEL ITEM ---
                 ItemDelegate {
@@ -103,19 +116,22 @@ Item {
                     }
 
                     onClicked: {
-                        // Toggle the expanded property in the model
-                        sidebarModel.setProperty(index, "expanded", !model.expanded)
+
+                        // Recreate the entire expanded map to retrigger GUI updates
+                        let newMap = Object.assign({}, sidebarList.expandedMap);
+                        newMap[deviceTitle] = !expanded;
+                        sidebarList.expandedMap = newMap;
                     }
                 }
 
                 // --- EXPANDABLE SECTION (Sub-items) ---
                 Column {
                     width: parent.width
-                    visible: model.expanded // Only show if expanded
 
+                    visible: expanded // Only show if expanded
                     // Simple Repeater for sub-items
                     Repeater {
-                        model: model.volumes // ["Sub Action A", "Sub Action B"]
+                        model: vaultProxy.volumeNames(index) // ["Sub Action A", "Sub Action B"]
                         delegate: ItemDelegate {
                             width: parent.width
                             height: 40

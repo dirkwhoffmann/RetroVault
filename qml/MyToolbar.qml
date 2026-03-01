@@ -9,7 +9,7 @@ ToolBar {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-        currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        // currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
             console.log("Selected file URL: " + selectedFile)
             // let path = selectedFile.toString().replace("file://", "")
