@@ -1,4 +1,5 @@
 #include "backend.h"
+#include "VaultProxy.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
@@ -18,7 +19,8 @@ int main(int argc, char *argv[])
     Backend myBackend; // Create the C++ backend
     QQmlApplicationEngine engine;
 
-    // This makes 'myBackend' available in QML under the name 'cppBackend'
+    // Make 'deviceModel' available in QML
+    engine.rootContext()->setContextProperty("vaultProxy", new VaultProxy(&app));
     engine.rootContext()->setContextProperty("cppBackend", &myBackend);
 
     // Load the QML file

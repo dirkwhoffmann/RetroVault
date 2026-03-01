@@ -12,6 +12,8 @@ ToolBar {
         currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
             console.log("Selected file URL: " + selectedFile)
+            // let path = selectedFile.toString().replace("file://", "")
+            deviceModel.addDevice(selectedFile)
         }
         onRejected: {
             console.log("Canceled")

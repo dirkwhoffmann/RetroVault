@@ -28,6 +28,7 @@ add_executable(retrovault
         FuseMountPoint.cpp
         FuseVolume.cpp
         main.cpp
+        VaultProxy.cpp
 )
 
 target_include_directories(retrovault PRIVATE

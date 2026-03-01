@@ -1,85 +1,142 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Effects
 import QtQuick.Layouts
 
 Item {
-
     id: sidebar
-    // width: 248 // + navSeparator.width
     height: parent.height
+
+    // 1. Define a structured model
+    ListModel {
+        id: sidebarModel
+        ListElement {
+            title: "Dashboard"; subtitle: "Overview";
+            iconSource: "../assets/icons/github.png"; expanded: false
+            // Note: ListElement can't hold nested lists easily,
+            // so we'll handle sub-items via a simple array or logic below.
+        }
+        ListElement {
+            title: "Devices"; subtitle: "Manage Hardware";
+            iconSource: "../assets/icons/github.png"; expanded: false
+        }
+    }
 
     Rectangle {
         id: sidebarRect
         anchors.fill: parent
-        // anchors.margins: 6
-        // radius: 8 // This rounds all four corners
-        clip: true
-
-        // Layout.fillHeight: true
-        //Layout.fillWidth: true //  preferredWidth: 200
         color: "#ffffff"
 
         ListView {
             id: sidebarList
             anchors.fill: parent
-            model: ["Dashboard", "Settings", "Profile", "Stats"]
-            delegate: ItemDelegate {
+            clip: true
+
+            // We use the count as the model.
+            // To refresh, we just re-assign the count or use a Connections block.
+            model: vaultProxy.deviceCount()
+
+            // When C++ says things changed, we tell the list to refresh
+            Connections {
+                target: vaultProxy
+                function onDataChanged() {
+                    sidebarList.model = 0; // Force reset
+                    sidebarList.model = vaultProxy.deviceCount();
+                }
+            }
+
+            // Smoothly animate the height changes when expanding
+            add: Transition { NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 200 } }
+            displaced: Transition { NumberAnimation { properties: "y"; duration: 200; easing.type: Easing.OutQuad } }
+
+            delegate: Column {
                 width: sidebarList.width
-                height: 64
+                readonly property int devIdx: index // Capture our position
 
-                contentItem: RowLayout {
-                    spacing: 12
-                    anchors.fill: parent
-                    anchors.leftMargin: 10
-                    anchors.rightMargin: 10
+                // --- TOP LEVEL ITEM ---
+                ItemDelegate {
+                    id: mainItem
+                    width: parent.width
+                    height: 64
 
-                    // 1. THE IMAGE (Left)
-                    Image {
-                        id: icon
-                        // source: model.iconSource // Assumes your model has this role
-                        sourceSize.width: 32
-                        sourceSize.height: 32
-                        Layout.alignment: Qt.AlignVCenter
-                        fillMode: Image.PreserveAspectFit
-                    }
-
-                    // 2. THE TEXT BLOCK (Right)
-                    ColumnLayout {
-                        spacing: 2
+                    contentItem: RowLayout {
+                        spacing: 12
+                        // anchors.fill: parent
+                        // anchors.leftMargin: 4
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignVCenter
 
-                        Label {
-                            text: "Holla, die Waldfee" // model.title // Main Text
-                            font.bold: true
-                            font.pixelSize: 14
-                            color: "#333333"
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight // Adds "..." if text is too long
+                       //  Rectangle {anchors.fill: parent; border.color: "#ff0000"; border.width: 2 }
+
+                        // Expansion Indicator (Arrow)
+                        Text {
+                            text: model.expanded ? "▼" : "▶"
+                            font.pixelSize: 10
+                            color: "#bbb"
+                            Layout.leftMargin: 8
                         }
 
-                        Label {
-                            text: "Bazinga" // model.subtitle // Smaller Description
-                            font.pixelSize: 12
-                            color: "#777777"
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
+                        Image {
+                            source: "../assets/icons/github.png"
+                            sourceSize: Qt.size(32, 32)
+                            Layout.alignment: Qt.AlignVCenter
                         }
+
+                        ColumnLayout {
+                            // Rectangle {anchors.fill: parent; color: "red" }
+                            spacing: 2
+                            Layout.fillWidth: true
+                            Label {
+                                text: vaultProxy.deviceTitle(devIdx)
+                                font.bold: true
+                                color: "#333"
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignLeft
+                            }
+                            Label {
+                                text: "TODO" // model.subtitle
+                                font.pixelSize: 12
+                                color: "#777"
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignLeft
+                            }
+                        }
+                    }
+
+                    onClicked: {
+                        // Toggle the expanded property in the model
+                        sidebarModel.setProperty(index, "expanded", !model.expanded)
                     }
                 }
 
-                // text: modelData
-                onClicked: {
-                    // Change content based on selection
-                    mainStack.replace(devicePanel, {"title": modelData})
+                // --- EXPANDABLE SECTION (Sub-items) ---
+                Column {
+                    width: parent.width
+                    visible: model.expanded // Only show if expanded
+
+                    // Simple Repeater for sub-items
+                    Repeater {
+                        model: model.volumes // ["Sub Action A", "Sub Action B"]
+                        delegate: ItemDelegate {
+                            width: parent.width
+                            height: 40
+                            contentItem: Label {
+                                text: vaultProxy.volumeNames(devIdx)
+                                leftPadding: 54 // Indent sub-items
+                                verticalAlignment: Text.AlignVCenter
+                                color: "#555"
+                            }
+                            background: Rectangle {
+                                color: highlighted ? "#f0f0f0" : "transparent"
+                            }
+                            onClicked: console.log("Clicked sub-item: " + modelData)
+                        }
+                    }
                 }
             }
         }
     }
 
-
-    // A thin divider line instead of a heavy shadow
+    // Right-side divider
     Rectangle {
         width: 1
         anchors.right: parent.right
@@ -87,35 +144,4 @@ Item {
         anchors.bottom: parent.bottom
         color: "#d0d0d0"
     }
-
-    /*
-    // The "Fake" Shadow
-    Rectangle {
-        width: 10
-        height: parent.height
-        anchors.left: parent.right
-
-        gradient: Gradient {
-            orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: "#11000000" } // Darker near edge
-            GradientStop { position: 1.0; color: "transparent" } // Fades out
-        }
-    }
-
-     */
-
-    /*
-    // A real shadow effect
-    MultiEffect {
-        source: sidebarRect
-        anchors.fill: sidebarRect
-        shadowEnabled: true
-        shadowColor: "black"
-        shadowBlur: 1.0      // How soft the shadow is
-        shadowHorizontalOffset: 5 // Moves shadow to the right
-        shadowVerticalOffset: 0
-        shadowOpacity: 0.2    // Keep it subtle
-    }
-
-     */
 }
