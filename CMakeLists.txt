@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.1)
-project(rvlib)
+project(retrovault)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -18,18 +18,15 @@ find_package(Qt6 COMPONENTS
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(FUSE REQUIRED fuse)
 
+add_executable(retrovault
+        debug.cpp
+        main.cpp
+)
+
 add_subdirectory(utlib)
 add_subdirectory(rvlib)
-
-add_executable(retrovault
-        backend.cpp
-        debug.cpp
-        FuseDevice.cpp
-        FuseMountPoint.cpp
-        FuseVolume.cpp
-        main.cpp
-        VaultProxy.cpp
-)
+add_subdirectory(proxy)
+add_subdirectory(backend)
 
 target_include_directories(retrovault PRIVATE
         utlib

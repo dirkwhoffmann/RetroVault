@@ -1,4 +1,3 @@
-#include "backend.h"
 #include "VaultProxy.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -16,12 +15,11 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
-    Backend myBackend; // Create the C++ backend
+    // Backend myBackend; // Create the C++ backend
     QQmlApplicationEngine engine;
 
     // Make 'deviceModel' available in QML
     engine.rootContext()->setContextProperty("vaultProxy", new VaultProxy(&app));
-    engine.rootContext()->setContextProperty("cppBackend", &myBackend);
 
     // Load the QML file
     const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/qml/main.qml"));

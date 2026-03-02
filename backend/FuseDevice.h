@@ -16,40 +16,6 @@
 
 using namespace retro::vault;
 
-/* Overview:
- *
- * Three classes participate in binding the file system to the FUSE backend.
- *
- * FuseMountPoint:
- *
- *     Represents a single FUSE file system. It acts as a thin wrapper around
- *     the FUSE C API, connecting application-level code with the FUSE backend.
- *
- * FuseVolume:
- *
- *     A specialized FuseMountPoint that wraps a logical volume and hosts a
- *     file system mounted on that volume.
- *
- * FuseDevice:
- *
- *     Wraps a disk image and manages a collection of FuseVolume instances.
- *
- *    ------------------          ------------------
- *   |    FuseDevice    |        |  FuseMountPoint  |
- *    ------------------          ------------------
- *           < >                          ^
- *            |                           |
- *            |                n  ------------------
- *            -------------------|    FuseVolume    |
- *                                ------------------
- *                                        ^
- *              --------------------------|-------------------------
- *             |                          |                         |
- *    ------------------          ------------------       ------------------
- *   | FuseAmigaVolume  |        |  FuseCBMVolume   |     |        ...       |
- *    ------------------          ------------------       ------------------
- */
-
 class FuseDevice : Loggable {
         
     friend class FuseVolume;
