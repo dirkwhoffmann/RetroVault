@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Effects
 import QtGraphs
@@ -93,6 +94,19 @@ ApplicationWindow {
     Component {
         id: tableViewPage
         MainTableView {}
+    }
+
+    Connections {
+        target: UIController
+        function onRequestErrorDialog(message) {
+            errorDialog.text = message
+            errorDialog.open()
+        }
+    }
+
+    MessageDialog {
+        id: errorDialog
+        title: "Application Error"
     }
 
     /*

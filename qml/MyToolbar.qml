@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import Backend
 
 ToolBar {
 
@@ -12,8 +13,11 @@ ToolBar {
         // currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
             console.log("Selected file URL: " + selectedFile)
-            // let path = selectedFile.toString().replace("file://", "")
-            deviceModel.addDevice(selectedFile)
+            try {
+                Backend.add(selectedFile)
+            } catch (e) {
+                UIController.showError(e.message);
+            }
         }
         onRejected: {
             console.log("Canceled")

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Backend 1.0
 
 Item {
     id: sidebar
@@ -39,14 +40,14 @@ Item {
 
             // We use the count as the model.
             // To refresh, we just re-assign the count or use a Connections block.
-            model: vaultProxy.deviceCount()
+            model: Backend.deviceCount()
 
             // When C++ says things changed, we tell the list to refresh
             Connections {
-                target: vaultProxy
+                target: Proxy
                 function onDataChanged() {
                     sidebarList.model = 0; // Force reset
-                    sidebarList.model = vaultProxy.deviceCount();
+                    sidebarList.model = Backend.deviceCount();
                 }
             }
 
@@ -59,7 +60,7 @@ Item {
                 readonly property int devIdx: index // Capture our position
 
                 // 2. Look up the title once for this delegate
-                readonly property string deviceTitle: vaultProxy.deviceTitle(index)
+                readonly property string deviceTitle: Backend.deviceTitle(index)
 
                 // 3. Check the map for our specific title
                 // We use '|| false' to default to collapsed if the key doesn't exist
@@ -99,7 +100,7 @@ Item {
                             spacing: 2
                             Layout.fillWidth: true
                             Label {
-                                text: vaultProxy.deviceTitle(devIdx)
+                                text: Backend.deviceTitle(devIdx)
                                 font.bold: true
                                 color: "#333"
                                 Layout.fillWidth: true
@@ -131,12 +132,12 @@ Item {
                     visible: expanded // Only show if expanded
                     // Simple Repeater for sub-items
                     Repeater {
-                        model: vaultProxy.volumeNames(index) // ["Sub Action A", "Sub Action B"]
+                        model: Backend.volumeNames(index) // ["Sub Action A", "Sub Action B"]
                         delegate: ItemDelegate {
                             width: parent.width
                             height: 40
                             contentItem: Label {
-                                text: vaultProxy.volumeNames(devIdx)
+                                text: Backend.volumeNames(devIdx)
                                 leftPadding: 54 // Indent sub-items
                                 verticalAlignment: Text.AlignVCenter
                                 color: "#555"

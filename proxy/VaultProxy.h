@@ -1,16 +1,52 @@
+// -----------------------------------------------------------------------------
+// This file is part of RetroVault
+//
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
+//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
+
 #include <QObject>
 #include <QStringList>
 #include <QUrl>
-#include "FuseDevice.h" // Your backend
+
+#include "DeviceManager.h"
+#include "FuseDevice.h"
 
 #pragma once
 
 class VaultProxy : public QObject {
+
     Q_OBJECT
+
+    DeviceManager manager;
+
 public:
+
     explicit VaultProxy(QObject *parent = nullptr) : QObject(parent) {}
 
-    // --- The "Pull" API ---
+private:
+
+    // Converts a C++ exception to a JS exception
+    void rethrow(std::exception &e);
+
+    //
+    // API
+    //
+
+public:
+
+    // void open(const fs::path &url);
+    Q_INVOKABLE void add(const QUrl &imageFile);
+
+    Q_INVOKABLE void remove(int deviceNr) { manager.remove(deviceNr); }
+    Q_INVOKABLE void removeAll() { manager.removeAll(); }
+
+
+    //
+    // Experimental
+    //
 
     Q_INVOKABLE int deviceCount() {
         return 4;

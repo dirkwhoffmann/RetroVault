@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// This file is part of RetroVault
+//
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
+//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
+
 #include "VaultProxy.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -7,30 +16,27 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
-    // This makes it look like a desktop app instead of a mobile app
-    // QQuickStyle::setStyle("FluentWinUI3");
-    // QQuickStyle::setStyle("Material");
-    QQuickStyle::setStyle("Fusion");
-
-    QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
-
-    // Backend myBackend; // Create the C++ backend
     QQmlApplicationEngine engine;
 
-    // Make 'deviceModel' available in QML
-    engine.rootContext()->setContextProperty("vaultProxy", new VaultProxy(&app));
+    // Configure app appearance
+    QQuickStyle::setStyle("Fusion");
+    QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
+    // Make the proxy available in QML
+    VaultProxy proxy(&app);
+    // engine.rootContext()->setContextProperty("proxy", &proxy);
+    qmlRegisterSingletonInstance<VaultProxy>("Backend", 1, 0, "Backend", &proxy);
+    qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
+                             "Retrovault.Signals", 1, 0, "UIController");
     // Load the QML file
     const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/qml/main.qml"));
-
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
-
     engine.load(url);
 
+    // Run the app
     return app.exec();
 }
