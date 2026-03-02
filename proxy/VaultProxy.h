@@ -23,7 +23,8 @@ class VaultProxy : public QObject {
     DeviceManager manager;
 
     signals:
-    void processMsg(QString message);
+    void updateSidebar() const;
+    void updateCanvas() const;
 
 public:
 
@@ -32,6 +33,8 @@ public:
 //    Q_INVOKABLE void init();
 
 private:
+
+    void processMsg(int value) const;
 
     // Converts a C++ exception to a JS exception
     void rethrow(std::exception &e);
@@ -54,7 +57,9 @@ public:
     //
 
     Q_INVOKABLE int deviceCount() {
-        return 4;
+
+        static int c = 1;
+        return c++;
         // return Backend::instance()->numberOfDevices();
     }
 

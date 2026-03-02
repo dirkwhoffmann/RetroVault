@@ -44,8 +44,8 @@ Item {
 
             // When C++ says things changed, we tell the list to refresh
             Connections {
-                target: Proxy
-                function onDataChanged() {
+                target: Backend
+                function onUpdateSidebar() {
                     sidebarList.model = 0; // Force reset
                     sidebarList.model = Backend.deviceCount();
                 }

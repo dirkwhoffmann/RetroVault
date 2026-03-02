@@ -107,8 +107,12 @@ ApplicationWindow {
 
     Connections {
         target: Backend
-        function onProcessMsg(message) {
-            console.log("UIController: onProcessMsg: " + message);
+        function onUpdateCanvas() {
+            console.log("UIController: onUpdateCanvas: ");
+        }
+
+        function onUpdateSidebar() {
+            console.log("UIController: onUpdateSidebar: ");
         }
     }
 
