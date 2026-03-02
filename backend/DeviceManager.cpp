@@ -22,6 +22,13 @@ DeviceManager::~DeviceManager()
 
 }
 
+void
+DeviceManager::setListener(void *listener, AdapterCallback *callback)
+{
+    this->listener = listener;
+    this->callback = callback;
+}
+
 FuseDevice &
 DeviceManager::getDevice(isize deviceNr)
 {
@@ -33,6 +40,8 @@ void
 DeviceManager::add(const fs::path &imageFile)
 {
     printf("DeviceManager::add(%s)\n", imageFile.string().c_str());
+    // setListener(listener, callback);
+    callback(listener, 42);
 }
 
 void

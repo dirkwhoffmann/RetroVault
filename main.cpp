@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 
     // Make the proxy available in QML
     VaultProxy proxy(&app);
+
     // engine.rootContext()->setContextProperty("proxy", &proxy);
     qmlRegisterSingletonInstance<VaultProxy>("Backend", 1, 0, "Backend", &proxy);
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),

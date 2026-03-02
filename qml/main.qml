@@ -4,6 +4,7 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Effects
 import QtGraphs
+import Backend 1.0
 
 ApplicationWindow {
     visible: true
@@ -101,6 +102,13 @@ ApplicationWindow {
         function onRequestErrorDialog(message) {
             errorDialog.text = message
             errorDialog.open()
+        }
+    }
+
+    Connections {
+        target: Backend
+        function onProcessMsg(message) {
+            console.log("UIController: onProcessMsg: " + message);
         }
     }
 

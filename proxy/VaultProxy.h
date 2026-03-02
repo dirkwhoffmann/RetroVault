@@ -22,9 +22,14 @@ class VaultProxy : public QObject {
 
     DeviceManager manager;
 
+    signals:
+    void processMsg(QString message);
+
 public:
 
-    explicit VaultProxy(QObject *parent = nullptr) : QObject(parent) {}
+    explicit VaultProxy(QObject *parent = nullptr);
+
+//    Q_INVOKABLE void init();
 
 private:
 

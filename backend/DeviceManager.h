@@ -52,6 +52,12 @@ class DeviceManager : Loggable {
     // Device database
     std::vector<std::unique_ptr<FuseDevice>> devices;
 
+    // Delegate (message receiver)
+    AdapterCallback *callback = nullptr;
+
+    // Payload send to message receiver
+    const void *listener = nullptr;
+
 
     //
     // Initializing
@@ -63,7 +69,7 @@ public:
     ~DeviceManager();
 
     // Registers a listener together with it's callback function
-    // void setListener(const void *listener, AdapterCallback *func);
+    void setListener(void *listener, AdapterCallback *func);
 
 
     //

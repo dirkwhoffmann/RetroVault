@@ -11,6 +11,30 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
+VaultProxy::VaultProxy(QObject *parent) : QObject(parent)
+{
+    manager.setListener(this, [](const void* context, int value) {
+        // 1. Cast to the known type (still const)
+        auto* constSelf = static_cast<const VaultProxy*>(context);
+
+        // 2. Cast away the const-ness to get a mutable pointer
+        auto* self = const_cast<VaultProxy*>(constSelf);
+
+        // Now you can call methods on 'self'
+        printf("In callback handler...\n");
+        // self->handleCallback(value);
+        self->processMsg(QString::fromStdString("HallOO"));
+    });
+}
+
+/*
+void
+VaultProxy::processMsg(QString message) const
+{
+    printf("processMsg\n");
+}
+*/
+
 void
 VaultProxy::rethrow(std::exception &e)
 {
@@ -26,8 +50,7 @@ VaultProxy::add(const QUrl &imageFile)
 {
     try {
         printf("proxy::add\n");
-        // manager.add(imageFile.toLocalFile().toStdString());
-        throw(std::runtime_error("My exception"));
+        manager.add(imageFile.toLocalFile().toStdString());
     } catch (std::exception &e) {
         rethrow(e);
     }
