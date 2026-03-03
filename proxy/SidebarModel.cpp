@@ -10,31 +10,73 @@
 #include "SidebarModel.h"
 #include "VaultProxy.h"
 
-SidebarModel::SidebarModel(QObject *parent) : QAbstractListModel(parent)
+SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
 {
 }
 
-int SidebarModel::rowCount(const QModelIndex &parent) const
+QModelIndex SidebarModel::index(int row, int column,
+                                const QModelIndex& parent) const
 {
-    // For a flat list, we only return the count for the root
-    if (parent.isValid()) return 0;
-    return m_displayList.count();
-}
+    if (!hasIndex(row, column, parent))
+        return QModelIndex();
 
-QVariant SidebarModel::data(const QModelIndex &index, int role) const
-{
-    if (!index.isValid() || index.row() >= m_displayList.count())
-        return QVariant();
-
-    const auto &item = m_displayList[index.row()];
-
-    switch (role) {
-        case TitleRole:      return item.title;
-        case SubtitleRole:   return item.subtitle;
-        case IsDeviceRole:   return item.type == ItemType::DeviceItem;
-        case IsExpandedRole: return item.expanded;
-        default:             return QVariant();
+    if (!parent.isValid())
+    {
+        return createIndex(row, column,
+                           const_cast<SidebarItem*>(&m_devices[row]));
     }
+
+    auto* parentItem =
+        static_cast<SidebarItem*>(parent.internalPointer());
+
+    return createIndex(row, column,
+                       const_cast<SidebarItem*>(
+                           &parentItem->children[row]));
+}
+
+QModelIndex SidebarModel::parent(const QModelIndex& child) const
+{
+    if (!child.isValid())
+        return QModelIndex();
+
+    auto* childItem =
+        static_cast<SidebarItem*>(child.internalPointer());
+
+    for (int i = 0; i < m_devices.size(); ++i)
+    {
+        const auto& dev = m_devices[i];
+
+        for (int j = 0; j < dev.children.size(); ++j)
+        {
+            if (&dev.children[j] == childItem)
+                return createIndex(i, 0,
+                                   const_cast<SidebarItem*>(&m_devices[i]));
+        }
+    }
+
+    return QModelIndex(); // top level
+}
+
+int SidebarModel::rowCount(const QModelIndex& parent) const
+{
+    if (!parent.isValid())
+        return m_devices.size();
+
+    auto* item =
+        static_cast<SidebarItem*>(parent.internalPointer());
+
+    return item->children.size();
+}
+
+bool SidebarModel::hasChildren(const QModelIndex& parent) const
+{
+    if (!parent.isValid())
+        return !m_devices.isEmpty();
+
+    auto* item =
+        static_cast<SidebarItem*>(parent.internalPointer());
+
+    return !item->children.isEmpty();
 }
 
 QHash<int, QByteArray> SidebarModel::roleNames() const
@@ -47,78 +89,55 @@ QHash<int, QByteArray> SidebarModel::roleNames() const
     return roles;
 }
 
-void SidebarModel::toggleExpanded(int index)
+QVariant SidebarModel::data(const QModelIndex& index, int role) const
 {
-    if (index < 0 || index >= m_displayList.count()) return;
+    if (!index.isValid())
+        return {};
 
-    // We only toggle if the item is a Device
-    auto &item = m_displayList[index];
-    if (item.type != ItemType::DeviceItem) return;
+    auto* item =
+        static_cast<SidebarItem*>(index.internalPointer());
 
-    if (item.expanded) {
-        // --- COLLAPSE ---
-        int count = item.children.size();
-        if (count > 0) {
-            beginRemoveRows(QModelIndex(), index + 1, index + count);
-            m_displayList.remove(index + 1, count);
-            endRemoveRows();
-        }
-        item.expanded = false;
-    } else {
-        // --- EXPAND ---
-        int count = item.children.size();
-        if (count > 0) {
-            beginInsertRows(QModelIndex(), index + 1, index + count);
-            for (int i = 0; i < count; ++i) {
-                // Insert children immediately following the parent Device
-                m_displayList.insert(index + 1 + i, item.children[i]);
-            }
-            endInsertRows();
-        }
-        item.expanded = true;
+    switch (role)
+    {
+    case TitleRole: return item->title;
+    case SubtitleRole: return item->subtitle;
+    case IsDeviceRole: return item->type == ItemType::DeviceItem;
+    default: return {};
     }
-
-    // Notify QML that the Device item's own expanded state role has changed
-    emit dataChanged(createIndex(index, 0), createIndex(index, 0), {IsExpandedRole});
 }
 
-void SidebarModel::refresh(VaultProxy &backend)
+void SidebarModel::refresh(VaultProxy& backend)
 {
     beginResetModel();
-    m_displayList.clear();
+    m_devices.clear();
 
     int devCnt = backend.deviceCount();
-    for (int i = 0; i < devCnt; i++) {
-        auto info = backend.deviceInfo(i);
 
-        // Create the Device (Top-level item)
+    for (int i = 0; i < devCnt; i++)
+    {
         SidebarItem dev;
         dev.type = ItemType::DeviceItem;
+        auto info = backend.deviceInfo(i);
         dev.title = info.size() > 0 ? info[0] : "";
         dev.subtitle = info.size() > 1 ? info[1] : "";
-        dev.expanded = false;
         dev.deviceId = i;
 
-        // Populate the children (Volumes) but don't add them to m_displayList yet
         int volCnt = backend.volumeCount(i);
-        for (int j = 0; j < volCnt; j++) {
-            auto volInfo = backend.volumeInfo(i, j);
 
+        for (int j = 0; j < volCnt; j++)
+        {
             SidebarItem vol;
             vol.type = ItemType::VolumeItem;
+
+            auto volInfo = backend.volumeInfo(i, j);
             vol.title = volInfo.size() > 0 ? volInfo[0] : "";
             vol.subtitle = volInfo.size() > 1 ? volInfo[1] : "";
-            vol.deviceId = i;
-            vol.expanded = false;
 
             dev.children.append(vol);
         }
 
-        // Add only the device to the active display list
-        m_displayList.append(dev);
+        m_devices.append(dev);
     }
-
-    qDebug() << "Refresh finished. m_displayList size:" << m_displayList.size();
 
     endResetModel();
 }

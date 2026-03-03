@@ -13,24 +13,21 @@
 #include <QStringList>
 #include <QVector>
 
-// Forward declaration of the backend proxy
-class VaultProxy;
+enum ItemType { DeviceItem, VolumeItem };
 
-enum class ItemType {
-    DeviceItem,
-    VolumeItem
-};
-
+// Tree node for the sidebar
 struct SidebarItem {
-    ItemType type;
-    QString title;
-    QString subtitle;
-    bool expanded = false;
-    int deviceId;
-    QVector<SidebarItem> children; // Holds volumes for devices
+    ItemType type;                  // Device or Volume
+    QString title;                  // Display name
+    QString subtitle;               // Optional extra info
+    int deviceId = -1;              // Device index, for reference
+    QVector<SidebarItem> children;  // Holds volumes for devices
+
+    // Optional: default constructor
+    SidebarItem() = default;
 };
 
-class SidebarModel : public QAbstractListModel
+class SidebarModel : public QAbstractItemModel
 {
     Q_OBJECT
 
@@ -44,18 +41,24 @@ public:
 
     explicit SidebarModel(QObject *parent = nullptr);
 
-    // QAbstractListModel interface overrides
+    QModelIndex index(int row, int column,
+                      const QModelIndex &parent = QModelIndex()) const override;
+
+    QModelIndex parent(const QModelIndex &child) const override;
+
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+    int columnCount(const QModelIndex &) const override { return 1; }
+
+    QVariant data(const QModelIndex &index,
+                  int role = Qt::DisplayRole) const override;
+
     QHash<int, QByteArray> roleNames() const override;
 
-    // Logic for the View
-    Q_INVOKABLE void toggleExpanded(int index);
+    bool hasChildren(const QModelIndex &parent) const override;
 
-    // Business logic to update the data
-    void refresh(VaultProxy &backend);
+    void refresh(class VaultProxy &backend);
 
 private:
-    // This holds the currently visible items (Devices + Expanded Volumes)
-    QVector<SidebarItem> m_displayList;
+    QVector<SidebarItem> m_devices;
 };
