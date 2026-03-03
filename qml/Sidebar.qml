@@ -6,6 +6,7 @@ import Backend 1.0
 Item {
     id: sidebar
     height: parent.height
+    // anchors.fill: parent
 
     Rectangle {
         id: sidebarRect
@@ -16,47 +17,55 @@ Item {
             id: treeView
             anchors.fill: parent
             clip: true
-            alternatingRows: false
+            alternatingRows: true
             topMargin: 10
-            rowSpacing: 10
             model: Backend.sidebarModel
             selectionMode: TreeView.SingleSelection
             selectionModel: ItemSelectionModel { }
-
+            columnWidthProvider: function(column) { return treeView.width }
             delegate: TreeViewDelegate {
+
                 id: myDelegate
                 required property bool isDevice
                 required property string title
                 required property string subtitle
 
                 width: treeView.width
-                height: isDevice ? 64 : 44
 
                 contentItem: RowLayout {
 
                     spacing: 8
 
                     Image {
-                        source: current ?  "../assets/images/LEDred.png" : "../assets/images/LEDgreen.png"
+
+                        source: current ? "../assets/images/LEDred.png" : "../assets/images/LEDgreen.png"
                         sourceSize: Qt.size(18, 18)
                         Layout.alignment: Qt.AlignVCenter
                     }
 
+
+                    Item {
+                        // color: "red"
+                        Layout.preferredHeight: 50
+                        Layout.preferredWidth: 2
+                    }
+
                     ColumnLayout {
-                        spacing: 0
+
                         Layout.fillWidth: true
                         Layout.alignment: Qt.AlignVCenter
 
                         Label {
                             text: title
                             font.bold: isDevice
+                            color:  highlighted ? "white" : treeView.palette.text
                             Layout.fillWidth: true
                         }
                         Label {
                             text: subtitle
                             visible: subtitle !== ""
                             font.pixelSize: 11
-                            color: "#888"
+                            color:  highlighted ? "white" : treeView.palette.text
                             Layout.fillWidth: true
                         }
                     }

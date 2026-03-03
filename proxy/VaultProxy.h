@@ -78,7 +78,7 @@ public:
         switch (devNr)
         {
         case 0: list << QStringLiteral("Boulder Dash") << QStringLiteral("C64 Floppy Disk"); break;
-        case 1: list << QStringLiteral("Return of the Evil Camels") << QStringLiteral("Amiga Floppy Disk"); break;
+        case 1: list << QStringLiteral("Return of the Camels") << QStringLiteral("Amiga Floppy Disk"); break;
         case 2: list << QStringLiteral("Batman Returns") << QStringLiteral("Atari ST Floppy Disk"); break;
         case 3: list << QStringLiteral("Summer Games") << QStringLiteral("C64 Floppy Disk"); break;
         default: list << QStringLiteral("???"); break;
