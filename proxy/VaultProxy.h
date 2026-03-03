@@ -7,20 +7,26 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#pragma once
+
 #include <QObject>
 #include <QStringList>
 #include <QUrl>
 
 #include "DeviceManager.h"
 #include "FuseDevice.h"
-
-#pragma once
+#include "SidebarModel.h"
 
 class VaultProxy : public QObject {
 
     Q_OBJECT
 
+    // This makes the model accessible as 'Backend.deviceModel' in QML
+    Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel CONSTANT)
+
     DeviceManager manager;
+
+    SidebarModel *m_sidebarModel;
 
     signals:
     void updateSidebar() const;
@@ -30,11 +36,18 @@ public:
 
     explicit VaultProxy(QObject *parent = nullptr);
 
+    SidebarModel* sidebarModel() const { return m_sidebarModel; }
+    // DeviceManager &getManager() { return manager; }
+
 //    Q_INVOKABLE void init();
 
 private:
 
     void processMsg(int value) const;
+
+public:
+
+    void refreshSidebar() { m_sidebarModel->refresh(*this); }
 
     // Converts a C++ exception to a JS exception
     void rethrow(std::exception &e);
@@ -56,42 +69,35 @@ public:
     // Experimental
     //
 
-    Q_INVOKABLE int deviceCount() {
-
-        static int c = 1;
-        return c++;
-        // return Backend::instance()->numberOfDevices();
-    }
-
-    Q_INVOKABLE QString deviceTitle(int deviceIdx)
+    Q_INVOKABLE int deviceCount() { return 4; }
+    Q_INVOKABLE int volumeCount(int devNr) { return devNr + 1; }
+    Q_INVOKABLE QStringList deviceInfo(int devNr)
     {
-        switch (deviceIdx)
-        {
-        case 0: return QStringLiteral("Batman");
-        case 1: return QStringLiteral("Return of the Mutan Camals");
-        case 2: return QStringLiteral("Popeye's adventure");
-        case 3: return QStringLiteral("Summer games");
-        default: return QStringLiteral("Unknown");
-        }
-        // auto* dev = Backend::instance()->getDevice(deviceIdx);
-        // return dev ? QString::fromStdString(dev->imageInfo().filename) : "";
-    }
-
-    Q_INVOKABLE QStringList volumeNames(int deviceIdx) {
         QStringList list;
 
-        list << QStringLiteral("Partion 1");
-        if (deviceIdx >= 2) list << QStringLiteral("Partion 2");
-        if (deviceIdx >= 3) list << QStringLiteral("Partion 3");
-        /*
-        auto* dev = Backend::instance()->getDevice(deviceIdx);
-        if (dev) {
-            for (int i = 0; i < dev->count(); ++i) {
-                // Here is your type conversion: std::string -> QString
-                list << QString::fromStdString(dev->getVolume(i).getName());
-            }
+        switch (devNr)
+        {
+        case 0: list << QStringLiteral("Boulder Dash") << QStringLiteral("C64 Floppy Disk"); break;
+        case 1: list << QStringLiteral("Return of the Evil Camels") << QStringLiteral("Amiga Floppy Disk"); break;
+        case 2: list << QStringLiteral("Batman Returns") << QStringLiteral("Atari ST Floppy Disk"); break;
+        case 3: list << QStringLiteral("Summer Games") << QStringLiteral("C64 Floppy Disk"); break;
         }
-        */
+
+        return list;
+    }
+
+    Q_INVOKABLE QStringList volumeInfo(int devNr, int volNr)
+    {
+        QStringList list;
+
+        switch (volNr)
+        {
+        case 0: list << QStringLiteral("/Volumes/BoulderDash") << QStringLiteral("Amiga FFS"); break;
+        case 1: list << QStringLiteral("/Volumes/EvilCamels") << QStringLiteral("Amiga OFS"); break;
+        case 2: list << QStringLiteral("/Volumes/Batman") << QStringLiteral("Amiga FFS"); break;
+        case 3: list << QStringLiteral("/Volumes/EvilCamels") << QStringLiteral("Commodore CBM"); break;
+        }
+
         return list;
     }
 

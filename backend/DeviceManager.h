@@ -49,6 +49,9 @@ using namespace retro::vault;
 
 class DeviceManager : Loggable {
 
+    friend class VaultProxy;
+    friend class SidebarModel;
+
     // Device database
     std::vector<std::unique_ptr<FuseDevice>> devices;
 

@@ -26,15 +26,13 @@ VaultProxy::VaultProxy(QObject* parent) : QObject(parent)
         // self->handleCallback(value);
         self->processMsg(value);
     });
-}
 
-/*
-void
-VaultProxy::processMsg(QString message) const
-{
-    printf("processMsg\n");
+    m_sidebarModel = new SidebarModel(this);
+
+    // Initial data loading (or trigger this from a Refresh method)
+    // m_sidebarModel->addDevice("GitHub Disk", "Connected via USB", {"Repo_A", "Repo_B"});
+    // m_sidebarModel->addDevice("External SSD", "High Speed", {"Backups", "Work", "Media"});
 }
-*/
 
 void
 VaultProxy::processMsg(int value) const
@@ -42,6 +40,10 @@ VaultProxy::processMsg(int value) const
     static int count = 0;
 
     printf("processMsg %d\n", count++);
+
+    // Rebuild the sidebar
+
+
     // Improvement: Dispatch to a specific sub function
     updateCanvas();
     updateSidebar();

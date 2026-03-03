@@ -34,12 +34,99 @@ Item {
             anchors.fill: parent
             clip: true
 
+            // Use your C++ model instance
+            model: Backend.sidebarModel
+
+            // Smoothly animate additions/removals if the list changes
+            add: Transition { NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 200 } }
+
+            delegate: Column {
+                width: sidebarList.width
+
+                // --- TOP LEVEL ITEM ---
+                ItemDelegate {
+                    id: mainItem
+                    width: parent.width
+                    height: 64
+
+                    contentItem: RowLayout {
+                        spacing: 12
+                        Layout.fillWidth: true
+
+                        // Expansion Indicator - Now driven by the model Role
+                        Text {
+                            text: model.expanded ? "▼" : "▶"
+                            font.pixelSize: 10
+                            color: "#bbb"
+                            Layout.leftMargin: 8
+                        }
+
+                        Image {
+                            source: "../assets/icons/device_icon.png"
+                            sourceSize: Qt.size(32, 32)
+                        }
+
+                        ColumnLayout {
+                            spacing: 2
+                            Layout.fillWidth: true
+                            Label {
+                                text: model.title // From TitleRole
+                                font.bold: true
+                                color: "#333"
+                            }
+                            Label {
+                                text: model.subtitle // From SubtitleRole
+                                font.pixelSize: 12
+                                color: "#777"
+                            }
+                        }
+                    }
+
+                    onClicked: sidebarList.model.toggleExpanded(index)
+                }
+
+                // --- EXPANDABLE SECTION ---
+                // Using a Loader or Column with 'visible' is fine,
+                // but 'visible' inside a Column still occupies space unless managed.
+                Column {
+                    width: parent.width
+                    visible: model.expanded
+
+                    Repeater {
+                        // model.volumes comes from VolumesRole (QStringList)
+                        model: model.expanded ? model.volumes : []
+                        delegate: ItemDelegate {
+                            width: parent.width
+                            height: 40
+                            contentItem: Label {
+                                text: modelData
+                                leftPadding: 54
+                                verticalAlignment: Text.AlignVCenter
+                                color: "#555"
+                            }
+                            onClicked: console.log("Clicked:", modelData)
+                        }
+                    }
+                }
+            }
+            Component.onCompleted: {
+                console.log("Model initialized. Count:", model.rowCount())
+                // If this prints 'undefined', the connection to Backend is broken.
+                // If this prints '0', your C++ 'm_devices' vector is empty.
+            }
+        }
+
+        /*
+        ListView {
+            id: sidebarList
+            anchors.fill: parent
+            clip: true
+
             signal mapChanged()
 
             property var expandedMap: ({})
 
             // We use the count as the model.
-            // To refresh, we just re-assign the count or use a Connections block.
             model: Backend.deviceCount()
 
             // When C++ says things changed, we tell the list to refresh
@@ -151,6 +238,7 @@ Item {
                 }
             }
         }
+        */
     }
 
     // Right-side divider
