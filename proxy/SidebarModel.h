@@ -35,30 +35,22 @@ public:
     enum DeviceRoles {
         TitleRole = Qt::UserRole + 1,
         SubtitleRole,
-        IsDeviceRole,
-        IsExpandedRole
+        IsDeviceRole
     };
 
     explicit SidebarModel(QObject *parent = nullptr);
 
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const override;
-
+    QModelIndex index(int row, int column,  const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &child) const override;
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-
     int columnCount(const QModelIndex &) const override { return 1; }
-
-    QVariant data(const QModelIndex &index,
-                  int role = Qt::DisplayRole) const override;
-
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
-
     bool hasChildren(const QModelIndex &parent) const override;
 
     void refresh(class VaultProxy &backend);
 
 private:
+
     QVector<SidebarItem> m_devices;
 };

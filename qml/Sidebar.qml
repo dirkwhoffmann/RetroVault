@@ -15,14 +15,16 @@ Item {
         TreeView {
             id: treeView
             anchors.fill: parent
-            model: Backend.sidebarModel
             clip: true
             alternatingRows: false
             topMargin: 10
             rowSpacing: 10
+            model: Backend.sidebarModel
+            selectionMode: TreeView.SingleSelection
+            selectionModel: ItemSelectionModel { }
 
             delegate: TreeViewDelegate {
-
+                id: myDelegate
                 required property bool isDevice
                 required property string title
                 required property string subtitle
@@ -35,10 +37,8 @@ Item {
                     spacing: 8
 
                     Image {
-                        source: "../assets/images/LEDred.png"
+                        source: current ?  "../assets/images/LEDred.png" : "../assets/images/LEDgreen.png"
                         sourceSize: Qt.size(18, 18)
-
-                        // This is the "Magic" line that centers the image relative to the row's height
                         Layout.alignment: Qt.AlignVCenter
                     }
 
@@ -67,6 +67,7 @@ Item {
 
     // Right-side divider
     Rectangle {
+
         width: 1
         anchors.right: parent.right
         anchors.top: parent.top

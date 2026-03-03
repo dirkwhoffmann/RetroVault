@@ -10,28 +10,21 @@
 #include "SidebarModel.h"
 #include "VaultProxy.h"
 
-SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
-{
-}
+SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent) { }
 
-QModelIndex SidebarModel::index(int row, int column,
-                                const QModelIndex& parent) const
+QModelIndex SidebarModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
 
     if (!parent.isValid())
-    {
         return createIndex(row, column,
                            const_cast<SidebarItem*>(&m_devices[row]));
-    }
 
     auto* parentItem =
         static_cast<SidebarItem*>(parent.internalPointer());
 
-    return createIndex(row, column,
-                       const_cast<SidebarItem*>(
-                           &parentItem->children[row]));
+    return createIndex(row, column, const_cast<SidebarItem*>(&parentItem->children[row]));
 }
 
 QModelIndex SidebarModel::parent(const QModelIndex& child) const
@@ -49,8 +42,7 @@ QModelIndex SidebarModel::parent(const QModelIndex& child) const
         for (int j = 0; j < dev.children.size(); ++j)
         {
             if (&dev.children[j] == childItem)
-                return createIndex(i, 0,
-                                   const_cast<SidebarItem*>(&m_devices[i]));
+                return createIndex(i, 0, const_cast<SidebarItem*>(&m_devices[i]));
         }
     }
 
@@ -85,7 +77,6 @@ QHash<int, QByteArray> SidebarModel::roleNames() const
     roles[TitleRole] = "title";
     roles[SubtitleRole] = "subtitle";
     roles[IsDeviceRole] = "isDevice";
-    roles[IsExpandedRole] = "isExpanded";
     return roles;
 }
 
