@@ -81,6 +81,7 @@ public:
         case 1: list << QStringLiteral("Return of the Evil Camels") << QStringLiteral("Amiga Floppy Disk"); break;
         case 2: list << QStringLiteral("Batman Returns") << QStringLiteral("Atari ST Floppy Disk"); break;
         case 3: list << QStringLiteral("Summer Games") << QStringLiteral("C64 Floppy Disk"); break;
+        default: list << QStringLiteral("???"); break;
         }
 
         return list;
@@ -96,6 +97,7 @@ public:
         case 1: list << QStringLiteral("/Volumes/EvilCamels") << QStringLiteral("Amiga OFS"); break;
         case 2: list << QStringLiteral("/Volumes/Batman") << QStringLiteral("Amiga FFS"); break;
         case 3: list << QStringLiteral("/Volumes/EvilCamels") << QStringLiteral("Commodore CBM"); break;
+        default: list << QStringLiteral("???"); break;
         }
 
         return list;

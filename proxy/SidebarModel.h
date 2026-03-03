@@ -13,12 +13,21 @@
 #include <QStringList>
 #include <QVector>
 
-struct DeviceData {
+// Forward declaration of the backend proxy
+class VaultProxy;
 
+enum class ItemType {
+    DeviceItem,
+    VolumeItem
+};
+
+struct SidebarItem {
+    ItemType type;
     QString title;
     QString subtitle;
-    QStringList volumes;
     bool expanded = false;
+    int deviceId;
+    QVector<SidebarItem> children; // Holds volumes for devices
 };
 
 class SidebarModel : public QAbstractListModel
@@ -29,25 +38,24 @@ public:
     enum DeviceRoles {
         TitleRole = Qt::UserRole + 1,
         SubtitleRole,
-        VolumesRole,
-        ExpandedRole
+        IsDeviceRole,
+        IsExpandedRole
     };
 
     explicit SidebarModel(QObject *parent = nullptr);
 
-    // Basic functionality
+    // QAbstractListModel interface overrides
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    // Expand/Collapse logic
+    // Logic for the View
     Q_INVOKABLE void toggleExpanded(int index);
 
-    // Method to add data (called from your backend logic)
-    void addDevice(const QString &title, const QString &subtitle, const QStringList &volumes);
-
-    void refresh(class VaultProxy &backend);
+    // Business logic to update the data
+    void refresh(VaultProxy &backend);
 
 private:
-    QVector<DeviceData> m_devices;
+    // This holds the currently visible items (Devices + Expanded Volumes)
+    QVector<SidebarItem> m_displayList;
 };
