@@ -16,7 +16,6 @@ RowLayout {
     Label {
         id: titleLabel
         font.pointSize: Style.small
-        color: Style.iconDefault
         Layout.alignment: Qt.AlignHCenter
     }
 

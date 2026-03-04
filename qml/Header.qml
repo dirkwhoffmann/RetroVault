@@ -6,21 +6,11 @@ Pane {
 
     id: root
     anchors.fill: parent
-    padding: 24
+    padding: 0 // 24
 
-    // Expects a 2D array: [ ["Key", "Val", "Key", "Val"], ["Key", "Val", "..."] ]
     property var gridData: []
 
-    /*
-    readonly property var transposedData: {
-        if (!gridData || gridData.length === 0 || !gridData[0]) return [];
-        return gridData[0].map((_, i) => gridData.map(col => col[i]));
-    }
-    */
-
     readonly property int gridColumns: gridData.length > 0 ? gridData[0].length : 1
-    // readonly property int gridRows: gridData.length > 0 ?  gridData[0].length : 1
-    // readonly property int gridColumns: gridData.length
 
     contentItem: RowLayout {
         spacing: 15

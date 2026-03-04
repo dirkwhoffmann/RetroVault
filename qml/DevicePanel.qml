@@ -13,11 +13,12 @@ Item {
         anchors.fill: parent
         spacing: 0
 
-        Rectangle {
+        Pane {
 
-            Layout.preferredHeight: header.implicitHeight
             Layout.fillWidth: true
-
+            topPadding: Style.largeSpacing
+            leftPadding: Style.largeSpacing
+            rightPadding: Style.largeSpacing
             Header {
 
                 id: header
@@ -25,38 +26,38 @@ Item {
             }
         }
 
-        Rectangle {
+        Pane {
 
-            Layout.preferredHeight: deviceBlockSelector.implicitHeight
             Layout.fillWidth: true
-
+            leftPadding: Style.largeSpacing
+            rightPadding: Style.largeSpacing
             DeviceBlockSelector {
 
                 id: deviceBlockSelector
             }
         }
 
-        Rectangle {
+        Pane {
 
             Layout.fillHeight: true
             Layout.fillWidth: true
-
+            leftPadding: Style.largeSpacing
+            rightPadding: Style.largeSpacing
+            bottomPadding: Style.largeSpacing
             BlockView {
+
             }
         }
     }
 
     onDeviceIdChanged: {
+
         console.log("DevicePanel: Loading data for device index: " + deviceId)
 
         if (deviceId !== -1) {
 
-            // 1. Get the QStringList from C++
-            // Example return: ["Status", "Active", "Serial", "A100"]
             let info = Backend.deviceInfo(deviceId);
 
-            // 2. Wrap it into a 2D array (one row) for the Header
-            // We put the entire list as the first element of our gridData
             header.gridData = [
                 [ info[0],  "Cylinders:",   "42", "     Blocks:", "10334" ],
                 [ info[1],  "Heads:",       "2", "      Block size:", "512" ],
@@ -68,11 +69,4 @@ Item {
     onVolumeIdChanged: {
         console.log("DevicePanel: Loading data for volume index: " + volumeId)
     }
-
-    /*
-    Text {
-        text: "DevicePanel: Viewing Device " + deviceId + " Volume " + volumeId
-        anchors.centerIn: parent
-    }
-    */
 }

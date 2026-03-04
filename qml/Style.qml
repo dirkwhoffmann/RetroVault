@@ -2,6 +2,7 @@ import QtQuick
 pragma Singleton
 
 QtObject {
+    /*
     // Brand Colors
     readonly property color primary: "#2196F3"
     readonly property color accent: "#FF4081"
@@ -11,6 +12,23 @@ QtObject {
     readonly property color hoverColor: "#FF0000" // "#F5F5F5"
     readonly property color pressedColor: "#E0E0E0"
     readonly property color iconDefault: "#546E7A"
+    */
+
+    // Layout Units
+    readonly property real gridUnit: Qt.application.font.pointSize
+    readonly property real smallSpacing: 4
+    readonly property real mediumSpacing: 8
+    readonly property real largeSpacing: 16
+
+    // --- Icon Sizes (Standard Plasma sizes) ---
+    readonly property int iconSmall: 16
+    readonly property int iconMedium: 22
+    readonly property int iconLarge: 32
+
+    // --- Animation Timings ---
+    // Kirigami uses 150ms for "short" and 250ms for "long" by default.
+    readonly property int shortDuration: 150
+    readonly property int longDuration: 250
 
     // Dimensions
     readonly property int toolbarHeight: 22

@@ -32,7 +32,7 @@ ToolBar {
     RowLayout {
         // Use anchors to stick to the edges, but let height be implicit
         anchors.fill: parent
-        spacing: 0
+        spacing: Style.mediumSpacing
 
         // 1. Create a container that exactly matches the Sidebar width
         Item {
@@ -75,8 +75,7 @@ ToolBar {
         NavButton { icon.source: "../assets/icons/folder.svg" }
         NavButton { icon.source: "../assets/icons/sync.svg" }
 
-        // This pushes the Lock button to the far right
-        Item { Layout.fillWidth: true }
+        Item { Layout.fillWidth: true } // Spacer
 
         NavButton {
             icon.source: "../assets/icons/locked.svg"

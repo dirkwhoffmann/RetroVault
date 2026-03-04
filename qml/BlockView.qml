@@ -47,30 +47,6 @@ Rectangle {
         columnSpacing: 1
         rowSpacing: 1
 
-        /*
-        columnWidthProvider: function(column) {
-            return Math.min(24, tableView.width / 20);
-        }
-
-        columnWidthProvider: function (column) {
-
-            let totalCols = tableView.columns
-            let fixedWidth = 24
-
-            if (column < totalCols - 1) {
-                return fixedWidth
-            } else {
-                // Calculate remaining space:
-                // Total Width - (Fixed columns * width) - (any spacing)
-                let spentSpace = (totalCols - 1) * (fixedWidth + tableView.columnSpacing)
-                let remaining = tableView.width - spentSpace
-
-                // Ensure we don't return a negative number
-                return Math.max(100, remaining)
-            }
-        }
-    */
-
         columnWidthProvider: function (column) {
             let n = tableView.columns
             if (n === 0) return 0
@@ -83,14 +59,24 @@ Rectangle {
             let unitWidth = availableWidth / totalUnits
 
             if (column < n - 1) {
-                return unitWidth    // Standard column
+                return Math.max(16, unitWidth)  // Standard column
             } else {
-                return unitWidth * 8 // The "8x" stretching column
+                return Math.max(100, unitWidth * 8) // The "8x" stretching column
             }
         }
 
         // Refresh layout whenever the window resizes
         onWidthChanged: tableView.forceLayout()
+
+        ScrollBar.vertical: ScrollBar {
+            policy: ScrollBar.AsNeeded
+            active: true // Makes it visible when scrolling
+        }
+
+        ScrollBar.horizontal: ScrollBar {
+            policy: ScrollBar.AsNeeded
+            active: true
+        }
 
         model: Backend.blockTableModel
 
