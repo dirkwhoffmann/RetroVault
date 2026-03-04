@@ -20,10 +20,19 @@ QtObject {
 
     // Typography
     /*
-    readonly property font labelFont: Qt.font({
-        family: "Roboto",
-        pixelSize: 14,
-        weight: Font.Medium
-    })
+    readonly property real _baseSize: Qt.application.font.pointSize
+    readonly property font heading: Qt.font({ pointSize: _baseSize * 1.5, weight: Font.DemiBold })
+    readonly property font regular: Qt.font({ pointSize: _baseSize })
+    readonly property font small: Qt.font({ pointSize: _baseSize * 0.85 })
+    readonly property font mini: Qt.font({ pointSize: _baseSize * 0.7 })
     */
+    readonly property real _baseSize: Qt.application.font.pointSize
+    readonly property real heading: _baseSize * 1.5
+    readonly property real regular: _baseSize
+    readonly property real small: _baseSize * 0.85
+    readonly property real mini: _baseSize * 0.7
+
+    // Helper for specific weights
+    readonly property int weightBold: Font.Bold
+    readonly property int weightMedium: Font.Medium
 }
