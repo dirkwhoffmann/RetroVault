@@ -16,6 +16,7 @@
 #include "DeviceManager.h"
 #include "FuseDevice.h"
 #include "SidebarModel.h"
+#include "BlockTableModel.h"
 
 class VaultProxy : public QObject {
 
@@ -23,10 +24,12 @@ class VaultProxy : public QObject {
 
     // This makes the model accessible as 'Backend.deviceModel' in QML
     Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel CONSTANT)
+    Q_PROPERTY(BlockTableModel* blockTableModel READ blockTableModel CONSTANT)
 
     DeviceManager manager;
 
     SidebarModel *m_sidebarModel;
+    BlockTableModel *m_blockTableModel;
 
     signals:
     void updateSidebar() const;
@@ -37,7 +40,7 @@ public:
     explicit VaultProxy(QObject *parent = nullptr);
 
     SidebarModel* sidebarModel() const { return m_sidebarModel; }
-    // DeviceManager &getManager() { return manager; }
+    BlockTableModel* blockTableModel() const { return m_blockTableModel; }
 
 //    Q_INVOKABLE void init();
 
@@ -48,6 +51,7 @@ private:
 public:
 
     void refreshSidebar() { m_sidebarModel->refresh(*this); }
+    void refreshBlockView() { m_blockTableModel->refresh(*this); }
 
     // Converts a C++ exception to a JS exception
     void rethrow(std::exception &e);

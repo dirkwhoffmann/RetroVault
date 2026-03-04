@@ -17,26 +17,32 @@ Item {
 
             Layout.preferredHeight: header.implicitHeight
             Layout.fillWidth: true
-            color: "yellow"
 
             Header {
 
                 id: header
                 gridData: []
             }
-                /*
-                gridData: [
-                    ["Online", "System", "RetroVault", "System", "RetroVault"],
-                    ["12%", "Temp", "42°C", "System", "RetroVault"],
-                    ["192.168.1.5", "MAC", "00:1A:2B", "System", "RetroVault"]
-                ]
-                */
         }
 
         Rectangle {
+
+            Layout.preferredHeight: deviceBlockSelector.implicitHeight
+            Layout.fillWidth: true
+
+            DeviceBlockSelector {
+
+                id: deviceBlockSelector
+            }
+        }
+
+        Rectangle {
+
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "blue"
+
+            BlockView {
+            }
         }
     }
 
@@ -63,8 +69,10 @@ Item {
         console.log("DevicePanel: Loading data for volume index: " + volumeId)
     }
 
+    /*
     Text {
         text: "DevicePanel: Viewing Device " + deviceId + " Volume " + volumeId
         anchors.centerIn: parent
     }
+    */
 }

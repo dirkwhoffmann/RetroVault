@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 Pane {
+
     id: root
     anchors.fill: parent
     padding: 24
@@ -24,16 +25,25 @@ Pane {
     contentItem: RowLayout {
         spacing: 15
 
-        Image {
-            source: "../assets/images/floppy35_dd.png"
-            sourceSize: Qt.size(80, 80)
+        Frame {
             Layout.alignment: Qt.AlignTop
+            background: Rectangle {
+                color: Qt.rgba(0, 0, 0, 0.03) // Subtle darkening tint
+                border.color: Qt.rgba(0, 0, 0, 0.1) // Thin, soft border
+                border.width: 2
+                radius: 8
+            }
+            Image {
+                source: "../assets/images/floppy35_dd.png"
+                sourceSize: Qt.size(80, 80)
+            }
         }
 
         GridLayout {
 
             columns: root.gridColumns
             Layout.fillWidth: true
+            Layout.alignment: Qt.AlignTop
             columnSpacing: 4
             rowSpacing: 4
 

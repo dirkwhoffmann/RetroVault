@@ -28,6 +28,7 @@ VaultProxy::VaultProxy(QObject* parent) : QObject(parent)
     });
 
     m_sidebarModel = new SidebarModel(this);
+    m_blockTableModel = new BlockTableModel(this);
 
     // Initial data loading (or trigger this from a Refresh method)
     // m_sidebarModel->addDevice("GitHub Disk", "Connected via USB", {"Repo_A", "Repo_B"});
