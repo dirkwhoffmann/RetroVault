@@ -6,7 +6,8 @@ import Backend 1.0
 Item {
     id: sidebar
     height: parent.height
-    // anchors.fill: parent
+
+    signal itemSelected(int deviceId, int volumeId)
 
     Rectangle {
         id: sidebarRect
@@ -26,10 +27,12 @@ Item {
             delegate: TreeViewDelegate {
 
                 id: myDelegate
-                required property bool isDevice
                 required property string iconSource
                 required property string title
                 required property string subtitle
+                required property int deviceId
+                required property int volumeId
+                required property bool isDevice
 
                 width: treeView.width
 
@@ -69,6 +72,16 @@ Item {
                             color:  highlighted ? "white" : treeView.palette.text
                             Layout.fillWidth: true
                         }
+                    }
+                }
+
+                TapHandler {
+                    onTapped: {
+
+                        // console.log("modelIndex = " + modelIndex);
+                        console.log("deviceId = " + deviceId);
+                        console.log("volumeId = " + volumeId);
+                        sidebar.itemSelected(deviceId, volumeId);
                     }
                 }
             }

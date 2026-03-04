@@ -10,7 +10,9 @@
 #include "SidebarModel.h"
 #include "VaultProxy.h"
 
-SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent) { }
+SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
+{
+}
 
 QModelIndex SidebarModel::index(int row, int column, const QModelIndex& parent) const
 {
@@ -77,6 +79,8 @@ QHash<int, QByteArray> SidebarModel::roleNames() const
     roles[IconSourceRole] = "iconSource";
     roles[TitleRole] = "title";
     roles[SubtitleRole] = "subtitle";
+    roles[DeviceIdRole] = "deviceId";
+    roles[VolumeIdRole] = "volumeId";
     roles[IsDeviceRole] = "isDevice";
     return roles;
 }
@@ -94,6 +98,8 @@ QVariant SidebarModel::data(const QModelIndex& index, int role) const
     case IconSourceRole: return item->iconSource;
     case TitleRole: return item->title;
     case SubtitleRole: return item->subtitle;
+    case DeviceIdRole: return item->deviceId;
+    case VolumeIdRole: return item->volumeId;
     case IsDeviceRole: return item->type == ItemType::DeviceItem;
     default: return {};
     }
@@ -115,6 +121,7 @@ void SidebarModel::refresh(VaultProxy& backend)
         dev.title = info.size() > 0 ? info[0] : "";
         dev.subtitle = info.size() > 1 ? info[1] : "";
         dev.deviceId = i;
+        dev.volumeId = -1;
 
         int volCnt = backend.volumeCount(i);
 
@@ -127,7 +134,8 @@ void SidebarModel::refresh(VaultProxy& backend)
             vol.iconSource = "volume_amiga";
             vol.title = volInfo.size() > 0 ? volInfo[0] : "";
             vol.subtitle = volInfo.size() > 1 ? volInfo[1] : "";
-
+            vol.deviceId = i;
+            vol.volumeId = j;
             dev.children.append(vol);
         }
 

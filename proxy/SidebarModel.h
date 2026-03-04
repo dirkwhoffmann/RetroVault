@@ -10,7 +10,6 @@
 #pragma once
 
 #include <QAbstractListModel>
-// #include <QStringList>
 #include <QVector>
 
 enum ItemType { DeviceItem, VolumeItem };
@@ -21,7 +20,8 @@ struct SidebarItem {
     QString iconSource;             // Image name
     QString title;                  // Display name
     QString subtitle;               // Optional extra info
-    int deviceId = -1;              // Device index, for reference
+    int deviceId;                   // Device number
+    int volumeId;                   // Volume number
     QVector<SidebarItem> children;  // Holds volumes for devices
 
     // Optional: default constructor
@@ -37,6 +37,8 @@ public:
         IconSourceRole = Qt::UserRole + 1,
         TitleRole,
         SubtitleRole,
+        DeviceIdRole,
+        VolumeIdRole,
         IsDeviceRole
     };
 
