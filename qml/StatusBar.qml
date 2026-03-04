@@ -2,35 +2,32 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-RowLayout {
+Pane {
 
+    id: root
     anchors.fill: parent
-    anchors.leftMargin: 10
-    anchors.rightMargin: 10
+    padding: 0
+    background: Rectangle { color: "transparent" }
 
-    // BOTTOM LEFT: Icon + Label
-    RowLayout {
-//        anchors.verticalCenter: parent.verticalCenter
-        spacing: 8
+    contentItem: RowLayout {
+
+        anchors.fill: parent
+        spacing: Style.mediumSpacing
 
         Image {
+            id: ledImage
             source: "../assets/images/LEDred.png"
-            sourceSize: Qt.size(18, 18)
+            sourceSize: Qt.size(Style.iconSmall, Style.iconSmall)
         }
         Label {
             text: "macFUSE not installed"
-            font.pixelSize: 12
         }
-    }
 
-    // SPACER: This invisible item eats all available middle space
-    Item {
-        Layout.fillWidth: true
-    }
+        Item {  Layout.fillWidth: true } // Spacer
 
-    // BOTTOM RIGHT: Single Icon
-    Image {
-        source: "../assets/icons/github.png"
-        sourceSize: Qt.size(18, 18)
+        IconLink {
+            iconSource: "../assets/icons/github.svg"
+            targetUrl: "https://dirkwhoffmann.github.io/vAmiga/"
+        }
     }
 }

@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
+
     signal startClicked()
 
     FontLoader {
@@ -19,9 +20,25 @@ Item {
     }
 
     ColumnLayout {
+
         anchors.fill: parent
         spacing: 0
 
+        Pane {
+
+            background: Rectangle { color: "transparent" }
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            topPadding: Style.largeSpacing
+            leftPadding: Style.largeSpacing
+            rightPadding: Style.largeSpacing
+            Logo {
+
+                anchors.centerIn: parent
+            }
+        }
+
+        /*
         Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
@@ -29,12 +46,16 @@ Item {
             clip: true
             Logo { anchors.centerIn: parent }
         }
+        */
 
-        Item {
-            Layout.preferredHeight: 32
+        Pane {
+
+            background: Rectangle { color: "transparent" }
             Layout.fillWidth: true
-            // color: "transparent"
-            StatusBar { }
+            leftPadding: Style.mediumSpacing
+            rightPadding: Style.mediumSpacing
+            bottomPadding: Style.mediumSpacing
+            StatusBar { id: statusBar }
         }
     }
 }

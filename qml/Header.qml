@@ -6,7 +6,7 @@ Pane {
 
     id: root
     anchors.fill: parent
-    padding: 0 // 24
+    padding: 0
 
     property var gridData: []
 
