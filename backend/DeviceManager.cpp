@@ -9,6 +9,7 @@
 
 #include "config.h"
 #include "DeviceManager.h"
+#include <dlfcn.h>
 
 using namespace retro::vault;
 
@@ -20,6 +21,23 @@ DeviceManager::DeviceManager()
 DeviceManager::~DeviceManager()
 {
 
+}
+
+bool DeviceManager::hasFuse()
+{
+
+    if (dlsym(RTLD_DEFAULT, "fuse_mount") || dlsym(RTLD_DEFAULT, "fuse_main"))
+        return true;
+
+    // Optional: Check for the standard library path
+    /*
+    if (fs::exists("/usr/local/lib/libosxfuse.2.dylib") ||
+        fs::exists("/usr/local/lib/libfuse.2.dylib")) {
+        return true;
+        }
+    */
+
+    return false;
 }
 
 void

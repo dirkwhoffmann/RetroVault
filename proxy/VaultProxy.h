@@ -62,9 +62,9 @@ public:
 
 public:
 
-    // void open(const fs::path &url);
-    Q_INVOKABLE void add(const QUrl &imageFile);
+    Q_INVOKABLE bool hasFuse() const { return DeviceManager::hasFuse(); }
 
+    Q_INVOKABLE void add(const QUrl &imageFile);
     Q_INVOKABLE void remove(int deviceNr) { manager.remove(deviceNr); }
     Q_INVOKABLE void removeAll() { manager.removeAll(); }
 

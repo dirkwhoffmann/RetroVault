@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Backend
 
 Pane {
 
@@ -14,13 +15,16 @@ Pane {
         anchors.fill: parent
         spacing: Style.mediumSpacing
 
+        readonly property bool installed: Backend.hasFuse()
+
         Image {
             id: ledImage
-            source: "../assets/images/LEDred.png"
+            // source: "../assets/images/LEDred.png"
+            source: parent.installed ? "../assets/images/LEDgreen.png" : "../assets/images/LEDred.png"
             sourceSize: Qt.size(Style.iconSmall, Style.iconSmall)
         }
         Label {
-            text: "macFUSE not installed"
+            text: parent.installed ? "macFUSE installed" : "macFUSE not installed"
         }
 
         Item {  Layout.fillWidth: true } // Spacer
