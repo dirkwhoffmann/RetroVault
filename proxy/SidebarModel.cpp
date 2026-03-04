@@ -74,6 +74,7 @@ bool SidebarModel::hasChildren(const QModelIndex& parent) const
 QHash<int, QByteArray> SidebarModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles[IconSourceRole] = "iconSource";
     roles[TitleRole] = "title";
     roles[SubtitleRole] = "subtitle";
     roles[IsDeviceRole] = "isDevice";
@@ -90,6 +91,7 @@ QVariant SidebarModel::data(const QModelIndex& index, int role) const
 
     switch (role)
     {
+    case IconSourceRole: return item->iconSource;
     case TitleRole: return item->title;
     case SubtitleRole: return item->subtitle;
     case IsDeviceRole: return item->type == ItemType::DeviceItem;
@@ -109,6 +111,7 @@ void SidebarModel::refresh(VaultProxy& backend)
         SidebarItem dev;
         dev.type = ItemType::DeviceItem;
         auto info = backend.deviceInfo(i);
+        dev.iconSource = "floppy35_dd.png";
         dev.title = info.size() > 0 ? info[0] : "";
         dev.subtitle = info.size() > 1 ? info[1] : "";
         dev.deviceId = i;
@@ -121,6 +124,7 @@ void SidebarModel::refresh(VaultProxy& backend)
             vol.type = ItemType::VolumeItem;
 
             auto volInfo = backend.volumeInfo(i, j);
+            vol.iconSource = "volume_amiga";
             vol.title = volInfo.size() > 0 ? volInfo[0] : "";
             vol.subtitle = volInfo.size() > 1 ? volInfo[1] : "";
 

@@ -27,6 +27,7 @@ Item {
 
                 id: myDelegate
                 required property bool isDevice
+                required property string iconSource
                 required property string title
                 required property string subtitle
 
@@ -38,8 +39,8 @@ Item {
 
                     Image {
 
-                        source: current ? "../assets/images/LEDred.png" : "../assets/images/LEDgreen.png"
-                        sourceSize: Qt.size(18, 18)
+                        source: `../assets/images/${iconSource}`
+                        sourceSize: Qt.size(36, 36)
                         Layout.alignment: Qt.AlignVCenter
                     }
 

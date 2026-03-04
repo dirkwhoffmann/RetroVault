@@ -10,7 +10,7 @@
 #pragma once
 
 #include <QAbstractListModel>
-#include <QStringList>
+// #include <QStringList>
 #include <QVector>
 
 enum ItemType { DeviceItem, VolumeItem };
@@ -18,6 +18,7 @@ enum ItemType { DeviceItem, VolumeItem };
 // Tree node for the sidebar
 struct SidebarItem {
     ItemType type;                  // Device or Volume
+    QString iconSource;             // Image name
     QString title;                  // Display name
     QString subtitle;               // Optional extra info
     int deviceId = -1;              // Device index, for reference
@@ -33,7 +34,8 @@ class SidebarModel : public QAbstractItemModel
 
 public:
     enum DeviceRoles {
-        TitleRole = Qt::UserRole + 1,
+        IconSourceRole = Qt::UserRole + 1,
+        TitleRole,
         SubtitleRole,
         IsDeviceRole
     };
