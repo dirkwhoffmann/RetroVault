@@ -7,6 +7,7 @@ Item {
 
     property int deviceId: -1
     property int volumeId: -1
+    property var deviceInfo: []
 
     ColumnLayout {
 
@@ -23,8 +24,8 @@ Item {
             Header {
 
                 id: header
-                dev: deviceId
-                gridData: []
+                // dev: deviceId
+                gridData: deviceInfo // []
             }
         }
 
@@ -67,17 +68,13 @@ Item {
 
         if (deviceId !== -1) {
 
-            // Backend.selectDevice(deviceId)
-            /* let info = Backend.oldDeviceInfo(deviceId)
+            let info = Backend.getDeviceInfo(deviceId);
 
-            Backend.refreshBlockView(deviceId, blockView.blk)
-            header.gridData = [
-                [ info[0],  "Cylinders:",   "42", "     Blocks:", "10334" ],
-                [ info[1],  "Heads:",       "2", "      Block size:", "512" ],
-                [ "",       "Sectors:",     "16",       "" ]
-            ]
-
-             */
+            deviceInfo = [
+                [info.name, "Cylinders:", info.numCyls, "     Blocks:", info.numBlocks],
+                ["", "Heads:", info.numHeads, "      Block size:", info.bsize],
+                ["", "Sectors:", "TODO", ""] // or dev.maxSectors
+            ];
         }
     }
 

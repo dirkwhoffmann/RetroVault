@@ -10,8 +10,8 @@ Pane {
     anchors.fill: parent
     padding: 0
 
-    property int dev: -1
-    onDevChanged: updateData()
+    // property int dev: -1
+    // onDevChanged: updateData()
 
     property var gridData: []
 
@@ -87,6 +87,7 @@ Pane {
     // Functions
     //
 
+    /*
     function updateData() {
 
         if (dev < 0) return [];
@@ -99,4 +100,6 @@ Pane {
             ["", "Sectors:", "TODO", ""] // or dev.maxSectors
         ];
     }
+    */
+
 }
