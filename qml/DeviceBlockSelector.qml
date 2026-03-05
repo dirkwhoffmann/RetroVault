@@ -11,7 +11,8 @@ Frame {
     property int head: 0
     property int track: 0
     property int sector: 0
-    property int block: 0
+
+    property alias block: blockStepper.value
 
     anchors.fill: parent
     padding: 10
@@ -57,9 +58,9 @@ Frame {
         Item { Layout.fillWidth: true }
 
         LabeledStepper {
+            id: blockStepper
             label: "Block"
             from: 0; to: 1024
-            onValueChanged: updateBlock(value)
         }
     }
 
@@ -67,8 +68,10 @@ Frame {
         console.log("updateHead: " + value)
     }
 
+    /*
     function updateBlock(value) {
         console.log("updateBlock: " + value)
         block += 1
     }
+    */
 }

@@ -15,6 +15,7 @@ Item {
 
         Pane {
 
+            id: headerPane
             Layout.fillWidth: true
             topPadding: Style.largeSpacing
             leftPadding: Style.largeSpacing
@@ -28,6 +29,7 @@ Item {
 
         Pane {
 
+            id: blockSelectorPane
             Layout.fillWidth: true
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
@@ -39,6 +41,7 @@ Item {
 
         Pane {
 
+            id: blockViewPane
             Layout.fillHeight: true
             Layout.fillWidth: true
             leftPadding: Style.largeSpacing
@@ -49,6 +52,10 @@ Item {
                 id: blockView
                 dev: deviceId
                 blk: deviceBlockSelector.block
+
+                onBlkChanged: {
+                    console.log("onBlkChanged: " + blk)
+                }
             }
         }
     }
