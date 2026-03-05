@@ -6,7 +6,6 @@ RowLayout {
     id: control
     spacing: 4
 
-    // Properties to make the component functional
     property alias label: titleLabel.text
     property alias value: sb.value
     property alias from: sb.from

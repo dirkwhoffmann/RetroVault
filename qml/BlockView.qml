@@ -4,10 +4,20 @@ import QtQuick.Layouts
 import Backend
 
 Rectangle {
+
+    property int dev
+    onDevChanged: updateData()
+
+    property int blk
+    onBlkChanged: updateData()
+
+    function updateData() {
+
+        console.log("Fetching data for Cylinder: " + dev + ":" + blk)
+        Backend.refreshBlockView(dev, blk)
+    }
+
     anchors.fill: parent
-    // The background color will show through the cell
-    // spacing, and therefore become the grid line color.
-    // color: Application.styleHints.appearance === Qt.Light ? palette.mid : palette.midlight
 
     HorizontalHeaderView {
 
@@ -25,29 +35,20 @@ Rectangle {
         clip: true
     }
 
-    /*
-    VerticalHeaderView {
-        id: verticalHeader
-        anchors.top: tableView.top
-        anchors.left: parent.left
-        syncView: tableView
-        clip: true
-    }
-    */
-
     TableView {
 
         id: tableView
+        model: Backend.blockTableModel
         anchors.left: parent.left
         anchors.top: horizontalHeader.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        clip: true
-
         columnSpacing: 1
         rowSpacing: 1
+        clip: true
 
         columnWidthProvider: function (column) {
+
             let n = tableView.columns
             if (n === 0) return 0
 
@@ -69,114 +70,27 @@ Rectangle {
         onWidthChanged: tableView.forceLayout()
 
         ScrollBar.vertical: ScrollBar {
+
             policy: ScrollBar.AsNeeded
             active: true // Makes it visible when scrolling
         }
 
         ScrollBar.horizontal: ScrollBar {
+
             policy: ScrollBar.AsNeeded
             active: true
         }
 
-        model: Backend.blockTableModel
-
         delegate: Rectangle {
-            // implicitWidth: 100
+
             implicitHeight: 20
 
-            /*
-            Text {
-                text: display
-            }
-            */
             Label {
+
                 anchors.centerIn: parent
-                // Format as Hex: 00, FF, etc.
                 text: display
-                    /*typeof display === "number"
-                    ? display.toString(16).toUpperCase().padStart(2, '0')
-                    : display */
-
                 font: Style.mono
-                // color: column === 0 ? Style.primary : "black"
             }
         }
     }
 }
-
-/*
-
-import Qt.labs.qmlmodels // Required for TableModel
-
-Frame {
-    id: root
-    padding: 1 // 1px border around the table
-
-    // Example input: [ {addr: 0x0, d0: 0xFF...}, {addr: 0x1, d0: 0x00...} ]
-    property alias model: tableModel.rows
-
-    // 1. Define the Data Mapping
-    TableModel {
-        id: tableModel
-        TableModelColumn { display: "addr" }
-        TableModelColumn { display: "d0" }
-        TableModelColumn { display: "d1" }
-        TableModelColumn { display: "chk" }
-    }
-
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: 0
-
-        // 2. The Header (Manual row since TableView doesn't include one by default)
-        HorizontalHeaderView {
-            id: header
-            syncView: tableView
-            Layout.fillWidth: true
-            delegate: Rectangle {
-                implicitHeight: 30
-                color: Qt.rgba(0,0,0, 0.05)
-                border.color: Qt.rgba(0,0,0, 0.1)
-
-                Label {
-                    text: modelData // Names from TableModelColumn
-                    anchors.centerIn: parent
-                    font.pointSize: Style.small
-                    font.bold: true
-                }
-            }
-        }
-
-        // 3. The Table Body
-        TableView {
-            id: tableView
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
-            model: tableModel
-
-            // Fixed column widths for hex alignment
-            columnWidthProvider: function (column) { return tableView.width / 4; }
-
-            delegate: Rectangle {
-                implicitHeight: 32
-                color: (row % 2 === 0) ? "transparent" : Qt.rgba(0, 0, 0, 0.02)
-
-                Label {
-                    anchors.centerIn: parent
-                    // Format as Hex: 00, FF, etc.
-                    text: typeof display === "number"
-                        ? display.toString(16).toUpperCase().padStart(2, '0')
-                        : display
-
-                    font: Style.mono
-                    color: column === 0 ? Style.primary : "black"
-                }
-            }
-
-            ScrollIndicator.vertical: ScrollIndicator { }
-        }
-    }
-}
-
- */

@@ -22,14 +22,12 @@ class VaultProxy : public QObject {
 
     Q_OBJECT
 
-    // This makes the model accessible as 'Backend.deviceModel' in QML
-    Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel CONSTANT)
-    Q_PROPERTY(BlockTableModel* blockTableModel READ blockTableModel CONSTANT)
-
     DeviceManager manager;
-
     SidebarModel *m_sidebarModel;
     BlockTableModel *m_blockTableModel;
+
+    Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel CONSTANT)
+    Q_PROPERTY(BlockTableModel* blockTableModel READ blockTableModel CONSTANT)
 
     signals:
     void updateSidebar() const;
@@ -50,8 +48,8 @@ private:
 
 public:
 
-    void refreshSidebar() { m_sidebarModel->refresh(*this); }
-    void refreshBlockView() { m_blockTableModel->refresh(*this); }
+    Q_INVOKABLE void refreshSidebar() { m_sidebarModel->refresh(*this); }
+    Q_INVOKABLE void refreshBlockView(int dev, int blk) { m_blockTableModel->refresh(*this, dev, blk); }
 
     // Converts a C++ exception to a JS exception
     void rethrow(std::exception &e);
@@ -68,6 +66,16 @@ public:
     Q_INVOKABLE void remove(int deviceNr) { manager.remove(deviceNr); }
     Q_INVOKABLE void removeAll() { manager.removeAll(); }
 
+
+    //
+    // Block Table
+    //
+
+    int tmp = 0;
+    Q_INVOKABLE void updateBlockTableModel()
+    {
+        tmp++;
+    }
 
     //
     // Experimental

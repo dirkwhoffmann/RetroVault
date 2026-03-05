@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Backend 1.0
+import Backend
 
 Item {
 
@@ -46,6 +46,9 @@ Item {
             bottomPadding: Style.largeSpacing
             BlockView {
 
+                id: blockView
+                dev: deviceId
+                blk: deviceBlockSelector.block
             }
         }
     }
@@ -56,8 +59,9 @@ Item {
 
         if (deviceId !== -1) {
 
-            let info = Backend.deviceInfo(deviceId);
+            let info = Backend.deviceInfo(deviceId)
 
+            Backend.refreshBlockView(deviceId, blockView.blk)
             header.gridData = [
                 [ info[0],  "Cylinders:",   "42", "     Blocks:", "10334" ],
                 [ info[1],  "Heads:",       "2", "      Block size:", "512" ],

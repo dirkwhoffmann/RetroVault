@@ -17,6 +17,9 @@ class BlockTableModel : public QAbstractTableModel
     Q_OBJECT
     QML_ELEMENT
 
+    int dev = 0;
+    int blk = 0;
+
 public:
 
     explicit BlockTableModel(QObject *parent = nullptr);
@@ -26,5 +29,5 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void refresh(class VaultProxy &backend);
+    void refresh(class VaultProxy &backend, int dev, int blk);
 };

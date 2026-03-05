@@ -32,8 +32,8 @@ BlockTableModel::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case Qt::DisplayRole:
-        return QString::asprintf("%02X", index.column() + index.row());
-        // return QString("%1, %2").arg(index.column()).arg(index.row());
+        // return QString::asprintf("%02X", index.column() + index.row());
+        return QString::asprintf("%d:%d", dev, blk);
     default:
         break;
     }
@@ -48,7 +48,11 @@ BlockTableModel::roleNames() const
 }
 
 void
-BlockTableModel::refresh(class VaultProxy &backend)
+BlockTableModel::refresh(class VaultProxy &backend, int dev, int blk)
 {
-
+    this->dev = dev;
+    this->blk = blk;
+    printf("BlockTableModel::refresh: %d:%d\n", dev, blk);
+    beginResetModel();
+    endResetModel();
 }
