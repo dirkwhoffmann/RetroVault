@@ -5,7 +5,7 @@ import UsageDisplay
 
 ColumnLayout {
     anchors.fill: parent
-    spacing: 4 // Remove space so TabBar sits flush against the Frame
+    spacing: Style.smallSpacing
 
     // 1. TabBar is now outside the Frame
     TabBar {
@@ -46,7 +46,20 @@ ColumnLayout {
 
                         id: usageVisual
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 24
+                        Layout.preferredHeight: 18
+                    }
+
+                    Slider {
+                        id: blockSlider
+                        Layout.fillWidth: true
+                        from: 1
+                        value: 25
+                        to: 100
+                    }
+
+                    Legend {
+                        id: legend
+                        Layout.fillWidth: true
                     }
 
                     Item {
