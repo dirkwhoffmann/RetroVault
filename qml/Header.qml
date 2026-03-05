@@ -1,12 +1,17 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import Backend
+import DeviceInfo
 
 Pane {
 
     id: root
     anchors.fill: parent
     padding: 0
+
+    property int dev: -1
+    onDevChanged: updateData()
 
     property var gridData: []
 
@@ -77,82 +82,21 @@ Pane {
             }
         }
     }
-}
-/*
-Pane {
-    // id: root
-    anchors.fill: parent
-    padding: 24
 
-    background: Rectangle { color: "red" }
+    //
+    // Functions
+    //
 
+    function updateData() {
 
-    RowLayout {
-        anchors.fill: parent
-        spacing: 15
+        if (dev < 0) return [];
 
-        // 1. Fixed Size Image on the Left
-        Image {
-            id: headerIcon
-            source: "../assets/images/floppy35_dd.png"
-            sourceSize: Qt.size(80, 80)
-            Layout.preferredWidth: 80
-            Layout.preferredHeight: 80
-            fillMode: Image.PreserveAspectFit
-        }
+        let info = Backend.getDeviceInfo(dev);
 
-        // 2. Grid View for the rest of the space
-        GridLayout {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            columns: 6
-            rows: 4
-            columnSpacing: 10
-            rowSpacing: 2
-
-            // ROW 1: Spans all 6 columns
-            Label {
-                text: "Device Statistics & Information"
-                font.bold: true
-                font.pixelSize: 18
-                Layout.columnSpan: 6
-                Layout.fillWidth: true
-            }
-
-            // ROW 2: The Horizontal Line (Separator)
-            Rectangle {
-                height: 1
-                color: "#cccccc"
-                Layout.columnSpan: 6
-                Layout.fillWidth: true
-                Layout.topMargin: 2
-                Layout.bottomMargin: 5
-            }
-
-            // ROWS 3 & 4: Data Cells
-            // Column Pattern: [Right Aligned] [Left Aligned] [Right Aligned] [Left Aligned] ...
-
-            // --- Row 3 ---
-            Label { text: "Status:"; color: "#666"; Layout.alignment: Qt.AlignRight }
-            Label { text: "Connected"; font.bold: true; Layout.fillWidth: true }
-
-            Label { text: "Serial:"; color: "#666"; Layout.alignment: Qt.AlignRight }
-            Label { text: "REV-4092"; font.bold: true; Layout.fillWidth: true }
-
-            Label { text: "Uptime:"; color: "#666"; Layout.alignment: Qt.AlignRight }
-            Label { text: "12d 4h"; font.bold: true; Layout.fillWidth: true }
-
-            // --- Row 4 ---
-            Label { text: "Storage:"; color: "#666"; Layout.alignment: Qt.AlignRight }
-            Label { text: "1.2 TB / 4 TB"; font.bold: true; Layout.fillWidth: true }
-
-            Label { text: "Temp:"; color: "#666"; Layout.alignment: Qt.AlignRight }
-            Label { text: "42°C"; font.bold: true; Layout.fillWidth: true }
-
-            Label { text: "Link:"; color: "#666"; Layout.alignment: Qt.AlignRight }
-            Label { text: "10 Gbps"; font.bold: true; Layout.fillWidth: true }
-        }
+        gridData = [
+            [info.name, "Cylinders:", info.numCyls, "     Blocks:", info.numBlocks],
+            ["", "Heads:", info.numHeads, "      Block size:", info.bsize],
+            ["", "Sectors:", "TODO", ""] // or dev.maxSectors
+        ];
     }
 }
-
- */

@@ -116,7 +116,7 @@ void SidebarModel::refresh(VaultProxy& backend)
     {
         SidebarItem dev;
         dev.type = ItemType::DeviceItem;
-        auto info = backend.deviceInfo(i);
+        auto info = backend.oldDeviceInfo(i);
         dev.iconSource = "floppy35_dd.png";
         dev.title = info.size() > 0 ? info[0] : "";
         dev.subtitle = info.size() > 1 ? info[1] : "";

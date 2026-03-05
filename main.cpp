@@ -29,6 +29,9 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance<VaultProxy>("Backend", 1, 0, "Backend", &proxy);
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
                              "Retrovault.Signals", 1, 0, "UIController");
+    qmlRegisterUncreatableType<DeviceInfo>("DeviceInfo", 1, 0, "DeviceInfo",
+                                       "DeviceInfo is read-only and managed by C++");
+
     // Load the QML file
     const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

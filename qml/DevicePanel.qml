@@ -23,6 +23,7 @@ Item {
             Header {
 
                 id: header
+                dev: deviceId
                 gridData: []
             }
         }
@@ -66,7 +67,8 @@ Item {
 
         if (deviceId !== -1) {
 
-            let info = Backend.deviceInfo(deviceId)
+            // Backend.selectDevice(deviceId)
+            /* let info = Backend.oldDeviceInfo(deviceId)
 
             Backend.refreshBlockView(deviceId, blockView.blk)
             header.gridData = [
@@ -74,6 +76,8 @@ Item {
                 [ info[1],  "Heads:",       "2", "      Block size:", "512" ],
                 [ "",       "Sectors:",     "16",       "" ]
             ]
+
+             */
         }
     }
 

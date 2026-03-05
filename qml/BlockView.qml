@@ -5,8 +5,8 @@ import Backend
 
 Rectangle {
 
-    property int dev
-    onDevChanged: updateData()
+    property int dev: -1
+    onDevChanged: { console.log("onDevChanged " + dev); updateData() }
 
     property int blk
     onBlkChanged: updateData()

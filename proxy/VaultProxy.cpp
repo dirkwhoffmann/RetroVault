@@ -29,10 +29,7 @@ VaultProxy::VaultProxy(QObject* parent) : QObject(parent)
 
     m_sidebarModel = new SidebarModel(this);
     m_blockTableModel = new BlockTableModel(this);
-
-    // Initial data loading (or trigger this from a Refresh method)
-    // m_sidebarModel->addDevice("GitHub Disk", "Connected via USB", {"Repo_A", "Repo_B"});
-    // m_sidebarModel->addDevice("External SSD", "High Speed", {"Backups", "Work", "Media"});
+    m_deviceInfo = new DeviceInfo(this);
 }
 
 void
@@ -72,4 +69,34 @@ VaultProxy::add(const QUrl& imageFile)
     {
         rethrow(e);
     }
+}
+
+/*
+void
+VaultProxy::selectDevice(int deviceNr)
+{
+    printf("In selectDevice...\n");
+    m_deviceInfo->m_name = QString::fromStdString("Waldfee");
+    m_deviceInfo->m_numBlocks = deviceNr;
+    m_deviceInfo->m_bsize = deviceNr;
+    m_deviceInfo->m_numCyls = deviceNr;
+    m_deviceInfo->m_numHeads = deviceNr;
+    m_deviceInfo->m_format = DeviceInfo::Format::UNKNOWN;
+
+    emit deviceInfoChanged();
+}
+*/
+
+
+DeviceInfo *
+VaultProxy::getDeviceInfo(int deviceNr)
+{
+    m_deviceInfo->m_name = QString::fromStdString("Waldfee");
+    m_deviceInfo->m_numBlocks = deviceNr;
+    m_deviceInfo->m_bsize = deviceNr;
+    m_deviceInfo->m_numCyls = deviceNr;
+    m_deviceInfo->m_numHeads = deviceNr;
+    m_deviceInfo->m_format = DeviceInfo::Format::UNKNOWN;
+
+    return m_deviceInfo;
 }
