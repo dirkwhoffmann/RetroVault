@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import QtGraphs
 import Backend 1.0
+import "components"
 
 ApplicationWindow {
     visible: true

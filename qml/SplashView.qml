@@ -8,13 +8,13 @@ Item {
 
     FontLoader {
         id: brandFont
-        source: "../assets/fonts/SourceSans3-VariableFont_wght.ttf"
+        source: "qrc:/assets/fonts/SourceSans3-VariableFont_wght.ttf"
     }
 
     // Background Image
     Image {
         anchors.fill: parent
-        source: "../assets/images/splash.png"
+        source: "qrc:/assets/images/splash.png"
         fillMode: Image.PreserveAspectCrop
         opacity: 1.0
     }

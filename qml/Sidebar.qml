@@ -42,7 +42,7 @@ Item {
 
                     Image {
 
-                        source: `../assets/images/${iconSource}`
+                        source: `qrc:/assets/images/${iconSource}`
                         sourceSize: Qt.size(36, 36)
                         Layout.alignment: Qt.AlignVCenter
                     }

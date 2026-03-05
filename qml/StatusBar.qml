@@ -19,8 +19,8 @@ Pane {
 
         Image {
             id: ledImage
-            // source: "../assets/images/LEDred.png"
-            source: parent.installed ? "../assets/images/LEDgreen.png" : "../assets/images/LEDred.png"
+            // source: "qrc:/assets/images/LEDred.png"
+            source: parent.installed ? "qrc:/assets/images/LEDgreen.png" : "qrc:/assets/images/LEDred.png"
             sourceSize: Qt.size(Style.iconSmall, Style.iconSmall)
         }
         Label {
@@ -30,7 +30,7 @@ Pane {
         Item {  Layout.fillWidth: true } // Spacer
 
         IconLink {
-            iconSource: "../assets/icons/github.svg"
+            iconSource: "qrc:/assets/icons/github.svg"
             targetUrl: "https://dirkwhoffmann.github.io/vAmiga/"
         }
     }

@@ -29,7 +29,7 @@ Pane {
                 radius: 8
             }
             Image {
-                source: "../assets/images/floppy35_dd.png"
+                source: "qrc:/assets/images/floppy35_dd.png"
                 sourceSize: Qt.size(80, 80)
             }
         }

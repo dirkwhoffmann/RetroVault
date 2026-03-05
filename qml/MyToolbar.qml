@@ -49,7 +49,7 @@ ToolBar {
                 // 2. Put your "Burger Menu" inside this container
                 NavButton {
                     id: burgerButton
-                    icon.source: "../assets/icons/burger.svg"
+                    icon.source: "qrc:/assets/icons/burger.svg"
 
                     onClicked: burgerMenu.open()
 
@@ -71,14 +71,14 @@ ToolBar {
             }
         }
 
-        NavButton { icon.source: "../assets/icons/eject.svg" }
-        NavButton { icon.source: "../assets/icons/folder.svg" }
-        NavButton { icon.source: "../assets/icons/sync.svg" }
+        NavButton { icon.source: "qrc:/assets/icons/eject.svg" }
+        NavButton { icon.source: "qrc:/assets/icons/folder.svg" }
+        NavButton { icon.source: "qrc:/assets/icons/sync.svg" }
 
         Item { Layout.fillWidth: true } // Spacer
 
         NavButton {
-            icon.source: "../assets/icons/locked.svg"
+            icon.source: "qrc:/assets/icons/locked.svg"
         }
     }
 }

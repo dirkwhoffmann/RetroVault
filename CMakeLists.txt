@@ -68,9 +68,16 @@ list(TRANSFORM ASSET_RESOURCES REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
 set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 # Add all files
+
+qt_add_resources(retrovault "assets_files"
+        PREFIX "/assets"
+        BASE "assets"
+        FILES ${ASSET_RESOURCES}
+)
+
 qt_add_qml_module(retrovault
 
         URI retrovaultUI
         VERSION 1.0
-        QML_FILES ${QML_SOURCES}
-        RESOURCES ${ASSET_RESOURCES})
+        QML_FILES ${QML_SOURCES})
+        #RESOURCES ${ASSET_RESOURCES})

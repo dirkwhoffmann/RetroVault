@@ -15,7 +15,7 @@ GridLayout {
 
     // 1. Upper Left: Image
     Image {
-        source: "../assets/images/AppIcon.png"
+        source: "qrc:/assets/images/AppIcon.png"
         Layout.preferredWidth: 100
         Layout.preferredHeight: 100
         Layout.row: 0
