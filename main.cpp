@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
                              "Retrovault.Signals", 1, 0, "UIController");
     qmlRegisterUncreatableType<DeviceInfo>("DeviceInfo", 1, 0, "DeviceInfo",
                                        "DeviceInfo is read-only and managed by C++");
+    qmlRegisterType<UsageDisplay>("UsageDisplay", 1, 0, "UsageDisplay");
 
     // Load the QML file
     const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/qml/main.qml"));

@@ -44,7 +44,7 @@ ApplicationWindow {
                 } else if (volumeId == -1) {
                     mainStack.replace(devicePanel, {"deviceId": deviceId, "volumeId": volumeId});
                 } else {
-                    mainStack.replace(volumePanel, {"deviceId": deviceId, "volumeId": volumeId});
+                    mainStack.replace(volumePanel, {"devNr": deviceId, "volNr": volumeId});
                 }
             }
         }

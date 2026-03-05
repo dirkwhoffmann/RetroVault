@@ -4,4 +4,5 @@ target_sources(retrovault PRIVATE
         BlockTableModel.cpp
         SidebarModel.cpp
         DeviceInfo.cpp
+        UsageDisplay.cpp
         VaultProxy.cpp)

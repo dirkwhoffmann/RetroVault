@@ -18,6 +18,7 @@
 #include "SidebarModel.h"
 #include "BlockTableModel.h"
 #include "DeviceInfo.h"
+#include "UsageDisplay.h"
 
 class VaultProxy : public QObject {
 
