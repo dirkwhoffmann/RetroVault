@@ -12,9 +12,9 @@
 #include "QmlAdapterTypes.h"
 #include "DeviceManager.h"
 #include "FuseDevice.h"
+#include "UsageDisplay.h"
 #include "SidebarModel.h"
 #include "BlockTableModel.h"
-#include "UsageDisplay.h"
 
 #include <QObject>
 #include <QStringList>
@@ -69,7 +69,7 @@ public:
 public:
 
     // General
-    Q_INVOKABLE bool hasFuse() const { return DeviceManager::hasFuse(); }
+    Q_INVOKABLE bool hasFuse() const { return false; } // CHANGE BACK ASAP return DeviceManager::hasFuse(); }
 
     // Adding and removing devices
     Q_INVOKABLE void add(const QUrl &imageFile);
@@ -90,11 +90,11 @@ public:
     }
 
     //
-    // Experimental
+    // Devices and Volumes
     //
 
-    Q_INVOKABLE int deviceCount() { return 4; }
-    Q_INVOKABLE int volumeCount(int devNr) { return devNr + 1; }
+    Q_INVOKABLE int deviceCount() { return manager.numDevices(); }
+    Q_INVOKABLE int volumeCount(int devNr) { return manager.getDevice(devNr).count(); }
     Q_INVOKABLE QStringList oldDeviceInfo(int devNr)
     {
         QStringList list;

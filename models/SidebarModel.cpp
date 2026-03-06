@@ -1,16 +1,11 @@
-// -----------------------------------------------------------------------------
-// This file is part of RetroVault
 //
-// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
-// Licensed under the Mozilla Public License v2
+// Created by Dirk Hoffmann on 06.03.26.
 //
-// See https://mozilla.org/MPL/2.0 for license information
-// -----------------------------------------------------------------------------
 
 #include "SidebarModel.h"
+#include "QmlAdapterTypes.h"
 #include "QmlAdapter.h"
 
-/*
 SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
 {
 }
@@ -145,4 +140,3 @@ void SidebarModel::refresh(QmlAdapter& backend)
 
     endResetModel();
 }
-*/

@@ -89,6 +89,8 @@ public:
 
 public:
 
+    isize numDevices() { return devices.size(); }
+    // isize numVolumes(isize deviceNr) { return devices[deviceNr]->count(); }
     FuseDevice &getDevice(isize deviceNr);
 
 

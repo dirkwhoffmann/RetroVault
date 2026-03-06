@@ -64,32 +64,19 @@ QmlAdapter::add(const QUrl& imageFile)
     }
 }
 
-/*
-void
-VaultProxy::selectDevice(int deviceNr)
-{
-    printf("In selectDevice...\n");
-    m_deviceInfo->m_name = QString::fromStdString("Waldfee");
-    m_deviceInfo->m_numBlocks = deviceNr;
-    m_deviceInfo->m_bsize = deviceNr;
-    m_deviceInfo->m_numCyls = deviceNr;
-    m_deviceInfo->m_numHeads = deviceNr;
-    m_deviceInfo->m_format = DeviceInfo::Format::UNKNOWN;
-
-    emit deviceInfoChanged();
-}
-*/
-
-
 DeviceInfo *
 QmlAdapter::getDeviceInfo(int deviceNr)
 {
-    m_deviceInfo->m_name = QString::fromStdString("Waldfee");
-    m_deviceInfo->m_numBlocks = deviceNr;
-    m_deviceInfo->m_bsize = deviceNr;
-    m_deviceInfo->m_numCyls = deviceNr;
-    m_deviceInfo->m_numHeads = deviceNr;
-    m_deviceInfo->m_format = DeviceInfo::Format::UNKNOWN;
+    auto &device = manager.getDevice(deviceNr);
+    auto *image = device.getImage();
+    auto &path = image->path;
+
+    m_deviceInfo->m_name = QString::fromStdString(path.string());
+    m_deviceInfo->m_numBlocks = int(image->numBlocks());
+    m_deviceInfo->m_bsize = int(image->bsize());
+    m_deviceInfo->m_numCyls = int(image->numCyls());
+    m_deviceInfo->m_numHeads = int(image->numHeads());
+    m_deviceInfo->m_format = DeviceInfo::Format(image->format());
 
     return m_deviceInfo;
 }
