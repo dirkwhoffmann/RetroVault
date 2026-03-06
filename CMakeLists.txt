@@ -25,7 +25,7 @@ add_executable(retrovault
 
 add_subdirectory(utlib)
 add_subdirectory(rvlib)
-add_subdirectory(proxy)
+add_subdirectory(adapter)
 add_subdirectory(backend)
 
 target_include_directories(retrovault PRIVATE

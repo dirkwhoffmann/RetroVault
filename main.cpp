@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Fusion");
     QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
-    // Make the proxy available in QML
+    // Make the adapter available in QML
     VaultProxy proxy(&app);
 
     // engine.rootContext()->setContextProperty("proxy", &proxy);
