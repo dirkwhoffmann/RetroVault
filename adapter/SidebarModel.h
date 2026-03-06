@@ -7,6 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+/*
 #pragma once
 
 #include <QAbstractListModel>
@@ -58,3 +59,4 @@ private:
 
     QVector<SidebarItem> m_devices;
 };
+*/

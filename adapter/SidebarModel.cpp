@@ -10,6 +10,7 @@
 #include "SidebarModel.h"
 #include "QmlAdapter.h"
 
+/*
 SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
 {
 }
@@ -144,3 +145,4 @@ void SidebarModel::refresh(QmlAdapter& backend)
 
     endResetModel();
 }
+*/

@@ -23,14 +23,16 @@ class QmlAdapter : public QObject {
 
     Q_OBJECT
 
+    // Gateway to the C++ code
     DeviceManager manager;
+
     SidebarModel *m_sidebarModel;
     BlockTableModel *m_blockTableModel;
     DeviceInfo *m_deviceInfo;
 
     Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel CONSTANT)
     Q_PROPERTY(BlockTableModel* blockTableModel READ blockTableModel CONSTANT)
-    Q_PROPERTY(DeviceInfo* deviceInfo READ deviceInfo NOTIFY deviceInfoChanged)
+    Q_PROPERTY(DeviceInfo* deviceInfo READ deviceInfo CONSTANT)
 
     signals:
     void updateSidebar() const;

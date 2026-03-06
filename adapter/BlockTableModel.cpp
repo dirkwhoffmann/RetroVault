@@ -10,6 +10,7 @@
 #include "BlockTableModel.h"
 #include "QmlAdapter.h"
 
+/*
 BlockTableModel::BlockTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
 
@@ -56,3 +57,4 @@ BlockTableModel::refresh(class QmlAdapter &backend, int dev, int blk)
     beginResetModel();
     endResetModel();
 }
+*/

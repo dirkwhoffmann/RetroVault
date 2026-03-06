@@ -38,13 +38,6 @@ QmlAdapter::processMsg(int value) const
     static int count = 0;
 
     printf("processMsg %d\n", count++);
-
-    // Rebuild the sidebar
-
-
-    // Improvement: Dispatch to a specific sub function
-    updateCanvas();
-    updateSidebar();
 }
 
 void

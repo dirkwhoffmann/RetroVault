@@ -7,6 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+/*
 #pragma once
 
 #include <qqml.h>
@@ -31,3 +32,4 @@ public:
 
     void refresh(class QmlAdapter &backend, int dev, int blk);
 };
+*/
