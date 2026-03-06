@@ -112,12 +112,12 @@ void SidebarModel::refresh(QmlAdapter& backend)
     {
         auto &device = backend.manager.getDevice(i);
         auto ddescr = device.describe();
-
+        auto filename = device.image->path.filename().string();
         SidebarItem dev;
         dev.type = ItemType::DeviceItem;
         dev.iconSource = "floppy35_dd.png";
-        dev.title = QString::fromStdString(ddescr.size() > 0 ? ddescr[0] : "");
-        dev.subtitle = QString::fromStdString(ddescr.size() > 1 ? ddescr[1] : "");
+        dev.title = QString::fromStdString(filename);
+        dev.subtitle = QString::fromStdString(ddescr.size() > 1 ? ddescr[0] : "");
         dev.deviceId = i;
         dev.volumeId = -1;
 

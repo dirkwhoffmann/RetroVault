@@ -157,11 +157,13 @@ FileSystem::dumpBlocks(std::ostream &os) const noexcept
 vector<string>
 FileSystem::describe() const noexcept
 {
-    return {
-        
-        traits.ofs() ? "Original File System (OFS)" :
-        traits.ffs() ? "Fast File System (FFS)" : "Unknown File System"
-    };
+    if (traits.ofs())
+        return { "Amiga File System", "OFS" };
+
+    if (traits.ffs())
+        return { "Amiga File System", "FFS" };
+
+    return { "Unknown File System" };
 }
 
 bool
