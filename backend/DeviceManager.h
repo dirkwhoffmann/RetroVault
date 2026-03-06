@@ -59,7 +59,7 @@ class DeviceManager : Loggable {
     AdapterCallback *callback = nullptr;
 
     // Payload send to message receiver
-    const void *listener = nullptr;
+    void *listener = nullptr;
 
 
     //

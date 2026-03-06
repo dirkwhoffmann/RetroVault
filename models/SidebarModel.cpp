@@ -110,12 +110,14 @@ void SidebarModel::refresh(QmlAdapter& backend)
 
     for (int i = 0; i < devCnt; i++)
     {
+        auto &device = backend.manager.getDevice(i);
+        auto ddescr = device.describe();
+
         SidebarItem dev;
         dev.type = ItemType::DeviceItem;
-        auto info = backend.oldDeviceInfo(i);
         dev.iconSource = "floppy35_dd.png";
-        dev.title = info.size() > 0 ? info[0] : "";
-        dev.subtitle = info.size() > 1 ? info[1] : "";
+        dev.title = QString::fromStdString(ddescr.size() > 0 ? ddescr[0] : "");
+        dev.subtitle = QString::fromStdString(ddescr.size() > 1 ? ddescr[1] : "");
         dev.deviceId = i;
         dev.volumeId = -1;
 
@@ -123,13 +125,14 @@ void SidebarModel::refresh(QmlAdapter& backend)
 
         for (int j = 0; j < volCnt; j++)
         {
+            auto &volume = device.getVolume(i);
+            auto vdescr = volume.describe();
+
             SidebarItem vol;
             vol.type = ItemType::VolumeItem;
-
-            auto volInfo = backend.volumeInfo(i, j);
             vol.iconSource = "volume_amiga";
-            vol.title = volInfo.size() > 0 ? volInfo[0] : "";
-            vol.subtitle = volInfo.size() > 1 ? volInfo[1] : "";
+            vol.title = QString::fromStdString(vdescr.size() > 0 ? vdescr[0] : "");
+            vol.subtitle = QString::fromStdString(vdescr.size() > 1 ? vdescr[1] : "");
             vol.deviceId = i;
             vol.volumeId = j;
             dev.children.append(vol);

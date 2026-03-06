@@ -15,20 +15,25 @@
 using retro::vault::image::ADFFile;
 using retro::vault::image::D64File;
 
-FuseDevice::FuseDevice(const fs::path &filename)
+FuseDevice::FuseDevice(const fs::path &path)
 {
-    loginfo(FUSE_DEBUG, "Scanning image %s...\n", filename.string().c_str());
+    printf("path = %s\n", path.c_str());
+
+    loginfo(FUSE_DEBUG, "Scanning image %s...\n", path.string().c_str());
+
+    if (!utl::fileExists(path))
+        throw IOError(IOError::FILE_NOT_FOUND, path.string());
 
     ImageFormat format = ImageFormat::UNKNOWN;
-    if (auto info = DiskImage::about(filename))
+    if (auto info = DiskImage::about(path))
         format = info->format;
 
     loginfo(FUSE_DEBUG, "Format: %s\n", ImageFormatEnum::key(format));
 
     switch (format) {
             
-        case ImageFormat::ADF: makeVolumeFor<ADFFile,FuseAmigaVolume>(filename); break;
-        case ImageFormat::D64: makeVolumeFor<D64File,FuseCBMVolume>(filename); break;
+        case ImageFormat::ADF: makeVolumeFor<ADFFile,FuseAmigaVolume>(path); break;
+        case ImageFormat::D64: makeVolumeFor<D64File,FuseCBMVolume>(path); break;
 
         default:
             throw IOError(IOError::FILE_TYPE_UNSUPPORTED);
@@ -76,7 +81,7 @@ FuseDevice::~FuseDevice()
 }
 
 void
-FuseDevice::setListener(const void *listener, AdapterCallback *callback)
+FuseDevice::setListener(void *listener, AdapterCallback *callback)
 {
     for (auto &volume : volumes) volume->setListener(listener, callback);
 }

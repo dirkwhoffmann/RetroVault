@@ -13,17 +13,11 @@
 
 QmlAdapter::QmlAdapter(QObject* parent) : QObject(parent)
 {
-    manager.setListener(this, [](const void* context, int value)
+    manager.setListener(this, [](void* context, int value)
     {
-        // 1. Cast to the known type (still const)
-        auto* self = static_cast<const QmlAdapter*>(context);
+        auto* self = static_cast<QmlAdapter*>(context);
 
-        // 2. Cast away the const-ness to get a mutable pointer
-        // auto* self = const_cast<VaultProxy*>(constSelf);
-
-        // Now you can call methods on 'self'
         printf("In callback handler...\n");
-        // self->handleCallback(value);
         self->processMsg(value);
     });
 
@@ -33,11 +27,13 @@ QmlAdapter::QmlAdapter(QObject* parent) : QObject(parent)
 }
 
 void
-QmlAdapter::processMsg(int value) const
+QmlAdapter::processMsg(int value)
 {
     static int count = 0;
 
     printf("processMsg %d\n", count++);
+
+    refreshSidebar();
 }
 
 void
@@ -53,9 +49,15 @@ QmlAdapter::rethrow(std::exception& e)
 void
 QmlAdapter::add(const QUrl& imageFile)
 {
+    QFile file(imageFile.toLocalFile());
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Error Code:" << file.error();
+        qDebug() << "Error String:" << file.errorString();
+    }
+
     try
     {
-        printf("proxy::add\n");
+        printf("proxy::add(%s)\n", imageFile.toLocalFile().toStdString().c_str());
         manager.add(imageFile.toLocalFile().toStdString());
     }
     catch (std::exception& e)

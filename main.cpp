@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "QmlAdapter.h"
+#include "UsageDisplay.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>

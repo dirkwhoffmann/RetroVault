@@ -22,7 +22,7 @@ constexpr long NULLDEV            = 0;
 constexpr long STDERR             = 1;
 
 // General
-constexpr long FUSE_DEBUG         = 0;
+constexpr long FUSE_DEBUG         = 1;
 
 // Image files
 constexpr long FS_DEBUG           = 0;

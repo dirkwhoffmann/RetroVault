@@ -37,10 +37,10 @@ public:
     AdapterCallback *callback = nullptr;
 
     // Payload send to message receiver
-    const void *listener = nullptr;
+    void *listener = nullptr;
 
     // Registers a listener together with it's callback function
-    void setListener(const void *listener, AdapterCallback *func);
+    void setListener(void *listener, AdapterCallback *func);
     
 private:
 

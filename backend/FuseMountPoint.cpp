@@ -38,7 +38,7 @@ FuseMountPoint::callbacks = {
 };
 
 void
-FuseMountPoint::setListener(const void *listener, AdapterCallback *callback)
+FuseMountPoint::setListener(void *listener, AdapterCallback *callback)
 {
     this->listener = listener;
     this->callback = callback;

@@ -12,7 +12,6 @@
 #include "QmlAdapterTypes.h"
 #include "DeviceManager.h"
 #include "FuseDevice.h"
-#include "UsageDisplay.h"
 #include "SidebarModel.h"
 #include "BlockTableModel.h"
 
@@ -22,9 +21,6 @@
 class QmlAdapter : public QObject {
 
     Q_OBJECT
-
-    // Gateway to the C++ code
-    DeviceManager manager;
 
     SidebarModel *m_sidebarModel;
     BlockTableModel *m_blockTableModel;
@@ -41,15 +37,18 @@ class QmlAdapter : public QObject {
 
 public:
 
+    // Gateway to the C++ code
+    DeviceManager manager;
+
     explicit QmlAdapter(QObject *parent = nullptr);
+
+private:
 
     SidebarModel* sidebarModel() const { return m_sidebarModel; }
     BlockTableModel* blockTableModel() const { return m_blockTableModel; }
     DeviceInfo* deviceInfo() const { return m_deviceInfo; }
 
-private:
-
-    void processMsg(int value) const;
+    void processMsg(int value);
 
 public:
 
@@ -95,37 +94,6 @@ public:
 
     Q_INVOKABLE int deviceCount() { return manager.numDevices(); }
     Q_INVOKABLE int volumeCount(int devNr) { return manager.getDevice(devNr).count(); }
-    Q_INVOKABLE QStringList oldDeviceInfo(int devNr)
-    {
-        QStringList list;
-
-        switch (devNr)
-        {
-        case 0: list << QStringLiteral("Boulder Dash") << QStringLiteral("C64 Floppy Disk"); break;
-        case 1: list << QStringLiteral("Return of the Camels") << QStringLiteral("Amiga Floppy Disk"); break;
-        case 2: list << QStringLiteral("Batman Returns") << QStringLiteral("Atari ST Floppy Disk"); break;
-        case 3: list << QStringLiteral("Summer Games") << QStringLiteral("C64 Floppy Disk"); break;
-        default: list << QStringLiteral("???"); break;
-        }
-
-        return list;
-    }
-
-    Q_INVOKABLE QStringList volumeInfo(int devNr, int volNr)
-    {
-        QStringList list;
-
-        switch (volNr)
-        {
-        case 0: list << QStringLiteral("/Volumes/BoulderDash") << QStringLiteral("Amiga FFS"); break;
-        case 1: list << QStringLiteral("/Volumes/EvilCamels") << QStringLiteral("Amiga OFS"); break;
-        case 2: list << QStringLiteral("/Volumes/Batman") << QStringLiteral("Amiga FFS"); break;
-        case 3: list << QStringLiteral("/Volumes/EvilCamels") << QStringLiteral("Commodore CBM"); break;
-        default: list << QStringLiteral("???"); break;
-        }
-
-        return list;
-    }
 
     // --- The "Action" API ---
 

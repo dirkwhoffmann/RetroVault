@@ -1,4 +1,3 @@
-// CustomToolbar.qml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -8,6 +7,7 @@ import Backend
 ToolBar {
 
     FileDialog {
+
         id: fileDialog
         title: "Please choose a file"
         // currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
@@ -30,12 +30,12 @@ ToolBar {
     implicitHeight: 40
 
     RowLayout {
-        // Use anchors to stick to the edges, but let height be implicit
+
         anchors.fill: parent
         spacing: Style.mediumSpacing
 
-        // 1. Create a container that exactly matches the Sidebar width
         Item {
+
             Layout.preferredWidth: sidebarWidth + 1
             Layout.fillHeight: true
 
@@ -46,8 +46,8 @@ ToolBar {
                     Layout.fillWidth: true
                 }
 
-                // 2. Put your "Burger Menu" inside this container
                 NavButton {
+
                     id: burgerButton
                     icon.source: "qrc:/assets/icons/burger.svg"
 
@@ -55,10 +55,10 @@ ToolBar {
 
                     Menu {
                         id: burgerMenu
-                        y: burgerButton.height // Appear directly below the button
+                        y: burgerButton.height
 
                         MenuItem {
-                            text: qsTr("Add Image")
+                            text: "Add Image"
                             onTriggered: fileDialog.open()
                         }
                     }

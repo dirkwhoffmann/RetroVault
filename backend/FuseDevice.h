@@ -37,11 +37,11 @@ class FuseDevice : Loggable {
 
 public:
 
-    FuseDevice(const fs::path &filename);
+    FuseDevice(const fs::path &path);
     ~FuseDevice();
     
     // Registers a listener together with it's callback function
-    void setListener(const void *listener, AdapterCallback *func);
+    void setListener(void* listener, AdapterCallback* callback);
 
 private:
     
