@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "SidebarModel.h"
-#include "VaultProxy.h"
+#include "QmlAdapter.h"
 
 SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
 {
@@ -105,7 +105,7 @@ QVariant SidebarModel::data(const QModelIndex& index, int role) const
     }
 }
 
-void SidebarModel::refresh(VaultProxy& backend)
+void SidebarModel::refresh(QmlAdapter& backend)
 {
     beginResetModel();
     m_devices.clear();

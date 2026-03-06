@@ -7,16 +7,16 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "VaultProxy.h"
+#include "QmlAdapter.h"
 #include <QQmlEngine>
 #include <QQmlContext>
 
-VaultProxy::VaultProxy(QObject* parent) : QObject(parent)
+QmlAdapter::QmlAdapter(QObject* parent) : QObject(parent)
 {
     manager.setListener(this, [](const void* context, int value)
     {
         // 1. Cast to the known type (still const)
-        auto* self = static_cast<const VaultProxy*>(context);
+        auto* self = static_cast<const QmlAdapter*>(context);
 
         // 2. Cast away the const-ness to get a mutable pointer
         // auto* self = const_cast<VaultProxy*>(constSelf);
@@ -33,7 +33,7 @@ VaultProxy::VaultProxy(QObject* parent) : QObject(parent)
 }
 
 void
-VaultProxy::processMsg(int value) const
+QmlAdapter::processMsg(int value) const
 {
     static int count = 0;
 
@@ -48,7 +48,7 @@ VaultProxy::processMsg(int value) const
 }
 
 void
-VaultProxy::rethrow(std::exception& e)
+QmlAdapter::rethrow(std::exception& e)
 {
     assert(qmlEngine(this));
 
@@ -58,7 +58,7 @@ VaultProxy::rethrow(std::exception& e)
 }
 
 void
-VaultProxy::add(const QUrl& imageFile)
+QmlAdapter::add(const QUrl& imageFile)
 {
     try
     {
@@ -89,7 +89,7 @@ VaultProxy::selectDevice(int deviceNr)
 
 
 DeviceInfo *
-VaultProxy::getDeviceInfo(int deviceNr)
+QmlAdapter::getDeviceInfo(int deviceNr)
 {
     m_deviceInfo->m_name = QString::fromStdString("Waldfee");
     m_deviceInfo->m_numBlocks = deviceNr;

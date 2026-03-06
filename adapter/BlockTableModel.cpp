@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "BlockTableModel.h"
-#include "VaultProxy.h"
+#include "QmlAdapter.h"
 
 BlockTableModel::BlockTableModel(QObject* parent) : QAbstractTableModel(parent)
 {
@@ -48,7 +48,7 @@ BlockTableModel::roleNames() const
 }
 
 void
-BlockTableModel::refresh(class VaultProxy &backend, int dev, int blk)
+BlockTableModel::refresh(class QmlAdapter &backend, int dev, int blk)
 {
     this->dev = dev;
     this->blk = blk;

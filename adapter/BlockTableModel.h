@@ -29,5 +29,5 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void refresh(class VaultProxy &backend, int dev, int blk);
+    void refresh(class QmlAdapter &backend, int dev, int blk);
 };

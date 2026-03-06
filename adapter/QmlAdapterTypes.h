@@ -8,7 +8,19 @@ class DeviceInfo : public QObject {
 
     Q_OBJECT
 
-    // Exposed to QML
+public:
+
+    enum Format { ADF, ADZ, EADF, DMS, HDF, HDZ, IMG, ST, D64, UNKNOWN };
+
+    // Members
+    QString m_name;
+    int m_numBlocks = 0;
+    int m_bsize = 512;
+    int m_numCyls = 0;
+    int m_numHeads = 0;
+    Format m_format = UNKNOWN;
+
+    // QML Properties
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(int numBlocks READ numBlocks CONSTANT)
     Q_PROPERTY(int bsize READ bsize CONSTANT)
@@ -16,13 +28,12 @@ class DeviceInfo : public QObject {
     Q_PROPERTY(int numHeads READ numHeads CONSTANT)
     Q_PROPERTY(int format READ format CONSTANT) // Use an Enum
 
-    // Computed Properties (Helpers for QML)
+    // Computed QML Properties
     Q_PROPERTY(long long totalBytes READ totalBytes CONSTANT)
 
-public:
-
-    enum Format { ADF, ADZ, EADF, DMS, HDF, HDZ, IMG, ST, D64, UNKNOWN };
     Q_ENUM(Format)
+
+public:
 
     explicit DeviceInfo(QObject *parent = nullptr) : QObject(parent) {}
 
@@ -34,11 +45,4 @@ public:
     int numHeads() const { return m_numHeads; }
     int format() const { return m_format; }
     long long totalBytes() const { return (long long)m_numBlocks * m_bsize; }
-
-    QString m_name;
-    int m_numBlocks = 0;
-    int m_bsize = 512;
-    int m_numCyls = 0;
-    int m_numHeads = 0;
-    Format m_format = UNKNOWN;
 };

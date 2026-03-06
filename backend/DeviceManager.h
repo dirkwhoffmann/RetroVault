@@ -49,7 +49,7 @@ using namespace retro::vault;
 
 class DeviceManager : Loggable {
 
-    friend class VaultProxy;
+    friend class QmlAdapter;
     friend class SidebarModel;
 
     // Device database

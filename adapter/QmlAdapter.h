@@ -9,18 +9,17 @@
 
 #pragma once
 
-#include <QObject>
-#include <QStringList>
-#include <QUrl>
-
+#include "QmlAdapterTypes.h"
 #include "DeviceManager.h"
 #include "FuseDevice.h"
 #include "SidebarModel.h"
 #include "BlockTableModel.h"
-#include "DeviceInfo.h"
 #include "UsageDisplay.h"
 
-class VaultProxy : public QObject {
+#include <QObject>
+#include <QStringList>
+
+class QmlAdapter : public QObject {
 
     Q_OBJECT
 
@@ -40,13 +39,11 @@ class VaultProxy : public QObject {
 
 public:
 
-    explicit VaultProxy(QObject *parent = nullptr);
+    explicit QmlAdapter(QObject *parent = nullptr);
 
     SidebarModel* sidebarModel() const { return m_sidebarModel; }
     BlockTableModel* blockTableModel() const { return m_blockTableModel; }
     DeviceInfo* deviceInfo() const { return m_deviceInfo; }
-
-//    Q_INVOKABLE void init();
 
 private:
 

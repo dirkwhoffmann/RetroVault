@@ -7,7 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "VaultProxy.h"
+#include "QmlAdapter.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
@@ -23,10 +23,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
     // Make the adapter available in QML
-    VaultProxy proxy(&app);
+    QmlAdapter proxy(&app);
 
     // engine.rootContext()->setContextProperty("proxy", &proxy);
-    qmlRegisterSingletonInstance<VaultProxy>("Backend", 1, 0, "Backend", &proxy);
+    qmlRegisterSingletonInstance<QmlAdapter>("Backend", 1, 0, "Backend", &proxy);
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
                              "Retrovault.Signals", 1, 0, "UIController");
     qmlRegisterUncreatableType<DeviceInfo>("DeviceInfo", 1, 0, "DeviceInfo",

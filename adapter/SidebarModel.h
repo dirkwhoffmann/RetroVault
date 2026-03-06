@@ -52,7 +52,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     bool hasChildren(const QModelIndex &parent) const override;
 
-    void refresh(class VaultProxy &backend);
+    void refresh(class QmlAdapter &backend);
 
 private:
 
