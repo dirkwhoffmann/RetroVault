@@ -26,6 +26,7 @@ add_executable(retrovault
 add_subdirectory(utlib)
 add_subdirectory(rvlib)
 add_subdirectory(adapter)
+add_subdirectory(controllers)
 add_subdirectory(models)
 add_subdirectory(backend)
 
