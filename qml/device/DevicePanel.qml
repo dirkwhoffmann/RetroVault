@@ -70,6 +70,7 @@ Item {
 
             let info = Backend.getDeviceInfo(deviceId);
 
+            header.title = info.name
             deviceInfo = [
                 [info.name, "Cylinders:", info.numCyls, "     Blocks:", info.numBlocks],
                 ["", "Heads:", info.numHeads, "      Block size:", info.bsize],

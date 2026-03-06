@@ -10,17 +10,17 @@ Pane {
     anchors.fill: parent
     padding: 0
 
-    // property int dev: -1
-    // onDevChanged: updateData()
-
+    property var title: "TODO"
     property var gridData: []
 
     readonly property int gridColumns: gridData.length > 0 ? gridData[0].length : 1
 
     contentItem: RowLayout {
+
         spacing: 15
 
         Frame {
+
             Layout.alignment: Qt.AlignTop
             background: Rectangle {
                 color: Qt.rgba(0, 0, 0, 0.03) // Subtle darkening tint
@@ -28,7 +28,9 @@ Pane {
                 border.width: 2
                 radius: 8
             }
+
             Image {
+
                 source: "qrc:/assets/images/floppy35_dd.png"
                 sourceSize: Qt.size(80, 80)
             }
@@ -45,7 +47,7 @@ Pane {
             // First row: Spans all columns
             Label {
 
-                text: "/Home/Users/My very great image.adf"
+                text: title
                 font.pointSize: Style.regular
                 font.weight: Style.weightBold
                 Layout.columnSpan: gridColumns

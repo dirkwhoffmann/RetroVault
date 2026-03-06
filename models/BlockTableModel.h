@@ -12,8 +12,10 @@ class BlockTableModel : public QAbstractTableModel
     Q_OBJECT
     QML_ELEMENT
 
+    class QmlAdapter *backend = nullptr;
     int dev = 0;
     int blk = 0;
+    int bsize = 0;
 
 public:
 
@@ -24,5 +26,5 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void refresh(class QmlAdapter &backend, int dev, int blk);
+    void refresh(QmlAdapter &backend, int dev, int blk);
 };

@@ -44,7 +44,7 @@ public:
     Q_PROPERTY(int bsize READ bsize CONSTANT)
     Q_PROPERTY(int numCyls READ numCyls CONSTANT)
     Q_PROPERTY(int numHeads READ numHeads CONSTANT)
-    Q_PROPERTY(int format READ format CONSTANT) // Use an Enum
+    Q_PROPERTY(int format READ format CONSTANT)
 
     // Computed QML Properties
     Q_PROPERTY(long long totalBytes READ totalBytes CONSTANT)
