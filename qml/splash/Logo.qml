@@ -15,6 +15,7 @@ GridLayout {
 
     // 1. Upper Left: Image
     Image {
+
         source: "qrc:/assets/images/AppIcon.png"
         Layout.preferredWidth: 100
         Layout.preferredHeight: 100
@@ -24,12 +25,13 @@ GridLayout {
 
     // 2. Upper Right: Multi-line Text
     ColumnLayout {
+
         Layout.alignment: Qt.AlignTop // | Qt.AlignLeft
         // spacing: 5
         Label {
             text: "Retro Vault"
             font.pixelSize: 38
-            font.family: brandFont.name
+            font.family: logoFont.name
             font.weight: 700 // Font.Bold
             // font.bold: true
             color: palette.windowText

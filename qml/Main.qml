@@ -3,11 +3,14 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Effects
-import QtGraphs
+import RetroVault.Models
 import Backend 1.0
 import "components"
 
 ApplicationWindow {
+
+    property Model model
+
     visible: true
     width: 900
     height: 450
@@ -92,7 +95,7 @@ ApplicationWindow {
     // Component for the Splash Screen
     Component {
         id: splashPage
-        SplashView {}
+        SplashPanel {}
     }
 
     Component {

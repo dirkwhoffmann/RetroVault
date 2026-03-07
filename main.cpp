@@ -8,11 +8,14 @@
 // -----------------------------------------------------------------------------
 
 #include "QmlAdapter.h"
+#include "Model.h"
+#include "DeviceManager.h"
 #include "UsageDisplay.h"
+#include "DevicePanelController.h"
+#include "SplashPanelController.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
-#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +26,24 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle("Fusion");
     QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
-    // Make the adapter available in QML
+    // Register the QML model type
+    qmlRegisterUncreatableType<Model>("RetroVault.Models", 1, 0, "Model", "Cannot create in QML");
+
+    // Create the pure C++ model
+    DeviceManager* manager = new DeviceManager();
+
+    // 2. Wrap it in a QObject
+    Model* model = new Model(manager, &app);
+
+    // 3. Inject it as a context property
+    engine.rootContext()->setContextProperty("mainModel", model);
+
+    // Register types
+    qmlRegisterType<DevicePanelController>("RetroVault.Controllers", 1, 0, "DevicePanelController");
+    qmlRegisterType<SplashPanelController>("RetroVault.Controllers", 1, 0, "SplashPanelController");
+    // qmlRegisterType<DeviceManager>("RetroVault.Models", 1, 0, "DeviceManager");
+
+    // Make the adapter available in QML (DEPRECATED)
     QmlAdapter proxy(&app);
 
     // engine.rootContext()->setContextProperty("proxy", &proxy);

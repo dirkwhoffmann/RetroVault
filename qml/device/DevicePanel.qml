@@ -1,9 +1,16 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Backend
+import RetroVault.Controllers
+import Backend // DEPRECATED
 
 Item {
+
+    DevicePanelController {
+
+        id: controller
+        model: mainModel
+    }
 
     property int deviceId: -1
     property int volumeId: -1
@@ -24,7 +31,7 @@ Item {
             Header {
 
                 id: header
-                // dev: deviceId
+                title: controller.name
                 gridData: deviceInfo // []
             }
         }
@@ -57,6 +64,7 @@ Item {
 
                 onBlkChanged: {
                     console.log("onBlkChanged: " + blk)
+                    controller.start()
                 }
             }
         }
@@ -70,7 +78,7 @@ Item {
 
             let info = Backend.getDeviceInfo(deviceId);
 
-            header.title = info.name
+            // header.title = info.name
             deviceInfo = [
                 [info.name, "Cylinders:", info.numCyls, "     Blocks:", info.numBlocks],
                 ["", "Heads:", info.numHeads, "      Block size:", info.bsize],

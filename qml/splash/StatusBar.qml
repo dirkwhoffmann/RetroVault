@@ -1,9 +1,11 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Backend
+import RetroVault.Controllers
 
 Pane {
+
+    property SplashPanelController controller
 
     id: root
     anchors.fill: parent
@@ -15,12 +17,9 @@ Pane {
         anchors.fill: parent
         spacing: Style.mediumSpacing
 
-        readonly property bool installed: Backend.hasFuse()
-
         Image {
             id: ledImage
-            // source: "qrc:/assets/images/LEDred.png"
-            source: parent.installed ? "qrc:/assets/images/LEDgreen.png" : "qrc:/assets/images/LEDred.png"
+            source: controller.hasFuse() ? "qrc:/assets/images/LEDgreen.png" : "qrc:/assets/images/LEDred.png"
             sourceSize: Qt.size(Style.iconSmall, Style.iconSmall)
         }
         Label {

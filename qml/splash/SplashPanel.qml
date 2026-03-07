@@ -1,18 +1,25 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Controllers
 
 Item {
 
-    signal startClicked()
+    SplashPanelController {
+
+        id: controller
+        model: mainModel
+    }
 
     FontLoader {
-        id: brandFont
+
+        id: logoFont
         source: "qrc:/assets/fonts/SourceSans3-VariableFont_wght.ttf"
     }
 
     // Background Image
     Image {
+
         anchors.fill: parent
         source: "qrc:/assets/images/splash.png"
         fillMode: Image.PreserveAspectCrop
@@ -38,16 +45,6 @@ Item {
             }
         }
 
-        /*
-        Rectangle {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            color: "transparent"
-            clip: true
-            Logo { anchors.centerIn: parent }
-        }
-        */
-
         Pane {
 
             background: Rectangle { color: "transparent" }
@@ -55,7 +52,11 @@ Item {
             leftPadding: Style.mediumSpacing
             rightPadding: Style.mediumSpacing
             bottomPadding: Style.mediumSpacing
-            StatusBar { id: statusBar }
+            StatusBar {
+
+                id: statusBar
+                controller: controller
+            }
         }
     }
 }
