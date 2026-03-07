@@ -52,7 +52,7 @@ private:
 
 public:
 
-    Q_INVOKABLE void refreshSidebar() { m_sidebarModel->refresh(*this); }
+    // Q_INVOKABLE void refreshSidebar() { m_sidebarModel->refresh(*this); }
     Q_INVOKABLE void refreshBlockView(int dev, int blk) { m_blockTableModel->refresh(*this, dev, blk); }
 
     // Q_INVOKABLE void selectDevice(int deviceNr);

@@ -101,16 +101,16 @@ QVariant SidebarModel::data(const QModelIndex& index, int role) const
     }
 }
 
-void SidebarModel::refresh(QmlAdapter& backend)
+void SidebarModel::refresh(DeviceManager &manager)
 {
     beginResetModel();
     m_devices.clear();
 
-    int devCnt = backend.deviceCount();
+    int devCnt = manager.numDevices();
 
     for (int i = 0; i < devCnt; i++)
     {
-        auto &device = backend.manager.getDevice(i);
+        auto &device = manager.getDevice(i);
         auto ddescr = device.describe();
         auto filename = device.image->path.filename().string();
         SidebarItem dev;
@@ -121,7 +121,7 @@ void SidebarModel::refresh(QmlAdapter& backend)
         dev.deviceId = i;
         dev.volumeId = -1;
 
-        int volCnt = backend.volumeCount(i);
+        int volCnt = device.count();
 
         for (int j = 0; j < volCnt; j++)
         {

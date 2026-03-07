@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
         }, Qt::QueuedConnection);
     engine.load(url);
 
-    proxy.refreshSidebar();
+    // proxy.refreshSidebar();
 
     // Run the app
     return app.exec();

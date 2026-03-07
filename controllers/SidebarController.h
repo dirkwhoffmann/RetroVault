@@ -1,31 +1,29 @@
 #pragma once
 
 #include "Controller.h"
+#include "SidebarModel.h"
 
 class SidebarController : public Controller
 {
     Q_OBJECT
 
-    // QString m_name = "MY_NAME";
+    SidebarModel *m_sidebarModel;
 
 public:
 
-    using Controller::Controller;
+    explicit SidebarController(QObject *parent = nullptr);
 
-    // Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel CONSTANT)
 
-    // QString name() const { return m_name; }
+    SidebarModel* sidebarModel() const { return m_sidebarModel; }
+
 
     // signals:
     //     void nameChanged();
 
-    /*
+
 public slots:
-    void refresh(int deviceId);
 
-    void foo()
-    {
+    void refresh();
 
-    }
-    */
 };

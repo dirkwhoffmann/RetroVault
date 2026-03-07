@@ -33,7 +33,7 @@ QmlAdapter::processMsg(int value)
 
     printf("processMsg %d\n", count++);
 
-    refreshSidebar();
+    // refreshSidebar();
 }
 
 void

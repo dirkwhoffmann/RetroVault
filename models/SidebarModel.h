@@ -4,9 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QAbstractTableModel>
-#include <QVariantList>
-
-#include "ImageTypes.h"
+#include "DeviceManager.h"
 
 enum ItemType { DeviceItem, VolumeItem };
 
@@ -28,8 +26,12 @@ class SidebarModel : public QAbstractItemModel
 {
     Q_OBJECT
 
+    QVector<SidebarItem> m_devices;
+
 public:
+
     enum DeviceRoles {
+
         IconSourceRole = Qt::UserRole + 1,
         TitleRole,
         SubtitleRole,
@@ -48,9 +50,5 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     bool hasChildren(const QModelIndex &parent) const override;
 
-    void refresh(class QmlAdapter &backend);
-
-private:
-
-    QVector<SidebarItem> m_devices;
+    void refresh(DeviceManager &manager);
 };

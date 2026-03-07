@@ -23,4 +23,7 @@ WindowController::addImage(const QUrl &url) {
     {
         // rethrow(e);
     }
+
+    m_numDevices = manager->numDevices();
+    emit numDevicesChanged();
 }

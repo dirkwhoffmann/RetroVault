@@ -1,28 +1,45 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Controllers
 
 Item {
     id: sidebar
     height: parent.height
 
+    required property int numDevices
     signal itemSelected(int deviceId, int volumeId)
 
+    SidebarController {
+
+        id: controller
+        model: mainModel
+    }
+
+    onNumDevicesChanged: {
+
+        console.log("numDevices changed to " + numDevices);
+        controller.refresh();
+    }
+
     Rectangle {
+
         id: sidebarRect
         anchors.fill: parent
         color: "#ffffff"
 
         TreeView {
+
             id: treeView
             anchors.fill: parent
             clip: true
             alternatingRows: true
             topMargin: 10
-            model: Backend.sidebarModel
+            model: controller.sidebarModel
             selectionMode: TreeView.SingleSelection
             selectionModel: ItemSelectionModel { }
             columnWidthProvider: function(column) { return treeView.width }
+
             delegate: TreeViewDelegate {
 
                 id: myDelegate
@@ -40,15 +57,12 @@ Item {
                     spacing: 8
 
                     Image {
-
                         source: `qrc:/assets/images/${iconSource}`
                         sourceSize: Qt.size(36, 36)
                         Layout.alignment: Qt.AlignVCenter
                     }
 
-
                     Item {
-                        // color: "red"
                         Layout.preferredHeight: 50
                         Layout.preferredWidth: 2
                     }
@@ -75,12 +89,13 @@ Item {
                 }
 
                 TapHandler {
+
                     onTapped: {
 
                         // console.log("modelIndex = " + modelIndex);
                         console.log("deviceId = " + deviceId);
                         console.log("volumeId = " + volumeId);
-                        sidebar.itemSelected(deviceId, volumeId);
+                        itemSelected(deviceId, volumeId);
                     }
                 }
             }

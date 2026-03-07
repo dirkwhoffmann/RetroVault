@@ -9,10 +9,16 @@ import "components"
 
 ApplicationWindow {
 
+    property alias numDevices: controller.numDevices
+
     WindowController {
 
         id: controller
         model: mainModel
+    }
+
+    onNumDevicesChanged: {
+        console.log("onNumDevicesChanged: " + numDevices)
     }
 
     property Model model
@@ -42,7 +48,9 @@ ApplicationWindow {
         spacing: 0
 
         Sidebar {
+
             id: mySidebar
+            numDevices: controller.numDevices
             Layout.fillHeight: true
             Layout.preferredWidth: 256
             Layout.minimumWidth: 200
@@ -54,6 +62,7 @@ ApplicationWindow {
 
             onItemSelected: (deviceId, volumeId) => {
 
+                console.log("onItemSelected: " + deviceId + " " + volumeId);
                 dev = deviceId
                 vol = volumeId
             }
@@ -130,10 +139,8 @@ ApplicationWindow {
         }
     }
 
-    /*
     onVolChanged: { updateStack() }
     onDevChanged: { updateStack() }
-    */
 
     Connections {
 
