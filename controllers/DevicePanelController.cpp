@@ -5,13 +5,14 @@
 #include "DevicePanelController.h"
 #include "QmlAdapterTypes.h"
 
+// DevicePanelController::DevicePanelController() : Controller()
+
 void
 DevicePanelController::refresh(int deviceId)
 {
     if (deviceId == -1 || !manager) return;
 
-    // Fetch your pure C++ info (assuming your Manager returns a struct/class)
-    // auto info = manager->getDeviceInfo(deviceId);
+    printf("DevicePanelController::refresh(%d)\n", deviceId);
 
     auto &device = manager->getDevice(deviceId);
     auto *image = device.getImage();
@@ -30,16 +31,8 @@ DevicePanelController::refresh(int deviceId)
     list << "" << "Heads:" << numHeads << "      Block size:" << bsize;
     list << "" << "Sectors:" << "TODO" << "" << "";
 
-    /*
-    list.append(QVariantList{"1", "Cylinders:", "42", "     Blocks:", "some"});
-    list.append(QVariantList{"2", "Heads:", "42", "      Block size:", "some"});
-    list.append(QVariantList{"3", "Sectors:", "TODO", ""});
-    */
-    /*
-        list.append(QVariantList{info.name, "Cylinders:", info.numCyls, "     Blocks:", info.numBlocks});
-        list.append(QVariantList{"", "Heads:", info.numHeads, "      Block size:", info.bsize});
-        list.append(QVariantList{"", "Sectors:", "TODO", ""});
-*/
+    // m_blockTableModel.refresh(m_device, m_block);
+
     if (m_deviceInfo != list)
     {
         m_deviceInfo = list;

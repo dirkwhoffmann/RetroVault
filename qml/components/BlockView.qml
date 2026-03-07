@@ -4,6 +4,8 @@ import QtQuick.Layouts
 
 Rectangle {
 
+    property alias model: tableView.model
+
     property int dev: -1
     onDevChanged: { console.log("onDevChanged " + dev); updateData() }
 
@@ -37,7 +39,7 @@ Rectangle {
     TableView {
 
         id: tableView
-        model: Backend.blockTableModel
+        model: model // Backend.blockTableModel
         anchors.left: parent.left
         anchors.top: horizontalHeader.bottom
         anchors.right: parent.right

@@ -5,15 +5,15 @@ import RetroVault.Controllers
 
 Item {
 
+    property int deviceId: -1
+    property int volumeId: -1
+
     DevicePanelController {
 
         id: controller
+        device: deviceId
         model: mainModel
     }
-
-    property int deviceId: -1
-    property int volumeId: -1
-    // property var deviceInfo: []
 
     ColumnLayout {
 
@@ -58,13 +58,13 @@ Item {
             BlockView {
 
                 id: blockView
+                model: controller.blockViewModel
                 dev: deviceId
                 blk: deviceBlockSelector.block
 
                 onBlkChanged: {
                     console.log("onBlkChanged: " + blk)
-                    controller.start()
-                    // controller.refresh(deviceId)
+                    controller.refresh()
                 }
             }
         }
