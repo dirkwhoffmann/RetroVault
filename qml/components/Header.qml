@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import Backend
 import DeviceInfo
 
 Pane {
@@ -10,10 +9,10 @@ Pane {
     anchors.fill: parent
     padding: 0
 
-    property var title: "TODO"
-    property var gridData: []
+    property var title
+    property var gridData
 
-    readonly property int gridColumns: gridData.length > 0 ? gridData[0].length : 1
+    // readonly property int gridColumns: gridData.length > 0 ? gridData[0].length : 1
 
     contentItem: RowLayout {
 
@@ -38,7 +37,7 @@ Pane {
 
         GridLayout {
 
-            columns: root.gridColumns
+            columns: 5 // root.gridColumns
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
             columnSpacing: 4
@@ -50,7 +49,7 @@ Pane {
                 text: title
                 font.pointSize: Style.regular
                 font.weight: Style.weightBold
-                Layout.columnSpan: gridColumns
+                Layout.columnSpan: 5 // gridColumns
                 Layout.fillWidth: true
             }
 
@@ -59,13 +58,32 @@ Pane {
 
                 height: 1
                 color: "#cccccc"
-                Layout.columnSpan: gridColumns
+                Layout.columnSpan: 5 // gridColumns
                 Layout.fillWidth: true
                 Layout.topMargin: 2
                 Layout.bottomMargin: 5
             }
 
             // All other rows: Custom data
+            Repeater {
+                // Now directly binds to the C++ property
+                model: controller.deviceInfo
+
+                delegate: Label {
+                    readonly property int col: index % 5 // Use the column count
+
+                    text: modelData
+                    font.pointSize: Style.small
+                    elide: Text.ElideRight
+
+                    // Logic for styling
+                    color: col === 0 ? "#000" : "#666"
+
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.fillWidth: col === 0
+                }
+            }
+            /*
             Repeater {
 
                 model: root.gridData.reduce((acc, val) => acc.concat(val), [])
@@ -82,6 +100,8 @@ Pane {
                     Layout.fillWidth: col === 0 // index % 2 !== 1
                 }
             }
+
+             */
         }
     }
 

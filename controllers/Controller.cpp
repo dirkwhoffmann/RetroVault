@@ -3,3 +3,17 @@
 //
 
 #include "Controller.h"
+
+void
+Controller::setModel(Model* model) {
+
+    qDebug() << "setModel - Old:" << m_model << "New:" << model;
+
+    if (m_model != model) {
+
+        m_model = model;
+        manager = model->manager;
+        printf("manager %p\n", manager);
+        emit modelChanged();
+    }
+}

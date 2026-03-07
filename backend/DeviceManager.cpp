@@ -62,7 +62,7 @@ DeviceManager::add(const fs::path &imageFile)
     devices.push_back(std::make_unique<FuseDevice>(imageFile));
 
     // Inform the GUI
-    callback(listener, 42);
+   if (callback) callback(listener, 42);
 }
 
 void

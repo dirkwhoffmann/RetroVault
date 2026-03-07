@@ -7,24 +7,27 @@ class DevicePanelController : public Controller
     Q_OBJECT
 
     QString m_name = "MY_NAME";
+    QVariantList m_deviceInfo;
 
 public:
-
-    using Controller::Controller;
+    // using Controller::Controller;
+    DevicePanelController() : Controller()
+    {
+        printf("DevicePanelController\n");
+    }
 
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    QString name() const { return m_name; }
+    Q_PROPERTY(QVariantList deviceInfo READ deviceInfo NOTIFY deviceInfoChanged)
 
-    /*
-    explicit Controller(QObject* parent = nullptr) : QObject(parent)
-    {
-    }
-    */
+    QString name() const { return m_name; }
+    QVariantList deviceInfo() const { return m_deviceInfo; }
 
 signals:
     void nameChanged();
+    void deviceInfoChanged();
 
 public slots:
+    void refresh(int deviceId);
 
     void start()
     {

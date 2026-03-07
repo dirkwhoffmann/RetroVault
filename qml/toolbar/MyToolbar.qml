@@ -2,9 +2,11 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import Backend
+import RetroVault.Controllers
 
 ToolBar {
+
+    property WindowController controller
 
     FileDialog {
 
@@ -14,7 +16,7 @@ ToolBar {
         onAccepted: {
             console.log("Selected file URL: " + selectedFile)
             try {
-                Backend.add(selectedFile)
+                controller.addImage(selectedFile)
             } catch (e) {
                 UIController.showError(e.message);
             }

@@ -12,7 +12,9 @@
 #include "DeviceManager.h"
 #include "UsageDisplay.h"
 #include "DevicePanelController.h"
+#include "SidebarController.h"
 #include "SplashPanelController.h"
+#include "WindowController.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
@@ -27,7 +29,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
     // Register the QML model type
-    qmlRegisterUncreatableType<Model>("RetroVault.Models", 1, 0, "Model", "Cannot create in QML");
+    qmlRegisterUncreatableType<Model>("RetroVault.Models", 1, 0, "Model", "Managed by C++");
 
     // Create the pure C++ model
     DeviceManager* manager = new DeviceManager();
@@ -41,13 +43,13 @@ int main(int argc, char *argv[])
     // Register types
     qmlRegisterType<DevicePanelController>("RetroVault.Controllers", 1, 0, "DevicePanelController");
     qmlRegisterType<SplashPanelController>("RetroVault.Controllers", 1, 0, "SplashPanelController");
-    // qmlRegisterType<DeviceManager>("RetroVault.Models", 1, 0, "DeviceManager");
+    qmlRegisterType<WindowController>("RetroVault.Controllers", 1, 0, "WindowController");
+    qmlRegisterType<SidebarController>("RetroVault.Controllers", 1, 0, "SidebarController");
 
     // Make the adapter available in QML (DEPRECATED)
     QmlAdapter proxy(&app);
 
     // engine.rootContext()->setContextProperty("proxy", &proxy);
-    qmlRegisterSingletonInstance<QmlAdapter>("Backend", 1, 0, "Backend", &proxy);
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
                              "Retrovault.Signals", 1, 0, "UIController");
     qmlRegisterUncreatableType<DeviceInfo>("DeviceInfo", 1, 0, "DeviceInfo",

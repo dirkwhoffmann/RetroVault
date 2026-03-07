@@ -4,12 +4,21 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Effects
 import RetroVault.Models
-import Backend 1.0
+import RetroVault.Controllers
 import "components"
 
 ApplicationWindow {
 
+    WindowController {
+
+        id: controller
+        model: mainModel
+    }
+
     property Model model
+
+    property int dev: -1
+    property int vol: -1
 
     visible: true
     width: 900
@@ -20,7 +29,9 @@ ApplicationWindow {
     // menuBar: MainMenu { }
 
     header: MyToolbar {
+
         id: mainToolbar
+        controller: controller
     }
 
     title: "RetroVault"
@@ -30,7 +41,6 @@ ApplicationWindow {
         anchors.fill: parent
         spacing: 0
 
-        // --- 1. THE SIDEBAR ---
         Sidebar {
             id: mySidebar
             Layout.fillHeight: true
@@ -43,13 +53,9 @@ ApplicationWindow {
             }
 
             onItemSelected: (deviceId, volumeId) => {
-                if (deviceId == -1) {
-                    mainStack.replace(splashPage);
-                } else if (volumeId == -1) {
-                    mainStack.replace(devicePanel, {"deviceId": deviceId, "volumeId": volumeId});
-                } else {
-                    mainStack.replace(volumePanel, {"devNr": deviceId, "volNr": volumeId});
-                }
+
+                dev = deviceId
+                vol = volumeId
             }
         }
 
@@ -90,25 +96,47 @@ ApplicationWindow {
             popExit: null
             */
         }
+
+        // Component for the Splash Screen
+        Component {
+            id: splashPage
+            SplashPanel {
+            }
+        }
+
+        Component {
+            id: devicePanel
+            DevicePanel {
+            }
+        }
+
+        Component {
+            id: volumePanel
+            VolumePanel {
+            }
+        }
     }
 
-    // Component for the Splash Screen
-    Component {
-        id: splashPage
-        SplashPanel {}
+    function updateStack() {
+
+        console.log("updateStack for Dev:", dev, "and Vol:", vol)
+
+        if (dev == -1) {
+            mainStack.replace(splashPage);
+        } else if (vol == -1) {
+            mainStack.replace(devicePanel, {"deviceId": dev, "volumeId": vol});
+        } else {
+            mainStack.replace(volumePanel, {"devNr": dev, "volNr": vol});
+        }
     }
 
-    Component {
-        id: devicePanel
-        DevicePanel {}
-    }
-
-    Component {
-        id: volumePanel
-        VolumePanel {}
-    }
+    /*
+    onVolChanged: { updateStack() }
+    onDevChanged: { updateStack() }
+    */
 
     Connections {
+
         target: UIController
         function onRequestErrorDialog(message) {
             errorDialog.text = message
@@ -116,6 +144,7 @@ ApplicationWindow {
         }
     }
 
+    /*
     Connections {
         target: Backend
         function onUpdateCanvas() {
@@ -126,6 +155,7 @@ ApplicationWindow {
             console.log("UIController: onUpdateSidebar: ");
         }
     }
+    */
 
     MessageDialog {
         id: errorDialog

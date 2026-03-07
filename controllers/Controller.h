@@ -19,17 +19,7 @@ public:
     explicit Controller(QObject *parent = nullptr) : QObject(parent) {}
 
     Model* model() const { return m_model; }
-    void setModel(Model* model) {
-
-        printf("setModel %p\n", model);
-
-        if (m_model != model) {
-
-            m_model = model;
-            manager = model->manager;
-            emit modelChanged();
-        }
-    }
+    void setModel(Model* model);
 
     signals:
         void modelChanged();

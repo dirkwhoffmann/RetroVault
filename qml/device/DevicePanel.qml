@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Controllers
-import Backend // DEPRECATED
 
 Item {
 
@@ -14,7 +13,7 @@ Item {
 
     property int deviceId: -1
     property int volumeId: -1
-    property var deviceInfo: []
+    // property var deviceInfo: []
 
     ColumnLayout {
 
@@ -32,7 +31,7 @@ Item {
 
                 id: header
                 title: controller.name
-                gridData: deviceInfo // []
+                gridData: controller.deviceInfo
             }
         }
 
@@ -65,6 +64,7 @@ Item {
                 onBlkChanged: {
                     console.log("onBlkChanged: " + blk)
                     controller.start()
+                    // controller.refresh(deviceId)
                 }
             }
         }
@@ -76,6 +76,8 @@ Item {
 
         if (deviceId !== -1) {
 
+            controller.refresh(deviceId)
+            /*
             let info = Backend.getDeviceInfo(deviceId);
 
             // header.title = info.name
@@ -84,10 +86,21 @@ Item {
                 ["", "Heads:", info.numHeads, "      Block size:", info.bsize],
                 ["", "Sectors:", "TODO", ""] // or dev.maxSectors
             ];
+
+             */
         }
     }
 
+    Component.onCompleted: {
+
+        console.log("Component fully loaded. Triggering refresh... " + deviceId);
+        controller.refresh(deviceId)
+    }
+
+    /*
     onVolumeIdChanged: {
         console.log("DevicePanel: Loading data for volume index: " + volumeId)
     }
+
+     */
 }
