@@ -92,6 +92,54 @@ DeviceBlockViewModel::refresh(int dev, int blk)
 //
 
 void
+DevicePanelController::setDevice(int device)
+{
+    m_device = device;
+    refresh();
+    emit deviceChanged();
+}
+void
+DevicePanelController::setCylinder(int cylinder)
+{
+    printf("setCylinder(%d)\n", cylinder);
+    m_cylinder = cylinder;
+    emit cylinderChanged();
+}
+
+void
+DevicePanelController::setHead(int head)
+{
+    m_head = head;
+    emit headChanged();
+}
+
+void
+DevicePanelController::setTrack(int track)
+{
+    m_track = track;
+    emit trackChanged();
+}
+
+void
+DevicePanelController::setSector(int sector)
+{
+    m_sector = sector;
+    emit sectorChanged();
+}
+
+void
+DevicePanelController::setBlock(int block)
+{
+    printf("setBlock %d\n", block);
+    if (m_block != block)
+    {
+        m_block = block;
+        emit blockChanged();
+        refresh();
+    }
+}
+
+void
 DevicePanelController::refresh()
 {
     printf("DevicePanelController::refresh device: %d block: %d\n", m_device, m_block);

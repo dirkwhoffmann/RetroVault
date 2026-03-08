@@ -41,11 +41,75 @@ Item {
             Layout.fillWidth: true
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
+            RowLayout {
+
+                anchors.fill: parent
+                spacing: 0
+
+                LabeledStepper {
+                    label: "Cylinder"
+                    value: controller.cylinder
+                    from: 0;
+                    to: 15
+                    onValueChanged: { controller.cylinder = value }
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                LabeledStepper {
+                    label: "Head"
+                    from: 0;
+                    to: 1
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                LabeledStepper {
+                    label: "Track"
+                    from: 0;
+                    to: 64
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                LabeledStepper {
+                    label: "Sector"
+                    from: 0;
+                    to: 64
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                LabeledStepper {
+                    id: blockStepper
+                    label: "Block"
+                    from: 0;
+                    to: 1024
+                }
+            }
+        }
+
+        /*
+        Pane {
+
+            id: blockSelectorPane
+            Layout.fillWidth: true
+            leftPadding: Style.largeSpacing
+            rightPadding: Style.largeSpacing
             DeviceBlockSelector {
 
                 id: deviceBlockSelector
             }
         }
+        */
 
         Pane {
 
@@ -60,7 +124,7 @@ Item {
                 id: blockView
                 model: controller.tableModel
                 dev: deviceId
-                blk: deviceBlockSelector.block
+                blk: controller.block
 
                 onBlkChanged: {
                     console.log("onBlkChanged: " + blk)
@@ -77,17 +141,6 @@ Item {
         if (deviceId !== -1) {
 
             controller.refresh(deviceId)
-            /*
-            let info = Backend.getDeviceInfo(deviceId);
-
-            // header.title = info.name
-            deviceInfo = [
-                [info.name, "Cylinders:", info.numCyls, "     Blocks:", info.numBlocks],
-                ["", "Heads:", info.numHeads, "      Block size:", info.bsize],
-                ["", "Sectors:", "TODO", ""] // or dev.maxSectors
-            ];
-
-             */
         }
     }
 
@@ -96,11 +149,4 @@ Item {
         console.log("Component fully loaded. Triggering refresh... " + deviceId);
         controller.refresh(deviceId)
     }
-
-    /*
-    onVolumeIdChanged: {
-        console.log("DevicePanel: Loading data for volume index: " + volumeId)
-    }
-
-     */
 }

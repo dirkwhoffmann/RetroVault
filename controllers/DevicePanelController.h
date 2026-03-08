@@ -64,26 +64,12 @@ public:
     QVariantList deviceInfo() const { return m_deviceInfo; }
     DeviceBlockViewModel* tableModel() { return &m_tableModel; }
 
-    void setDevice(int device)
-    {
-        m_device = device;
-        refresh();
-        emit deviceChanged();
-    }
-    void setCylinder(int cylinder) { m_cylinder = cylinder; }
-    void setHead(int head) { m_head = head; }
-    void setTrack(int track) { m_track = track; }
-    void setSector(int sector) { m_sector = sector; }
-    void setBlock(int block)
-    {
-        printf("setBlock %d\n", block);
-        if (m_block != block)
-        {
-            m_block = block;
-            emit blockChanged();
-            refresh();
-        }
-    }
+    void setDevice(int device);
+    void setCylinder(int cylinder);
+    void setHead(int head);
+    void setTrack(int track);
+    void setSector(int sector);
+    void setBlock(int block);
 
 signals:
     void deviceChanged();
