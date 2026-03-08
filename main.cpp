@@ -9,7 +9,7 @@
 
 #include "backend/Model.h"
 #include "DeviceManager.h"
-#include "UsageDisplay.h"
+// #include "UsageDisplay.h"
 #include "DevicePanelController.h"
 #include "SidebarController.h"
 #include "SplashPanelController.h"

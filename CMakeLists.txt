@@ -25,9 +25,9 @@ add_executable(retrovault
 
 add_subdirectory(utlib)
 add_subdirectory(rvlib)
-add_subdirectory(adapter)
 add_subdirectory(controllers)
 add_subdirectory(backend)
+add_subdirectory(qml/custom)
 
 target_include_directories(retrovault PRIVATE
         utlib
@@ -81,5 +81,5 @@ qt_add_qml_module(retrovault
         VERSION 1.0
         QML_FILES ${QML_SOURCES}
         SOURCES
-        adapter/UsageDisplay.h
-        adapter/UsageDisplay.cpp)
+        qml/custom/UsageDisplay.h
+        qml/custom/UsageDisplay.cpp)
