@@ -62,6 +62,12 @@ public:
     isize numBlocks() const { return capacity(); }
     isize numBytes() const { return capacity() * bsize(); }
 
+    isize maxCyl() const { return std::max({}, numCyls() - 1); }
+    isize maxHead() const { return std::max({}, numHeads() - 1); }
+    isize maxTrack() const { return std::max({}, numTracks() - 1); }
+    isize maxSector(isize t) const { return std::max({}, numSectors(t) - 1); }
+    isize maxBlock() const { return std::max({}, numBlocks() - 1); }
+
 
     //
     // Validating indices

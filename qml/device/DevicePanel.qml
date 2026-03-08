@@ -48,9 +48,8 @@ Item {
 
                 LabeledStepper {
                     label: "Cylinder"
+                    to: Math.max(0, controller.numCylinders - 1)
                     value: controller.cylinder
-                    from: 0;
-                    to: 15
                     onValueChanged: { controller.cylinder = value }
                 }
 
@@ -60,8 +59,9 @@ Item {
 
                 LabeledStepper {
                     label: "Head"
-                    from: 0;
-                    to: 1
+                    to: Math.max(0, controller.numHeads - 1)
+                    value: controller.head
+                    onValueChanged: { controller.head = value }
                 }
 
                 Item {
@@ -70,8 +70,9 @@ Item {
 
                 LabeledStepper {
                     label: "Track"
-                    from: 0;
-                    to: 64
+                    to: Math.max(0, controller.numTracks - 1)
+                    value: controller.track
+                    onValueChanged: { controller.track = value }
                 }
 
                 Item {
@@ -80,8 +81,9 @@ Item {
 
                 LabeledStepper {
                     label: "Sector"
-                    from: 0;
-                    to: 64
+                    to: Math.max(0, controller.numSectors - 1)
+                    value: controller.sector
+                    onValueChanged: { controller.sector = value }
                 }
 
                 Item {
@@ -91,8 +93,9 @@ Item {
                 LabeledStepper {
                     id: blockStepper
                     label: "Block"
-                    from: 0;
-                    to: 1024
+                    to: Math.max(0, controller.numBlocks - 1)
+                    value: controller.block
+                    onValueChanged: { controller.block = value }
                 }
             }
         }

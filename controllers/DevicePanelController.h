@@ -25,7 +25,15 @@ class DevicePanelController : public Controller
 {
     Q_OBJECT
 
-    QString m_name = "MY_NAME";
+    QString m_name = "BUGS BUNNY";
+
+    int numCylinders = 0;
+    int numHeads = 0;
+    int numTracks = 0;
+    int numSectors = 0;
+    int numBlocks = 0;
+    int bsize = 0;
+
     int m_device = 0;
     int m_cylinder = 0;
     int m_head = 0;
@@ -44,34 +52,83 @@ public:
         m_tableModel.controller = this;
     }
 
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(int device READ device WRITE setDevice NOTIFY deviceChanged)
-    Q_PROPERTY(int cylinder READ cylinder WRITE setCylinder NOTIFY cylinderChanged)
-    Q_PROPERTY(int head READ head WRITE setHead NOTIFY headChanged)
-    Q_PROPERTY(int track READ track WRITE setTrack NOTIFY trackChanged)
-    Q_PROPERTY(int sector READ sector NOTIFY sectorChanged)
-    Q_PROPERTY(int block READ block NOTIFY blockChanged)
-    Q_PROPERTY(QVariantList deviceInfo READ deviceInfo NOTIFY deviceInfoChanged)
-    Q_PROPERTY(DeviceBlockViewModel* tableModel READ tableModel NOTIFY tableModelChanged)
+    /*
+    Q_PROPERTY(int maxCylinder READ getMaxCylinder NOTIFY maxCylinderChanged)
+    Q_PROPERTY(int maxHead READ getMaxHead NOTIFY maxHeadChanged)
+    Q_PROPERTY(int maxTrack READ getMaxTrack NOTIFY maxTrackChanged)
+    Q_PROPERTY(int maxSector READ getMaxSector NOTIFY maxSectorChanged)
+    Q_PROPERTY(int maxBlock READ getMaxBlock NOTIFY maxBlockChanged)
+    */
 
-    QString name() const { return m_name; }
-    int device() const { return m_device; }
-    int cylinder() const { return m_cylinder; }
-    int head() const { return m_head; }
-    int track() const { return m_track; }
-    int sector() const { return m_sector; }
-    int block() const { return m_block; }
-    QVariantList deviceInfo() const { return m_deviceInfo; }
-    DeviceBlockViewModel* tableModel() { return &m_tableModel; }
+    Q_PROPERTY(int numCylinders READ getNumCylinders NOTIFY numCylindersChanged)
+    Q_PROPERTY(int numHeads READ getNumHeads NOTIFY numHeadsChanged)
+    Q_PROPERTY(int numTracks READ getNumTracks NOTIFY numTracksChanged)
+    Q_PROPERTY(int numSectors READ getNumSectors NOTIFY numSectorsChanged)
+    Q_PROPERTY(int numBlocks READ getNumBlocks NOTIFY numBlocksChanged)
 
-    void setDevice(int device);
-    void setCylinder(int cylinder);
-    void setHead(int head);
-    void setTrack(int track);
-    void setSector(int sector);
-    void setBlock(int block);
+    Q_PROPERTY(int bsize READ getBsize NOTIFY bsizeChanged)
+
+    Q_PROPERTY(QString name READ getName NOTIFY nameChanged)
+    Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY deviceChanged)
+    Q_PROPERTY(int cylinder READ getCylinder WRITE setCylinder NOTIFY cylinderChanged)
+    Q_PROPERTY(int head READ getHead WRITE setHead NOTIFY headChanged)
+    Q_PROPERTY(int track READ getTrack WRITE setTrack NOTIFY trackChanged)
+    Q_PROPERTY(int sector READ getSector WRITE setSector NOTIFY sectorChanged)
+    Q_PROPERTY(int block READ getBlock WRITE setBlock NOTIFY blockChanged)
+    Q_PROPERTY(QVariantList deviceInfo READ getDeviceInfo NOTIFY deviceInfoChanged)
+    Q_PROPERTY(DeviceBlockViewModel* tableModel READ getTableModel NOTIFY tableModelChanged)
+
+    int getMaxCylinder() const { return std::max(0, numCylinders - 1); }
+    int getMaxHead() const { return std::max(0, numHeads - 1); }
+    int getMaxTrack() const { return std::max(0, numTracks - 1); }
+    int getMaxSector() const { return std::max(0, numSectors - 1); }
+    int getMaxBlock() const { return std::max(0, numBlocks - 1); }
+
+    int getNumCylinders() const { return numCylinders; }
+    int getNumHeads() const { return numHeads; }
+    int getNumTracks() const { return numTracks; }
+    int getNumSectors() const { return numSectors; }
+    int getNumBlocks() const { return numBlocks; }
+
+    int getBsize() const { return bsize; }
+
+    void setName(QString name) { m_name = name; emit nameChanged(); }
+    void setNumCylinders(int value) { numCylinders = value; emit numCylindersChanged(); }
+    void setNumHeads(int value) { numHeads = value; emit numHeadsChanged();}
+    void setNumTracks(int value) { numTracks = value; emit numTracksChanged();}
+    void setNumSectors(int value) { numSectors = value; emit numSectorsChanged();}
+    void setNumBlocks(int value) { numBlocks = value; emit numBlocksChanged(); }
+    void setBsize(int value) { bsize = value; emit bsizeChanged();}
+
+    QString getName() const { return m_name; }
+    int getDevice() const { return m_device; }
+    int getCylinder() const { return m_cylinder; }
+    int getHead() const { return m_head; }
+    int getTrack() const { return m_track; }
+    int getSector() const { return m_sector; }
+    int getBlock() const { return m_block; }
+    QVariantList getDeviceInfo() const { return m_deviceInfo; }
+    DeviceBlockViewModel* getTableModel() { return &m_tableModel; }
+
+    void setDevice(int value);
+    void setCylinder(int value);
+    void setHead(int value);
+    void setTrack(int value);
+    void setSector(int value);
+    void setBlock(int value);
+
+private:
+
+    void set(int c, int h, int t, int s, int b);
 
 signals:
+    void numCylindersChanged();
+    void numHeadsChanged();
+    void numTracksChanged();
+    void numSectorsChanged();
+    void numBlocksChanged();
+    void bsizeChanged();
+
     void deviceChanged();
     void nameChanged();
     void cylinderChanged();

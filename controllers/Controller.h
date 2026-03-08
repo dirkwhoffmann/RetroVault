@@ -26,6 +26,7 @@ public:
     // Convenience wrappers
     FuseDevice *fuseDevice(isize dev) const;
     FuseVolume *fuseVolume(isize dev, isize vol) const;
+    DiskImage *image(isize dev) const;
 
     signals:
         void modelChanged();

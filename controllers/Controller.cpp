@@ -38,3 +38,12 @@ Controller::fuseVolume(isize dev, isize vol) const
     }
     return nullptr;
 }
+
+DiskImage *
+Controller::image(isize dev) const
+{
+    if (auto d = fuseDevice(dev))
+        return d->getImage();
+
+    return nullptr;
+}

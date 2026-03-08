@@ -13,8 +13,8 @@ int
 DeviceBlockViewModel::rowCount(const QModelIndex &) const
 {
     if (m_dev && controller)
-      if (auto *dev = controller->fuseDevice(*m_dev))
-            return dev->bsize() / 16;
+      if (const auto *dev = controller->fuseDevice(*m_dev))
+            return (int)dev->bsize() / 16;
 
     return 0;
 }
@@ -33,46 +33,42 @@ DeviceBlockViewModel::data(const QModelIndex& index, int role) const
 
     auto image = controller->fuseDevice(*m_dev)->getImage();
 
-    switch (role)
-    {
-    case Qt::DisplayRole:
+    if (role == Qt::DisplayRole) {
+
+        switch (col)
         {
-            switch (col)
+        case 0:
+
+            return QString::asprintf("%02X", row);
+
+        case 17:
             {
-            case 0:
+                QString ascii;
+                ascii.reserve(16);
 
-                return QString::asprintf("%02X", row);
+                for (int i = 0; i < 16; ++i) {
 
-            case 17:
-                {
-                    QString ascii;
-                    ascii.reserve(16);
+                    auto offset = *m_blk * image->bsize() + row * 16 + i;
+                    unsigned char byte = image->readByte(offset);
 
-                    for (int i = 0; i < 16; ++i) {
-
-                        auto offset = *m_blk * image->bsize() + row * 16 + i;
-                        unsigned char byte = image->readByte(offset);
-
-                        // isprint() requires <cctype> or <ctype.h>
-                        if (isprint(byte)) {
-                            ascii.append(QChar(byte));
-                        } else {
-                            ascii.append('.');
-                        }
+                    // isprint() requires <cctype> or <ctype.h>
+                    if (isprint(byte)) {
+                        ascii.append(QChar(byte));
+                    } else {
+                        ascii.append('.');
                     }
-                    return ascii;
                 }
-
-            default:
-
-                auto offset = (*m_blk) * image->bsize() + row * 16 + (col - 1);
-                return QString::asprintf("%02X", image->readByte(offset));
+                return ascii;
             }
-        }
-    default:
 
-        return QVariant();
+        default:
+
+            auto offset = *m_blk * image->bsize() + row * 16 + (col - 1);
+            return QString::asprintf("%02X", image->readByte(offset));
+        }
     }
+
+    return QVariant();
 }
 
 void
@@ -92,51 +88,116 @@ DeviceBlockViewModel::refresh(int dev, int blk)
 //
 
 void
-DevicePanelController::setDevice(int device)
+DevicePanelController::setDevice(int value)
 {
-    m_device = device;
+    m_device = value;
     refresh();
     emit deviceChanged();
 }
-void
-DevicePanelController::setCylinder(int cylinder)
-{
-    printf("setCylinder(%d)\n", cylinder);
-    m_cylinder = cylinder;
-    emit cylinderChanged();
-}
 
 void
-DevicePanelController::setHead(int head)
+DevicePanelController::setCylinder(int value)
 {
-    m_head = head;
-    emit headChanged();
-}
+    if (const auto *img = image(m_device)) {
 
-void
-DevicePanelController::setTrack(int track)
-{
-    m_track = track;
-    emit trackChanged();
-}
+        value = std::clamp(value, 0, std::max(0, numCylinders - 1));
 
-void
-DevicePanelController::setSector(int sector)
-{
-    m_sector = sector;
-    emit sectorChanged();
-}
+        auto c = value;
+        auto h = m_head;
+        auto t = numHeads * c + h;
+        auto s = std::clamp(m_sector, 0, (int)img->maxSector(t));
+        auto b = img->bindex(TrackDevice::CHS(c, h, s));
 
-void
-DevicePanelController::setBlock(int block)
-{
-    printf("setBlock %d\n", block);
-    if (m_block != block)
-    {
-        m_block = block;
-        emit blockChanged();
-        refresh();
+        set(int(c), int(h), int(t), int(s), int(b));
     }
+}
+
+void
+DevicePanelController::setHead(int value)
+{
+    if (const auto *img = image(m_device)) {
+
+        value = std::clamp(value, 0, std::max(0, numHeads - 1));
+
+        auto h = value;
+        auto c = m_cylinder;
+        auto t = numHeads * c + h;
+        auto s = std::clamp(m_sector, 0, (int)img->maxSector(t));
+        auto b = img->bindex(TrackDevice::CHS(c, h, s));
+
+        set(int(c), int(h), int(t), int(s), int(b));
+    }
+}
+
+void
+DevicePanelController::setTrack(int value)
+{
+    if (const auto *img = image(m_device)) {
+
+        value = std::clamp(value, 0, std::max(0, numTracks - 1));
+
+        auto t = value;
+        auto c = t / numHeads;
+        auto h = t % numHeads;
+        auto s = std::clamp(m_sector, 0, (int)img->maxSector(t));
+        auto b = img->bindex(TrackDevice::CHS(c, h, s));
+
+        set(int(c), int(h), int(t), int(s), int(b));
+    }
+}
+
+void
+DevicePanelController::setSector(int value)
+{
+    if (const auto *img = image(m_device)) {
+
+        auto c = m_cylinder;
+        auto h = m_head;
+        auto t = m_track;
+        auto s = std::clamp(value, 0, (int)img->maxSector(t));
+        auto b = img->bindex(TrackDevice::CHS(c, h, s));
+
+        set(int(c), int(h), int(t), int(s), int(b));
+    }
+}
+
+void
+DevicePanelController::setBlock(int value)
+{
+    if (const auto *img = image(m_device)) {
+
+        value = std::clamp(value, 0, std::max(0, numBlocks - 1));
+
+        auto b = value;
+        auto c = img->b2chs(b).cylinder;
+        auto h = img->b2chs(b).head;
+        auto t = img->b2ts(b).track;
+        auto s = img->b2chs(b).sector;
+
+        set(int(c), int(h), int(t), int(s), int(b));
+    }
+}
+
+void
+DevicePanelController::set(int c, int h, int t, int s, int b)
+{
+    bool cChanged = c != m_cylinder;
+    bool hChanged = h != m_head;
+    bool tChanged = t != m_track;
+    bool sChanged = s != m_sector;
+    bool bChanged = b != m_block;
+
+    m_cylinder = c;
+    m_head = h;
+    m_track = t;
+    m_sector = s;
+    m_block = b;
+
+    if (cChanged) { emit cylinderChanged(); }
+    if (hChanged) { emit headChanged(); }
+    if (tChanged) { emit trackChanged(); }
+    if (sChanged) { emit sectorChanged(); }
+    if (bChanged) { emit blockChanged(); }
 }
 
 void
@@ -149,18 +210,25 @@ DevicePanelController::refresh()
     if (auto *device = fuseDevice(m_device))
     {
         auto *image = device->getImage();
+        auto info = image->describeImage();
         auto &path = image->path;
 
-        auto name = QString::fromStdString(path.string());
-        auto numBlocks = int(image->numBlocks());
-        auto bsize = int(image->bsize());
-        auto numCyls = int(image->numCyls());
-        auto numHeads = int(image->numHeads());
+        setName(QString::fromStdString(path.string()));
+        setNumCylinders(int(image->numCyls()));
+        setNumTracks(int(image->numTracks()));
+        setNumHeads(int(image->numHeads()));
+        setNumSectors(int(image->numSectors(m_track)));
+        setNumBlocks(int(image->numBlocks()));
+        setBsize(int(image->bsize()));
         // auto format = DeviceInfo::Format(image->format());
 
-        list << name << "Cylinders:" << numCyls << "     Blocks:" << numBlocks;
-        list << "" << "Heads:" << numHeads << "      Block size:" << bsize;
-        list << "" << "Sectors:" << "TODO" << "" << "";
+        auto txt1 = QString::fromStdString(info.size() > 0 ? info[0] : "");
+        auto txt2 = QString::fromStdString(info.size() > 1 ? info[1] : "");
+        auto txt3 = "";
+
+        list << txt1 << "Cylinders:" << numCylinders << "     Blocks:" << numBlocks;
+        list << txt2 << "Heads:" << numHeads << "      Block size:" << bsize;
+        list << txt3 << "Sectors:" << "TODO" << "" << "";
 
         m_tableModel.refresh(m_device, m_block);
     }
