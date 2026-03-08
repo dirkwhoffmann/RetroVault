@@ -18,7 +18,8 @@ ToolBar {
             try {
                 controller.addImage(selectedFile)
             } catch (e) {
-                UIController.showError(e.message);
+                console.log("Calling showError...")
+                UIController.showError(e.message)
             }
         }
         onRejected: {

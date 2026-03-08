@@ -18,6 +18,8 @@ public:
 
     explicit Controller(QObject *parent = nullptr) : QObject(parent) {}
 
+    void rethrow(std::exception& e);
+
     Model* model() const { return m_model; }
     DeviceManager* manager() const { return m_manager; }
 

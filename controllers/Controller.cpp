@@ -5,6 +5,7 @@
 #include "Controller.h"
 #include "FuseDevice.h"
 #include "FuseVolume.h"
+#include <QQmlEngine>
 
 void
 Controller::setModel(Model* model) {
@@ -15,6 +16,16 @@ Controller::setModel(Model* model) {
         m_manager = model->manager;
         emit modelChanged();
     }
+}
+
+void
+Controller::rethrow(std::exception& e)
+{
+    assert(qmlEngine(this));
+
+    QString errorMsg = QString::fromStdString(e.what());
+    printf("%s\n", errorMsg.toStdString().c_str());
+    qmlEngine(this)->throwError(errorMsg);
 }
 
 FuseDevice *

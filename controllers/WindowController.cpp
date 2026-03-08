@@ -19,9 +19,10 @@ WindowController::addImage(const QUrl &url) {
         printf("addImage(%s)\n", url.toLocalFile().toStdString().c_str());
         manager()->add(url.toLocalFile().toStdString());
     }
-    catch (std::exception&)
+    catch (std::exception& e)
     {
-        // rethrow(e);
+        rethrow(e);
+        return;
     }
 
     m_numDevices = manager()->numDevices();
