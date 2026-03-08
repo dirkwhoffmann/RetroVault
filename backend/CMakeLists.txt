@@ -4,4 +4,5 @@ target_sources(retrovault PRIVATE
         DeviceManager.cpp
         FuseDevice.cpp
         FuseMountPoint.cpp
-        FuseVolume.cpp)
+        FuseVolume.cpp
+        Model.cpp)

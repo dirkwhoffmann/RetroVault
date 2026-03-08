@@ -7,8 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "QmlAdapter.h"
-#include "Model.h"
+#include "backend/Model.h"
 #include "DeviceManager.h"
 #include "UsageDisplay.h"
 #include "DevicePanelController.h"
@@ -46,15 +45,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<WindowController>("RetroVault.Controllers", 1, 0, "WindowController");
     qmlRegisterType<SidebarController>("RetroVault.Controllers", 1, 0, "SidebarController");
 
-    // Make the adapter available in QML (DEPRECATED)
-    QmlAdapter proxy(&app);
-
-    // engine.rootContext()->setContextProperty("proxy", &proxy);
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
                              "Retrovault.Signals", 1, 0, "UIController");
-    qmlRegisterUncreatableType<DeviceInfo>("DeviceInfo", 1, 0, "DeviceInfo",
-                                       "DeviceInfo is read-only and managed by C++");
-    qmlRegisterType<UsageDisplay>("UsageDisplay", 1, 0, "UsageDisplay");
+    // qmlRegisterType<UsageDisplay>("UsageDisplay", 1, 0, "UsageDisplay");
 
     // Load the QML file
     const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/qml/Main.qml"));
@@ -64,8 +57,6 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
     engine.load(url);
-
-    // proxy.refreshSidebar();
 
     // Run the app
     return app.exec();

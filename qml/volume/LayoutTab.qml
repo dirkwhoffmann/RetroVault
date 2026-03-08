@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import UsageDisplay
+import retrovaultUI
 
 ColumnLayout {
     anchors.fill: parent

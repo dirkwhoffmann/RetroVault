@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QtQml>
-#include "Model.h"
+#include "../backend/Model.h"
 
 class Controller : public QObject {
 

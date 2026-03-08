@@ -3,7 +3,7 @@
 //
 
 #include "DevicePanelController.h"
-#include "QmlAdapterTypes.h"
+
 
 //
 // Table View

@@ -27,7 +27,6 @@ add_subdirectory(utlib)
 add_subdirectory(rvlib)
 add_subdirectory(adapter)
 add_subdirectory(controllers)
-add_subdirectory(models)
 add_subdirectory(backend)
 
 target_include_directories(retrovault PRIVATE
@@ -78,8 +77,9 @@ qt_add_resources(retrovault "assets_files"
 )
 
 qt_add_qml_module(retrovault
-
         URI retrovaultUI
         VERSION 1.0
-        QML_FILES ${QML_SOURCES})
-        #RESOURCES ${ASSET_RESOURCES})
+        QML_FILES ${QML_SOURCES}
+        SOURCES
+        adapter/UsageDisplay.h
+        adapter/UsageDisplay.cpp)

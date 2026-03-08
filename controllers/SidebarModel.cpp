@@ -3,8 +3,6 @@
 //
 
 #include "SidebarModel.h"
-#include "QmlAdapterTypes.h"
-#include "QmlAdapter.h"
 
 SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
 {

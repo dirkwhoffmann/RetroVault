@@ -9,8 +9,6 @@
 void
 Controller::setModel(Model* model) {
 
-    qDebug() << "setModel - Old:" << m_model << "New:" << model;
-
     if (m_model != model) {
 
         m_model = model;
