@@ -179,6 +179,16 @@ DevicePanelController::setBlock(int value)
 }
 
 void
+DevicePanelController::setDeviceInfo(const QVariantList &info)
+{
+    if (m_deviceInfo != info)
+    {
+        m_deviceInfo = info;
+        emit deviceInfoChanged();
+    }
+}
+
+void
 DevicePanelController::set(int c, int h, int t, int s, int b)
 {
     bool cChanged = c != m_cylinder;
@@ -233,9 +243,12 @@ DevicePanelController::refresh()
         m_tableModel.refresh(m_device, m_block);
     }
 
+    setDeviceInfo(list);
+    /*
     if (m_deviceInfo != list)
     {
         m_deviceInfo = list;
         emit deviceInfoChanged();
     }
+*/
 }

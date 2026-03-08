@@ -10,6 +10,7 @@
 #include "QmlAdapter.h"
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QFile>
 
 QmlAdapter::QmlAdapter(QObject* parent) : QObject(parent)
 {
@@ -22,7 +23,7 @@ QmlAdapter::QmlAdapter(QObject* parent) : QObject(parent)
     });
 
     m_sidebarModel = new SidebarModel(this);
-    m_blockTableModel = new BlockTableModel(this);
+    // m_blockTableModel = new BlockTableModel(this);
     m_deviceInfo = new DeviceInfo(this);
 }
 

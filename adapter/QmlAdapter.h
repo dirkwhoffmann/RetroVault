@@ -13,21 +13,19 @@
 #include "DeviceManager.h"
 #include "FuseDevice.h"
 #include "SidebarModel.h"
-#include "BlockTableModel.h"
 
 #include <QObject>
-#include <QStringList>
 
 class QmlAdapter : public QObject {
 
     Q_OBJECT
 
     SidebarModel *m_sidebarModel;
-    BlockTableModel *m_blockTableModel;
+    // BlockTableModel *m_blockTableModel;
     DeviceInfo *m_deviceInfo;
 
     Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel CONSTANT)
-    Q_PROPERTY(BlockTableModel* blockTableModel READ blockTableModel CONSTANT)
+    // Q_PROPERTY(BlockTableModel* blockTableModel READ blockTableModel CONSTANT)
     Q_PROPERTY(DeviceInfo* deviceInfo READ deviceInfo CONSTANT)
 
     signals:
@@ -45,7 +43,7 @@ public:
 private:
 
     SidebarModel* sidebarModel() const { return m_sidebarModel; }
-    BlockTableModel* blockTableModel() const { return m_blockTableModel; }
+    // BlockTableModel* blockTableModel() const { return m_blockTableModel; }
     DeviceInfo* deviceInfo() const { return m_deviceInfo; }
 
     void processMsg(int value);
@@ -53,7 +51,7 @@ private:
 public:
 
     // Q_INVOKABLE void refreshSidebar() { m_sidebarModel->refresh(*this); }
-    Q_INVOKABLE void refreshBlockView(int dev, int blk) { m_blockTableModel->refresh(*this, dev, blk); }
+    // Q_INVOKABLE void refreshBlockView(int dev, int blk) { m_blockTableModel->refresh(*this, dev, blk); }
 
     // Q_INVOKABLE void selectDevice(int deviceNr);
     Q_INVOKABLE DeviceInfo *getDeviceInfo(int deviceNr);

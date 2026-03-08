@@ -12,8 +12,6 @@ Pane {
     property var title
     property var gridData
 
-    // readonly property int gridColumns: gridData.length > 0 ? gridData[0].length : 1
-
     contentItem: RowLayout {
 
         spacing: 15
@@ -66,11 +64,12 @@ Pane {
 
             // All other rows: Custom data
             Repeater {
-                // Now directly binds to the C++ property
-                model: controller.deviceInfo
+
+                model: gridData
 
                 delegate: Label {
-                    readonly property int col: index % 5 // Use the column count
+
+                    readonly property int col: index % 5
 
                     text: modelData
                     font.pointSize: Style.small
@@ -78,50 +77,11 @@ Pane {
 
                     // Logic for styling
                     color: col === 0 ? "#000" : "#666"
-
                     Layout.alignment: Qt.AlignLeft
                     Layout.fillWidth: col === 0
                 }
             }
-            /*
-            Repeater {
 
-                model: root.gridData.reduce((acc, val) => acc.concat(val), [])
-
-                delegate: Label {
-
-                    readonly property int col: index % gridColumns
-
-                    text: modelData //  + (col % 2 === 1 ? ":" : "")
-                    font.pointSize: Style.small
-                    elide: Text.ElideRight
-                    color: col === 0 ? "#000" : "#666"
-                    Layout.alignment: Qt.AlignLeft // col % 2 === 1 ? Qt.AlignRight : Qt.AlignLeft
-                    Layout.fillWidth: col === 0 // index % 2 !== 1
-                }
-            }
-
-             */
         }
     }
-
-    //
-    // Functions
-    //
-
-    /*
-    function updateData() {
-
-        if (dev < 0) return [];
-
-        let info = Backend.getDeviceInfo(dev);
-
-        gridData = [
-            [info.name, "Cylinders:", info.numCyls, "     Blocks:", info.numBlocks],
-            ["", "Heads:", info.numHeads, "      Block size:", info.bsize],
-            ["", "Sectors:", "TODO", ""] // or dev.maxSectors
-        ];
-    }
-    */
-
 }

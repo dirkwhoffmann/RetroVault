@@ -116,6 +116,7 @@ public:
     void setTrack(int value);
     void setSector(int value);
     void setBlock(int value);
+    void setDeviceInfo(const QVariantList &info);
 
 private:
 
