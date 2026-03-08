@@ -10,13 +10,15 @@ Rectangle {
     onDevChanged: { console.log("onDevChanged " + dev); updateData() }
 
     property int blk
+    /*
     onBlkChanged: updateData()
 
     function updateData() {
 
         console.log("Fetching data for Cylinder: " + dev + ":" + blk)
-        Backend.refreshBlockView(dev, blk)
+        // Backend.refreshBlockView(dev, blk)
     }
+    */
 
     anchors.fill: parent
 

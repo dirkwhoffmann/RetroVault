@@ -58,7 +58,7 @@ Item {
             BlockView {
 
                 id: blockView
-                model: controller.blockViewModel
+                model: controller.tableModel
                 dev: deviceId
                 blk: deviceBlockSelector.block
 

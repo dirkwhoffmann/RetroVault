@@ -17,13 +17,13 @@ WindowController::addImage(const QUrl &url) {
     try
     {
         printf("addImage(%s)\n", url.toLocalFile().toStdString().c_str());
-        manager->add(url.toLocalFile().toStdString());
+        manager()->add(url.toLocalFile().toStdString());
     }
-    catch (std::exception& e)
+    catch (std::exception&)
     {
         // rethrow(e);
     }
 
-    m_numDevices = manager->numDevices();
+    m_numDevices = manager()->numDevices();
     emit numDevicesChanged();
 }

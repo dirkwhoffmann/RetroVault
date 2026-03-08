@@ -108,7 +108,9 @@ public:
     //
     // Querying properties
     //
-    
+
+public:
+
     FSPosixStat stat(isize volume);
     ImageInfo imageInfo() const { return image->info(); }
     isize imageSize() const { return image->size(); }
@@ -119,7 +121,9 @@ public:
     //
     // Reading and writing bytes
     //
-    
+
+public:
+
     // Reads a byte from the image file
     u8 readByte(isize offset) const;
     u8 readByte(isize offset, isize volume) const;

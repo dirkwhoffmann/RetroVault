@@ -12,6 +12,6 @@ SidebarController::SidebarController(QObject *parent) : Controller(parent)
 void
 SidebarController::refresh()
 {
-    if (manager)
-        m_sidebarModel->refresh(*manager);
+    if (m_manager)
+        m_sidebarModel->refresh(*m_manager);
 }

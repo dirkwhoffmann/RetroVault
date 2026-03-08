@@ -10,7 +10,7 @@ class Controller : public QObject {
 protected:
 
     Model *m_model = nullptr;
-    DeviceManager *manager = nullptr;
+    DeviceManager *m_manager = nullptr;
 
 public:
 
@@ -19,7 +19,13 @@ public:
     explicit Controller(QObject *parent = nullptr) : QObject(parent) {}
 
     Model* model() const { return m_model; }
+    DeviceManager* manager() const { return m_manager; }
+
     void setModel(Model* model);
+
+    // Convenience wrappers
+    FuseDevice *fuseDevice(isize dev) const;
+    FuseVolume *fuseVolume(isize dev, isize vol) const;
 
     signals:
         void modelChanged();
