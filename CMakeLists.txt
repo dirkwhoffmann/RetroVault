@@ -8,8 +8,9 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 COMPONENTS
         Core
-        Quick
+        Concurrent
         Gui
+        Quick
         QuickControls2
         QuickDialogs2
         QuickEffects
@@ -37,8 +38,9 @@ target_link_libraries(retrovault PRIVATE
         utlib
         rvlib
         Qt6::Core
-        Qt6::Quick
+        Qt6::Concurrent
         Qt6::Gui
+        Qt6::Quick
         Qt6::QuickControls2
         Qt6::QuickDialogs2
         Qt6::QuickEffects)

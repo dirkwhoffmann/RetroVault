@@ -42,13 +42,44 @@ ColumnLayout {
 
                     anchors.fill: parent
 
+                    RowLayout {
+                        Layout.fillWidth: true
+
+                        // The display component
+                        UsageDisplay {
+                            id: usageVisual
+                            model: mainModel
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 18
+                        }
+
+                        // The Trigger Button
+                        Button {
+                            width: 50
+                            text: usageVisual.isProcessing ? "" : "Refresh Map"
+                            enabled: !usageVisual.isProcessing
+                            onClicked: usageVisual.refreshUsage()
+
+                            BusyIndicator {
+                                anchors.centerIn: parent
+                                height: parent.height //  * 0.8
+                                running: usageVisual.isProcessing // Only spins when processing
+                                visible: running // Only visible when running
+                            }
+                            // Optional: Disable the button while the background thread is working
+                            // (Requires exposing a 'processing' property from C++)
+                            // enabled: !usageVisual.isProcessing
+                        }
+                    }
+                    /*
                     UsageDisplay {
 
                         id: usageVisual
+                        model: mainModel
                         Layout.fillWidth: true
                         Layout.preferredHeight: 18
                     }
-
+                    */
                     Slider {
                         id: blockSlider
                         Layout.fillWidth: true
