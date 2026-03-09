@@ -4,30 +4,29 @@
 #include <QQuickPaintedItem>
 #include <QImage>
 #include <QFutureWatcher>
-#include <QtConcurrent>
 
 class UsageDisplay : public CustomComponent {
 
     Q_OBJECT
     QML_ELEMENT
 
+    QImage m_cachedImage;
+    QFutureWatcher<QImage> m_watcher;
+
 public:
 
     UsageDisplay(QQuickItem *parent = nullptr);
-    void paint(QPainter *painter) override;
 
+    // Indicates whether image creation is in progress
     Q_PROPERTY(bool isProcessing READ isProcessing NOTIFY isProcessingChanged)
 
-    // Call this from QML or C++ to start the process
-    Q_INVOKABLE void refreshUsage();
+    // Starts the asynchroneous creation of the displayed image
+    Q_INVOKABLE void refreshImage();
+
+private:
 
     bool isProcessing() const { return m_watcher.isRunning(); }
 
-    signals:
-        void isProcessingChanged();
-
-private:
-    // Ported Palette
     struct Palette {
         static QColor white;
         static QColor gray;
@@ -45,15 +44,18 @@ private:
         static QColor getByIndex(int index);
     };
 
+signals:
+    void isProcessingChanged();
+
 private slots:
-void onImageReady();
+    void onImageReady();
 
 private:
-    QImage m_cachedImage;
-    QFutureWatcher<QImage> m_watcher;
+
+    // Internal paint routine
+    void paint(QPainter *painter) override;
 
     // Internal thread-safe generator
-    static QImage generateImageAsync(const QSize &size);
-
-    // QImage createUsageImage(const QSize &size);
+    // static QImage generateImageAsync(const QSize &size, FuseVolume *volume);
+    static QImage generateImageAsync(const QSize &size, FuseVolume *fv);
 };

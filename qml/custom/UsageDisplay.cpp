@@ -1,7 +1,7 @@
 #include "UsageDisplay.h"
 #include <QElapsedTimer>
+#include <QtConcurrent>
 
-// Initialize Palette Colors (Ported from Swift NSColor)
 QColor UsageDisplay::Palette::white  = QColor(255, 255, 255);
 QColor UsageDisplay::Palette::gray   = QColor(128, 128, 128);
 QColor UsageDisplay::Palette::black  = QColor(0, 0, 0);
@@ -16,6 +16,7 @@ QColor UsageDisplay::Palette::purple = QColor(0xb2, 0x66, 0xff);
 QColor UsageDisplay::Palette::pink   = QColor(0xff, 0x66, 0xff);
 
 QColor UsageDisplay::Palette::getByIndex(int index) {
+
     static const QColor list[] = { red, orange, yellow, green, dgreen, cyan, blue, purple, pink };
     if (index < 0 || index >= 9) return white;
     return list[index];
@@ -25,31 +26,34 @@ UsageDisplay::UsageDisplay(QQuickItem *parent) : CustomComponent(parent) {
 
     setAntialiasing(true);
 
-    connect(&m_watcher, &QFutureWatcher<QImage>::finished, this, [this]() {
-    m_cachedImage = m_watcher.result();
-    emit isProcessingChanged(); // Update the UI property
-    update();
-});
-
-    // connect(&m_watcher, &QFutureWatcher<QImage>::finished, this, &UsageDisplay::onImageReady);
+    connect(&m_watcher, &QFutureWatcher<QImage>::finished, this, [this]
+    {
+        m_cachedImage = m_watcher.result();
+        emit isProcessingChanged();
+        update();
+    });
 }
 
-void UsageDisplay::refreshUsage()
+void UsageDisplay::refreshImage()
 {
-    if (m_watcher.isRunning()) return; // Don't start if already processing
+    // Only proceed if no image creation is in progress
+    if (m_watcher.isRunning()) return;
 
+    // Only procees if the image has non-zero dimensions
     QSize currentSize(width(), height());
     if (currentSize.isEmpty()) return;
 
-    // Start background thread
+    auto v = fuseVolume(0, 0);
 
-    auto future = QtConcurrent::run(&UsageDisplay::generateImageAsync, currentSize);
+    // Start background thread
+    auto future = QtConcurrent::run(&UsageDisplay::generateImageAsync, currentSize, v);
     m_watcher.setFuture(future);
     emit isProcessingChanged();
 }
 
-// This runs in a BACKGROUND THREAD
-QImage UsageDisplay::generateImageAsync(const QSize &size) {
+QImage UsageDisplay::generateImageAsync(const QSize &size, FuseVolume *fv) {
+
+    // Note: This code runs in a background thread...
 
     QElapsedTimer timer;
     timer.start();
@@ -59,7 +63,7 @@ QImage UsageDisplay::generateImageAsync(const QSize &size) {
 
     // 1. Heavy backend call
     std::vector<uint8_t> buffer(w);
-    // proxy->createUsageMap(volume, buffer.data(), w); // Several seconds...
+    fv->createUsageMap(buffer.data(), w); // TODO: GET THE IMAGE FROM THE PROPER DEV AND VOL
 
     // 2. Generate Image
     QImage image(w, h, QImage::Format_ARGB32);
@@ -99,51 +103,6 @@ QImage UsageDisplay::generateImageAsync(const QSize &size) {
 
     return image;
 }
-
-/*
-QImage
-UsageDisplay::createUsageImage(const QSize &size) {
-    int w = size.width();
-    int h = size.height();
-    if (w <= 0 || h <= 0) return QImage();
-
-    // 1. Prepare data buffer (equivalent to Swift Data(count: Int(size.width)))
-    std::vector<uint8_t> buffer(w);
-
-    fuseVolume(0,0)->createUsageMap(buffer.data(), w);
-
-    // 2. Create the image (Format_ARGB32 matches the Swift UInt32 ABGR logic)
-    QImage image(w, h, QImage::Format_ARGB32);
-
-    for (int x = 0; x < w; ++x) {
-        // Ported 'colorize' logic (example using Allocation Map logic)
-        QColor baseColor;
-        uint8_t val = buffer[x];
-
-        // This switch mimics your 'allocImage' or 'diagnoseImage' logic
-        switch (val) {
-            case 0:  baseColor = Palette::gray;   break;
-            case 1:  baseColor = Palette::green;  break;
-            case 2:  baseColor = Palette::yellow; break;
-            case 3:  baseColor = Palette::red;    break;
-            default: baseColor = Palette::white;  break;
-        }
-
-        for (int y = 0; y < h; ++y) {
-            // Ported gradient logic: (255 - 2*y)
-            float factor = qMax(0, 255 - 2 * y) / 255.0f;
-
-            int r = static_cast<int>(baseColor.red()   * factor);
-            int g = static_cast<int>(baseColor.green() * factor);
-            int b = static_cast<int>(baseColor.blue()  * factor);
-            int a = baseColor.alpha();
-
-            image.setPixelColor(x, y, QColor(r, g, b, a));
-        }
-    }
-    return image;
-}
-*/
 
 // This runs back on the MAIN THREAD
 void UsageDisplay::onImageReady() {

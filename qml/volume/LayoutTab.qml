@@ -45,7 +45,6 @@ ColumnLayout {
                     RowLayout {
                         Layout.fillWidth: true
 
-                        // The display component
                         UsageDisplay {
                             id: usageVisual
                             model: mainModel
@@ -53,12 +52,29 @@ ColumnLayout {
                             Layout.preferredHeight: 18
                         }
 
-                        // The Trigger Button
+                        BusyButton {
+                            imageSource: "qrc:/assets/icons/sync.svg"
+                            size: 18
+                            running: usageVisual.isProcessing
+                            onClicked: usageVisual.refreshImage()
+
+                            ToolTip.text: "Recalculate image"
+                            ToolTip.visible: hovered
+                        }
+
+                        /*
                         Button {
-                            width: 50
-                            text: usageVisual.isProcessing ? "" : "Refresh Map"
+                            width: 18
+                            height: 18
+                            // icon.width: 24  // Set your desired width
+                            // icon.height: 24 // Set your desired height
+                            // icon.color: "transparent" // Use "transparent" to keep original image colors
+                            // width: 50
+                            // text: usageVisual.isProcessing ? "" : "Refresh Map"
+                            icon.source: usageVisual.isProcessing ? "" : "qrc:/assets/icons/sync.svg"
                             enabled: !usageVisual.isProcessing
-                            onClicked: usageVisual.refreshUsage()
+                            onClicked: usageVisual.refreshImage()
+                           //  visible: !usageVisual.isProcessing
 
                             BusyIndicator {
                                 anchors.centerIn: parent
@@ -70,16 +86,10 @@ ColumnLayout {
                             // (Requires exposing a 'processing' property from C++)
                             // enabled: !usageVisual.isProcessing
                         }
-                    }
-                    /*
-                    UsageDisplay {
 
-                        id: usageVisual
-                        model: mainModel
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 18
+                         */
                     }
-                    */
+
                     Slider {
                         id: blockSlider
                         Layout.fillWidth: true
