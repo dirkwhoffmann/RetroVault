@@ -10,12 +10,16 @@ class UsageDisplay : public CustomComponent {
     Q_OBJECT
     QML_ELEMENT
 
+    QList<QColor> m_palette;
     QImage m_cachedImage;
     QFutureWatcher<QImage> m_watcher;
 
 public:
 
     UsageDisplay(QQuickItem *parent = nullptr);
+
+    // The color palette
+    Q_PROPERTY(QList<QColor> palette READ palette WRITE setPalette NOTIFY paletteChanged)
 
     // Indicates whether image creation is in progress
     Q_PROPERTY(bool isProcessing READ isProcessing NOTIFY isProcessingChanged)
@@ -25,24 +29,10 @@ public:
 
 private:
 
+    QList<QColor> palette() const { return m_palette; }
+    void setPalette(const QList<QColor> &palette);
+
     bool isProcessing() const { return m_watcher.isRunning(); }
-
-    struct Palette {
-        static QColor white;
-        static QColor gray;
-        static QColor black;
-        static QColor red;
-        static QColor orange;
-        static QColor yellow;
-        static QColor green;
-        static QColor dgreen;
-        static QColor cyan;
-        static QColor blue;
-        static QColor purple;
-        static QColor pink;
-
-        static QColor getByIndex(int index);
-    };
 
 signals:
     void isProcessingChanged();
@@ -56,6 +46,5 @@ private:
     void paint(QPainter *painter) override;
 
     // Internal thread-safe generator
-    // static QImage generateImageAsync(const QSize &size, FuseVolume *volume);
-    static QImage generateImageAsync(const QSize &size, FuseVolume *fv);
+    static QImage generateImageAsync(FuseVolume *fv, const QSize &size, const QList<QColor> &colors);
 };

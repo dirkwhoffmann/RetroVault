@@ -46,10 +46,19 @@ ColumnLayout {
                         Layout.fillWidth: true
 
                         UsageDisplay {
+
                             id: usageVisual
                             model: mainModel
                             Layout.fillWidth: true
                             Layout.preferredHeight: 18
+                            palette: [
+                                "#808080", // Gray (Index 0)
+                                "#66ff66", // Green (Index 1)
+                                "#ffff66", // Yellow (Index 2)
+                                "#ff6666", // Red (Index 3)
+                                "cyan",    // You can also use names
+                                "purple"
+                            ]
                         }
 
                         BusyButton {

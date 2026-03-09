@@ -14,6 +14,20 @@ QtObject {
     readonly property color iconDefault: "#546E7A"
     */
 
+    // Colors
+    readonly property color white: QColor(0xff, 0xff, 0xff)
+    readonly property color gray: QColor(0x80, 0x80, 0x80)
+    readonly property color black: QColor(0x00, 0x00, 0x00)
+    readonly property color red: QColor(0xff, 0x66, 0x66)
+    readonly property color orange: QColor(0xff, 0xb2, 0x66)
+    readonly property color yellow: QColor(0xff, 0xff, 0x66)
+    readonly property color green: QColor(0x66, 0xff, 0x66)
+    readonly property color dgreen: QColor(0x00, 0x99, 0x00)
+    readonly property color cyan: QColor(0x66, 0xff, 0xff)
+    readonly property color blue: QColor(0x66, 0xb2, 0xff)
+    readonly property color purple: QColor(0xb2, 0x66, 0xff)
+    readonly property color pink: QColor(0xff, 0x66, 0xff)
+
     // Layout Units
     readonly property real gridUnit: Qt.application.font.pointSize
     readonly property real smallSpacing: 4

@@ -1,7 +1,8 @@
 #include "UsageDisplay.h"
-#include <QElapsedTimer>
+// #include <QElapsedTimer>
 #include <QtConcurrent>
 
+/*
 QColor UsageDisplay::Palette::white  = QColor(255, 255, 255);
 QColor UsageDisplay::Palette::gray   = QColor(128, 128, 128);
 QColor UsageDisplay::Palette::black  = QColor(0, 0, 0);
@@ -21,6 +22,7 @@ QColor UsageDisplay::Palette::getByIndex(int index) {
     if (index < 0 || index >= 9) return white;
     return list[index];
 }
+*/
 
 UsageDisplay::UsageDisplay(QQuickItem *parent) : CustomComponent(parent) {
 
@@ -34,7 +36,19 @@ UsageDisplay::UsageDisplay(QQuickItem *parent) : CustomComponent(parent) {
     });
 }
 
-void UsageDisplay::refreshImage()
+void
+UsageDisplay::setPalette(const QList<QColor> &palette) {
+
+    if (m_palette != palette) {
+
+        m_palette = palette;
+        emit paletteChanged();
+        update();
+    }
+}
+
+void
+UsageDisplay::refreshImage()
 {
     // Only proceed if no image creation is in progress
     if (m_watcher.isRunning()) return;
@@ -46,12 +60,12 @@ void UsageDisplay::refreshImage()
     auto v = fuseVolume(0, 0);
 
     // Start background thread
-    auto future = QtConcurrent::run(&UsageDisplay::generateImageAsync, currentSize, v);
+    auto future = QtConcurrent::run(&UsageDisplay::generateImageAsync, v, currentSize, m_palette);
     m_watcher.setFuture(future);
     emit isProcessingChanged();
 }
 
-QImage UsageDisplay::generateImageAsync(const QSize &size, FuseVolume *fv) {
+QImage UsageDisplay::generateImageAsync(FuseVolume *fv, const QSize &size, const QList<QColor> &colors) {
 
     // Note: This code runs in a background thread...
 
@@ -61,29 +75,26 @@ QImage UsageDisplay::generateImageAsync(const QSize &size, FuseVolume *fv) {
     int w = size.width();
     int h = size.height();
 
-    // 1. Heavy backend call
+    // Heavy backend call
     std::vector<uint8_t> buffer(w);
-    fv->createUsageMap(buffer.data(), w); // TODO: GET THE IMAGE FROM THE PROPER DEV AND VOL
+    fv->createUsageMap(buffer.data(), w);
 
-    // 2. Generate Image
+    // Generate Image
     QImage image(w, h, QImage::Format_ARGB32);
 
     for (int x = 0; x < w; ++x) {
         // Ported 'colorize' logic (example using Allocation Map logic)
-        QColor baseColor;
+        QColor baseColor = Qt::white;;
         uint8_t val = buffer[x];
 
-        // This switch mimics your 'allocImage' or 'diagnoseImage' logic
-        switch (val) {
-        case 0:  baseColor = Palette::gray;   break;
-        case 1:  baseColor = Palette::green;  break;
-        case 2:  baseColor = Palette::yellow; break;
-        case 3:  baseColor = Palette::red;    break;
-        default: baseColor = Palette::white;  break;
+        if (val < colors.size()) {
+            baseColor = colors.at(val);
         }
 
+        // This switch mimics your 'allocImage' or 'diagnoseImage' logic
+
         for (int y = 0; y < h; ++y) {
-            // Ported gradient logic: (255 - 2*y)
+
             float factor = qMax(0, 255 - 2 * y) / 255.0f;
 
             int r = static_cast<int>(baseColor.red()   * factor);
@@ -123,29 +134,3 @@ void UsageDisplay::paint(QPainter *painter) {
 
     painter->drawImage(0, 0, m_cachedImage);
 }
-
-/*
-void UsageDisplay::paint(QPainter *painter) {
-
-    printf("paint...\n");
-    // Generate the image based on current item size
-    QImage img = createUsageImage(QSize(width(), height()));
-
-    if (!img.isNull()) {
-        painter->drawImage(0, 0, img);
-    }
-}
-*/
-
-/*
-#include "UsageDisplay.h"
-
-void
-UsageDisplay::paint(QPainter *painter)  {
-
-    printf("UsageDisplay::paint\n");
-
-    painter->setBrush(QColor("#27ae60"));
-    painter->drawRoundedRect(0, 0, width() * 1.0, height(), 5, 5);
-}
-*/
