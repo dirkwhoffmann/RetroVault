@@ -203,11 +203,16 @@ DevicePanelController::set(int c, int h, int t, int s, int b)
     m_sector = s;
     m_block = b;
 
-    if (cChanged) { emit cylinderChanged(); }
-    if (hChanged) { emit headChanged(); }
-    if (tChanged) { emit trackChanged(); }
-    if (sChanged) { emit sectorChanged(); }
-    if (bChanged) { emit blockChanged(); }
+    if (cChanged || hChanged || tChanged || sChanged || bChanged)
+    {
+        if (cChanged) { emit cylinderChanged(); }
+        if (hChanged) { emit headChanged(); }
+        if (tChanged) { emit trackChanged(); }
+        if (sChanged) { emit sectorChanged(); }
+        if (bChanged) { emit blockChanged(); }
+
+        m_tableModel.refresh(m_device, m_block);
+    }
 }
 
 void
@@ -244,11 +249,4 @@ DevicePanelController::refresh()
     }
 
     setDeviceInfo(list);
-    /*
-    if (m_deviceInfo != list)
-    {
-        m_deviceInfo = list;
-        emit deviceInfoChanged();
-    }
-*/
 }

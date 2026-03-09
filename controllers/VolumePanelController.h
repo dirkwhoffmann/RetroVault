@@ -27,6 +27,8 @@ class VolumePanelController : public Controller
         void refresh(int d, int v, int b);
     };
 
+    int numBlocks = 0;
+    int bsize = 0;
     int devNr = -1;
     int volNr = -1;
     int blkNr = 0;
@@ -41,6 +43,8 @@ public:
         tableModel.controller = this;
     }
 
+    Q_PROPERTY(int numBlocks READ getNumBlocks NOTIFY numBlocksChanged)
+    Q_PROPERTY(int bsize READ getBsize NOTIFY bsizeChanged)
     Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY deviceChanged)
     Q_PROPERTY(int volume READ getVolume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(QString name READ getName NOTIFY nameChanged)
@@ -48,6 +52,8 @@ public:
     Q_PROPERTY(BlockViewModel* tableModel READ getTableModel NOTIFY tableModelChanged)
     Q_PROPERTY(int block READ getBlock WRITE setBlock NOTIFY blockChanged)
 
+    int getNumBlocks() const { return numBlocks; }
+    int getBsize() const { return bsize; }
     int getDevice() const { return devNr; }
     int getVolume() const { return volNr; }
     int getBlock() const { return blkNr; }
@@ -55,6 +61,8 @@ public:
     QVariantList getVolumeInfo() const { return volumeInfo; }
     BlockViewModel* getTableModel() { return &tableModel; }
 
+    void setNumBlocks(int value) { numBlocks = value; emit numBlocksChanged(); }
+    void setBsize(int value) { bsize = value; emit bsizeChanged(); }
     void setDevice(int value);
     void setVolume(int value);
     void setBlock(int value);
@@ -62,6 +70,8 @@ public:
     void setVolumeInfo(const QVariantList& info);
 
 signals:
+    void numBlocksChanged();
+    void bsizeChanged();
     void deviceChanged();
     void volumeChanged();
     void blockChanged();

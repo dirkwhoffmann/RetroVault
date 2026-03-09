@@ -118,6 +118,7 @@ VolumePanelController::setBlock(int value)
         {
             blkNr = value;
             emit blockChanged();
+            tableModel.refresh(devNr, volNr, blkNr);
         }
     }
 }
@@ -153,33 +154,15 @@ VolumePanelController::refresh()
         auto mp = fv->getMountPoint();
         auto title = mp.filename().string();
 
+        setNumBlocks(int(stat.blocks));
+        setBsize(int(stat.bsize));
+
         if (title.empty())
         {
             // auto *image = fuseDevice(devNr)->getImage();
             // title = image->path.string();
             title = "Logical Volume " + std::to_string(volNr + 1);
         }
-    /*
-    manager()->vol
-    let description = proxy!.describe()
-        info = app.manager.info(device: device!, volume: volume!)
-
-        icon.image = info.icon()
-        icon.mountPoint = info.mountPoint
-        mainTitle.stringValue = info.name
-        subTitle1.stringValue = description?[safe: 0] ?? ""
-        subTitle2.stringValue = description?[safe: 1] ?? ""
-        subTitle3.stringValue = description?[safe: 2] ?? ""
-
-        blockStepper.minValue = Double(0)
-        blockStepper.maxValue = Double(info.blocks - 1)
-        blockSlider.minValue = 0
-        blockSlider.maxValue = Double(info.blocks - 1)
-        allocSlider.minValue = 0
-        allocSlider.maxValue = Double(info.blocks - 1)
-        diagnoseSlider.minValue = 0
-        diagnoseSlider.maxValue = Double(info.blocks - 1)
-    */
 
         // auto *image = device->getImage();
 

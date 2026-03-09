@@ -57,9 +57,37 @@ Item {
             Layout.fillWidth: true
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
-            DeviceBlockSelector {
+            RowLayout {
 
-                id: deviceBlockSelector
+                anchors.fill: parent
+                // spacing: 0
+
+                LabeledStepper {
+                    id: blockStepper
+                    label: "Block"
+                    to: Math.max(0, controller.numBlocks - 1)
+                    value: controller.block
+                    onValueChanged: { controller.block = value }
+                }
+
+                Label {
+                    id: usageString
+                    text: "Usage description"
+                    font.pointSize: Style.small
+                    Layout.alignment: Qt.AlignHCenter
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Label {
+                    id: errorString
+                    text: "Holla, die Waldfee"
+                    color: "red"
+                    font.pointSize: Style.small
+                    Layout.alignment: Qt.AlignHCenter
+                }
             }
         }
 
@@ -75,13 +103,6 @@ Item {
 
                 id: blockView
                 model: controller.tableModel
-                dev: devNr
-                blk: controller.block
-
-                onBlkChanged: {
-                    console.log("onBlkChanged: " + blk)
-                    controller.refresh()
-                }
             }
         }
     }

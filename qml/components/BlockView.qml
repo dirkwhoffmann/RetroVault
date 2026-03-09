@@ -6,20 +6,6 @@ Rectangle {
 
     property alias model: tableView.model
 
-    property int dev: -1
-    // onDevChanged: { console.log("onDevChanged " + dev); updateData() }
-
-    property int blk
-    /*
-    onBlkChanged: updateData()
-
-    function updateData() {
-
-        console.log("Fetching data for Cylinder: " + dev + ":" + blk)
-        // Backend.refreshBlockView(dev, blk)
-    }
-    */
-
     anchors.fill: parent
 
     HorizontalHeaderView {

@@ -65,7 +65,6 @@ public:
     Q_PROPERTY(int numTracks READ getNumTracks NOTIFY numTracksChanged)
     Q_PROPERTY(int numSectors READ getNumSectors NOTIFY numSectorsChanged)
     Q_PROPERTY(int numBlocks READ getNumBlocks NOTIFY numBlocksChanged)
-
     Q_PROPERTY(int bsize READ getBsize NOTIFY bsizeChanged)
 
     Q_PROPERTY(QString name READ getName NOTIFY nameChanged)
@@ -89,7 +88,6 @@ public:
     int getNumTracks() const { return numTracks; }
     int getNumSectors() const { return numSectors; }
     int getNumBlocks() const { return numBlocks; }
-
     int getBsize() const { return bsize; }
 
     void setName(QString name) { m_name = name; emit nameChanged(); }

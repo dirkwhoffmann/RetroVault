@@ -100,20 +100,6 @@ Item {
             }
         }
 
-        /*
-        Pane {
-
-            id: blockSelectorPane
-            Layout.fillWidth: true
-            leftPadding: Style.largeSpacing
-            rightPadding: Style.largeSpacing
-            DeviceBlockSelector {
-
-                id: deviceBlockSelector
-            }
-        }
-        */
-
         Pane {
 
             id: blockViewPane
@@ -126,13 +112,6 @@ Item {
 
                 id: blockView
                 model: controller.tableModel
-                dev: devNr
-                blk: controller.block
-
-                onBlkChanged: {
-                    console.log("onBlkChanged: " + blk)
-                    controller.refresh()
-                }
             }
         }
     }
