@@ -133,7 +133,7 @@ ApplicationWindow {
         if (dev == -1) {
             mainStack.replace(splashPage);
         } else if (vol == -1) {
-            mainStack.replace(devicePanel, {"deviceId": dev, "volumeId": vol});
+            mainStack.replace(devicePanel, {"devNr": dev, "volNr": vol});
         } else {
             mainStack.replace(volumePanel, {"devNr": dev, "volNr": vol});
         }
@@ -150,19 +150,6 @@ ApplicationWindow {
             errorDialog.open()
         }
     }
-
-    /*
-    Connections {
-        target: Backend
-        function onUpdateCanvas() {
-            console.log("UIController: onUpdateCanvas: ");
-        }
-
-        function onUpdateSidebar() {
-            console.log("UIController: onUpdateSidebar: ");
-        }
-    }
-    */
 
     MessageDialog {
         id: errorDialog

@@ -7,7 +7,7 @@ Rectangle {
     property alias model: tableView.model
 
     property int dev: -1
-    onDevChanged: { console.log("onDevChanged " + dev); updateData() }
+    // onDevChanged: { console.log("onDevChanged " + dev); updateData() }
 
     property int blk
     /*

@@ -1,13 +1,22 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Controllers
 
 Item {
 
     id: root
     property int devNr: -1
     property int volNr: -1
-    property var volInfo: []
+    // property var volInfo: []
+
+    VolumePanelController {
+
+        id: controller
+        device: devNr
+        volume: volNr
+        model: mainModel
+    }
 
     ColumnLayout {
 
@@ -24,7 +33,8 @@ Item {
             Header {
 
                 id: header
-                gridData: volInfo
+                title: controller.name
+                gridData: controller.volumeInfo
             }
         }
 
@@ -64,8 +74,14 @@ Item {
             BlockView {
 
                 id: blockView
+                model: controller.tableModel
                 dev: devNr
-                blk: deviceBlockSelector.block
+                blk: controller.block
+
+                onBlkChanged: {
+                    console.log("onBlkChanged: " + blk)
+                    controller.refresh()
+                }
             }
         }
     }
@@ -78,5 +94,11 @@ Item {
     onVolNrChanged: {
 
         console.log("onVolNrChanged: " + devNr)
+    }
+
+    Component.onCompleted: {
+
+        console.log("VolumePanelController fully loaded. " + devNr);
+        controller.refresh()
     }
 }

@@ -25,7 +25,7 @@ class DevicePanelController : public Controller
 {
     Q_OBJECT
 
-    QString m_name = "BUGS BUNNY";
+    QString m_name = "";
 
     int numCylinders = 0;
     int numHeads = 0;

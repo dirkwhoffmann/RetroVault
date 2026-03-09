@@ -5,13 +5,13 @@ import RetroVault.Controllers
 
 Item {
 
-    property int deviceId: -1
-    property int volumeId: -1
+    property int devNr: -1
+    property int volNr: -1
 
     DevicePanelController {
 
         id: controller
-        device: deviceId
+        device: devNr
         model: mainModel
     }
 
@@ -126,7 +126,7 @@ Item {
 
                 id: blockView
                 model: controller.tableModel
-                dev: deviceId
+                dev: devNr
                 blk: controller.block
 
                 onBlkChanged: {
@@ -137,19 +137,21 @@ Item {
         }
     }
 
+    /*
     onDeviceIdChanged: {
 
-        console.log("DevicePanel: Loading data for device index: " + deviceId)
+        console.log("DevicePanel: Loading data for device index: " + devNr)
 
-        if (deviceId !== -1) {
+        if (devNr !== -1) {
 
-            controller.refresh(deviceId)
+            controller.refresh(devNr)
         }
     }
+    */
 
     Component.onCompleted: {
 
-        console.log("Component fully loaded. Triggering refresh... " + deviceId);
-        controller.refresh(deviceId)
+        console.log("DevicePanelController fully loaded. " + devNr);
+        controller.refresh()
     }
 }

@@ -7,4 +7,5 @@ target_sources(retrovault PRIVATE
         SplashPanelController.cpp
         SidebarController.cpp
         SidebarModel.cpp
+        VolumePanelController.cpp
         WindowController.cpp)

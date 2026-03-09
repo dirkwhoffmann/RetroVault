@@ -13,6 +13,7 @@
 #include "DevicePanelController.h"
 #include "SidebarController.h"
 #include "SplashPanelController.h"
+#include "VolumePanelController.h"
 #include "WindowController.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -41,9 +42,10 @@ int main(int argc, char *argv[])
 
     // Register types
     qmlRegisterType<DevicePanelController>("RetroVault.Controllers", 1, 0, "DevicePanelController");
-    qmlRegisterType<SplashPanelController>("RetroVault.Controllers", 1, 0, "SplashPanelController");
-    qmlRegisterType<WindowController>("RetroVault.Controllers", 1, 0, "WindowController");
     qmlRegisterType<SidebarController>("RetroVault.Controllers", 1, 0, "SidebarController");
+    qmlRegisterType<SplashPanelController>("RetroVault.Controllers", 1, 0, "SplashPanelController");
+    qmlRegisterType<VolumePanelController>("RetroVault.Controllers", 1, 0, "VolumePanelController");
+    qmlRegisterType<WindowController>("RetroVault.Controllers", 1, 0, "WindowController");
 
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
                              "Retrovault.Signals", 1, 0, "UIController");

@@ -20,8 +20,7 @@ pkg_check_modules(FUSE REQUIRED fuse)
 
 add_executable(retrovault
         debug.cpp
-        main.cpp
-)
+        main.cpp)
 
 add_subdirectory(utlib)
 add_subdirectory(rvlib)
@@ -44,15 +43,27 @@ target_link_libraries(retrovault PRIVATE
         Qt6::QuickDialogs2
         Qt6::QuickEffects)
 
-target_include_directories(retrovault PRIVATE ${FUSE_INCLUDE_DIRS})
-target_link_libraries(retrovault PRIVATE ${FUSE_LIBRARIES})
-target_compile_options(retrovault PRIVATE ${FUSE_CFLAGS_OTHER})
+#
+# FUSE
+#
+
+target_include_directories(retrovault PRIVATE
+        ${FUSE_INCLUDE_DIRS})
+
+target_link_libraries(retrovault PRIVATE
+        ${FUSE_LIBRARIES})
+
+target_compile_options(retrovault PRIVATE
+        ${FUSE_CFLAGS_OTHER})
+
+#
+# Qt
+#
 
 qt_standard_project_setup()
 qt_policy(SET QTP0001 NEW)
 qt_policy(SET QTP0004 NEW)
 
-# Find all QML files and assers
 file(GLOB_RECURSE QML_SOURCES CONFIGURE_DEPENDS
         "qml/*.qml")
 
@@ -73,8 +84,7 @@ set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 qt_add_resources(retrovault "assets_files"
         PREFIX "/assets"
         BASE "assets"
-        FILES ${ASSET_RESOURCES}
-)
+        FILES ${ASSET_RESOURCES})
 
 qt_add_qml_module(retrovault
         URI retrovaultUI
