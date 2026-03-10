@@ -15,7 +15,7 @@ using namespace retro::vault;
 
 DeviceManager::DeviceManager()
 {
-    printf("DeviceManager::DeviceManager()\n");
+
 }
 
 DeviceManager::~DeviceManager()

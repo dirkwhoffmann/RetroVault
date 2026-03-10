@@ -60,12 +60,13 @@ UsageDisplay::refreshImage()
     auto v = fuseVolume(0, 0);
 
     // Start background thread
-    auto future = QtConcurrent::run(&UsageDisplay::generateImageAsync, v, currentSize, m_palette);
+    auto future = QtConcurrent::run(&UsageDisplay::generateImageAsync, v, currentSize, m_type, m_palette);
     m_watcher.setFuture(future);
     emit isProcessingChanged();
 }
 
-QImage UsageDisplay::generateImageAsync(FuseVolume *fv, const QSize &size, const QList<QColor> &colors) {
+QImage
+UsageDisplay::generateImageAsync(FuseVolume *fv, const QSize &size, int type, const QList<QColor> &colors) {
 
     // Note: This code runs in a background thread...
 
@@ -75,35 +76,23 @@ QImage UsageDisplay::generateImageAsync(FuseVolume *fv, const QSize &size, const
     int w = size.width();
     int h = size.height();
 
-    // Heavy backend call
-    std::vector<uint8_t> buffer(w);
-    fv->createUsageMap(buffer.data(), w);
-
     // Generate Image
     QImage image(w, h, QImage::Format_ARGB32);
 
-    for (int x = 0; x < w; ++x) {
-        // Ported 'colorize' logic (example using Allocation Map logic)
-        QColor baseColor = Qt::white;;
-        uint8_t val = buffer[x];
-
-        if (val < colors.size()) {
-            baseColor = colors.at(val);
-        }
-
-        // This switch mimics your 'allocImage' or 'diagnoseImage' logic
-
-        for (int y = 0; y < h; ++y) {
-
-            float factor = qMax(0, 255 - 2 * y) / 255.0f;
-
-            int r = static_cast<int>(baseColor.red()   * factor);
-            int g = static_cast<int>(baseColor.green() * factor);
-            int b = static_cast<int>(baseColor.blue()  * factor);
-            int a = baseColor.alpha();
-
-            image.setPixelColor(x, y, QColor(r, g, b, a));
-        }
+    // Heavy backend call
+    switch (type)
+    {
+    case 0:
+        generateUsageImage(fv, image);
+        break;
+    case 1:
+        generateAllocImage(fv, image);
+        break;
+    case 2:
+        generateCheckImage(fv, image);
+        break;
+    default:
+        fatalError;
     }
 
     // For debugging: Ensure at least 2000ms have passed
@@ -113,6 +102,88 @@ QImage UsageDisplay::generateImageAsync(FuseVolume *fv, const QSize &size, const
     }
 
     return image;
+}
+
+void
+UsageDisplay::generateUsageImage(FuseVolume *fv, QImage &image)
+{
+    std::vector<u8> buffer(image.width());
+    fv->createUsageMap(buffer.data(), image.width());
+    generateImage(image, buffer.data(), [](int val) -> QColor {
+
+        switch (val) {
+        case 0:  return QColor("#ffffff"); // white
+        case 1:  return QColor("#808080"); // gray
+        case 2:  return QColor("#ffb266"); // orange
+        case 3:  return QColor("#ff6666"); // red
+        case 4:  return QColor("#b266ff"); // purple
+        case 5:  return QColor("#ff66ff"); // pink
+        case 6:  return QColor("#ffff66"); // yellow
+        case 7:  return QColor("#66b2ff"); // blue
+        case 8:  return QColor("#009900"); // dgreen
+        case 9:  return QColor("#66ff66"); // green
+        case 10: return QColor("#66ff66"); // green
+        default: return QColor("#000000"); // Fallback
+        }
+    });
+}
+
+void
+UsageDisplay::generateAllocImage(FuseVolume *fv, QImage &image)
+{
+    std::vector<u8> buffer(image.width());
+    fv->createAllocationMap(buffer.data(), image.width());
+    generateImage(image, buffer.data(), [](int val) -> QColor {
+
+        switch (val) {
+        case 0:  return QColor("#808080"); // gray
+        case 1:  return QColor("#66ff66"); // green
+        case 2:  return QColor("#ffff66"); // yellow
+        case 3:  return QColor("#ff6666"); // red
+        default: return QColor("#000000"); // Fallback
+        }
+    });
+}
+
+void
+UsageDisplay::generateCheckImage(FuseVolume *fv, QImage &image)
+{
+    std::vector<u8> buffer(image.width());
+    fv->createHealthMap(buffer.data(), image.width());
+    generateImage(image, buffer.data(), [](int val) -> QColor {
+
+         switch (val) {
+         case 0:  return QColor("#808080"); // gray
+         case 1:  return QColor("#66ff66"); // green
+         case 2:  return QColor("#ff6666"); // red
+         default: return QColor("#000000"); // Fallback
+         }
+     });
+}
+
+void
+UsageDisplay::generateImage(QImage &image, u8 *data, std::function<QColor(int)> func)
+{
+    auto w = image.width();
+    auto h = image.height();
+
+    for (int x = 0; x < w; ++x) {
+
+        uint8_t val = data[x];
+        QColor color = func(val);
+
+        for (int y = 0; y < h; ++y) {
+
+            float factor = qMax(0, 255 - 2 * y) / 255.0f;
+
+            int r = static_cast<int>(color.red()   * factor);
+            int g = static_cast<int>(color.green() * factor);
+            int b = static_cast<int>(color.blue()  * factor);
+            int a = color.alpha();
+
+            image.setPixelColor(x, y, QColor(r, g, b, a));
+        }
+    }
 }
 
 // This runs back on the MAIN THREAD

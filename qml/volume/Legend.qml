@@ -3,11 +3,13 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
+    id: root
+
+    property var palette: []
 
     implicitHeight: grid.implicitHeight
 
     GridLayout {
-
         id: grid
         columns: 4
         anchors.left: parent.left
@@ -17,21 +19,13 @@ Item {
 
         Repeater {
 
-            model: ["1", "2", "3", "4", "5", "6", "7", "8"]
+            model: root.palette
 
             delegate: ColorInfo {
 
                 Layout.fillWidth: true
-                /*
-                readonly property int col: index % gridColumns
-
-                text: modelData //  + (col % 2 === 1 ? ":" : "")
-                font.pointSize: Style.small
-                elide: Text.ElideRight
-                color: col === 0 ? "#000" : "#666"
-                Layout.alignment: Qt.AlignLeft // col % 2 === 1 ? Qt.AlignRight : Qt.AlignLeft
-                Layout.fillWidth: col === 0 // index % 2 !== 1
-                 */
+                color: modelData.color
+                label: modelData.label
             }
         }
     }

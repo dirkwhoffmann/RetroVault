@@ -2,31 +2,20 @@ import QtQuick
 pragma Singleton
 
 QtObject {
-    /*
-    // Brand Colors
-    readonly property color primary: "#2196F3"
-    readonly property color accent: "#FF4081"
-    readonly property color background: "#FFFFFF"
-
-    // Interaction Colors
-    readonly property color hoverColor: "#FF0000" // "#F5F5F5"
-    readonly property color pressedColor: "#E0E0E0"
-    readonly property color iconDefault: "#546E7A"
-    */
 
     // Colors
-    readonly property color white: QColor(0xff, 0xff, 0xff)
-    readonly property color gray: QColor(0x80, 0x80, 0x80)
-    readonly property color black: QColor(0x00, 0x00, 0x00)
-    readonly property color red: QColor(0xff, 0x66, 0x66)
-    readonly property color orange: QColor(0xff, 0xb2, 0x66)
-    readonly property color yellow: QColor(0xff, 0xff, 0x66)
-    readonly property color green: QColor(0x66, 0xff, 0x66)
-    readonly property color dgreen: QColor(0x00, 0x99, 0x00)
-    readonly property color cyan: QColor(0x66, 0xff, 0xff)
-    readonly property color blue: QColor(0x66, 0xb2, 0xff)
-    readonly property color purple: QColor(0xb2, 0x66, 0xff)
-    readonly property color pink: QColor(0xff, 0x66, 0xff)
+    readonly property color white:  "#ffffff"
+    readonly property color gray:   "#808080"
+    readonly property color black:  "#000000"
+    readonly property color red:    "#ff6666"
+    readonly property color orange: "#ffb266"
+    readonly property color yellow: "#ffff66"
+    readonly property color green:  "#66ff66"
+    readonly property color dgreen: "#009900"
+    readonly property color cyan:   "#66ffff"
+    readonly property color blue:   "#66b2ff"
+    readonly property color purple: "#b266ff"
+    readonly property color pink:   "#ff66ff"
 
     // Layout Units
     readonly property real gridUnit: Qt.application.font.pointSize

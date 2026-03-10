@@ -48,6 +48,7 @@ Item {
             LayoutTab {
 
                 id: layoutTab
+                palette: controller.legendData
             }
         }
 

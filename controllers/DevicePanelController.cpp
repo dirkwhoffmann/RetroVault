@@ -235,8 +235,11 @@ DevicePanelController::refresh()
         setNumSectors(int(image->numSectors(m_track)));
         setNumBlocks(int(image->numBlocks()));
         setBsize(int(image->bsize()));
-        // auto format = DeviceInfo::Format(image->format());
+        setFormat(ImageFormatEnum::key(image->format()));
 
+        updateIcon();
+
+        // Device description
         auto txt1 = QString::fromStdString(info.size() > 0 ? info[0] : "");
         auto txt2 = QString::fromStdString(info.size() > 1 ? info[1] : "");
         auto txt3 = "";
@@ -249,4 +252,24 @@ DevicePanelController::refresh()
     }
 
     setDeviceInfo(list);
+}
+
+void
+DevicePanelController::updateIcon()
+{
+    static const std::unordered_map<string,string> formatSuffixes = {
+        {"ADF",   "volume_amiga"},
+        {"ADZ",   "volume_amiga"},
+        {"EADF",  "volume_amiga"},
+        {"DMS",   "volume_amiga"},
+        {"IMG",   "volume_dos"},
+        {"ST",    "volume_st"},
+        {"D64",   "volume_cbm"}
+    };
+
+    if (auto it = formatSuffixes.find(m_format.toStdString()); it != formatSuffixes.end()) {
+        setIcon(QString::fromStdString(it->second));
+    } else {
+        setIcon("");
+    }
 }
