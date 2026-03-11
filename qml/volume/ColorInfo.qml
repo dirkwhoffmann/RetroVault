@@ -15,7 +15,7 @@ RowLayout {
         height: 12
         color: "#27ae60"
         radius: 2
-        border.color: Qt.darker(color, 1.2)
+        border.color: Style.tertiary //  Qt.darker(color, 1.2)
         border.width: 1
     }
 

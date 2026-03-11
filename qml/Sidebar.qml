@@ -31,7 +31,14 @@ Item {
         TreeView {
 
             id: treeView
-            anchors.fill: parent
+            // anchors.fill: parent
+            anchors {
+                left: parent.left
+                top: parent.top
+                bottom: parent.bottom
+                right: parent.right
+                rightMargin: Style.mediumSpacing
+            }
             clip: true
             alternatingRows: true
             topMargin: 10
@@ -75,8 +82,9 @@ Item {
                         Label {
                             text: title
                             font.bold: isDevice
-                            color:  highlighted ? "white" : treeView.palette.text
+                            color: highlighted ? "white" : treeView.palette.text
                             Layout.fillWidth: true
+                            elide: Text.ElideRight
                         }
                         Label {
                             text: subtitle
@@ -84,6 +92,7 @@ Item {
                             font.pixelSize: 11
                             color:  highlighted ? "white" : treeView.palette.text
                             Layout.fillWidth: true
+                            elide: Text.ElideRight
                         }
                     }
                 }

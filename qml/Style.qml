@@ -3,7 +3,16 @@ pragma Singleton
 
 QtObject {
 
+    property SystemPalette _palette: SystemPalette {
+        colorGroup: SystemPalette.Active
+    }
+
     // Colors
+
+    readonly property color primary: _palette.windowText
+    readonly property color secondary: Qt.rgba(primary.r, primary.g, primary.b, 0.7)
+    readonly property color tertiary: Qt.rgba(primary.r, primary.g, primary.b, 0.45)
+
     readonly property color white:  "#ffffff"
     readonly property color gray:   "#808080"
     readonly property color black:  "#000000"
