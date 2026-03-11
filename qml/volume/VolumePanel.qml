@@ -8,7 +8,6 @@ Item {
     id: root
     property int devNr: -1
     property int volNr: -1
-    // property var volInfo: []
 
     VolumePanelController {
 
@@ -46,7 +45,7 @@ Item {
             Layout.preferredHeight: 150
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
-            LayoutTab {
+            VolumeTabBar {
 
                 id: layoutTab
                 palette: controller.legendData
