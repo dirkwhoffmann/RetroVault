@@ -33,6 +33,7 @@ Item {
             Header {
 
                 id: header
+                image.source: controller.icon
                 title: controller.name
                 gridData: controller.volumeInfo
             }

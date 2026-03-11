@@ -3,6 +3,7 @@
 //
 
 #include "VolumePanelController.h"
+#include "Assets.h"
 #include <QColor>
 #include <QList>
 
@@ -142,6 +143,7 @@ VolumePanelController::setImageFmt(QString value)
 void
 VolumePanelController::setIcon(QString value)
 {
+    printf("VolumePanelController: setIcon(%s)\n", value.toStdString().c_str());
     icon = value;
     emit iconChanged();
 }
@@ -180,11 +182,13 @@ VolumePanelController::refresh()
             title = "Logical Volume " + std::to_string(volNr + 1);
         }
 
-        // auto *image = device->getImage();
 
         // auto &path = image->path;
 
         setName(QString::fromStdString(title)); //  mp.filename().string()));
+        setImageFmt(ImageFormatEnum::key(image(devNr)->format()));
+
+        updateIcon();
 
         auto txt1 = QString::fromStdString(info.size() > 0 ? info[0] : "");
         auto txt2 = QString::fromStdString(info.size() > 1 ? info[1] : "");
@@ -219,7 +223,7 @@ VolumePanelController::computeLegend() const
             QVariantMap{{"color", QColor("#b266ff")}, {"label", QStringLiteral("Bitmap Block")}},
             QVariantMap{{"color", QColor("#ffff66")}, {"label", QStringLiteral("User Directory Block")}},
             QVariantMap{{"color", QColor("#009900")}, {"label", QStringLiteral("File List Block")}},
-            QVariantMap{{"color", QColor("#ffb266")}, {"label", QStringLiteral("Root Block")}},
+            QVariantMap{{"color", QColor("#ff6666")}, {"label", QStringLiteral("Root Block")}},
             QVariantMap{{"color", QColor("#ff66ff")}, {"label", QStringLiteral("Bitmap Extension Block")}},
             QVariantMap{{"color", QColor("#66b2ff")}, {"label", QStringLiteral("File Header Block")}},
             QVariantMap{{"color", QColor("#66ff66")}, {"label", QStringLiteral("Data Block")}}
@@ -242,19 +246,19 @@ VolumePanelController::computeLegend() const
 void
 VolumePanelController::updateIcon()
 {
-    static const std::unordered_map<string, string> formatSuffixes = {
-        {"ADF", "volume_amiga"},
-        {"ADZ", "volume_amiga"},
-        {"EADF", "volume_amiga"},
-        {"DMS", "volume_amiga"},
-        {"IMG", "volume_dos"},
-        {"ST", "volume_st"},
-        {"D64", "volume_cbm"}
+    static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
+        {"ADF", Assets::VolumeAmiga},
+        {"ADZ", Assets::VolumeAmiga},
+        {"EADF", Assets::VolumeAmiga},
+        {"DMS", Assets::VolumeAmiga},
+        {"IMG", Assets::VolumeDOS},
+        {"ST", Assets::VolumeST},
+        {"D64", Assets::VolumeCBM}
     };
 
     if (auto it = formatSuffixes.find(imageFmt.toStdString()); it != formatSuffixes.end())
     {
-        setIcon(QString::fromStdString(it->second));
+        setIcon(Assets::getIconUrl(it->second).toString());
     }
     else
     {

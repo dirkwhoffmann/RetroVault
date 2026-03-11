@@ -3,7 +3,7 @@
 //
 
 #include "DevicePanelController.h"
-
+#include "Assets.h"
 
 //
 // Table View
@@ -257,19 +257,22 @@ DevicePanelController::refresh()
 void
 DevicePanelController::updateIcon()
 {
-    static const std::unordered_map<string,string> formatSuffixes = {
-        {"ADF",   "volume_amiga"},
-        {"ADZ",   "volume_amiga"},
-        {"EADF",  "volume_amiga"},
-        {"DMS",   "volume_amiga"},
-        {"IMG",   "volume_dos"},
-        {"ST",    "volume_st"},
-        {"D64",   "volume_cbm"}
+    static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
+        {"ADF", Assets::Floppy35DD},
+        {"ADZ", Assets::Floppy35DD},
+        {"EADF", Assets::Floppy35DD},
+        {"DMS", Assets::Floppy35DD},
+        {"IMG", Assets::Floppy35DD},
+        {"ST", Assets::Floppy35DD},
+        {"D64", Assets::Floppy525DD}
     };
 
-    if (auto it = formatSuffixes.find(m_format.toStdString()); it != formatSuffixes.end()) {
-        setIcon(QString::fromStdString(it->second));
-    } else {
+    if (auto it = formatSuffixes.find(m_format.toStdString()); it != formatSuffixes.end())
+    {
+        setIcon(Assets::getIconUrl(it->second).toString());
+    }
+    else
+    {
         setIcon("");
     }
 }

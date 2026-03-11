@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import RetroVault.Controllers
+import RetroVault.Assets
 
 ToolBar {
 
@@ -51,6 +52,28 @@ ToolBar {
 
                 NavButton {
 
+                    id: plusButton
+                    icon.source: Assets.iconUrl(Assets.Plus)
+
+                    onClicked: {
+                        console.log("Plus clicked")
+                        fileDialog.open()
+                    }
+                }
+
+                NavButton {
+
+                    id: minusButton
+                    icon.source: Assets.iconUrl(Assets.Minus)
+
+                    onClicked: {
+                        console.log("Minus clicked")
+                    }
+                }
+
+                /*
+                NavButton {
+
                     id: burgerButton
                     icon.source: "qrc:/assets/icons/burger.svg"
 
@@ -66,6 +89,7 @@ ToolBar {
                         }
                     }
                 }
+                */
 
                 // 3. Put the Separator at the very right edge of this container
                 ToolSeparator {

@@ -12,8 +12,6 @@ public:
     std::optional<isize> m_dev {};
     std::optional<isize> m_blk {};
 
-    // DeviceBlockViewModel() { }
-
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     int columnCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -116,7 +114,7 @@ private:
     void setDevice(int value);
     void setName(QString value) { m_name = value; emit nameChanged(); }
     void setFormat(QString value) { m_format = value; emit formatChanged(); }
-    void setIcon(QString value) { m_icon = value; emit iconChanged(); }
+    void setIcon(QString value) { printf("setIcon(%s)\n", value.toStdString().c_str()); m_icon = value; emit iconChanged(); }
 
     void setNumCylinders(int value) { numCylinders = value; emit numCylindersChanged(); }
     void setNumHeads(int value) { numHeads = value; emit numHeadsChanged();}

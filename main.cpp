@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "backend/Model.h"
+#include "Assets.h"
 #include "DeviceManager.h"
 // #include "UsageDisplay.h"
 #include "DevicePanelController.h"
@@ -48,8 +49,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<WindowController>("RetroVault.Controllers", 1, 0, "WindowController");
 
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
-                             "Retrovault.Signals", 1, 0, "UIController");
-    // qmlRegisterType<UsageDisplay>("UsageDisplay", 1, 0, "UsageDisplay");
+                             "RetroVault.Signals", 1, 0, "UIController");
+    qmlRegisterSingletonInstance("RetroVault.Assets", 1, 0, "Assets", Assets::instance());
 
     // Load the QML file
     const QUrl url(QStringLiteral("qrc:/qt/qml/retrovaultUI/qml/Main.qml"));

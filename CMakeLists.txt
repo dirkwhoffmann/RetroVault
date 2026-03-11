@@ -20,6 +20,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(FUSE REQUIRED fuse)
 
 add_executable(retrovault
+        Assets.cpp
         debug.cpp
         main.cpp)
 

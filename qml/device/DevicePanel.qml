@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Controllers
+import RetroVault.Assets
 
 Item {
 
@@ -30,6 +31,7 @@ Item {
             Header {
 
                 id: header
+                image.source: controller.icon
                 title: controller.name
                 gridData: controller.deviceInfo
             }
@@ -115,18 +117,6 @@ Item {
             }
         }
     }
-
-    /*
-    onDeviceIdChanged: {
-
-        console.log("DevicePanel: Loading data for device index: " + devNr)
-
-        if (devNr !== -1) {
-
-            controller.refresh(devNr)
-        }
-    }
-    */
 
     Component.onCompleted: {
 

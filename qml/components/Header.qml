@@ -8,6 +8,8 @@ Pane {
     anchors.fill: parent
     padding: 0
 
+    property alias image: image
+
     property var title
     property var gridData
 
@@ -27,7 +29,8 @@ Pane {
 
             Image {
 
-                source: "qrc:/assets/images/floppy35_dd.png"
+                id: image
+                // source: "qrc:/assets/images/floppy35_dd.png"
                 sourceSize: Qt.size(80, 80)
             }
         }
