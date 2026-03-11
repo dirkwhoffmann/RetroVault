@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Controller.h"
+#include "CustomController.h"
 #include <QAbstractItemModel>
 
 class DeviceBlockViewModel : public QAbstractTableModel
 {
 public:
 
-    Controller *controller = nullptr;
+    CustomController *controller = nullptr;
 
     std::optional<isize> m_dev {};
     std::optional<isize> m_blk {};
@@ -19,7 +19,7 @@ public:
     void refresh(int dev, int blk);
 };
 
-class DevicePanelController : public Controller
+class DevicePanelController : public CustomController
 {
     Q_OBJECT
 
@@ -50,8 +50,7 @@ class DevicePanelController : public Controller
 
 public:
 
-    // using Controller::Controller;
-    explicit DevicePanelController(QObject *parent = nullptr) : Controller(parent)
+    explicit DevicePanelController(QObject *parent = nullptr) : CustomController(parent)
     {
         m_tableModel.controller = this;
     }

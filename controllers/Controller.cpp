@@ -3,20 +3,7 @@
 //
 
 #include "Controller.h"
-#include "FuseDevice.h"
-#include "FuseVolume.h"
 #include <QQmlEngine>
-
-void
-Controller::setModel(Model* model) {
-
-    if (m_model != model) {
-
-        m_model = model;
-        m_manager = model->manager;
-        emit modelChanged();
-    }
-}
 
 void
 Controller::rethrow(std::exception& e)
@@ -26,33 +13,4 @@ Controller::rethrow(std::exception& e)
     QString errorMsg = QString::fromStdString(e.what());
     printf("%s\n", errorMsg.toStdString().c_str());
     qmlEngine(this)->throwError(errorMsg);
-}
-
-FuseDevice *
-Controller::fuseDevice(isize dev) const
-{
-    if (m_manager && dev >= 0 && m_manager->numDevices() > dev)
-        return &m_manager->getDevice(dev);
-
-    return nullptr;
-}
-
-FuseVolume *
-Controller::fuseVolume(isize dev, isize vol) const
-{
-    if (auto d = fuseDevice(dev)) {
-
-        if (vol >= 0 && vol < d->count())
-            return &d->getVolume(vol);
-    }
-    return nullptr;
-}
-
-DiskImage *
-Controller::image(isize dev) const
-{
-    if (auto d = fuseDevice(dev))
-        return d->getImage();
-
-    return nullptr;
 }

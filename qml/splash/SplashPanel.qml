@@ -5,10 +5,13 @@ import RetroVault.Controllers
 
 Item {
 
+    id: root
+    required property WindowController windowController
+
     SplashPanelController {
 
         id: controller
-        model: mainModel
+        windowController: root.windowController
     }
 
     FontLoader {

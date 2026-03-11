@@ -9,11 +9,17 @@ import "components"
 
 ApplicationWindow {
 
-    property alias numDevices: controller.numDevices
+    id: root
+
+    property WindowController wcontroller: controllerInstance
+
+    property alias numDevices: controllerInstance.numDevices
+    property alias device: controllerInstance.device
+    property alias volume: controllerInstance.volume
 
     WindowController {
 
-        id: controller
+        id: controllerInstance
         model: mainModel
     }
 
@@ -21,10 +27,14 @@ ApplicationWindow {
         console.log("onNumDevicesChanged: " + numDevices)
     }
 
+    onVolumeChanged: { updateStack() }
+    onDeviceChanged: { updateStack() }
+
+
     property Model model
 
-    property int dev: -1
-    property int vol: -1
+    // property int dev: -1
+    // property int vol: -1
 
     visible: true
     width: 900
@@ -37,7 +47,7 @@ ApplicationWindow {
     header: MyToolbar {
 
         id: mainToolbar
-        controller: controller
+        windowController: wcontroller
     }
 
     title: "RetroVault"
@@ -50,7 +60,8 @@ ApplicationWindow {
         Sidebar {
 
             id: mySidebar
-            numDevices: controller.numDevices
+            windowController: wcontroller
+            numDevices: wcontroller.numDevices
             Layout.fillHeight: true
             Layout.preferredWidth: 256
             Layout.minimumWidth: 200
@@ -60,17 +71,17 @@ ApplicationWindow {
                 mainToolbar.sidebarWidth = mySidebar.width
             }
 
+            /*
             onItemSelected: (deviceId, volumeId) => {
 
                 console.log("onItemSelected: " + deviceId + " " + volumeId);
-                dev = deviceId
-                vol = volumeId
+                controller.select(deviceId, volumeId);
             }
+            */
         }
 
         StackView {
             id: mainStack
-            // anchors.fill: parent
             Layout.fillWidth: true
             Layout.fillHeight: true
             z: 0
@@ -98,49 +109,46 @@ ApplicationWindow {
                     easing.type: Easing.InOutQuad
                 }
             }
-            /*
-            pushEnter: null
-            pushExit: null
-            popEnter: null
-            popExit: null
-            */
         }
 
         // Component for the Splash Screen
         Component {
             id: splashPage
             SplashPanel {
+                windowController: wcontroller
             }
         }
 
         Component {
             id: devicePanel
             DevicePanel {
+                windowController: wcontroller
             }
         }
 
         Component {
             id: volumePanel
             VolumePanel {
+                windowController: wcontroller
             }
         }
     }
 
     function updateStack() {
 
-        console.log("updateStack for Dev:", dev, "and Vol:", vol)
+        console.log("updateStack for Dev:", device, "and Vol:", volume)
 
-        if (dev == -1) {
+        if (device == -1) {
             mainStack.replace(splashPage);
-        } else if (vol == -1) {
-            mainStack.replace(devicePanel, {"devNr": dev, "volNr": vol});
+        } else if (volume == -1) {
+            mainStack.replace(devicePanel);
         } else {
-            mainStack.replace(volumePanel, {"devNr": dev, "volNr": vol});
+            mainStack.replace(volumePanel);
         }
     }
 
-    onVolChanged: { updateStack() }
-    onDevChanged: { updateStack() }
+    // onVolChanged: { updateStack() }
+    // onDevChanged: { updateStack() }
 
     Connections {
 

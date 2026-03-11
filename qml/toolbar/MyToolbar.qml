@@ -7,7 +7,7 @@ import RetroVault.Assets
 
 ToolBar {
 
-    property WindowController controller
+    required property WindowController windowController
 
     FileDialog {
 
@@ -17,7 +17,7 @@ ToolBar {
         onAccepted: {
             console.log("Selected file URL: " + selectedFile)
             try {
-                controller.addImage(selectedFile)
+                windowController.addImage(selectedFile)
             } catch (e) {
                 console.log("Calling showError...")
                 UIController.showError(e.message)

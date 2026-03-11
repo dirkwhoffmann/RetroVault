@@ -6,14 +6,13 @@ import RetroVault.Assets
 
 Item {
 
-    property int devNr: -1
-    property int volNr: -1
+    id: root
+    required property WindowController windowController
 
     DevicePanelController {
 
         id: controller
-        device: devNr
-        model: mainModel
+        windowController: root.windowController
     }
 
     ColumnLayout {
@@ -120,7 +119,7 @@ Item {
 
     Component.onCompleted: {
 
-        console.log("DevicePanelController fully loaded. " + devNr);
+        console.log("DevicePanelController fully loaded. ");
         controller.refresh()
     }
 }

@@ -6,15 +6,12 @@ import RetroVault.Controllers
 Item {
 
     id: root
-    property int devNr: -1
-    property int volNr: -1
+    required property WindowController windowController
 
     VolumePanelController {
 
         id: controller
-        device: devNr
-        volume: volNr
-        model: mainModel
+        windowController: root.windowController
     }
 
     ColumnLayout {
@@ -108,6 +105,7 @@ Item {
         }
     }
 
+    /*
     onDevNrChanged: {
 
         console.log("onDevNrChanged: " + devNr)
@@ -117,6 +115,7 @@ Item {
 
         console.log("onVolNrChanged: " + devNr)
     }
+    */
 
     Component.onCompleted: {
 

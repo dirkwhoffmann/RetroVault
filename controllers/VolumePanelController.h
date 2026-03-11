@@ -1,22 +1,22 @@
 #pragma once
 
-#include "Controller.h"
+#include "CustomController.h"
 #include <QAbstractItemModel>
 
-class VolumePanelController : public Controller
+class VolumePanelController : public CustomController
 {
     Q_OBJECT
 
     class BlockViewModel : public QAbstractTableModel
     {
     public:
-        Controller* controller = nullptr;
+        CustomController* controller = nullptr;
 
         int devNr = -1;
         int volNr = -1;
         int blkNr = 0;
 
-        BlockViewModel(Controller* c) : controller(c)
+        BlockViewModel(CustomController* c) : controller(c)
         {
         }
 
@@ -48,8 +48,7 @@ class VolumePanelController : public Controller
     BlockViewModel tableModel = BlockViewModel(this);
 
 public:
-    // using Controller::Controller;
-    explicit VolumePanelController(QObject* parent = nullptr) : Controller(parent)
+    explicit VolumePanelController(QObject* parent = nullptr) : CustomController(parent)
     {
         tableModel.controller = this;
     }
@@ -95,7 +94,7 @@ private:
     QVariantList getLegendData() const { return computeLegend(); }
 
     //
-    // Getter
+    // Setter
     //
 
     void setDevice(int value);

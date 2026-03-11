@@ -4,22 +4,25 @@ import QtQuick.Layouts
 import RetroVault.Controllers
 
 Item {
-    id: sidebar
+    id: root
     height: parent.height
 
     required property int numDevices
+    required property WindowController windowController
+
     signal itemSelected(int deviceId, int volumeId)
 
     SidebarController {
 
         id: controller
-        model: mainModel
+        numDevices: root.numDevices
+        windowController: root.windowController
     }
 
     onNumDevicesChanged: {
 
         console.log("numDevices changed to " + numDevices);
-        controller.refresh();
+        // controller.refresh();
     }
 
     Rectangle {
@@ -104,7 +107,8 @@ Item {
                         // console.log("modelIndex = " + modelIndex);
                         console.log("deviceId = " + deviceId);
                         console.log("volumeId = " + volumeId);
-                        itemSelected(deviceId, volumeId);
+                        windowController.select(deviceId, volumeId);
+                        // itemSelected(deviceId, volumeId);
                     }
                 }
             }
