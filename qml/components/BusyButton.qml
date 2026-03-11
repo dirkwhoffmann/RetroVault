@@ -15,8 +15,8 @@ ImageButton {
         BusyIndicator {
             padding: parent.padding
             anchors.centerIn: parent
-            width: parent.width
-            height: parent.height
+            width: parent.width * iconScale
+            height: parent.height * iconScale
             running: busyControl.running
             visible: running
         }
@@ -26,7 +26,7 @@ ImageButton {
             width: busyControl.icon.width
             height: busyControl.icon.height
             source: busyControl.icon.source
-            fillMode: Image.PreserveAspectFit
+            // fillMode: Image.PreserveAspectFit
             visible: !busyControl.running
         }
     }

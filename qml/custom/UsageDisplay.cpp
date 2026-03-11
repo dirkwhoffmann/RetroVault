@@ -54,6 +54,28 @@ UsageDisplay::refreshImage()
     if (m_watcher.isRunning()) return;
 
     // Only procees if the image has non-zero dimensions
+    QSize internalSize(1024, 24);
+
+    auto v = fuseVolume(0, 0);
+
+    // Start background thread
+    auto future = QtConcurrent::run(&UsageDisplay::generateImageAsync,
+                                    v,
+                                    internalSize,
+                                    m_type,
+                                    m_palette);
+    m_watcher.setFuture(future);
+    emit isProcessingChanged();
+}
+
+/*
+void
+UsageDisplay::refreshImage()
+{
+    // Only proceed if no image creation is in progress
+    if (m_watcher.isRunning()) return;
+
+    // Only procees if the image has non-zero dimensions
     QSize currentSize(width(), height());
     if (currentSize.isEmpty()) return;
 
@@ -64,6 +86,7 @@ UsageDisplay::refreshImage()
     m_watcher.setFuture(future);
     emit isProcessingChanged();
 }
+*/
 
 QImage
 UsageDisplay::generateImageAsync(FuseVolume *fv, const QSize &size, int type, const QList<QColor> &colors) {
@@ -193,6 +216,22 @@ void UsageDisplay::onImageReady() {
 }
 
 void UsageDisplay::paint(QPainter *painter) {
+    if (m_cachedImage.isNull()) return;
+
+    // The target is the actual size of the component in the QML layout
+    QRectF targetRect(0, 0, width(), height());
+
+    // The source is our high-res internal buffer
+    QRectF sourceRect(0, 0, m_cachedImage.width(), m_cachedImage.height());
+
+    // Enable high-quality downscaling
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    painter->drawImage(targetRect, m_cachedImage, sourceRect);
+}
+/*
+void UsageDisplay::paint(QPainter *painter) {
 
     printf("paint...\n");
 
@@ -204,4 +243,14 @@ void UsageDisplay::paint(QPainter *painter) {
     }
 
     painter->drawImage(0, 0, m_cachedImage);
+}
+*/
+
+void UsageDisplay::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) {
+    QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
+
+    if (newGeometry.size() != oldGeometry.size()) {
+        // Just redraw the existing m_cachedImage at the new scale
+        update();
+    }
 }

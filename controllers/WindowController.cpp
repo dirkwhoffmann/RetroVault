@@ -63,15 +63,14 @@ WindowController::addImage(const QUrl &url) {
     {
         printf("addImage(%s)\n", url.toLocalFile().toStdString().c_str());
         manager->add(url.toLocalFile().toStdString());
+        m_numDevices = manager->numDevices();
+        select(m_numDevices - 1);
+        emit numDevicesChanged();
     }
     catch (std::exception& e)
     {
         rethrow(e);
-        return;
     }
-
-    m_numDevices = manager->numDevices();
-    emit numDevicesChanged();
 }
 
 FuseDevice *

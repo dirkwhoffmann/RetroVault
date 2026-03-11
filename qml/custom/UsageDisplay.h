@@ -53,6 +53,8 @@ private:
     // Internal paint routine
     void paint(QPainter *painter) override;
 
+    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+
     // Internal thread-safe generator
     static QImage generateImageAsync(FuseVolume *fv, const QSize &size, int type, const QList<QColor> &colors);
 

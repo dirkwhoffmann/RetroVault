@@ -16,13 +16,16 @@ public:
 
         // Icons
         Burger,
+        Checked,
         Eject,
         Folder,
         GitHub,
+        Health,
         Locked,
         Minus,
         Plus,
         Sync,
+        Unchecked,
         Unlocked,
 
         // Images

@@ -48,7 +48,7 @@ public:
     void setDevice(int value);
     void setVolume(int value);
 
-    Q_INVOKABLE void select(int newDevice, int newVolume);
+    Q_INVOKABLE void select(int newDevice, int newVolume = -1);
 
 public:
 

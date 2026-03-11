@@ -8,13 +8,16 @@ Assets::getIconUrl(Icon icon)
         case Assets::Unknown:       return QUrl("qrc:/assets/icons/questionmark.svg");
 
         case Assets::Burger:        return QUrl("qrc:/assets/icons/burger.svg");
+        case Assets::Checked:       return QUrl("qrc:/assets/icons/checked.svg");
         case Assets::Eject:         return QUrl("qrc:/assets/icons/eject.svg");
         case Assets::Folder:        return QUrl("qrc:/assets/icons/folder.svg");
         case Assets::GitHub:        return QUrl("qrc:/assets/icons/github.svg");
+        case Assets::Health:        return QUrl("qrc:/assets/icons/health.svg");
         case Assets::Locked:        return QUrl("qrc:/assets/icons/locked.svg");
         case Assets::Minus:         return QUrl("qrc:/assets/icons/minus.svg");
         case Assets::Plus:          return QUrl("qrc:/assets/icons/plus.svg");
         case Assets::Sync:          return QUrl("qrc:/assets/icons/sync.svg");
+        case Assets::Unchecked:     return QUrl("qrc:/assets/icons/unchecked.svg");
         case Assets::Unlocked:      return QUrl("qrc:/assets/icons/unlocked.svg");
 
         case Assets::AppIcon:       return QUrl("qrc:/assets/images/AppIcon.png");
