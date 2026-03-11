@@ -122,7 +122,8 @@ ApplicationWindow {
         Component {
             id: devicePanel
             DevicePanel {
-                windowController: wcontroller
+                windowController: root.wcontroller
+                device: root.device
             }
         }
 
@@ -130,6 +131,8 @@ ApplicationWindow {
             id: volumePanel
             VolumePanel {
                 windowController: wcontroller
+                device: root.device
+                volume: root.volume
             }
         }
     }

@@ -7,11 +7,15 @@ Item {
 
     id: root
     required property WindowController windowController
+    required property int device
+    required property int volume
 
     VolumePanelController {
 
         id: controller
         windowController: root.windowController
+        device: root.device
+        volume: root.volume
     }
 
     ColumnLayout {

@@ -8,11 +8,13 @@ Item {
 
     id: root
     required property WindowController windowController
+    required property int device
 
     DevicePanelController {
 
         id: controller
         windowController: root.windowController
+        device: root.device
     }
 
     ColumnLayout {

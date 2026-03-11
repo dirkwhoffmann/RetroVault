@@ -24,7 +24,7 @@ class DevicePanelController : public CustomController
     Q_OBJECT
 
     // Device properties
-    int m_device = 0;
+    int m_device = -1;
     QString m_name = "";
     QString m_format = "";
     QString m_icon = "";
