@@ -19,7 +19,6 @@ using namespace retro::vault;
 class FuseDevice : Loggable {
         
     friend class FuseVolume;
-    friend class SidebarModel;
 
     // Wrapped image file
     std::unique_ptr<DiskImage> image;

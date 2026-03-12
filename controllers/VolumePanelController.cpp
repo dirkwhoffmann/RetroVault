@@ -81,11 +81,9 @@ VolumePanelController::BlockViewModel::data(const QModelIndex& index, int role) 
 }
 
 void
-VolumePanelController::BlockViewModel::refresh(int d, int v, int b)
+VolumePanelController::BlockViewModel::refresh(int b)
 {
     beginResetModel();
-    devNr = d;
-    volNr = v;
     blkNr = b;
     endResetModel();
 }
@@ -94,6 +92,7 @@ VolumePanelController::BlockViewModel::refresh(int d, int v, int b)
 // Controller
 //
 
+/*
 void
 VolumePanelController::setDevice(int value)
 {
@@ -109,6 +108,7 @@ VolumePanelController::setVolume(int value)
     refresh();
     emit volumeChanged();
 }
+*/
 
 void
 VolumePanelController::setBlock(int value)
@@ -122,7 +122,7 @@ VolumePanelController::setBlock(int value)
         {
             blkNr = value;
             emit blockChanged();
-            tableModel.refresh(devNr, volNr, blkNr);
+            tableModel.refresh(blkNr);
         }
     }
 }
@@ -162,7 +162,7 @@ VolumePanelController::setVolumeInfo(const QVariantList& info)
 void
 VolumePanelController::refresh()
 {
-    printf("VolumePanelController::refresh dev: %d vol: %d blk: %d\n", devNr, volNr, blkNr);
+    printf("VolumePanelController::refresh blk: %d\n", blkNr);
 
     QVariantList list;
 
@@ -180,7 +180,7 @@ VolumePanelController::refresh()
         {
             // auto *image = fuseDevice(devNr)->getImage();
             // title = image->path.string();
-            title = "Logical Volume " + std::to_string(volNr + 1);
+            title = "Logical Volume";
         }
 
 
@@ -202,7 +202,7 @@ VolumePanelController::refresh()
         list << txt3;
         list << "Read:" << qint64(fv->reads()) << "Write:" << qint64(fv->writes());
 
-        tableModel.refresh(devNr, volNr, blkNr);
+        tableModel.refresh(blkNr);
 
         emit legendDataChanged();
     }

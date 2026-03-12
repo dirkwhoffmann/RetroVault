@@ -6,6 +6,5 @@ target_sources(retrovault PRIVATE
         DevicePanelController.cpp
         SplashPanelController.cpp
         SidebarController.cpp
-        SidebarModel.cpp
         VolumePanelController.cpp
         WindowController.cpp)

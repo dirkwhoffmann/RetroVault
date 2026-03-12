@@ -1,8 +1,12 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Models
 
 Item {
-    // Label { text: "Page 2 Content" }
+
+    id: root
+    required property Model model
+
     Rectangle { anchors.fill: parent; color: "red" }
 }

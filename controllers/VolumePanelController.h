@@ -12,8 +12,6 @@ class VolumePanelController : public Controller
     public:
         Controller* controller = nullptr;
 
-        int devNr = -1;
-        int volNr = -1;
         int blkNr = 0;
 
         BlockViewModel(Controller* c) : controller(c)
@@ -24,12 +22,8 @@ class VolumePanelController : public Controller
         int columnCount(const QModelIndex& = QModelIndex()) const override;
         QVariant data(const QModelIndex& index, int role) const override;
 
-        void refresh(int d, int v, int b);
+        void refresh(int b);
     };
-
-    // Selected volume
-    int devNr = -1;
-    int volNr = -1;
 
     // Volume properties
     QString name = "";
@@ -57,8 +51,6 @@ public:
     // Properties
     //
 
-    Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY deviceChanged)
-    Q_PROPERTY(int volume READ getVolume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(QString name READ getName NOTIFY nameChanged)
     Q_PROPERTY(QString imageFmt READ getImageFmt NOTIFY imageFmtChanged)
     Q_PROPERTY(QString icon READ getIcon NOTIFY iconChanged)
@@ -78,8 +70,6 @@ private:
     // Getter
     //
 
-    int getDevice() const { return devNr; }
-    int getVolume() const { return volNr; }
     QString getName() const { return name; }
     QString getImageFmt() const { return imageFmt; }
     QString getIcon() const { return icon; }
@@ -97,8 +87,6 @@ private:
     // Setter
     //
 
-    void setDevice(int value);
-    void setVolume(int value);
     void setName(QString value);
     void setImageFmt(QString value);
     void setIcon(QString value);

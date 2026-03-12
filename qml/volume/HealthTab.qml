@@ -2,13 +2,15 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Assets
+import RetroVault.Models
 import RetroVault.Controllers
 
 Item {
 
     id: root
-    required property VolumePanelController controller
+    required property Model model
 
+    /*
     UsageScanner {
 
         id: scanner
@@ -16,6 +18,7 @@ Item {
         device: root.controller.device
         volume: root.controller.volume
     }
+    */
 
     ColumnLayout {
 
@@ -33,7 +36,7 @@ Item {
                 implicitWidth: 1
                 Layout.fillWidth: true
                 Layout.preferredHeight: 18
-                palette: root.palette
+                palette: [] // root.palette
             }
 
             /*

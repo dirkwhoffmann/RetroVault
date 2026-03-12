@@ -2,13 +2,14 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import retrovaultUI
+import RetroVault.Models
 import RetroVault.Controllers
 
 ColumnLayout {
 
     id: root
+    required property Model model
     property var palette: []
-    required property VolumePanelController controller
 
     anchors.fill: parent
     spacing: Style.smallSpacing
@@ -48,10 +49,14 @@ ColumnLayout {
             anchors.fill: parent
             currentIndex: bar.currentIndex
 
-            UsageTab { }
-            AllocTab { }
+            UsageTab {
+                model: root.model
+            }
+            AllocTab {
+                model: root.model
+            }
             HealthTab {
-                controller: root.controller
+                model: root.model
             }
         }
     }

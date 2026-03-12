@@ -136,8 +136,6 @@ ApplicationWindow {
             id: volumePanel
             VolumePanel {
                 model: root.model
-                device: root.device
-                volume: root.volume
             }
         }
     }

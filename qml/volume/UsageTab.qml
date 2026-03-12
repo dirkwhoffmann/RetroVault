@@ -1,8 +1,12 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Models
 
 Item {
+
+    id: root
+    required property Model model
 
     ColumnLayout {
 
@@ -14,10 +18,10 @@ Item {
             UsageDisplay {
 
                 id: usageVisual
-                model: mainModel
+                model: root.model
                 Layout.fillWidth: true
                 Layout.preferredHeight: 18
-                palette: root.palette
+                palette: [] // root.palette
             }
 
             BusyButton {
@@ -42,7 +46,7 @@ Item {
         Legend {
             id: legend
             Layout.fillWidth: true
-            palette: root.palette
+            palette: [] // root.palette
         }
 
         Item {

@@ -8,15 +8,36 @@ Item {
 
     id: root
     required property Model model
-    required property int device
-    required property int volume
+    property int device: model.device
+    property int volume: model.volume
+
+    onDeviceChanged: {
+        console.log("VolumePanel(1): onDeviceChanged " + device);
+        controller.refresh()
+    }
+    onVolumeChanged: {
+        console.log("VolumePanel(1): onVolumeChanged " + volume);
+        controller.refresh()
+    }
 
     VolumePanelController {
 
+        /*
+        property int device: root.device
+        property int volume: root.volume
+        onDeviceChanged: {
+
+            console.log("VolumePanel(2): onDeviceChanged " + device);
+            refresh()
+        }
+        onVolumeChanged: {
+            console.log("VolumePanel(2): onVolumeChanged " + volume);
+            controller.refresh()
+        }
+        */
+
         id: controller
         model: root.model
-        device: root.device
-        volume: root.volume
     }
 
     ColumnLayout {
@@ -50,7 +71,7 @@ Item {
             VolumeTabBar {
 
                 id: layoutTab
-                controller: root.controller
+                model: root.model
                 palette: controller.legendData
             }
         }
@@ -111,21 +132,9 @@ Item {
         }
     }
 
-    /*
-    onDevNrChanged: {
-
-        console.log("onDevNrChanged: " + devNr)
-    }
-
-    onVolNrChanged: {
-
-        console.log("onVolNrChanged: " + devNr)
-    }
-    */
-
     Component.onCompleted: {
 
-        console.log("VolumePanelController fully loaded. " + devNr);
+        console.log("VolumePanelController fully loaded. " + device + " " + volume);
         controller.refresh()
     }
 }

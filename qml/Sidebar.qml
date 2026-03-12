@@ -12,32 +12,18 @@ Item {
     required property Model model
 
     onNumDevicesChanged: {
-        console.log("SidebarController(2): numDevices changed to " + numDevices);
+
+        console.log("Sidebar: onNumDevicesChanged")
+        controller.refresh()
     }
 
     signal itemSelected(int deviceId, int volumeId)
 
     SidebarController {
 
-        property int numDevices: root.numDevices
-
         id: controller
-        // numDevices: root.numDevices
         model: root.model
-
-        onNumDevicesChanged: {
-            console.log("SidebarController: numDevices changed to " + numDevices);
-            refresh()
-        }
     }
-
-    /*
-    onNumDevicesChanged: {
-
-        console.log("numDevices changed to " + numDevices);
-        // controller.refresh();
-    }
-    */
 
     Rectangle {
 
@@ -48,7 +34,6 @@ Item {
         TreeView {
 
             id: treeView
-            // anchors.fill: parent
             anchors {
                 left: parent.left
                 top: parent.top
