@@ -99,16 +99,18 @@ QVariant SidebarModel::data(const QModelIndex& index, int role) const
     }
 }
 
-void SidebarModel::refresh(DeviceManager &manager)
+void SidebarModel::refresh()
 {
+    auto *manager = controller->model->manager;
+
     beginResetModel();
     m_devices.clear();
 
-    int devCnt = manager.numDevices();
+    int devCnt = manager->numDevices();
 
     for (int i = 0; i < devCnt; i++)
     {
-        auto &device = manager.getDevice(i);
+        auto &device = manager->getDevice(i);
         auto ddescr = device.describe();
         auto filename = device.image->path.filename().string();
         SidebarItem dev;

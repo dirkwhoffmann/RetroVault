@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QAbstractTableModel>
+#include "Controller.h"
 #include "DeviceManager.h"
 
 enum ItemType { DeviceItem, VolumeItem };
@@ -30,6 +31,8 @@ class SidebarModel : public QAbstractItemModel
 
 public:
 
+    Controller *controller = nullptr;
+
     enum DeviceRoles {
 
         IconSourceRole = Qt::UserRole + 1,
@@ -50,5 +53,6 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     bool hasChildren(const QModelIndex &parent) const override;
 
-    void refresh(DeviceManager &manager);
+    public slots:
+    void refresh();
 };

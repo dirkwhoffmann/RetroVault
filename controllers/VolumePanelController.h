@@ -1,22 +1,22 @@
 #pragma once
 
-#include "CustomController.h"
+#include "Controller.h"
 #include <QAbstractItemModel>
 
-class VolumePanelController : public CustomController
+class VolumePanelController : public Controller
 {
     Q_OBJECT
 
     class BlockViewModel : public QAbstractTableModel
     {
     public:
-        CustomController* controller = nullptr;
+        Controller* controller = nullptr;
 
         int devNr = -1;
         int volNr = -1;
         int blkNr = 0;
 
-        BlockViewModel(CustomController* c) : controller(c)
+        BlockViewModel(Controller* c) : controller(c)
         {
         }
 
@@ -48,7 +48,7 @@ class VolumePanelController : public CustomController
     BlockViewModel tableModel = BlockViewModel(this);
 
 public:
-    explicit VolumePanelController(QObject* parent = nullptr) : CustomController(parent)
+    explicit VolumePanelController(QObject* parent = nullptr) : Controller(parent)
     {
         tableModel.controller = this;
     }

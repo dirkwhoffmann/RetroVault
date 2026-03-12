@@ -4,31 +4,22 @@
 
 #include "SidebarController.h"
 
-SidebarController::SidebarController(QObject* parent) : CustomController(parent)
+#include "Model.h"
+
+SidebarController::SidebarController(QObject* parent) : Controller(parent)
 {
     m_sidebarModel = new SidebarModel(this);
+    m_sidebarModel->controller = this;
 }
 
-void
-SidebarController::setNumDevices(int value)
-{
-    printf("SidebarController::setNumDevices(%d) %p\n", value, getManager());
-    numDevices = value;
-
-    if (auto *manager = getManager())
-        m_sidebarModel->refresh(*manager);
-
-    emit numDevicesChanged();
-    emit sidebarModelChanged();
-}
-
-/*
 void
 SidebarController::refresh()
 {
-    if (manager)
-    {
-        m_sidebarModel->refresh(*manager);
-    }
+    m_sidebarModel->refresh();
 }
-*/
+
+void
+SidebarController::select(int d, int v)
+{
+    model->select(d, v);
+}

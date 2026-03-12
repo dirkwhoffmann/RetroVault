@@ -1,17 +1,18 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Models
 import RetroVault.Controllers
 
 Item {
 
     id: root
-    required property WindowController windowController
+    required property Model model
 
     SplashPanelController {
 
         id: controller
-        windowController: root.windowController
+        model: root.model
     }
 
     FontLoader {

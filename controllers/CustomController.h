@@ -1,5 +1,6 @@
 #pragma once
 
+/*
 #include "WindowController.h"
 
 class CustomController : public Controller
@@ -32,3 +33,4 @@ public:
     signals:
     void windowControllerChanged();
 };
+*/

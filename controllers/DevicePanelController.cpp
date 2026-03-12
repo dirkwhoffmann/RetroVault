@@ -12,10 +12,10 @@
 int
 DeviceBlockViewModel::rowCount(const QModelIndex &) const
 {
-    if (m_dev && controller)
-      if (const auto *dev = controller->fuseDevice(*m_dev))
-            return (int)dev->bsize() / 16;
-
+    if (auto *dev = controller->model->currentDevice())
+    {
+        return (int)dev->bsize() / 16;
+    }
     return 0;
 }
 
@@ -31,7 +31,7 @@ DeviceBlockViewModel::data(const QModelIndex& index, int role) const
     auto row = index.row();
     auto col = index.column();
 
-    auto image = controller->fuseDevice(*m_dev)->getImage();
+    auto *image = controller->model->currentImage();
 
     if (role == Qt::DisplayRole) {
 
@@ -98,7 +98,7 @@ DevicePanelController::setDevice(int value)
 void
 DevicePanelController::setCylinder(int value)
 {
-    if (const auto *img = image(m_device)) {
+    if (const auto *img = model->currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numCylinders - 1));
 
@@ -115,7 +115,7 @@ DevicePanelController::setCylinder(int value)
 void
 DevicePanelController::setHead(int value)
 {
-    if (const auto *img = image(m_device)) {
+    if (const auto *img = model->currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numHeads - 1));
 
@@ -132,7 +132,7 @@ DevicePanelController::setHead(int value)
 void
 DevicePanelController::setTrack(int value)
 {
-    if (const auto *img = image(m_device)) {
+    if (const auto *img = model->currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numTracks - 1));
 
@@ -149,7 +149,7 @@ DevicePanelController::setTrack(int value)
 void
 DevicePanelController::setSector(int value)
 {
-    if (const auto *img = image(m_device)) {
+    if (const auto *img = model->currentImage()) {
 
         auto c = m_cylinder;
         auto h = m_head;
@@ -164,7 +164,7 @@ DevicePanelController::setSector(int value)
 void
 DevicePanelController::setBlock(int value)
 {
-    if (const auto *img = image(m_device)) {
+    if (const auto *img = model->currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numBlocks - 1));
 
@@ -222,7 +222,7 @@ DevicePanelController::refresh()
 
     QVariantList list;
 
-    if (auto *device = fuseDevice(m_device))
+    if (auto *device =  model->currentDevice())
     {
         auto *image = device->getImage();
         auto info = image->describeImage();

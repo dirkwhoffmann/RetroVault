@@ -2,8 +2,20 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Assets
+import RetroVault.Controllers
 
 Item {
+
+    id: root
+    required property VolumePanelController controller
+
+    UsageScanner {
+
+        id: scanner
+        model: root.controller.model
+        device: root.controller.device
+        volume: root.controller.volume
+    }
 
     ColumnLayout {
 
@@ -36,10 +48,9 @@ Item {
                 // This is now the "content" of the BusyButton
                 imageSource: "qrc:/assets/icons/sync.svg"
                 size: Style.iconMedium
-                onClicked: { usageVisual.refreshImage() }
+                // onClicked: { usageVisual.refreshImage() }
+                onClicked: { scanner.startScan() }
                 visible: !usageVisual.isProcessing
-                // Note: You don't need to manually hide this;
-                // BusyButton handles the opacity/enabled state.
             }
             BusyIndicator {
                 implicitHeight: Style.iconMedium

@@ -1,19 +1,20 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Models
 import RetroVault.Controllers
 import RetroVault.Assets
 
 Item {
 
     id: root
-    required property WindowController windowController
+    required property Model model
     required property int device
 
     DevicePanelController {
 
         id: controller
-        windowController: root.windowController
+        model: root.model
         device: root.device
     }
 

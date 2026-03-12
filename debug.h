@@ -147,12 +147,14 @@ do { \
 // Convenience wrappers
 //
 
+/*
 #define fatal(format, ...) \
     do { \
         logemergency(format __VA_OPT__(,) __VA_ARGS__); \
         assert(false); \
         std::terminate(); \
     } while(0)
+*/
 
 #define xfiles(format, ...) \
     logMsg(XFILES, LogLevel::LOG_INFO, format __VA_OPT__(,) __VA_ARGS__)

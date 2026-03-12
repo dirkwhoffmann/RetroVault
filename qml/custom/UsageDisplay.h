@@ -10,6 +10,7 @@ class UsageDisplay : public CustomComponent {
     Q_OBJECT
     QML_ELEMENT
 
+    QByteArray m_rawData;
     QList<QColor> m_palette;
     int m_type = 0;
     QImage m_cachedImage;
@@ -19,10 +20,13 @@ public:
 
     UsageDisplay(QQuickItem *parent = nullptr);
 
-    // The color palette
+    // Image data
+    Q_PROPERTY(QByteArray rawData READ rawData WRITE setRawData NOTIFY rawDataChanged)
+
+    // The color palette (DEPRECATED)
     Q_PROPERTY(QList<QColor> palette READ palette WRITE setPalette NOTIFY paletteChanged)
 
-    // The image type (0 = block usage, 1 = allocation, 2 = diagnose)
+    // The image type (0 = block usage, 1 = allocation, 2 = diagnose) (DEPRECATED)
     Q_PROPERTY(int type READ getType WRITE setType NOTIFY typeChanged)
 
     // Indicates whether image creation is in progress
@@ -33,6 +37,9 @@ public:
 
 private:
 
+    QByteArray rawData() const { return m_rawData; }
+    void setRawData(const QByteArray &data);
+
     QList<QColor> palette() const { return m_palette; }
     void setPalette(const QList<QColor> &palette);
 
@@ -42,6 +49,7 @@ private:
     bool isProcessing() const { return m_watcher.isRunning(); }
 
 signals:
+    void rawDataChanged();
     void typeChanged();
     void isProcessingChanged();
 

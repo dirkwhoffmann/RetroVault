@@ -6,6 +6,16 @@
 #include <QQmlEngine>
 
 void
+Controller::setModel(Model *value)
+{
+    if (model != value)
+    {
+        model = value;
+        emit modelChanged();
+    }
+}
+
+void
 Controller::rethrow(std::exception& e)
 {
     assert(qmlEngine(this));

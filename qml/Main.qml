@@ -13,25 +13,24 @@ ApplicationWindow {
 
     property WindowController wcontroller: controllerInstance
 
-    property alias numDevices: controllerInstance.numDevices
-    property alias device: controllerInstance.device
-    property alias volume: controllerInstance.volume
+    property Model model: mainModel
+    property int numDevices: model.numDevices
+    property int device: model.device
+    property int volume: model.volume
 
     WindowController {
 
         id: controllerInstance
-        model: mainModel
+        model: root.model
     }
 
     onNumDevicesChanged: {
         console.log("onNumDevicesChanged: " + numDevices)
+        mySidebar.update()
     }
 
     onVolumeChanged: { updateStack() }
     onDeviceChanged: { updateStack() }
-
-
-    property Model model
 
     // property int dev: -1
     // property int vol: -1
@@ -60,8 +59,8 @@ ApplicationWindow {
         Sidebar {
 
             id: mySidebar
-            windowController: wcontroller
-            numDevices: wcontroller.numDevices
+            model: root.model
+            numDevices: root.numDevices
             Layout.fillHeight: true
             Layout.preferredWidth: 256
             Layout.minimumWidth: 200
@@ -70,6 +69,12 @@ ApplicationWindow {
             Component.onCompleted: {
                 mainToolbar.sidebarWidth = mySidebar.width
             }
+
+            /*
+            onNumDevicesChanged: {
+                console.log("onNumDevicesChanged");
+            }
+            */
 
             /*
             onItemSelected: (deviceId, volumeId) => {
@@ -115,14 +120,14 @@ ApplicationWindow {
         Component {
             id: splashPage
             SplashPanel {
-                windowController: wcontroller
+                model: root.model
             }
         }
 
         Component {
             id: devicePanel
             DevicePanel {
-                windowController: root.wcontroller
+                model: root.model
                 device: root.device
             }
         }
@@ -130,7 +135,7 @@ ApplicationWindow {
         Component {
             id: volumePanel
             VolumePanel {
-                windowController: wcontroller
+                model: root.model
                 device: root.device
                 volume: root.volume
             }

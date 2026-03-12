@@ -28,12 +28,24 @@ UsageDisplay::UsageDisplay(QQuickItem *parent) : CustomComponent(parent) {
 
     setAntialiasing(true);
 
+    m_cachedImage = QImage(1024, 1024, QImage::Format_ARGB32);
+    m_cachedImage.fill(Qt::transparent);
+
     connect(&m_watcher, &QFutureWatcher<QImage>::finished, this, [this]
     {
         m_cachedImage = m_watcher.result();
         emit isProcessingChanged();
         update();
     });
+}
+
+void UsageDisplay::setRawData(const QByteArray &data) {
+
+    if (m_rawData != data)
+    {
+        m_rawData = data;
+        emit rawDataChanged();
+    }
 }
 
 void

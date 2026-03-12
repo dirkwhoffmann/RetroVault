@@ -7,6 +7,8 @@
 #include <QColor>
 #include <QList>
 
+#include "Model.h"
+
 //
 // Table View
 //
@@ -14,9 +16,8 @@
 int
 VolumePanelController::BlockViewModel::rowCount(const QModelIndex&) const
 {
-    if (devNr >= 0 && controller)
-        if (const auto* fd = controller->fuseDevice(devNr))
-            return (int)fd->bsize() / 16;
+    if (auto *dev = controller->model->currentDevice())
+        return (int)dev->bsize() / 16;
 
     return 0;
 }
@@ -33,7 +34,7 @@ VolumePanelController::BlockViewModel::data(const QModelIndex& index, int role) 
     auto row = index.row();
     auto col = index.column();
 
-    auto* v = controller->fuseVolume(devNr, volNr);
+    auto *v = controller->model->currentVolume();
     auto offset = blkNr * v->stat().bsize + row * 16;
 
     // auto bsize = v->stat().bsize;
@@ -112,7 +113,7 @@ VolumePanelController::setVolume(int value)
 void
 VolumePanelController::setBlock(int value)
 {
-    if (const auto* fv = fuseVolume(devNr, volNr))
+    if (const auto* fv = model->currentVolume())
     {
         auto tmp = fv->describe();
         value = std::clamp(value, 0, std::max(0, 42)); //   get numBlocks() - 1));
@@ -165,7 +166,7 @@ VolumePanelController::refresh()
 
     QVariantList list;
 
-    if (auto* fv = fuseVolume(devNr, volNr))
+    if (auto* fv = model->currentVolume())
     {
         auto stat = fv->stat();
         auto info = fv->describe();
@@ -186,7 +187,7 @@ VolumePanelController::refresh()
         // auto &path = image->path;
 
         setName(QString::fromStdString(title)); //  mp.filename().string()));
-        setImageFmt(ImageFormatEnum::key(image(devNr)->format()));
+        setImageFmt(ImageFormatEnum::key(model->currentImage()->format()));
 
         updateIcon();
 

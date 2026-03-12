@@ -1,14 +1,14 @@
 #pragma once
 
-#include "CustomController.h"
+#include "Controller.h"
 
-class SplashPanelController : public CustomController
+class SplashPanelController : public Controller
 {
     Q_OBJECT
 
 public:
 
-    using CustomController::CustomController;
+    using Controller::Controller;
 
     Q_INVOKABLE bool hasFuse() const { return false; } // CHANGE BACK ASAP return DeviceManager::hasFuse(); }
 };
