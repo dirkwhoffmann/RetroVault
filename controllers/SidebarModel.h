@@ -9,7 +9,8 @@
 
 enum ItemType { DeviceItem, VolumeItem };
 
-// Tree node for the sidebar
+// Sidebar tree node
+
 struct SidebarItem {
     ItemType type;                  // Device or Volume
     QString iconSource;             // Image name
@@ -19,15 +20,14 @@ struct SidebarItem {
     int volumeId;                   // Volume number
     QVector<SidebarItem> children;  // Holds volumes for devices
 
-    // Optional: default constructor
-    SidebarItem() = default;
+    // SidebarItem() = default;
 };
 
 class SidebarModel : public QAbstractItemModel
 {
     Q_OBJECT
 
-    QVector<SidebarItem> m_devices;
+    QVector<SidebarItem> items;
 
 public:
 

@@ -8,62 +8,56 @@ SidebarModel::SidebarModel(QObject* parent) : QAbstractItemModel(parent)
 {
 }
 
-QModelIndex SidebarModel::index(int row, int column, const QModelIndex& parent) const
+QModelIndex
+SidebarModel::index(int row, int column, const QModelIndex& parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
 
     if (!parent.isValid())
-        return createIndex(row, column,
-                           const_cast<SidebarItem*>(&m_devices[row]));
+        return createIndex(row, column, &items[row]);
 
-    auto* parentItem =
-        static_cast<SidebarItem*>(parent.internalPointer());
-
-    return createIndex(row, column, const_cast<SidebarItem*>(&parentItem->children[row]));
+    auto *parentItem = (SidebarItem *)parent.internalPointer();
+    return createIndex(row, column, &parentItem->children[row]);
 }
 
-QModelIndex SidebarModel::parent(const QModelIndex& child) const
+QModelIndex
+SidebarModel::parent(const QModelIndex& child) const
 {
     if (!child.isValid())
         return QModelIndex();
 
-    auto* childItem =
-        static_cast<SidebarItem*>(child.internalPointer());
+    auto* childItem = (SidebarItem *)child.internalPointer();
 
-    for (int i = 0; i < m_devices.size(); ++i)
+    for (int i = 0; i < items.size(); ++i)
     {
-        const auto& dev = m_devices[i];
+        const auto& dev = items[i];
 
         for (int j = 0; j < dev.children.size(); ++j)
         {
             if (&dev.children[j] == childItem)
-                return createIndex(i, 0, const_cast<SidebarItem*>(&m_devices[i]));
+                return createIndex(i, 0, &items[i]);
         }
     }
 
-    return QModelIndex(); // top level
+    return QModelIndex(); // Top level
 }
 
 int SidebarModel::rowCount(const QModelIndex& parent) const
 {
     if (!parent.isValid())
-        return m_devices.size();
+        return items.size();
 
-    auto* item =
-        static_cast<SidebarItem*>(parent.internalPointer());
-
+    auto *item = (SidebarItem *)parent.internalPointer();
     return item->children.size();
 }
 
 bool SidebarModel::hasChildren(const QModelIndex& parent) const
 {
     if (!parent.isValid())
-        return !m_devices.isEmpty();
+        return !items.isEmpty();
 
-    auto* item =
-        static_cast<SidebarItem*>(parent.internalPointer());
-
+    auto* item = (SidebarItem *)parent.internalPointer();
     return !item->children.isEmpty();
 }
 
@@ -84,8 +78,7 @@ QVariant SidebarModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return {};
 
-    auto* item =
-        static_cast<SidebarItem*>(index.internalPointer());
+    auto *item = (SidebarItem *)index.internalPointer();
 
     switch (role)
     {
@@ -104,7 +97,7 @@ void SidebarModel::refresh()
     auto *manager = controller->model->manager;
 
     beginResetModel();
-    m_devices.clear();
+    items.clear();
 
     int devCnt = manager->numDevices();
 
@@ -138,7 +131,7 @@ void SidebarModel::refresh()
             dev.children.append(vol);
         }
 
-        m_devices.append(dev);
+        items.append(dev);
     }
 
     endResetModel();
