@@ -22,15 +22,6 @@ Item {
         }
     }
 
-    /*
-    HealthScanner {
-
-        id: scanner
-        windowController: root.windowController
-        // Component.onCompleted: { startScan() }
-    }
-    */
-
     ColumnLayout {
 
         anchors.fill: parent
@@ -69,7 +60,6 @@ Item {
             Layout.fillWidth: true
 
             Slider {
-                // id: blockSlider
                 Layout.fillWidth: true
                 from: 0
                 value: panelController.block
@@ -91,25 +81,18 @@ Item {
 
             Layout.fillWidth: true
 
-            /*
-            Legend {
-                id: legend
-                Layout.fillWidth: true
-                palette: root.palette
-            }
-            */
             ColorInfo {
 
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
-                color: "green"
+                color: panelController.okColor
                 label: "Consistent Blocks"
             }
             ColorInfo {
 
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
-                color: "red"
+                color: panelController.errorColor
                 label: "Corrupted Blocks"
             }
 
@@ -133,12 +116,8 @@ Item {
 
             Layout.fillWidth: true
 
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: 164
-                color: "red"
-                label: "Waldfee"
+            Label {
+                text: "Some error text..."
             }
 
             Item {

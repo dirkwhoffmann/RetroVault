@@ -3,8 +3,9 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 RowLayout {
-    id: control
-    spacing: 4
+
+    id: root
+    spacing: Style.mediumSpacing
 
     property alias label: textLabel.text
     property alias color: colorBox.color
@@ -21,8 +22,10 @@ RowLayout {
 
     Label {
         id: textLabel
+        Layout.fillWidth: true
         text: "Lorem ipsum"
         font.pointSize: Style.small
         elide: Text.ElideRight
+        verticalAlignment: Text.AlignVCenter
     }
 }

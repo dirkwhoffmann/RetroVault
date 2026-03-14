@@ -276,9 +276,9 @@ VolumePanelController::getAllocPanelColors() const
 {
     return {
         QColor("#808080"),                  // GRAY
-        QColor("#66ff66"),                  // GREEN
-        QColor("#ffff66"),                  // YELLOW
-        QColor("#ff6666")                   // RED
+        getOkColor(),                       // Allocated and used
+        getWarnColor(),                     // Allocated but unused
+        getErrorColor(),                    // Unallocated but used
     };
 }
 
@@ -287,8 +287,8 @@ VolumePanelController::getHealthPanelColors() const
 {
     return {
         QColor("#808080"),                  // GRAY
-        QColor("#66ff66"),                  // GREEN
-        QColor("#ff6666"),                  // RED
+        getOkColor(),                       // Consistend
+        getWarnColor(),                     // Erroneous
         QColor("#ffffff")                   // WHITE
     };
 }

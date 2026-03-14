@@ -10,6 +10,8 @@ Item {
     required property VolumePanelController panelController
     required property Scanner scanner
 
+    readonly property int cellWidth: width / 4
+
     Connections {
         target: windowController
 
@@ -21,18 +23,11 @@ Item {
         }
     }
 
-    /*
-    UsageScanner {
-
-        id: scanner
-        windowController: root.windowController
-        // Component.onCompleted: { startScan() }
-    }
-    */
-
     ColumnLayout {
 
         anchors.fill: parent
+
+        // Row 1
 
         RowLayout {
             Layout.fillWidth: true
@@ -56,6 +51,8 @@ Item {
             }
         }
 
+        // Row 2
+
         Slider {
             // id: blockSlider
             Layout.fillWidth: true
@@ -67,14 +64,76 @@ Item {
             onMoved: panelController.block = Math.floor(value)
         }
 
-        Legend {
-            id: legend
+        // Row 3
+
+        RowLayout {
+
             Layout.fillWidth: true
-            palette: [] // root.palette
+
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.bootBlockColor
+                label: "Boot Block"
+            }
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.bitmapBlockColor
+                label: "Bitmap Block"
+            }
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.directoryBlockColor
+                label: "User Directory Block"
+            }
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.listBlockColor
+                label: "File List Block"
+            }
         }
 
-        Item {
-            Layout.fillHeight: true
-        } // Spacer
+        // Row 4
+
+        RowLayout {
+
+            Layout.fillWidth: true
+
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.rootBlockColor
+                label: "Root Block"
+            }
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.bitmapExtBlockColor
+                label: "Bitmap Extension Block"
+            }
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.headerBlockColor
+                label: "File Header Block"
+            }
+            ColorInfo {
+
+                Layout.fillWidth: true
+                Layout.preferredWidth: root.cellWidth
+                color: panelController.dataBlockColor
+                label: "Data Block"
+            }
+        }
     }
 }

@@ -77,6 +77,9 @@ public:
     Q_PROPERTY(QColor headerBlockColor READ getHeaderBlockColor CONSTANT)
     Q_PROPERTY(QColor listBlockColor READ getListBlockColor CONSTANT)
     Q_PROPERTY(QColor dataBlockColor READ getDataBlockColor CONSTANT)
+    Q_PROPERTY(QColor okColor READ getOkColor CONSTANT)
+    Q_PROPERTY(QColor warnColor READ getWarnColor CONSTANT)
+    Q_PROPERTY(QColor errorColor READ getErrorColor CONSTANT)
 
     Q_PROPERTY(QList<QColor> usagePanelColors READ getUsagePanelColors NOTIFY usagePanelColorsChanged)
     Q_PROPERTY(QList<QColor> allocPanelColors READ getAllocPanelColors NOTIFY allocPanelColorsChanged)
@@ -130,6 +133,9 @@ private:
     QColor getHeaderBlockColor() const { return QColor("#66b2ff"); }
     QColor getListBlockColor() const { return QColor("#009900"); }
     QColor getDataBlockColor() const { return QColor("#66ff66"); }
+    QColor getOkColor() const { return QColor("#66ff66"); }
+    QColor getWarnColor() const { return QColor("#ffff66"); }
+    QColor getErrorColor() const { return QColor("#ff6666"); }
 
     QList<QColor> getUsagePanelColors() const;
     QList<QColor> getAllocPanelColors() const;
