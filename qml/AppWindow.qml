@@ -85,8 +85,7 @@ ApplicationWindow {
                 }
             }
         }
-
-        // Component for the Splash Screen
+        
         SplashPanel {
             id: splashPage
             windowController: wc
@@ -113,9 +112,6 @@ ApplicationWindow {
             mainStack.replace(volumePanel);
         }
     }
-
-    // onVolChanged: { updateStack() }
-    // onDevChanged: { updateStack() }
 
     Connections {
 

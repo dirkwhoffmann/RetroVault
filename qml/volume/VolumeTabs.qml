@@ -16,7 +16,14 @@ ColumnLayout {
     Component.onCompleted: {
 
         console.log("VolumeTablBar loaded");
-        vpc.refresh()
+        panelController.refresh()
+    }
+
+    Scanner {
+
+        id: volumeScanner
+        windowController: root.windowController
+        // Component.onCompleted: { startScan() }
     }
 
     //
@@ -57,14 +64,17 @@ ColumnLayout {
             UsageTab {
                 windowController: root.windowController
                 panelController: root.panelController
+                scanner: volumeScanner
             }
             AllocTab {
                 windowController: root.windowController
                 panelController: root.panelController
+                scanner: volumeScanner
             }
             HealthTab {
                 windowController: root.windowController
                 panelController: root.panelController
+                scanner: volumeScanner
             }
         }
     }

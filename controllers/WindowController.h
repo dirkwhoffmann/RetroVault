@@ -67,6 +67,7 @@ public:
     void modelChanged();
     void deviceChanged();
     void volumeChanged();
+    void selectionChanged();
     void numDevicesChanged();
     void imageFormatChanged();
 

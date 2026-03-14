@@ -11,20 +11,28 @@ Item {
     Connections {
         target: windowController
 
+        function onSelectionChanged() {
+
+            console.log("VolumePanel: onSelectionChanged ")
+            console.log("Dev: " + windowController.device + " Vol: " + windowController.volume);
+            pc.refresh();
+        }
+        /*
         function onDeviceChanged() {
-            console.log("VolumePanel(1): onDeviceChanged " + windowController.device);
-            vpc.refresh();
+            console.log("VolumePanel: onDeviceChanged " + windowController.device);
+            pc.refresh();
         }
 
         function onVolumeChanged() {
-            console.log("VolumePanel(1): onVolumeChanged " + windowController.volume);
-            vpc.refresh();
+            console.log("VolumePanel: onVolumeChanged " + windowController.volume);
+            pc.refresh();
         }
+        */
     }
 
     VolumePanelController {
 
-        id: vpc
+        id: pc
         windowController: root.windowController
     }
 
@@ -43,9 +51,9 @@ Item {
             Header {
 
                 id: header
-                image.source: vpc.icon
-                title: vpc.name
-                gridData: vpc.volumeInfo
+                image.source: pc.icon
+                title: pc.name
+                gridData: pc.volumeInfo
             }
         }
 
@@ -56,12 +64,11 @@ Item {
             Layout.preferredHeight: 150
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
-            VolumeTabBar {
+            VolumeTabs {
 
                 id: layoutTab
                 windowController: root.windowController
-                panelController: vpc
-                // palette: vpc.legendData
+                panelController: pc
             }
         }
 
@@ -79,9 +86,9 @@ Item {
                 LabeledStepper {
                     id: blockStepper
                     label: "Block"
-                    to: Math.max(0, vpc.numBlocks - 1)
-                    value: vpc.block
-                    onValueChanged: { console.log("Stepper: " + value); vpc.block = value }
+                    to: Math.max(0, pc.numBlocks - 1)
+                    value: pc.block
+                    onValueChanged: { console.log("Stepper: " + value); pc.block = value }
                 }
 
                 Label {
@@ -116,7 +123,7 @@ Item {
             BlockView {
 
                 id: blockView
-                model: vpc.tableModel
+                model: pc.tableModel
             }
         }
     }
@@ -125,6 +132,6 @@ Item {
 
         console.log("VolumePanelController loaded.");
         console.log("Device: " + windowController.device + " Volume: " + windowController.volume);
-        vpc.refresh()
+        pc.refresh()
     }
 }

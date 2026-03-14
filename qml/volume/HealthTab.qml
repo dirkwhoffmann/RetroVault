@@ -9,13 +9,27 @@ Item {
     id: root
     required property WindowController windowController
     required property VolumePanelController panelController
+    required property Scanner scanner
 
+    Connections {
+        target: windowController
+
+        function onSelectionChanged() {
+
+            console.log("HealthTab: onSelectionChanged ")
+            console.log("Dev: " + windowController.device + " Vol: " + windowController.volume);
+            scanner.startScan();
+        }
+    }
+
+    /*
     HealthScanner {
 
         id: scanner
         windowController: root.windowController
         // Component.onCompleted: { startScan() }
     }
+    */
 
     ColumnLayout {
 
@@ -30,7 +44,7 @@ Item {
 
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.iconMedium
-                rawData: scanner.buffer
+                rawData: scanner.healthMap
                 palette: [
                     Style.gray,
                     Style.green,

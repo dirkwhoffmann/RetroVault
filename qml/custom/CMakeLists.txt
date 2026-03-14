@@ -5,4 +5,5 @@ target_sources(retrovault PRIVATE
         ColorBar.cpp
         CustomComponent.cpp
         HealthScanner.cpp
+        Scanner.cpp
         UsageScanner.cpp)

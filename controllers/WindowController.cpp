@@ -36,6 +36,7 @@ WindowController::setDevice(int value)
     {
         device = value;
         emit deviceChanged();
+        emit selectionChanged();
         emit imageFormatChanged();
     }
 }
@@ -47,19 +48,28 @@ WindowController::setVolume(int value)
     {
         volume = value;
         emit volumeChanged();
+        emit selectionChanged();
     }
 }
 
 void
 WindowController::select(int newDevice, int newVolume)
 {
-    if ( device != newDevice || volume != newVolume)
+    if (device == newDevice && volume == newVolume) return;
+
+    if (device != newDevice)
     {
         device = newDevice;
-        volume = newVolume;
         emit deviceChanged();
+        emit imageFormatChanged();
+    }
+    if (volume != newVolume)
+    {
+        volume = newVolume;
         emit volumeChanged();
     }
+
+    emit selectionChanged();
 }
 
 FuseDevice *

@@ -17,27 +17,35 @@ BaseScanner::BaseScanner(QObject* parent) : QObject(parent)
 void
 BaseScanner::runTask(std::function<QByteArray()> task)
 {
-    if (m_watcher.isRunning()) m_watcher.cancel();
+    if (m_watcher.isRunning()) return; // m_watcher.cancel();
     emit isScanningChanged();
 
     // Wrap the original task in a timing wrapper
     auto timedTask = [task]() {
-        auto start = std::chrono::steady_clock::now();
 
-        printf("heavy task started\n");
-        // Execute the actual heavy work
-        QByteArray result = task();
+        try
+        {
+            auto start = std::chrono::steady_clock::now();
 
-        auto end = std::chrono::steady_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+            printf("heavy task started\n");
+            // Execute the actual heavy work
+            QByteArray result = task();
 
-        // If it took less than 2000ms, wait the difference
-        if (elapsed.count() < 2000) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000 - elapsed.count()));
+            auto end = std::chrono::steady_clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+            // If it took less than 2000ms, wait the difference
+            if (elapsed.count() < 2000) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(2000 - elapsed.count()));
+            }
+            printf("heavy task finished\n");
+
+            return result;
+        } catch (std::exception &ex)
+        {
+            printf("EXCEPTION: %s\n", ex.what());
+            return QByteArray();
         }
-        printf("heavy task finished\n");
-
-        return result;
     };
 
     m_watcher.setFuture(QtConcurrent::run(timedTask));
