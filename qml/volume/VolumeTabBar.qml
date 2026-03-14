@@ -2,17 +2,22 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import retrovaultUI
-import RetroVault.Models
 import RetroVault.Controllers
 
 ColumnLayout {
 
     id: root
-    required property Model model
-    property var palette: []
+    required property WindowController windowController
+    required property VolumePanelController panelController
 
     anchors.fill: parent
     spacing: Style.smallSpacing
+
+    Component.onCompleted: {
+
+        console.log("VolumeTablBar loaded");
+        vpc.refresh()
+    }
 
     //
     // Tab bar
@@ -50,13 +55,16 @@ ColumnLayout {
             currentIndex: bar.currentIndex
 
             UsageTab {
-                model: root.model
+                windowController: root.windowController
+                panelController: root.panelController
             }
             AllocTab {
-                model: root.model
+                windowController: root.windowController
+                panelController: root.panelController
             }
             HealthTab {
-                model: root.model
+                windowController: root.windowController
+                panelController: root.panelController
             }
         }
     }

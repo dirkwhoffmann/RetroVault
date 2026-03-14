@@ -6,22 +6,18 @@
 
 #include "Model.h"
 
-SidebarController::SidebarController(QObject* parent) : Controller(parent)
+/*
+SidebarController::SidebarController(QObject* parent) : CustomController(parent)
 {
     m_sidebarModel = new SidebarModel(this);
     m_sidebarModel->controller = this;
 }
+*/
 
 void
 SidebarController::refresh()
 {
-    m_sidebarModel->refresh();
-}
-
-void
-SidebarController::select(int d, int v)
-{
-    model->select(d, v);
+    m_sidebarModel.refresh();
 }
 
 //
@@ -123,45 +119,46 @@ SidebarController::SidebarModel::data(const QModelIndex& index, int role) const
 void
 SidebarController::SidebarModel::refresh()
 {
-    auto *manager = controller->model->manager;
-
-    beginResetModel();
-    items.clear();
-
-    int devCnt = manager->numDevices();
-
-    for (int i = 0; i < devCnt; i++)
+    if (auto *manager = controller->manager())
     {
-        auto &device = manager->getDevice(i);
-        auto ddescr = device.describe();
-        auto filename = device.getImage()->path.filename().string();
-        SidebarItem dev;
-        dev.type = ItemType::DeviceItem;
-        dev.iconSource = "floppy35_dd.png";
-        dev.title = QString::fromStdString(filename);
-        dev.subtitle = QString::fromStdString(ddescr.size() > 1 ? ddescr[0] : "");
-        dev.deviceId = i;
-        dev.volumeId = -1;
+        beginResetModel();
+        items.clear();
 
-        int volCnt = device.count();
+        int devCnt = manager->numDevices();
 
-        for (int j = 0; j < volCnt; j++)
+        for (int i = 0; i < devCnt; i++)
         {
-            auto &volume = device.getVolume(i);
-            auto vdescr = volume.describe();
+            auto &device = manager->getDevice(i);
+            auto ddescr = device.describe();
+            auto filename = device.getImage()->path.filename().string();
+            SidebarItem dev;
+            dev.type = ItemType::DeviceItem;
+            dev.iconSource = "floppy35_dd.png";
+            dev.title = QString::fromStdString(filename);
+            dev.subtitle = QString::fromStdString(ddescr.size() > 1 ? ddescr[0] : "");
+            dev.deviceId = i;
+            dev.volumeId = -1;
 
-            SidebarItem vol;
-            vol.type = ItemType::VolumeItem;
-            vol.iconSource = "volume_amiga";
-            vol.title = QString::fromStdString(vdescr.size() > 0 ? vdescr[0] : "");
-            vol.subtitle = QString::fromStdString(vdescr.size() > 1 ? vdescr[1] : "");
-            vol.deviceId = i;
-            vol.volumeId = j;
-            dev.children.append(vol);
+            int volCnt = device.count();
+
+            for (int j = 0; j < volCnt; j++)
+            {
+                auto &volume = device.getVolume(i);
+                auto vdescr = volume.describe();
+
+                SidebarItem vol;
+                vol.type = ItemType::VolumeItem;
+                vol.iconSource = "volume_amiga";
+                vol.title = QString::fromStdString(vdescr.size() > 0 ? vdescr[0] : "");
+                vol.subtitle = QString::fromStdString(vdescr.size() > 1 ? vdescr[1] : "");
+                vol.deviceId = i;
+                vol.volumeId = j;
+                dev.children.append(vol);
+            }
+
+            items.append(dev);
         }
 
-        items.append(dev);
+        endResetModel();
     }
-
-    endResetModel();
 }

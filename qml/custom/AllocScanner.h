@@ -1,6 +1,6 @@
 #include "BaseScanner.h"
 
-class UsageScanner : public BaseScanner
+class AllocScanner : public BaseScanner
 {
     Q_OBJECT
     QML_ELEMENT

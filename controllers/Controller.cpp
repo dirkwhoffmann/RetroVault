@@ -3,24 +3,3 @@
 //
 
 #include "Controller.h"
-#include <QQmlEngine>
-
-void
-Controller::setModel(Model *value)
-{
-    if (model != value)
-    {
-        model = value;
-        emit modelChanged();
-    }
-}
-
-void
-Controller::rethrow(std::exception& e)
-{
-    assert(qmlEngine(this));
-
-    QString errorMsg = QString::fromStdString(e.what());
-    printf("%s\n", errorMsg.toStdString().c_str());
-    qmlEngine(this)->throwError(errorMsg);
-}

@@ -1,6 +1,9 @@
+//
+// Created by Dirk Hoffmann on 14.03.26.
+//
+
 #pragma once
 
-/*
 #include "WindowController.h"
 
 class CustomController : public Controller
@@ -8,29 +11,27 @@ class CustomController : public Controller
     Q_OBJECT
 
 protected:
-    WindowController* windowController = nullptr;
+    WindowController* wc = nullptr;
 
 public:
-    Q_PROPERTY(
-        WindowController* windowController
-        READ getWindowController WRITE setWindowController NOTIFY windowControllerChanged)
 
-    explicit CustomController(QObject* parent = nullptr) : Controller(parent)
-    {
-    }
+    using Controller::Controller;
 
-    WindowController* getWindowController() const { return windowController; }
-    void setWindowController(WindowController* model);
+    Q_PROPERTY(WindowController* windowController READ getWC WRITE setWC NOTIFY wcChanged)
 
-    DeviceManager* getManager() { return windowController ? windowController->getManager() : nullptr; }
+    // Wrappers
+    DeviceManager* manager() const { return wc ? wc->getManager() : nullptr; }
+    FuseDevice *fuseDevice(isize dev) const { return wc ? wc->fuseDevice(dev) : nullptr; }
+    FuseVolume *fuseVolume(isize dev, isize vol) const { return wc ? wc->fuseVolume(dev, vol) : nullptr; }
+    DiskImage *diskImage(isize dev) const { return wc ? wc->diskImage(dev) : nullptr; }
+    FuseDevice *currentDevice() const { return wc ? wc->currentDevice() : nullptr; }
+    FuseVolume *currentVolume() const { return wc ? wc->currentVolume() : nullptr; }
+    DiskImage *currentImage() const { return wc ? wc->currentImage() : nullptr; }
+    QString currentImageFormat() const { return wc ? wc->currentImageFormat() : QString(); }
+private:
+    WindowController* getWC() const { return wc; }
+    void setWC(WindowController* value);
 
-    // Convenience wrappers
-    // DeviceManager *manager() const { return windowController->getManager(); }
-    FuseDevice* fuseDevice(isize dev) const { return windowController->fuseDevice(dev); }
-    FuseVolume* fuseVolume(isize dev, isize vol) const { return windowController->fuseVolume(dev, vol); }
-    DiskImage* image(isize dev) const { return windowController->image(dev); }
-
-    signals:
-    void windowControllerChanged();
+signals:
+    void wcChanged();
 };
-*/

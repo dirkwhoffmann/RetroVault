@@ -1,33 +1,35 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
-ImageButton {
-    id: busyControl
+Item {
+    id: root
 
-    property bool running: false
+    // property alias image: imageButton
+    property alias imageSource: imageButton.imageSource
+    property alias size: imageButton.size
+    property alias hovered: imageButton.hovered
+    property bool busy: false
 
-    enabled: !running
+    signal clicked()
 
-    contentItem: Item {
+    implicitWidth: imageButton.width
+    implicitHeight: imageButton.height
 
-        anchors.fill: parent
+    ImageButton {
+        id: imageButton
+        anchors.centerIn: parent
+        visible: !root.busy
+        onClicked: root.clicked()
+    }
 
-        BusyIndicator {
-            padding: parent.padding
-            anchors.centerIn: parent
-            width: parent.width * iconScale
-            height: parent.height * iconScale
-            running: busyControl.running
-            visible: running
-        }
-
-        Image {
-            anchors.centerIn: parent
-            width: busyControl.icon.width
-            height: busyControl.icon.height
-            source: busyControl.icon.source
-            // fillMode: Image.PreserveAspectFit
-            visible: !busyControl.running
-        }
+    BusyIndicator {
+        id: indicator
+        anchors.centerIn: parent
+        width: root.size
+        height: root.size
+        visible: root.busy
+        running: root.busy
+        padding: 2
     }
 }

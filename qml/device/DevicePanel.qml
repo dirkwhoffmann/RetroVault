@@ -1,21 +1,25 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import RetroVault.Models
 import RetroVault.Controllers
 import RetroVault.Assets
 
 Item {
 
     id: root
-    required property Model model
-    required property int device
+    required property WindowController windowController
+
+    Connections {
+        target: windowController
+
+        function onDeviceChanged() { panelController.refresh(); }
+        function onVolumeChanged() { panelController.refresh(); }
+    }
 
     DevicePanelController {
 
-        id: controller
-        model: root.model
-        device: root.device
+        id: panelController
+        windowController: root.windowController
     }
 
     ColumnLayout {
@@ -33,9 +37,9 @@ Item {
             Header {
 
                 id: header
-                image.source: controller.icon
-                title: controller.name
-                gridData: controller.deviceInfo
+                image.source: panelController.icon
+                title: panelController.name
+                gridData: panelController.deviceInfo
             }
         }
 
@@ -52,9 +56,9 @@ Item {
 
                 LabeledStepper {
                     label: "Cylinder"
-                    to: Math.max(0, controller.numCylinders - 1)
-                    value: controller.cylinder
-                    onValueChanged: { controller.cylinder = value }
+                    to: Math.max(0, panelController.numCylinders - 1)
+                    value: panelController.cylinder
+                    onValueChanged: { panelController.cylinder = value }
                 }
 
                 Item {
@@ -63,9 +67,9 @@ Item {
 
                 LabeledStepper {
                     label: "Head"
-                    to: Math.max(0, controller.numHeads - 1)
-                    value: controller.head
-                    onValueChanged: { controller.head = value }
+                    to: Math.max(0, panelController.numHeads - 1)
+                    value: panelController.head
+                    onValueChanged: { panelController.head = value }
                 }
 
                 Item {
@@ -74,9 +78,9 @@ Item {
 
                 LabeledStepper {
                     label: "Track"
-                    to: Math.max(0, controller.numTracks - 1)
-                    value: controller.track
-                    onValueChanged: { controller.track = value }
+                    to: Math.max(0, panelController.numTracks - 1)
+                    value: panelController.track
+                    onValueChanged: { panelController.track = value }
                 }
 
                 Item {
@@ -85,9 +89,9 @@ Item {
 
                 LabeledStepper {
                     label: "Sector"
-                    to: Math.max(0, controller.numSectors - 1)
-                    value: controller.sector
-                    onValueChanged: { controller.sector = value }
+                    to: Math.max(0, panelController.numSectors - 1)
+                    value: panelController.sector
+                    onValueChanged: { panelController.sector = value }
                 }
 
                 Item {
@@ -97,9 +101,9 @@ Item {
                 LabeledStepper {
                     id: blockStepper
                     label: "Block"
-                    to: Math.max(0, controller.numBlocks - 1)
-                    value: controller.block
-                    onValueChanged: { controller.block = value }
+                    to: Math.max(0, panelController.numBlocks - 1)
+                    value: panelController.block
+                    onValueChanged: { panelController.block = value }
                 }
             }
         }
@@ -115,14 +119,14 @@ Item {
             BlockView {
 
                 id: blockView
-                model: controller.tableModel
+                model: panelController.tableModel
             }
         }
     }
 
     Component.onCompleted: {
 
-        console.log("DevicePanelController fully loaded. ");
-        controller.refresh()
+        console.log("DevicePanelController loaded. ");
+        panelController.refresh()
     }
 }

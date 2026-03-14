@@ -79,7 +79,8 @@ Pane {
 
                     // Logic for styling
                     color: col === 0 ? "#000" : "#666"
-                    Layout.alignment: Qt.AlignLeft
+                    Layout.rightMargin: col === 2 ? 2 * Style.largeSpacing : 0
+                    Layout.alignment: Qt.AlignLeft;
                     Layout.fillWidth: col === 0
                 }
             }

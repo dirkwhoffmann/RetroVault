@@ -92,7 +92,4 @@ qt_add_resources(retrovault "assets_files"
 qt_add_qml_module(retrovault
         URI retrovaultUI
         VERSION 1.0
-        QML_FILES ${QML_SOURCES}
-        SOURCES
-        qml/custom/UsageDisplay.h
-        qml/custom/UsageDisplay.cpp)
+        QML_FILES ${QML_SOURCES})

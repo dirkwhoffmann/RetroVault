@@ -3,6 +3,14 @@
 
 BaseScanner::BaseScanner(QObject* parent) : QObject(parent)
 {
+    /*
+    connect(&m_watcher, &QFutureWatcher<QByteArray>::finished, this, [this]
+    {
+        m_cachedImage = m_watcher.result();
+        emit isProcessingChanged();
+        update();
+    });
+    */
     connect(&m_watcher, &QFutureWatcher<QByteArray>::finished, this, &BaseScanner::onScanFinished);
 }
 
@@ -33,6 +41,7 @@ BaseScanner::runTask(std::function<QByteArray()> task)
     };
 
     m_watcher.setFuture(QtConcurrent::run(timedTask));
+    emit isScanningChanged();
 }
 
 void

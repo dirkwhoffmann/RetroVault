@@ -1,28 +1,18 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import RetroVault.Models
 import RetroVault.Controllers
 
 Item {
     id: root
     height: parent.height
 
-    required property int numDevices
-    required property Model model
-
-    onNumDevicesChanged: {
-
-        console.log("Sidebar: onNumDevicesChanged")
-        controller.refresh()
-    }
-
-    signal itemSelected(int deviceId, int volumeId)
+    required property WindowController windowController
 
     SidebarController {
 
-        id: controller
-        model: root.model
+        id: panelController
+        windowController: root.windowController
     }
 
     Rectangle {
@@ -44,7 +34,7 @@ Item {
             clip: true
             alternatingRows: true
             topMargin: 10
-            model: controller.sidebarModel
+            model: panelController.sidebarModel
             selectionMode: TreeView.SingleSelection
             selectionModel: ItemSelectionModel { }
             columnWidthProvider: function(column) { return treeView.width }
@@ -103,11 +93,8 @@ Item {
 
                     onTapped: {
 
-                        // console.log("modelIndex = " + modelIndex);
-                        console.log("deviceId = " + deviceId);
-                        console.log("volumeId = " + volumeId);
-                        controller.select(deviceId, volumeId);
-                        // itemSelected(deviceId, volumeId);
+                        console.log("Sidebar::select " + deviceId + " " + volumeId);
+                        windowController.select(deviceId, volumeId);
                     }
                 }
             }
@@ -122,5 +109,10 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         color: "#d0d0d0"
+    }
+
+    function refresh() {
+        console.log("Sidebar::refresh")
+        panelController.refresh()
     }
 }

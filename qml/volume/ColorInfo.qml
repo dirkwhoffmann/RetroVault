@@ -15,7 +15,7 @@ RowLayout {
         height: 12
         color: "#27ae60"
         radius: 2
-        border.color: Style.tertiary //  Qt.darker(color, 1.2)
+        border.color: Style.tertiary
         border.width: 1
     }
 
@@ -23,6 +23,6 @@ RowLayout {
         id: textLabel
         text: "Lorem ipsum"
         font.pointSize: Style.small
-        // Layout.alignment: Qt.AlignHCenter
+        elide: Text.ElideRight
     }
 }

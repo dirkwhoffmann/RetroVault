@@ -1,30 +1,28 @@
 #pragma once
 
-#include "Controller.h"
+#include "CustomController.h"
 #include <QAbstractItemModel>
 
 class DeviceBlockViewModel : public QAbstractTableModel
 {
 public:
 
-    Controller *controller = nullptr;
+    class DevicePanelController *controller = nullptr;
 
-    std::optional<isize> m_dev {};
     std::optional<isize> m_blk {};
 
     int rowCount(const QModelIndex & = QModelIndex()) const override;
     int columnCount(const QModelIndex & = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    void refresh(int dev, int blk);
+    void refresh(int blk);
 };
 
-class DevicePanelController : public Controller
+class DevicePanelController : public CustomController
 {
     Q_OBJECT
 
     // Device properties
-    int m_device = -1;
     QString m_name = "";
     QString m_format = "";
     QString m_icon = "";
@@ -50,7 +48,7 @@ class DevicePanelController : public Controller
 
 public:
 
-    explicit DevicePanelController(QObject *parent = nullptr) : Controller(parent)
+    explicit DevicePanelController(QObject *parent = nullptr) : CustomController(parent)
     {
         m_tableModel.controller = this;
     }
@@ -59,7 +57,6 @@ public:
     // Properties
     //
 
-    Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY deviceChanged)
     Q_PROPERTY(QString name READ getName NOTIFY nameChanged)
     Q_PROPERTY(QString format READ getFormat NOTIFY formatChanged)
     Q_PROPERTY(QString icon READ getIcon NOTIFY iconChanged)
@@ -86,7 +83,6 @@ private:
     // Getter
     //
 
-    int getDevice() const { return m_device; }
     QString getName() const { return m_name; }
     QString getFormat() const { return m_format; }
     QString getIcon() const { return m_icon; }
@@ -110,7 +106,6 @@ private:
     // Getter
     //
 
-    void setDevice(int value);
     void setName(QString value) { m_name = value; emit nameChanged(); }
     void setFormat(QString value) { m_format = value; emit formatChanged(); }
     void setIcon(QString value) { printf("setIcon(%s)\n", value.toStdString().c_str()); m_icon = value; emit iconChanged(); }

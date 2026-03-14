@@ -8,6 +8,17 @@
 #include <QQmlEngine>
 
 void
+CustomComponent::setWC(WindowController* value)
+{
+    if (wc != value)
+    {
+        wc = value;
+        emit wcChanged();
+    }
+}
+
+/*
+void
 CustomComponent::setModel(Model* model)
 {
     m_model = model;
@@ -42,3 +53,4 @@ CustomComponent::image(isize dev) const
 
     return nullptr;
 }
+*/

@@ -1,20 +1,21 @@
 #pragma once
 
-#include "Controller.h"
+#include "CustomController.h"
 #include <QAbstractItemModel>
+#include <QColor>
 
-class VolumePanelController : public Controller
+class VolumePanelController : public CustomController
 {
     Q_OBJECT
 
     class BlockViewModel : public QAbstractTableModel
     {
     public:
-        Controller* controller = nullptr;
+        VolumePanelController* controller = nullptr;
 
         int blkNr = 0;
 
-        BlockViewModel(Controller* c) : controller(c)
+        BlockViewModel(VolumePanelController* c) : controller(c)
         {
         }
 
@@ -42,10 +43,14 @@ class VolumePanelController : public Controller
     BlockViewModel tableModel = BlockViewModel(this);
 
 public:
+
+    using CustomController::CustomController;
+    /*
     explicit VolumePanelController(QObject* parent = nullptr) : Controller(parent)
     {
         tableModel.controller = this;
     }
+    */
 
     //
     // Properties
@@ -63,6 +68,19 @@ public:
     Q_PROPERTY(BlockViewModel* tableModel READ getTableModel NOTIFY tableModelChanged)
 
     Q_PROPERTY(QVariantList legendData READ getLegendData NOTIFY legendDataChanged)
+
+    Q_PROPERTY(QColor bootBlockColor READ getBootBlockColor CONSTANT)
+    Q_PROPERTY(QColor rootBlockColor READ getRootBlockColor CONSTANT)
+    Q_PROPERTY(QColor bitmapBlockColor READ getBitmapBlockColor CONSTANT)
+    Q_PROPERTY(QColor bitmapExtBlockColor READ getBitmapExtBlockColor CONSTANT)
+    Q_PROPERTY(QColor directoryBlockColor READ getDirectoryBlockColor CONSTANT)
+    Q_PROPERTY(QColor headerBlockColor READ getHeaderBlockColor CONSTANT)
+    Q_PROPERTY(QColor listBlockColor READ getListBlockColor CONSTANT)
+    Q_PROPERTY(QColor dataBlockColor READ getDataBlockColor CONSTANT)
+
+    Q_PROPERTY(QList<QColor> usagePanelColors READ getUsagePanelColors NOTIFY usagePanelColorsChanged)
+    Q_PROPERTY(QList<QColor> allocPanelColors READ getAllocPanelColors NOTIFY allocPanelColorsChanged)
+    Q_PROPERTY(QList<QColor> healthPanelColors READ getHealthPanelColors NOTIFY healthPanelColorsChanged)
 
 private:
 
@@ -83,13 +101,14 @@ private:
 
     QVariantList getLegendData() const { return computeLegend(); }
 
+
     //
     // Setter
     //
 
-    void setName(QString value);
-    void setImageFmt(QString value);
-    void setIcon(QString value);
+    void setName(QString &value);
+    void setImageFmt(QString &value);
+    void setIcon(QString &value);
     void setVolumeInfo(const QVariantList& info);
 
     void setNumBlocks(int value) { numBlocks = value; emit numBlocksChanged(); }
@@ -103,6 +122,19 @@ private:
 
     Q_INVOKABLE QVariantList computeLegend() const;
 
+    QColor getBootBlockColor() const { return QColor("#ffb266"); }
+    QColor getRootBlockColor() const { return QColor("#ff6666"); }
+    QColor getBitmapBlockColor() const { return QColor("#b266ff"); }
+    QColor getBitmapExtBlockColor() const { return QColor("#ff66ff"); }
+    QColor getDirectoryBlockColor() const { return QColor("#ffff66"); }
+    QColor getHeaderBlockColor() const { return QColor("#66b2ff"); }
+    QColor getListBlockColor() const { return QColor("#009900"); }
+    QColor getDataBlockColor() const { return QColor("#66ff66"); }
+
+    QList<QColor> getUsagePanelColors() const;
+    QList<QColor> getAllocPanelColors() const;
+    QList<QColor> getHealthPanelColors() const;
+
 signals:
     void deviceChanged();
     void volumeChanged();
@@ -115,6 +147,9 @@ signals:
     void blockChanged();
     void tableModelChanged();
     void legendDataChanged();
+    void usagePanelColorsChanged();
+    void allocPanelColorsChanged();
+    void healthPanelColorsChanged();
 
 public slots:
     void refresh();

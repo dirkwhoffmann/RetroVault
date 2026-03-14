@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "backend/Model.h"
+#include "AppController.h"
 #include "Assets.h"
 #include "DeviceManager.h"
 // #include "UsageDisplay.h"
@@ -30,16 +31,16 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
 
     // Register the QML model type
-    qmlRegisterUncreatableType<Model>("RetroVault.Models", 1, 0, "Model", "Managed by C++");
+    // qmlRegisterUncreatableType<Model>("RetroVault.Models", 1, 0, "Model", "Managed by C++");
 
     // Create the pure C++ model
-    DeviceManager* manager = new DeviceManager();
+    // DeviceManager* manager = new DeviceManager();
 
     // 2. Wrap it in a QObject
-    Model* model = new Model(manager, &app);
+    // Model* model = new Model(manager, &app);
 
     // 3. Inject it as a context property
-    engine.rootContext()->setContextProperty("mainModel", model);
+    // engine.rootContext()->setContextProperty("mainModel", model);
 
     // Register types
     qmlRegisterType<DevicePanelController>("RetroVault.Controllers", 1, 0, "DevicePanelController");
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
                              "RetroVault.Signals", 1, 0, "UIController");
+    qmlRegisterSingletonInstance("RetroVault.Controllers", 1, 0, "AppController", AppController::instance());
     qmlRegisterSingletonInstance("RetroVault.Assets", 1, 0, "Assets", Assets::instance());
 
     // Load the QML file
@@ -62,5 +64,8 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     // Run the app
-    return app.exec();
+    try
+    {
+        return app.exec();
+    } catch (std::exception &e) { printf("FATAL ERROR: ***\n%s\n", e.what()); }
 }

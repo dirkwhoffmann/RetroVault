@@ -1,11 +1,9 @@
 #pragma once
 
+#include "WindowController.h"
 #include <QImage>
 #include <QFutureWatcher>
 #include <qqmlintegration.h>
-
-#include "Model.h"
-// #include <qtconcurrentrun.h>
 
 class BaseScanner : public QObject
 {
@@ -13,21 +11,21 @@ class BaseScanner : public QObject
     QML_ELEMENT
     QML_UNCREATABLE("Abstract base class for all scanners")
 
-    Q_PROPERTY(Model *model READ getModel WRITE setModel NOTIFY modelChanged)
+    Q_PROPERTY(WindowController *windowController READ getWC WRITE setWC NOTIFY wcChanged)
     Q_PROPERTY(QByteArray buffer READ buffer NOTIFY bufferChanged)
     Q_PROPERTY(bool isScanning READ isScanning NOTIFY isScanningChanged)
 
 protected:
 
-    Model *m_model = nullptr;
+    WindowController *wc = nullptr;
     QFutureWatcher<QByteArray> m_watcher;
     QByteArray m_buffer;
 
 public:
     explicit BaseScanner(QObject* parent = nullptr);
 
-    Model *getModel() const { return m_model; }
-    void setModel(Model *model) { printf("setModel: %p\n", model); m_model = model; emit modelChanged(); }
+    WindowController *getWC() const { return wc; }
+    void setWC(WindowController *value) { wc = value; emit wcChanged(); }
     QByteArray buffer() const { return m_buffer; }
     bool isScanning() const { return m_watcher.isRunning(); }
 
@@ -35,7 +33,7 @@ public:
     Q_INVOKABLE virtual void startScan() = 0;
 
 signals:
-    void modelChanged();
+    void wcChanged();
     void bufferChanged();
     void isScanningChanged();
 

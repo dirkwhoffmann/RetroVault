@@ -12,7 +12,7 @@
 int
 DeviceBlockViewModel::rowCount(const QModelIndex &) const
 {
-    if (auto *dev = controller->model->currentDevice())
+    if (auto *dev = controller->currentDevice())
     {
         return (int)dev->bsize() / 16;
     }
@@ -31,7 +31,7 @@ DeviceBlockViewModel::data(const QModelIndex& index, int role) const
     auto row = index.row();
     auto col = index.column();
 
-    auto *image = controller->model->currentImage();
+    auto *image = controller->currentImage();
 
     if (role == Qt::DisplayRole) {
 
@@ -72,12 +72,11 @@ DeviceBlockViewModel::data(const QModelIndex& index, int role) const
 }
 
 void
-DeviceBlockViewModel::refresh(int dev, int blk)
+DeviceBlockViewModel::refresh(int blk)
 {
-    m_dev = dev;
     m_blk = blk;
 
-    printf("BlockTableModel::refresh: %d:%d\n", dev, blk);
+    printf("BlockTableModel::refresh: %d\n", blk);
     beginResetModel();
     endResetModel();
 }
@@ -88,17 +87,9 @@ DeviceBlockViewModel::refresh(int dev, int blk)
 //
 
 void
-DevicePanelController::setDevice(int value)
-{
-    m_device = value;
-    refresh();
-    emit deviceChanged();
-}
-
-void
 DevicePanelController::setCylinder(int value)
 {
-    if (const auto *img = model->currentImage()) {
+    if (const auto *img = currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numCylinders - 1));
 
@@ -115,7 +106,7 @@ DevicePanelController::setCylinder(int value)
 void
 DevicePanelController::setHead(int value)
 {
-    if (const auto *img = model->currentImage()) {
+    if (const auto *img = currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numHeads - 1));
 
@@ -132,7 +123,7 @@ DevicePanelController::setHead(int value)
 void
 DevicePanelController::setTrack(int value)
 {
-    if (const auto *img = model->currentImage()) {
+    if (const auto *img = currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numTracks - 1));
 
@@ -149,7 +140,7 @@ DevicePanelController::setTrack(int value)
 void
 DevicePanelController::setSector(int value)
 {
-    if (const auto *img = model->currentImage()) {
+    if (const auto *img = currentImage()) {
 
         auto c = m_cylinder;
         auto h = m_head;
@@ -164,7 +155,7 @@ DevicePanelController::setSector(int value)
 void
 DevicePanelController::setBlock(int value)
 {
-    if (const auto *img = model->currentImage()) {
+    if (const auto *img = currentImage()) {
 
         value = std::clamp(value, 0, std::max(0, numBlocks - 1));
 
@@ -211,18 +202,18 @@ DevicePanelController::set(int c, int h, int t, int s, int b)
         if (sChanged) { emit sectorChanged(); }
         if (bChanged) { emit blockChanged(); }
 
-        m_tableModel.refresh(m_device, m_block);
+        m_tableModel.refresh(m_block);
     }
 }
 
 void
 DevicePanelController::refresh()
 {
-    printf("DevicePanelController::refresh device: %d block: %d\n", m_device, m_block);
+    printf("DevicePanelController::refresh block: %d\n", m_block);
 
     QVariantList list;
 
-    if (auto *device =  model->currentDevice())
+    if (auto *device =  currentDevice())
     {
         auto *image = device->getImage();
         auto info = image->describeImage();
@@ -244,11 +235,11 @@ DevicePanelController::refresh()
         auto txt2 = QString::fromStdString(info.size() > 1 ? info[1] : "");
         auto txt3 = "";
 
-        list << txt1 << "Cylinders:" << numCylinders << "     Blocks:" << numBlocks;
-        list << txt2 << "Heads:" << numHeads << "      Block size:" << bsize;
+        list << txt1 << "Cylinders:" << numCylinders << "Blocks:" << numBlocks;
+        list << txt2 << "Heads:" << numHeads << "Block size:" << bsize;
         list << txt3 << "Sectors:" << "TODO" << "" << "";
 
-        m_tableModel.refresh(m_device, m_block);
+        m_tableModel.refresh(m_block);
     }
 
     setDeviceInfo(list);

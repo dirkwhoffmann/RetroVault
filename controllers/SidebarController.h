@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Controller.h"
+#include "CustomController.h"
 #include <QAbstractTableModel>
 
 enum ItemType { DeviceItem, VolumeItem };
@@ -16,19 +16,20 @@ struct SidebarItem {
     QVector<SidebarItem> children;  // Holds volumes for devices
 };
 
-class SidebarController : public Controller
+class SidebarController : public CustomController
 {
     Q_OBJECT
 
     class SidebarModel : public QAbstractItemModel
     {
-        // Q_OBJECT
-
+        SidebarController *controller = nullptr;
         QVector<SidebarItem> items;
 
     public:
 
-        Controller *controller = nullptr;
+        SidebarModel(SidebarController* c) : controller(c)
+        {
+        }
 
         enum DeviceRoles {
 
@@ -53,19 +54,20 @@ class SidebarController : public Controller
         void refresh();
     };
 
-    SidebarModel *m_sidebarModel = nullptr;
+    SidebarModel m_sidebarModel = SidebarModel(this);
 
 public:
 
-    explicit SidebarController(QObject *parent = nullptr);
-    Q_PROPERTY(SidebarModel* sidebarModel READ sidebarModel NOTIFY sidebarModelChanged)
+    // explicit SidebarController(QObject *parent = nullptr);
+    using CustomController::CustomController;
 
-    SidebarModel* sidebarModel() const { return m_sidebarModel; }
+    Q_PROPERTY(SidebarModel* sidebarModel READ getSidebarModel NOTIFY sidebarModelChanged)
+
+    SidebarModel *getSidebarModel() { return &m_sidebarModel; }
 
 signals:
     void sidebarModelChanged();
 
 public slots:
     void refresh();
-    void select(int d, int v);
 };

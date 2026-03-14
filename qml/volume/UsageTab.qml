@@ -1,12 +1,20 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import RetroVault.Models
+import RetroVault.Controllers
 
 Item {
 
     id: root
-    required property Model model
+    required property WindowController windowController
+    required property VolumePanelController panelController
+
+    UsageScanner {
+
+        id: scanner
+        windowController: root.windowController
+        // Component.onCompleted: { startScan() }
+    }
 
     ColumnLayout {
 
@@ -15,32 +23,34 @@ Item {
         RowLayout {
             Layout.fillWidth: true
 
-            UsageDisplay {
+            ColorBar {
 
-                id: usageVisual
-                model: root.model
                 Layout.fillWidth: true
-                Layout.preferredHeight: 18
-                palette: [] // root.palette
+                Layout.preferredHeight: Style.iconMedium
+                rawData: scanner.buffer
+                palette: panelController.usagePanelColors
             }
 
             BusyButton {
-                imageSource: "qrc:/assets/icons/sync.svg"
-                size: 18
-                running: usageVisual.isProcessing
-                onClicked: usageVisual.refreshImage()
+                imageSource: Assets.iconUrl(Assets.Sync)
+                size: Style.iconMedium
+                onClicked: { scanner.startScan() }
+                busy: scanner.isScanning
 
-                ToolTip.text: "Recalculate image"
+                ToolTip.text: "Scan Image..."
                 ToolTip.visible: hovered
             }
         }
 
         Slider {
-            id: blockSlider
+            // id: blockSlider
             Layout.fillWidth: true
-            from: 1
-            value: 25
-            to: 100
+            from: 0
+            value: panelController.block
+            to: panelController.numBlocks
+            stepSize: 1
+            snapMode: Slider.SnapAlways
+            onMoved: panelController.block = Math.floor(value)
         }
 
         Legend {

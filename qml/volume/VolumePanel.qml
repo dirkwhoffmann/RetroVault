@@ -1,43 +1,31 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import RetroVault.Models
 import RetroVault.Controllers
 
 Item {
 
     id: root
-    required property Model model
-    property int device: model.device
-    property int volume: model.volume
+    required property WindowController windowController
 
-    onDeviceChanged: {
-        console.log("VolumePanel(1): onDeviceChanged " + device);
-        controller.refresh()
-    }
-    onVolumeChanged: {
-        console.log("VolumePanel(1): onVolumeChanged " + volume);
-        controller.refresh()
+    Connections {
+        target: windowController
+
+        function onDeviceChanged() {
+            console.log("VolumePanel(1): onDeviceChanged " + windowController.device);
+            vpc.refresh();
+        }
+
+        function onVolumeChanged() {
+            console.log("VolumePanel(1): onVolumeChanged " + windowController.volume);
+            vpc.refresh();
+        }
     }
 
     VolumePanelController {
 
-        /*
-        property int device: root.device
-        property int volume: root.volume
-        onDeviceChanged: {
-
-            console.log("VolumePanel(2): onDeviceChanged " + device);
-            refresh()
-        }
-        onVolumeChanged: {
-            console.log("VolumePanel(2): onVolumeChanged " + volume);
-            controller.refresh()
-        }
-        */
-
-        id: controller
-        model: root.model
+        id: vpc
+        windowController: root.windowController
     }
 
     ColumnLayout {
@@ -55,9 +43,9 @@ Item {
             Header {
 
                 id: header
-                image.source: controller.icon
-                title: controller.name
-                gridData: controller.volumeInfo
+                image.source: vpc.icon
+                title: vpc.name
+                gridData: vpc.volumeInfo
             }
         }
 
@@ -71,8 +59,9 @@ Item {
             VolumeTabBar {
 
                 id: layoutTab
-                model: root.model
-                palette: controller.legendData
+                windowController: root.windowController
+                panelController: vpc
+                // palette: vpc.legendData
             }
         }
 
@@ -90,9 +79,9 @@ Item {
                 LabeledStepper {
                     id: blockStepper
                     label: "Block"
-                    to: Math.max(0, controller.numBlocks - 1)
-                    value: controller.block
-                    onValueChanged: { controller.block = value }
+                    to: Math.max(0, vpc.numBlocks - 1)
+                    value: vpc.block
+                    onValueChanged: { console.log("Stepper: " + value); vpc.block = value }
                 }
 
                 Label {
@@ -127,14 +116,15 @@ Item {
             BlockView {
 
                 id: blockView
-                model: controller.tableModel
+                model: vpc.tableModel
             }
         }
     }
 
     Component.onCompleted: {
 
-        console.log("VolumePanelController fully loaded. " + device + " " + volume);
-        controller.refresh()
+        console.log("VolumePanelController loaded.");
+        console.log("Device: " + windowController.device + " Volume: " + windowController.volume);
+        vpc.refresh()
     }
 }

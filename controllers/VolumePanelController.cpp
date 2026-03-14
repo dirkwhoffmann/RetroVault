@@ -16,7 +16,7 @@
 int
 VolumePanelController::BlockViewModel::rowCount(const QModelIndex&) const
 {
-    if (auto *dev = controller->model->currentDevice())
+    if (auto *dev = controller->currentDevice())
         return (int)dev->bsize() / 16;
 
     return 0;
@@ -34,12 +34,10 @@ VolumePanelController::BlockViewModel::data(const QModelIndex& index, int role) 
     auto row = index.row();
     auto col = index.column();
 
-    auto *v = controller->model->currentVolume();
+    auto *v = controller->currentVolume();
+    if (!v) return QVariant();
+
     auto offset = blkNr * v->stat().bsize + row * 16;
-
-    // auto bsize = v->stat().bsize;
-
-    // auto image = controller->fuseDevice(*m_dev)->getImage();
 
     if (role == Qt::DisplayRole)
     {
@@ -113,10 +111,10 @@ VolumePanelController::setVolume(int value)
 void
 VolumePanelController::setBlock(int value)
 {
-    if (const auto* fv = model->currentVolume())
+    if (const auto* fv = currentVolume())
     {
         auto tmp = fv->describe();
-        value = std::clamp(value, 0, std::max(0, 42)); //   get numBlocks() - 1));
+        value = std::clamp(value, 0, std::max(0, numBlocks - 1));
 
         if (blkNr != value)
         {
@@ -128,21 +126,21 @@ VolumePanelController::setBlock(int value)
 }
 
 void
-VolumePanelController::setName(QString value)
+VolumePanelController::setName(QString &value)
 {
     name = value;
     emit nameChanged();
 }
 
 void
-VolumePanelController::setImageFmt(QString value)
+VolumePanelController::setImageFmt(QString &value)
 {
     imageFmt = value;
     emit imageFmtChanged();
 }
 
 void
-VolumePanelController::setIcon(QString value)
+VolumePanelController::setIcon(QString &value)
 {
     printf("VolumePanelController: setIcon(%s)\n", value.toStdString().c_str());
     icon = value;
@@ -162,32 +160,25 @@ VolumePanelController::setVolumeInfo(const QVariantList& info)
 void
 VolumePanelController::refresh()
 {
-    printf("VolumePanelController::refresh blk: %d\n", blkNr);
+    printf("%p: VolumePanelController::refresh blk: %d\n", this, blkNr);
 
     QVariantList list;
 
-    if (auto* fv = model->currentVolume())
+    if (auto* fv = currentVolume())
     {
         auto stat = fv->stat();
         auto info = fv->describe();
         auto mp = fv->getMountPoint();
-        auto title = mp.filename().string();
+        auto title = QString::fromStdString(mp.filename().string());
+        auto format = currentImageFormat();
 
         setNumBlocks(int(stat.blocks));
         setBsize(int(stat.bsize));
 
-        if (title.empty())
-        {
-            // auto *image = fuseDevice(devNr)->getImage();
-            // title = image->path.string();
-            title = "Logical Volume";
-        }
+        if (title == "") title = "Logical Volume";
 
-
-        // auto &path = image->path;
-
-        setName(QString::fromStdString(title)); //  mp.filename().string()));
-        setImageFmt(ImageFormatEnum::key(model->currentImage()->format()));
+        setName(title);
+        setImageFmt(format);
 
         updateIcon();
 
@@ -204,6 +195,7 @@ VolumePanelController::refresh()
 
         tableModel.refresh(blkNr);
 
+        emit usagePanelColorsChanged();
         emit legendDataChanged();
     }
 
@@ -213,9 +205,8 @@ VolumePanelController::refresh()
 QVariantList
 VolumePanelController::computeLegend() const
 {
+    auto fmt = currentImageFormat();
     QVariantList dataList;
-
-    auto fmt = imageFmt.toStdString();
 
     if (fmt == "ADF" || fmt == "ADZ" || fmt == "EADF" || fmt == "HDF" || fmt == "HDZ" || fmt == "DMS")
     {
@@ -244,6 +235,64 @@ VolumePanelController::computeLegend() const
     return dataList;
 }
 
+QList<QColor>
+VolumePanelController::getUsagePanelColors() const
+{
+    auto fmt = currentImageFormat();
+
+    if (fmt == "ADF" || fmt == "ADZ" || fmt == "EADF" || fmt == "HDF" || fmt == "HDZ" || fmt == "DMS")
+    {
+        return {
+            QColor("#ff6666"),              // UNKNOWN
+            QColor("#808080"),              // EMPTY
+            getBootBlockColor(),            // BOOT
+            getRootBlockColor(),            // ROOT
+            getBitmapBlockColor(),          // BITMAP
+            getBitmapExtBlockColor(),       // BITMAP_EXT
+            getDirectoryBlockColor(),       // USERDIR
+            getHeaderBlockColor(),          // FILEHEADER
+            getListBlockColor(),            // FILELIST
+            getDataBlockColor(),            // DATA_OFS
+            getDataBlockColor()                // DATA_FFS
+        };
+    }
+
+    if (fmt == "D64")
+    {
+        return {
+            QColor("#ff6666"),              // UNKNOWN
+            QColor("#808080"),              // EMPTY
+            getRootBlockColor(),            // BAM
+            getDirectoryBlockColor(),       // DIRECTORY
+            getDataBlockColor(),            // DATA
+        };
+    }
+
+    return QList<QColor>();
+}
+
+QList<QColor>
+VolumePanelController::getAllocPanelColors() const
+{
+    return {
+        QColor("#808080"),                  // GRAY
+        QColor("#66ff66"),                  // GREEN
+        QColor("#ffff66"),                  // YELLOW
+        QColor("#ff6666")                   // RED
+    };
+}
+
+QList<QColor>
+VolumePanelController::getHealthPanelColors() const
+{
+    return {
+        QColor("#808080"),                  // GRAY
+        QColor("#66ff66"),                  // GREEN
+        QColor("#ff6666"),                  // RED
+        QColor("#ffffff")                   // WHITE
+    };
+}
+
 void
 VolumePanelController::updateIcon()
 {
@@ -257,12 +306,10 @@ VolumePanelController::updateIcon()
         {"D64", Assets::VolumeCBM}
     };
 
+    auto url = QString();
     if (auto it = formatSuffixes.find(imageFmt.toStdString()); it != formatSuffixes.end())
     {
-        setIcon(Assets::getIconUrl(it->second).toString());
+        url = Assets::getIconUrl(it->second).toString();
     }
-    else
-    {
-        setIcon("");
-    }
+    setIcon(url);
 }

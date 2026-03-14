@@ -2,7 +2,8 @@
 
 #include <QQuickPaintedItem>
 #include <QPainter>
-#include "../backend/Model.h"
+
+#include "WindowController.h"
 
 class CustomComponent : public QQuickPaintedItem {
 
@@ -10,22 +11,24 @@ class CustomComponent : public QQuickPaintedItem {
 
 protected:
 
-    Model *m_model = nullptr;
-    DeviceManager *m_manager = nullptr;
+    WindowController* wc;
 
 public:
 
-    Q_PROPERTY(Model* model READ model WRITE setModel)
+    Q_PROPERTY(WindowController* windowController READ getWC WRITE setWC NOTIFY wcChanged)
 
     explicit CustomComponent(QQuickItem *parent = nullptr) : QQuickPaintedItem(parent) {}
 
-    Model* model() const { return m_model; }
-    DeviceManager* manager() const { return m_manager; }
+    WindowController* getWC() const { return wc; }
 
-    void setModel(Model* model);
+    void setWC(WindowController* value);
 
-    // Convenience wrappers
-    FuseDevice *fuseDevice(isize dev) const;
-    FuseVolume *fuseVolume(isize dev, isize vol) const;
-    DiskImage *image(isize dev) const;
+    // Wrappers
+    DeviceManager* manager() const { return wc->getManager(); }
+    FuseDevice *fuseDevice(isize dev) const { return wc->fuseDevice(dev); }
+    FuseVolume *fuseVolume(isize dev, isize vol) const { return wc->fuseVolume(dev, vol); }
+    DiskImage *diskImage(isize dev) const { return wc->diskImage(dev); }
+
+signals:
+    void wcChanged();
 };
