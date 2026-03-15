@@ -1,9 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 
-import QtQuick
-import QtQuick.Controls
-
 Control {
     id: root
 

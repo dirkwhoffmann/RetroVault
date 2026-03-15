@@ -16,10 +16,8 @@ ColorBar::ColorBar(QQuickItem *parent) : CustomComponent(parent) {
 void
 ColorBar::setRawData(const QByteArray &data) {
 
-    printf("ColorBar::setRawData...\n");
     if (m_rawData != data)
     {
-        printf("raw data changed...\n");
         m_rawData = data;
         updateImage();
         update();
@@ -29,10 +27,8 @@ ColorBar::setRawData(const QByteArray &data) {
 void
 ColorBar::setPalette(const QList<QColor> &palette) {
 
-    printf("ColorBar::setPalette...\n");
     if (m_palette != palette) {
 
-        printf("palette changed...\n");
         m_palette = palette;
         update();
     }
@@ -44,7 +40,6 @@ ColorBar::updateImage()
     int w = m_rawData.size();
     int h = 24;
 
-    printf("updateImage... %d %d\n", w, h);
     for (int x = 0; x < w; ++x) {
 
         uint8_t val = m_rawData[x];

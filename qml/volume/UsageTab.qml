@@ -17,8 +17,6 @@ Item {
 
         function onSelectionChanged() {
 
-            console.log("UsageTab: onSelectionChanged ")
-            console.log("Dev: " + windowController.device + " Vol: " + windowController.volume);
             scanner.startScan();
         }
     }
@@ -53,15 +51,25 @@ Item {
 
         // Row 2
 
-        Slider {
-            // id: blockSlider
+        RowLayout {
+
             Layout.fillWidth: true
-            from: 0
-            value: panelController.block
-            to: panelController.numBlocks
-            stepSize: 1
-            snapMode: Slider.SnapAlways
-            onMoved: panelController.block = Math.floor(value)
+            Layout.bottomMargin: Style.smallSpacing
+
+            Slider {
+                id: blockSlider
+                Layout.fillWidth: true
+                from: 0
+                value: panelController.block
+                to: panelController.numBlocks
+                stepSize: 1
+                snapMode: Slider.SnapAlways
+                onMoved: panelController.block = Math.floor(value)
+            }
+
+            Item {
+                Layout.preferredWidth: Style.iconMedium
+            }
         }
 
         // Row 3
@@ -134,6 +142,9 @@ Item {
                 color: panelController.dataBlockColor
                 label: "Data Block"
             }
+        }
+        Item {
+            Layout.fillHeight: true
         }
     }
 }

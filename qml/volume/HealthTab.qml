@@ -16,8 +16,6 @@ Item {
 
         function onSelectionChanged() {
 
-            console.log("HealthTab: onSelectionChanged ")
-            console.log("Dev: " + windowController.device + " Vol: " + windowController.volume);
             scanner.startScan();
         }
     }
@@ -25,22 +23,19 @@ Item {
     ColumnLayout {
 
         anchors.fill: parent
-
+        spacing: Style.smallSpacing
         // Row 1
 
         RowLayout {
             Layout.fillWidth: true
+            Layout.preferredHeight: Style.iconMedium
 
             ColorBar {
 
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.iconMedium
                 rawData: scanner.healthMap
-                palette: [
-                    Style.gray,
-                    Style.green,
-                    Style.red,
-                    Style.white ]
+                palette: panelController.healthPanelColors
             }
 
             BusyButton {
@@ -48,7 +43,6 @@ Item {
                 size: Style.iconMedium
                 onClicked: { scanner.startScan() }
                 busy: scanner.isScanning
-
                 ToolTip.text: "Scan Image..."
                 ToolTip.visible: hovered
             }
@@ -58,6 +52,7 @@ Item {
         RowLayout {
 
             Layout.fillWidth: true
+            Layout.preferredHeight: Style.iconSmall
 
             Slider {
                 Layout.fillWidth: true
@@ -71,7 +66,6 @@ Item {
 
             Item {
                 Layout.preferredWidth: Style.iconMedium
-                Layout.fillHeight: true
             }
         }
 
@@ -132,13 +126,12 @@ Item {
                 size: Style.iconMedium
                 icon.source: Assets.iconUrl(Assets.Health)
             }
-            /*
-                        ImageButton {
-                            imageSource: "qrc:/assets/icons/sync.svg"
-                            size: 18
-                        }
+        }
 
-             */
+        // Spacer
+
+        Item {
+            Layout.fillHeight: true
         }
     }
 }

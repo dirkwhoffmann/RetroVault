@@ -11,7 +11,7 @@ ColumnLayout {
     required property VolumePanelController panelController
 
     anchors.fill: parent
-    spacing: Style.smallSpacing
+    spacing: 0 // Style.smallSpacing
 
     Component.onCompleted: {
 
@@ -32,11 +32,26 @@ ColumnLayout {
 
     TabBar {
         id: bar
-        // Layout.fillWidth: true
+        // Layout.bottomMargin: -Style.iconMedium / 2
+        Layout.bottomMargin: -1 //Style.mediumSpacing
+        Layout.alignment: Qt.AlignLeft //  Qt.AlignHCenter
+        z: 10
 
-        TabButton { text: "Device Info" }
-        TabButton { text: "Hex View" }
-        TabButton { text: "Settings" }
+        TabButton {
+            text: "Block Map"
+            implicitWidth: 128
+            implicitHeight: Style.iconMedium
+        }
+        TabButton {
+            text: "Allocation Map"
+            implicitWidth: 128
+            implicitHeight: Style.iconMedium
+        }
+        TabButton {
+            text: "Diagnose"
+            implicitWidth: 128
+            implicitHeight: Style.iconMedium
+        }
     }
 
     //
@@ -45,8 +60,16 @@ ColumnLayout {
 
     Frame {
         Layout.fillWidth: true
-        Layout.fillHeight: true
-        padding: 10
+        // Layout.fillHeight: true
+        Layout.preferredHeight:
+            Style.largeSpacing +
+            Style.iconMedium + Style.smallSpacing +
+            Style.iconSmall + Style.smallSpacing +
+            Style.iconMedium + Style.smallSpacing +
+            Style.iconMedium + Style.smallSpacing +
+            Style.largeSpacing
+
+        padding: Style.largeSpacing
 
         background: Rectangle {
             color: Qt.rgba(0,0,0, 0.02)
