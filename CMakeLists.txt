@@ -19,10 +19,22 @@ find_package(Qt6 COMPONENTS
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(FUSE REQUIRED fuse)
 
-add_executable(retrovault
+#add_executable(retrovault
+#        Assets.cpp
+#        debug.cpp
+#        main.cpp)
+#Icon
+# set(MACOSX_BUNDLE_ICON_FILE AppIcon.icns)
+set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/AppIcon.icns")
+#set(app_icon_macos "assets/icons/AppIcon.icns")
+set_source_files_properties(${app_icon_macos} PROPERTIES
+        MACOSX_PACKAGE_LOCATION "Resources")
+qt_add_executable(retrovault
+        MACOSX_BUNDLE
         Assets.cpp
         debug.cpp
-        main.cpp)
+        main.cpp
+        ${app_icon_macos})
 
 add_subdirectory(utlib)
 add_subdirectory(rvlib)
@@ -81,7 +93,7 @@ list(TRANSFORM ASSET_RESOURCES REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
 
 set_target_properties(retrovault
         PROPERTIES
-        MACOSX_BUNDLE_ICON_FILE my_icon.icns
+        MACOSX_BUNDLE_ICON_FILE AppIcon.icns
 )
 
 set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
@@ -96,20 +108,3 @@ qt_add_qml_module(retrovault
         URI retrovaultUI
         VERSION 1.0
         QML_FILES ${QML_SOURCES})
-
-#Icon
-# 1. Define the path clearly
-set(ICON_FILE "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/AppIcon.icns")
-
-# 2. Tell macOS the name of the icon file inside the bundle (no path here)
-set_target_properties(retrovault PROPERTIES
-        MACOSX_BUNDLE_ICON_FILE AppIcon.icns
-)
-
-# 3. Ensure the file is actually copied into the app bundle's Resources folder
-set_source_files_properties(${ICON_FILE} PROPERTIES
-        MACOSX_PACKAGE_LOCATION "Resources"
-)
-
-# 4. Add it to the target
-target_sources(retrovault PRIVATE ${ICON_FILE})
