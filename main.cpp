@@ -20,6 +20,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -29,18 +30,7 @@ int main(int argc, char *argv[])
     // Configure app appearance
     QQuickStyle::setStyle("Fusion");
     QCoreApplication::setAttribute(Qt::AA_DontUseNativeMenuBar, true);
-
-    // Register the QML model type
-    // qmlRegisterUncreatableType<Model>("RetroVault.Models", 1, 0, "Model", "Managed by C++");
-
-    // Create the pure C++ model
-    // DeviceManager* manager = new DeviceManager();
-
-    // 2. Wrap it in a QObject
-    // Model* model = new Model(manager, &app);
-
-    // 3. Inject it as a context property
-    // engine.rootContext()->setContextProperty("mainModel", model);
+    app.setWindowIcon(QIcon(":/assets/images/AppIcon.png"));
 
     // Register types
     qmlRegisterType<DevicePanelController>("RetroVault.Controllers", 1, 0, "DevicePanelController");

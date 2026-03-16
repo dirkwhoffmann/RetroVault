@@ -79,11 +79,14 @@ file(GLOB_RECURSE ASSET_RESOURCES CONFIGURE_DEPENDS
 list(TRANSFORM QML_SOURCES REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
 list(TRANSFORM ASSET_RESOURCES REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "")
 
-# Declare singletons
+set_target_properties(retrovault
+        PROPERTIES
+        MACOSX_BUNDLE_ICON_FILE my_icon.icns
+)
+
 set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
 # Add all files
-
 qt_add_resources(retrovault "assets_files"
         PREFIX "/assets"
         BASE "assets"
@@ -93,3 +96,20 @@ qt_add_qml_module(retrovault
         URI retrovaultUI
         VERSION 1.0
         QML_FILES ${QML_SOURCES})
+
+#Icon
+# 1. Define the path clearly
+set(ICON_FILE "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/AppIcon.icns")
+
+# 2. Tell macOS the name of the icon file inside the bundle (no path here)
+set_target_properties(retrovault PROPERTIES
+        MACOSX_BUNDLE_ICON_FILE AppIcon.icns
+)
+
+# 3. Ensure the file is actually copied into the app bundle's Resources folder
+set_source_files_properties(${ICON_FILE} PROPERTIES
+        MACOSX_PACKAGE_LOCATION "Resources"
+)
+
+# 4. Add it to the target
+target_sources(retrovault PRIVATE ${ICON_FILE})
