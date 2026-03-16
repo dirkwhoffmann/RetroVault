@@ -40,7 +40,7 @@ ToolBar {
 
         Item {
 
-            Layout.preferredWidth: sidebarWidth + 1
+            Layout.preferredWidth: sidebarWidth + 2
             Layout.fillHeight: true
 
             RowLayout {

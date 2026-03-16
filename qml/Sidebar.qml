@@ -102,6 +102,7 @@ Item {
     }
 
     // Right-side divider
+    /*
     Rectangle {
 
         width: 1
@@ -110,7 +111,7 @@ Item {
         anchors.bottom: parent.bottom
         color: "#d0d0d0"
     }
-
+    */
     function refresh() {
         console.log("Sidebar::refresh")
         panelController.refresh()

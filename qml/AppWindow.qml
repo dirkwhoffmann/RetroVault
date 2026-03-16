@@ -37,28 +37,47 @@ ApplicationWindow {
     // title: "RetroVault"
     // flags: Qt.Window | Qt.CustomizeWindowHint | Qt.WindowTitleHint
 
-    RowLayout {
+    SplitView {
         anchors.fill: parent
         spacing: 0
+
+        handle: Item {
+            implicitWidth: 2
+
+            Row {
+                anchors.centerIn: parent
+                spacing: 0
+
+                Rectangle {
+                    width: 1
+                    height: parent.parent.height
+                    color: palette.mid
+                }
+
+                Rectangle {
+                    width: 1
+                    height: parent.parent.height
+                    color: palette.light
+                }
+            }
+        }
 
         Sidebar {
 
             id: mySidebar
             windowController: wc
-            Layout.fillHeight: true
-            Layout.preferredWidth: 256
-            Layout.minimumWidth: 200
+            SplitView.preferredWidth: 256
+            SplitView.minimumWidth: 200
+            SplitView.fillHeight: true
             z: 1
 
-            Component.onCompleted: {
-                mainToolbar.sidebarWidth = mySidebar.width
-            }
+            onWidthChanged: mainToolbar.sidebarWidth = width
         }
 
         StackView {
             id: mainStack
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            SplitView.fillWidth: true
+            SplitView.fillHeight: true
             z: 0
 
             // The first page to show
@@ -86,17 +105,23 @@ ApplicationWindow {
             }
         }
 
-        SplashPanel {
+        Component {
             id: splashPage
-            windowController: wc
+            SplashPanel {
+                windowController: wc
+            }
         }
-        DevicePanel {
+        Component {
             id: devicePanel
-            windowController: wc
+            DevicePanel {
+                windowController: wc
+            }
         }
-        VolumePanel {
+        Component {
             id: volumePanel
-            windowController: wc
+            VolumePanel {
+                windowController: wc
+            }
         }
     }
 
