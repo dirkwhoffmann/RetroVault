@@ -11,24 +11,16 @@ Item {
     required property VolumePanelController panelController
     required property Scanner scanner
 
-    Connections {
-        target: windowController
-
-        function onSelectionChanged() {
-
-            scanner.startScan();
-        }
-    }
-
     ColumnLayout {
 
         anchors.fill: parent
-        spacing: Style.smallSpacing
+        spacing: 0
+
         // Row 1
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: Style.iconMedium
+            Layout.bottomMargin: Style.smallSpacing
 
             ColorBar {
 
@@ -52,7 +44,7 @@ Item {
         RowLayout {
 
             Layout.fillWidth: true
-            Layout.preferredHeight: Style.iconSmall
+            Layout.bottomMargin: Style.tinySpacing
 
             Slider {
                 Layout.fillWidth: true
@@ -74,6 +66,7 @@ Item {
         RowLayout {
 
             Layout.fillWidth: true
+            Layout.bottomMargin: Style.tinySpacing
 
             ColorInfo {
 

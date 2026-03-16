@@ -11,23 +11,16 @@ Item {
     required property VolumePanelController panelController
     required property Scanner scanner
 
-    Connections {
-        target: windowController
-
-        function onSelectionChanged() {
-
-            scanner.startScan();
-        }
-    }
-
     ColumnLayout {
 
         anchors.fill: parent
+        spacing: 0
 
         // Row 1
 
         RowLayout {
             Layout.fillWidth: true
+            Layout.bottomMargin: Style.smallSpacing
 
             ColorBar {
 
@@ -51,6 +44,7 @@ Item {
         RowLayout {
 
             Layout.fillWidth: true
+            Layout.bottomMargin: Style.tinySpacing
 
             Slider {
                 Layout.fillWidth: true
@@ -64,7 +58,6 @@ Item {
 
             Item {
                 Layout.preferredWidth: Style.iconMedium
-                Layout.fillHeight: true
             }
         }
 
@@ -73,6 +66,7 @@ Item {
         RowLayout {
 
             Layout.fillWidth: true
+            Layout.bottomMargin: Style.tinySpacing
 
             ColorInfo {
 
@@ -132,6 +126,12 @@ Item {
                 size: Style.iconMedium
                 icon.source: Assets.iconUrl(Assets.Health)
             }
+        }
+
+        // Spacer
+
+        Item {
+            Layout.fillHeight: true
         }
     }
 }

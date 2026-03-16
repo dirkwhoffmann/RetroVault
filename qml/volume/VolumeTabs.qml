@@ -64,12 +64,14 @@ ColumnLayout {
         Layout.preferredHeight:
             Style.largeSpacing +
             Style.iconMedium + Style.smallSpacing +
-            Style.iconSmall + Style.smallSpacing +
-            Style.iconMedium + Style.smallSpacing +
-            Style.iconMedium + Style.smallSpacing +
-            Style.largeSpacing
+            Style.iconSmall + Style.tinySpacing +
+            Style.iconMedium + Style.tinySpacing +
+            Style.iconMedium + Style.tinySpacing
 
-        padding: Style.largeSpacing
+        topPadding: Style.largeSpacing
+        leftPadding: Style.largeSpacing
+        rightPadding: Style.largeSpacing
+        bottomPadding: Style.mediumSpacing
 
         background: Rectangle {
             color: Qt.rgba(0,0,0, 0.02)

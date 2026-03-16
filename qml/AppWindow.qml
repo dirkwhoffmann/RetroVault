@@ -24,9 +24,9 @@ ApplicationWindow {
 
     visible: true
     width: 900
-    height: 450
+    height: 500
     // minimumWidth: 900
-    // minimumHeight: 450
+    // minimumHeight: 420
 
     header: MyToolbar {
 
@@ -85,7 +85,7 @@ ApplicationWindow {
                 }
             }
         }
-        
+
         SplashPanel {
             id: splashPage
             windowController: wc

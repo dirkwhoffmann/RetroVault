@@ -12,13 +12,12 @@ Item {
     Connections {
         target: windowController
 
-        function onDeviceChanged() { panelController.refresh(); }
-        function onVolumeChanged() { panelController.refresh(); }
+        function onSelectionChanged() { pc.refresh(); }
     }
 
     DevicePanelController {
 
-        id: panelController
+        id: pc
         windowController: root.windowController
     }
 
@@ -34,12 +33,13 @@ Item {
             topPadding: Style.largeSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
+            bottomPadding: Style.mediumSpacing
             Header {
 
                 id: header
-                image.source: panelController.icon
-                title: panelController.name
-                gridData: panelController.deviceInfo
+                image.source: pc.icon
+                title: pc.name
+                gridData: pc.deviceInfo
             }
         }
 
@@ -47,8 +47,10 @@ Item {
 
             id: blockSelectorPane
             Layout.fillWidth: true
+            topPadding: Style.mediumSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
+            bottomPadding: Style.smallSpacing
             RowLayout {
 
                 anchors.fill: parent
@@ -56,9 +58,9 @@ Item {
 
                 LabeledStepper {
                     label: "Cylinder"
-                    to: Math.max(0, panelController.numCylinders - 1)
-                    value: panelController.cylinder
-                    onValueChanged: { panelController.cylinder = value }
+                    to: Math.max(0, pc.numCylinders - 1)
+                    value: pc.cylinder
+                    onValueChanged: { pc.cylinder = value }
                 }
 
                 Item {
@@ -67,9 +69,9 @@ Item {
 
                 LabeledStepper {
                     label: "Head"
-                    to: Math.max(0, panelController.numHeads - 1)
-                    value: panelController.head
-                    onValueChanged: { panelController.head = value }
+                    to: Math.max(0, pc.numHeads - 1)
+                    value: pc.head
+                    onValueChanged: { pc.head = value }
                 }
 
                 Item {
@@ -78,9 +80,9 @@ Item {
 
                 LabeledStepper {
                     label: "Track"
-                    to: Math.max(0, panelController.numTracks - 1)
-                    value: panelController.track
-                    onValueChanged: { panelController.track = value }
+                    to: Math.max(0, pc.numTracks - 1)
+                    value: pc.track
+                    onValueChanged: { pc.track = value }
                 }
 
                 Item {
@@ -89,9 +91,9 @@ Item {
 
                 LabeledStepper {
                     label: "Sector"
-                    to: Math.max(0, panelController.numSectors - 1)
-                    value: panelController.sector
-                    onValueChanged: { panelController.sector = value }
+                    to: Math.max(0, pc.numSectors - 1)
+                    value: pc.sector
+                    onValueChanged: { pc.sector = value }
                 }
 
                 Item {
@@ -101,9 +103,9 @@ Item {
                 LabeledStepper {
                     id: blockStepper
                     label: "Block"
-                    to: Math.max(0, panelController.numBlocks - 1)
-                    value: panelController.block
-                    onValueChanged: { panelController.block = value }
+                    to: Math.max(0, pc.numBlocks - 1)
+                    value: pc.block
+                    onValueChanged: { pc.block = value }
                 }
             }
         }
@@ -113,20 +115,21 @@ Item {
             id: blockViewPane
             Layout.fillHeight: true
             Layout.fillWidth: true
+            topPadding: Style.smallSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
             bottomPadding: Style.largeSpacing
             BlockView {
 
                 id: blockView
-                model: panelController.tableModel
+                model: pc.tableModel
             }
         }
     }
 
     Component.onCompleted: {
 
-        console.log("DevicePanelController loaded. ");
-        panelController.refresh()
+        // console.log("DevicePanelController loaded. ");
+        pc.refresh()
     }
 }

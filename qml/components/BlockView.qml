@@ -27,7 +27,7 @@ Rectangle {
     TableView {
 
         id: tableView
-        model: model // Backend.blockTableModel
+        model: model
         anchors.left: parent.left
         anchors.top: horizontalHeader.bottom
         anchors.right: parent.right

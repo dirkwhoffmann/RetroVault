@@ -28,6 +28,7 @@ QtObject {
 
     // Layout Units
     readonly property real gridUnit: Qt.application.font.pointSize
+    readonly property real tinySpacing: 2
     readonly property real smallSpacing: 4
     readonly property real mediumSpacing: 8
     readonly property real largeSpacing: 16

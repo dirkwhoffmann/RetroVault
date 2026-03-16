@@ -11,23 +11,7 @@ Item {
     Connections {
         target: windowController
 
-        function onSelectionChanged() {
-
-            console.log("VolumePanel: onSelectionChanged ")
-            console.log("Dev: " + windowController.device + " Vol: " + windowController.volume);
-            pc.refresh();
-        }
-        /*
-        function onDeviceChanged() {
-            console.log("VolumePanel: onDeviceChanged " + windowController.device);
-            pc.refresh();
-        }
-
-        function onVolumeChanged() {
-            console.log("VolumePanel: onVolumeChanged " + windowController.volume);
-            pc.refresh();
-        }
-        */
+        function onSelectionChanged() { pc.refresh(); }
     }
 
     VolumePanelController {
@@ -48,6 +32,7 @@ Item {
             topPadding: Style.largeSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
+            bottomPadding: Style.mediumSpacing
             Header {
 
                 id: header
@@ -61,9 +46,11 @@ Item {
 
             id: tabPane
             Layout.fillWidth: true
-            Layout.preferredHeight: 150
+            // background: Rectangle { color: "blue" }
+            topPadding: Style.mediumSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
+            bottomPadding: Style.mediumSpacing
             VolumeTabs {
 
                 id: layoutTab
@@ -76,12 +63,13 @@ Item {
 
             id: blockSelectorPane
             Layout.fillWidth: true
+            topPadding: Style.mediumSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
+            bottomPadding: Style.smallSpacing
             RowLayout {
 
                 anchors.fill: parent
-                // spacing: 0
 
                 LabeledStepper {
                     id: blockStepper
@@ -117,6 +105,7 @@ Item {
             id: blockViewPane
             Layout.fillHeight: true
             Layout.fillWidth: true
+            topPadding: Style.smallSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
             bottomPadding: Style.largeSpacing
@@ -130,8 +119,7 @@ Item {
 
     Component.onCompleted: {
 
-        console.log("VolumePanelController loaded.");
-        console.log("Device: " + windowController.device + " Volume: " + windowController.volume);
+        // console.log("VolumePanelController loaded.");
         pc.refresh()
     }
 }
