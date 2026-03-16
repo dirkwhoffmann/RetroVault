@@ -66,8 +66,8 @@ QtObject {
 
     // Custom fonts
     readonly property font mono: Qt.font( {
-        family: "Courier", // Or "Monospace" / "Menlo"
-        pointSize: _baseSize * 0.9,
+        family: "Menlo",
+        pointSize: _baseSize * 0.95,
         fixedPitch: true
     })
 }

@@ -76,9 +76,16 @@ Rectangle {
 
             Label {
 
+                id: label
                 anchors.centerIn: parent
                 text: display
-                font: Style.mono
+                // font: column === 0 ? undefined : Style.mono
+                Binding {
+                    target: label
+                    property: "font"
+                    value: Style.mono
+                    when: column !== 0
+                }
             }
         }
     }

@@ -6,6 +6,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+set(ICON_FILE "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/AppIcon.icns")
+
 find_package(Qt6 COMPONENTS
         Core
         Concurrent
@@ -19,22 +21,12 @@ find_package(Qt6 COMPONENTS
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(FUSE REQUIRED fuse)
 
-#add_executable(retrovault
-#        Assets.cpp
-#        debug.cpp
-#        main.cpp)
-#Icon
-# set(MACOSX_BUNDLE_ICON_FILE AppIcon.icns)
-set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/AppIcon.icns")
-#set(app_icon_macos "assets/icons/AppIcon.icns")
-set_source_files_properties(${app_icon_macos} PROPERTIES
-        MACOSX_PACKAGE_LOCATION "Resources")
 qt_add_executable(retrovault
         MACOSX_BUNDLE
         Assets.cpp
         debug.cpp
         main.cpp
-        ${app_icon_macos})
+        ${ICON_FILE})
 
 add_subdirectory(utlib)
 add_subdirectory(rvlib)
@@ -97,6 +89,7 @@ set_target_properties(retrovault
 )
 
 set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
 # Add all files
 qt_add_resources(retrovault "assets_files"
