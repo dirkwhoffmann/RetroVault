@@ -143,7 +143,7 @@ SidebarController::SidebarModel::refresh()
 
             for (int j = 0; j < volCnt; j++)
             {
-                auto &volume = device.getVolume(i);
+                auto &volume = device.getVolume(j);
                 auto vdescr = volume.describe();
 
                 SidebarItem vol;

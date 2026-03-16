@@ -224,11 +224,21 @@ DevicePanelController::refresh()
         setNumTracks(int(image->numTracks()));
         setNumHeads(int(image->numHeads()));
         setNumSectors(int(image->numSectors(m_track)));
+        setMinSectors(int(image->numSectors(image->numTracks() - 1)));
+        setMaxSectors(int(image->numSectors(0)));
         setNumBlocks(int(image->numBlocks()));
         setBsize(int(image->bsize()));
         setFormat(ImageFormatEnum::key(image->format()));
 
         updateIcon();
+
+        QString sectorRange;
+        if (minSectors == maxSectors)
+        {
+            sectorRange = QString::asprintf("%d", minSectors);
+        } else {
+            sectorRange = QString::asprintf("%d - %d", minSectors, maxSectors);
+        }
 
         // Device description
         auto txt1 = QString::fromStdString(info.size() > 0 ? info[0] : "");
@@ -237,7 +247,7 @@ DevicePanelController::refresh()
 
         list << txt1 << "Cylinders:" << numCylinders << "Blocks:" << numBlocks;
         list << txt2 << "Heads:" << numHeads << "Block size:" << bsize;
-        list << txt3 << "Sectors:" << "TODO" << "" << "";
+        list << txt3 << "Sectors:" << sectorRange << "" << "";
 
         m_tableModel.refresh(m_block);
     }

@@ -33,6 +33,8 @@ class DevicePanelController : public CustomController
     int numHeads = 0;
     int numTracks = 0;
     int numSectors = 0;
+    int minSectors = 0;
+    int maxSectors = 0;
     int numBlocks = 0;
     int bsize = 0;
 
@@ -66,6 +68,8 @@ public:
     Q_PROPERTY(int numHeads READ getNumHeads NOTIFY numHeadsChanged)
     Q_PROPERTY(int numTracks READ getNumTracks NOTIFY numTracksChanged)
     Q_PROPERTY(int numSectors READ getNumSectors NOTIFY numSectorsChanged)
+    Q_PROPERTY(int minSectors READ getMinSectors NOTIFY minSectorsChanged)
+    Q_PROPERTY(int maxSectors READ getMaxSectors NOTIFY maxSectorsChanged)
     Q_PROPERTY(int numBlocks READ getNumBlocks NOTIFY numBlocksChanged)
     Q_PROPERTY(int bsize READ getBsize NOTIFY bsizeChanged)
 
@@ -92,6 +96,8 @@ private:
     int getNumHeads() const { return numHeads; }
     int getNumTracks() const { return numTracks; }
     int getNumSectors() const { return numSectors; }
+    int getMinSectors() const { return minSectors; }
+    int getMaxSectors() const { return maxSectors; }
     int getNumBlocks() const { return numBlocks; }
     int getBsize() const { return bsize; }
 
@@ -114,6 +120,8 @@ private:
     void setNumHeads(int value) { numHeads = value; emit numHeadsChanged();}
     void setNumTracks(int value) { numTracks = value; emit numTracksChanged();}
     void setNumSectors(int value) { numSectors = value; emit numSectorsChanged();}
+    void setMinSectors(int value) { minSectors = value; emit minSectorsChanged();}
+    void setMaxSectors(int value) { maxSectors = value; emit maxSectorsChanged();}
     void setNumBlocks(int value) { numBlocks = value; emit numBlocksChanged(); }
     void setBsize(int value) { bsize = value; emit bsizeChanged();}
 
@@ -148,6 +156,8 @@ signals:
     void numHeadsChanged();
     void numTracksChanged();
     void numSectorsChanged();
+    void minSectorsChanged();
+    void maxSectorsChanged();
     void numBlocksChanged();
     void bsizeChanged();
 
