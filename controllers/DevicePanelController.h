@@ -25,7 +25,7 @@ class DevicePanelController : public CustomController
     // Device properties
     QString m_name = "";
     QString m_format = "";
-    QString m_icon = "";
+    // QString m_icon = "";
     QVariantList m_deviceInfo;
 
     // Device layout
@@ -61,7 +61,7 @@ public:
 
     Q_PROPERTY(QString name READ getName NOTIFY nameChanged)
     Q_PROPERTY(QString format READ getFormat NOTIFY formatChanged)
-    Q_PROPERTY(QString icon READ getIcon NOTIFY iconChanged)
+   // Q_PROPERTY(QString icon READ getIcon NOTIFY iconChanged)
     Q_PROPERTY(QVariantList deviceInfo READ getDeviceInfo NOTIFY deviceInfoChanged)
 
     Q_PROPERTY(int numCylinders READ getNumCylinders NOTIFY numCylindersChanged)
@@ -89,7 +89,7 @@ private:
 
     QString getName() const { return m_name; }
     QString getFormat() const { return m_format; }
-    QString getIcon() const { return m_icon; }
+    // QString getIcon() const { return m_icon; }
     QVariantList getDeviceInfo() const { return m_deviceInfo; }
 
     int getNumCylinders() const { return numCylinders; }
@@ -114,7 +114,7 @@ private:
 
     void setName(QString value) { m_name = value; emit nameChanged(); }
     void setFormat(QString value) { m_format = value; emit formatChanged(); }
-    void setIcon(QString value) { printf("setIcon(%s)\n", value.toStdString().c_str()); m_icon = value; emit iconChanged(); }
+    // void setIcon(QString value) { m_icon = value; emit iconChanged(); }
 
     void setNumCylinders(int value) { numCylinders = value; emit numCylindersChanged(); }
     void setNumHeads(int value) { numHeads = value; emit numHeadsChanged();}
@@ -150,7 +150,7 @@ signals:
     void deviceChanged();
     void nameChanged();
     void formatChanged();
-    void iconChanged();
+    // void iconChanged();
 
     void numCylindersChanged();
     void numHeadsChanged();
@@ -174,5 +174,5 @@ public slots:
 
 private:
 
-    void updateIcon();
+    // void updateIcon();
 };

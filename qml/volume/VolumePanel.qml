@@ -36,7 +36,7 @@ Item {
             Header {
 
                 id: header
-                image.source: pc.icon
+                image.source: windowController.volumeIcon
                 title: pc.name
                 gridData: pc.volumeInfo
             }

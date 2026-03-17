@@ -7,11 +7,9 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "backend/Model.h"
 #include "AppController.h"
 #include "Assets.h"
 #include "DeviceManager.h"
-// #include "UsageDisplay.h"
 #include "DevicePanelController.h"
 #include "SidebarController.h"
 #include "SplashPanelController.h"

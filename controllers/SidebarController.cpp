@@ -4,16 +4,6 @@
 
 #include "SidebarController.h"
 
-#include "Model.h"
-
-/*
-SidebarController::SidebarController(QObject* parent) : CustomController(parent)
-{
-    m_sidebarModel = new SidebarModel(this);
-    m_sidebarModel->controller = this;
-}
-*/
-
 void
 SidebarController::refresh()
 {
@@ -60,7 +50,7 @@ SidebarController::SidebarModel::parent(const QModelIndex& child) const
         }
     }
 
-    return QModelIndex(); // Top level
+    return QModelIndex();
 }
 
 int
@@ -133,7 +123,7 @@ SidebarController::SidebarModel::refresh()
             auto filename = device.getImage()->path.filename().string();
             SidebarItem dev;
             dev.type = ItemType::DeviceItem;
-            dev.iconSource = "floppy35_dd.png";
+            dev.iconSource = controller->deviceIcon(i);
             dev.title = QString::fromStdString(filename);
             dev.subtitle = QString::fromStdString(ddescr.size() > 1 ? ddescr[0] : "");
             dev.deviceId = i;
@@ -148,7 +138,7 @@ SidebarController::SidebarModel::refresh()
 
                 SidebarItem vol;
                 vol.type = ItemType::VolumeItem;
-                vol.iconSource = "volume_amiga";
+                vol.iconSource = controller->volumeIcon(i, j);
                 vol.title = QString::fromStdString(vdescr.size() > 0 ? vdescr[0] : "");
                 vol.subtitle = QString::fromStdString(vdescr.size() > 1 ? vdescr[1] : "");
                 vol.deviceId = i;

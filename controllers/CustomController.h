@@ -21,13 +21,20 @@ public:
 
     // Wrappers
     DeviceManager* manager() const { return wc ? wc->getManager() : nullptr; }
-    FuseDevice *fuseDevice(isize dev) const { return wc ? wc->fuseDevice(dev) : nullptr; }
-    FuseVolume *fuseVolume(isize dev, isize vol) const { return wc ? wc->fuseVolume(dev, vol) : nullptr; }
-    DiskImage *diskImage(isize dev) const { return wc ? wc->diskImage(dev) : nullptr; }
+    FuseDevice *fuseDevice(isize d) const { return wc ? wc->fuseDevice(d) : nullptr; }
+    FuseVolume *fuseVolume(isize d, isize v) const { return wc ? wc->fuseVolume(d, v) : nullptr; }
+    DiskImage *diskImage(isize d) const { return wc ? wc->diskImage(d) : nullptr; }
+    QString imageFormat(isize d) const { return wc ? wc->diskImageFormat(d) : QString(); }
+    QString deviceIcon(isize d) const { return wc ? wc->deviceIcon(d) : QString(); }
+    QString volumeIcon(isize d, isize v) const { return wc ? wc->volumeIcon(d, v) : QString(); }
+
     FuseDevice *currentDevice() const { return wc ? wc->currentDevice() : nullptr; }
     FuseVolume *currentVolume() const { return wc ? wc->currentVolume() : nullptr; }
     DiskImage *currentImage() const { return wc ? wc->currentImage() : nullptr; }
     QString currentImageFormat() const { return wc ? wc->currentImageFormat() : QString(); }
+    QString currentDeviceIcon() const { return wc ? wc->currentDeviceIcon() : QString(); }
+    QString currentVolumeIcon() const { return wc ? wc->currentVolumeIcon() : QString(); }
+
 private:
     WindowController* getWC() const { return wc; }
     void setWC(WindowController* value);

@@ -12,7 +12,6 @@ class WindowController : public Controller
 protected:
 
     // Gateway to the device manager
-    // Model *model = nullptr;
     DeviceManager *manager = nullptr;
 
     // Current selection
@@ -23,7 +22,9 @@ public:
     Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY deviceChanged)
     Q_PROPERTY(int volume READ getVolume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(int numDevices READ getNumDevices NOTIFY numDevicesChanged)
-    Q_PROPERTY(QString imageFormat READ getImageFormat NOTIFY imageFormatChanged)
+    Q_PROPERTY(QString imageFormat READ currentImageFormat NOTIFY imageFormatChanged)
+    Q_PROPERTY(QString deviceIcon READ currentDeviceIcon NOTIFY deviceIconChanged)
+    Q_PROPERTY(QString volumeIcon READ currentVolumeIcon NOTIFY volumeIconChanged)
 
     WindowController(QObject *parent = nullptr);
     ~WindowController() override;
@@ -38,7 +39,6 @@ public:
     int getDevice() const { return device; }
     int getVolume() const { return volume; }
     int getNumDevices() const { return manager->numDevices(); }
-    QString getImageFormat() const { return diskImageFormat(device); }
 
     //
     // Setter
@@ -55,11 +55,15 @@ public:
     FuseVolume *fuseVolume(isize d, isize v) const;
     DiskImage *diskImage(isize d) const;
     QString diskImageFormat(isize d) const;
+    QString deviceIcon(isize d) const;
+    QString volumeIcon(isize d, isize v) const;
 
     FuseDevice *currentDevice() const { return fuseDevice(device); }
     FuseVolume *currentVolume() const { return fuseVolume(device, volume); }
     DiskImage *currentImage() const { return diskImage(device); }
     QString currentImageFormat() const { return diskImageFormat(device); }
+    QString currentDeviceIcon() const { return deviceIcon(device); }
+    QString currentVolumeIcon() const { return volumeIcon(device, volume); }
 
     void rethrow(std::exception& e);
 
@@ -70,6 +74,8 @@ public:
     void selectionChanged();
     void numDevicesChanged();
     void imageFormatChanged();
+    void deviceIconChanged();
+    void volumeIconChanged();
 
 public slots:
     void addImage(const QUrl &url);

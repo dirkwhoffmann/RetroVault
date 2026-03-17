@@ -1,7 +1,5 @@
 #pragma once
-#include "Model.h"
 #include <QObject>
-
 
 class Controller : public QObject {
 

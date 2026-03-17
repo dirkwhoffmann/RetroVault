@@ -5,6 +5,7 @@
 #include "WindowController.h"
 #include "FuseDevice.h"
 #include "FuseVolume.h"
+#include "Assets.h"
 #include <QFile>
 #include <QQmlEngine>
 
@@ -107,6 +108,48 @@ WindowController::diskImageFormat(isize d) const
    if (auto img = diskImage(d))
        return QString::fromStdString(ImageFormatEnum::key(img->format()));
 
+    return "";
+}
+
+QString
+WindowController::deviceIcon(isize d) const
+{
+    static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
+        {"ADF", Assets::Floppy35DD},
+        {"ADZ", Assets::Floppy35DD},
+        {"EADF", Assets::Floppy35DD},
+        {"DMS", Assets::Floppy35DD},
+        {"IMG", Assets::Floppy35DD},
+        {"ST", Assets::Floppy35DD},
+        {"D64", Assets::Floppy525DD}
+    };
+
+    auto url = QString();
+    if (auto it = formatSuffixes.find(diskImageFormat(d).toStdString()); it != formatSuffixes.end())
+    {
+        return Assets::getIconUrl(it->second).toString();
+    }
+    return "";
+}
+
+QString
+WindowController::volumeIcon(isize d, isize v) const
+{
+    static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
+        {"ADF", Assets::VolumeAmiga},
+        {"ADZ", Assets::VolumeAmiga},
+        {"EADF", Assets::VolumeAmiga},
+        {"DMS", Assets::VolumeAmiga},
+        {"IMG", Assets::VolumeDOS},
+        {"ST", Assets::VolumeST},
+        {"D64", Assets::VolumeCBM}
+    };
+
+    auto url = QString();
+    if (auto it = formatSuffixes.find(diskImageFormat(d).toStdString()); it != formatSuffixes.end())
+    {
+        return Assets::getIconUrl(it->second).toString();
+    }
     return "";
 }
 

@@ -37,7 +37,7 @@ Item {
             Header {
 
                 id: header
-                image.source: pc.icon
+                image.source: windowController.deviceIcon
                 title: pc.name
                 gridData: pc.deviceInfo
             }

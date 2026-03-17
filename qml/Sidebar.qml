@@ -56,7 +56,7 @@ Item {
                     spacing: 8
 
                     Image {
-                        source: `qrc:/assets/images/${iconSource}`
+                        source: iconSource
                         sourceSize: Qt.size(36, 36)
                         Layout.alignment: Qt.AlignVCenter
                     }

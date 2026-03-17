@@ -7,8 +7,6 @@
 #include <QColor>
 #include <QList>
 
-#include "Model.h"
-
 //
 // Table View
 //
@@ -90,24 +88,6 @@ VolumePanelController::BlockViewModel::refresh(int b)
 // Controller
 //
 
-/*
-void
-VolumePanelController::setDevice(int value)
-{
-    devNr = value;
-    refresh();
-    emit deviceChanged();
-}
-
-void
-VolumePanelController::setVolume(int value)
-{
-    volNr = value;
-    refresh();
-    emit volumeChanged();
-}
-*/
-
 void
 VolumePanelController::setBlock(int value)
 {
@@ -139,6 +119,7 @@ VolumePanelController::setImageFmt(QString &value)
     emit imageFmtChanged();
 }
 
+/*
 void
 VolumePanelController::setIcon(QString &value)
 {
@@ -146,6 +127,7 @@ VolumePanelController::setIcon(QString &value)
     icon = value;
     emit iconChanged();
 }
+*/
 
 void
 VolumePanelController::setVolumeInfo(const QVariantList& info)
@@ -180,7 +162,7 @@ VolumePanelController::refresh()
         setName(title);
         setImageFmt(format);
 
-        updateIcon();
+        // updateIcon();
 
         auto txt1 = QString::fromStdString(info.size() > 0 ? info[0] : "");
         auto txt2 = QString::fromStdString(info.size() > 1 ? info[1] : "");
@@ -293,6 +275,7 @@ VolumePanelController::getHealthPanelColors() const
     };
 }
 
+/*
 void
 VolumePanelController::updateIcon()
 {
@@ -313,3 +296,4 @@ VolumePanelController::updateIcon()
     }
     setIcon(url);
 }
+*/

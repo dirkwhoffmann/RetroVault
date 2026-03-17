@@ -230,8 +230,6 @@ DevicePanelController::refresh()
         setBsize(int(image->bsize()));
         setFormat(ImageFormatEnum::key(image->format()));
 
-        updateIcon();
-
         QString sectorRange;
         if (minSectors == maxSectors)
         {
@@ -255,6 +253,7 @@ DevicePanelController::refresh()
     setDeviceInfo(list);
 }
 
+/*
 void
 DevicePanelController::updateIcon()
 {
@@ -277,3 +276,4 @@ DevicePanelController::updateIcon()
         setIcon("");
     }
 }
+*/
