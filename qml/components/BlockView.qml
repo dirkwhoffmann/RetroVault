@@ -4,7 +4,11 @@ import QtQuick.Layouts
 
 Rectangle {
 
+    id: root
+    property bool selectable: false
     property alias model: tableView.model
+    property alias selectedRow: tableView.selectedRow
+    property alias selectedColumn: tableView.selectedColumn
 
     anchors.fill: parent
 
@@ -35,6 +39,9 @@ Rectangle {
         columnSpacing: 1
         rowSpacing: 1
         clip: true
+
+        property int selectedRow: -1
+        property int selectedColumn: -1
 
         columnWidthProvider: function (column) {
 
@@ -74,18 +81,44 @@ Rectangle {
 
             implicitHeight: 20
 
+            color: (row === tableView.selectedRow && column === tableView.selectedColumn)
+                ? "#87cefa"   // light blue
+                : "transparent"
+
             Label {
 
                 id: label
                 anchors.centerIn: parent
                 text: display
-                // font: column === 0 ? undefined : Style.mono
                 Binding {
                     target: label
                     property: "font"
                     value: Style.mono
                     when: column !== 0
                 }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                enabled: root.selectable
+                hoverEnabled: root.selectable
+
+                onClicked: {
+
+                    if (column === 0 || column === tableView.columns - 1)
+                        return
+
+                    if (row == tableView.selectedRow && column == tableView.selectedColumn) {
+                        tableView.selectedRow = -1
+                        tableView.selectedColumn = -1
+                    } else {
+                        tableView.selectedRow = row
+                        tableView.selectedColumn = column
+                    }
+                }
+
+                onEntered: label.opacity = 0.5
+                onExited: label.opacity = 1.0
             }
         }
     }

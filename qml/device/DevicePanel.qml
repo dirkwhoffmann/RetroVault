@@ -122,6 +122,7 @@ Item {
             BlockView {
 
                 id: blockView
+                selectable: false
                 model: pc.tableModel
             }
         }

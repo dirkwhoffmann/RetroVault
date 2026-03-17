@@ -85,11 +85,11 @@ public:
     Q_PROPERTY(QList<QColor> allocPanelColors READ getAllocPanelColors NOTIFY allocPanelColorsChanged)
     Q_PROPERTY(QList<QColor> healthPanelColors READ getHealthPanelColors NOTIFY healthPanelColorsChanged)
 
-private:
-
     //
     // Getter
     //
+
+private:
 
     QString getName() const { return name; }
     QString getImageFmt() const { return imageFmt; }
@@ -109,6 +109,8 @@ private:
     // Setter
     //
 
+private:
+
     void setName(QString &value);
     void setImageFmt(QString &value);
     void setIcon(QString &value);
@@ -122,6 +124,8 @@ private:
     //
     // Colors and labels for the layout views
     //
+
+private:
 
     Q_INVOKABLE QVariantList computeLegend() const;
 
@@ -141,9 +145,14 @@ private:
     QList<QColor> getAllocPanelColors() const;
     QList<QColor> getHealthPanelColors() const;
 
+public:
+
+    Q_INVOKABLE QString itemInfo(int row, int col) const;
+    Q_INVOKABLE QString errorInfo(int row, int col) const;
+
 signals:
-    void deviceChanged();
-    void volumeChanged();
+    // void deviceChanged();
+    // void volumeChanged();
     void nameChanged();
     void imageFmtChanged();
     void iconChanged();

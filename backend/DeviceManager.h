@@ -110,7 +110,7 @@ public:
     void remove(isize d);
     void remove(isize d, isize v);
     void removeAll();
-
-    // void save(isize deviceNr);
-    // void saveAll();
+    void save(isize d);
+    void save(isize d, isize v);
+    void saveAll();
 };

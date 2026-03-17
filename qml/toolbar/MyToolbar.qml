@@ -74,26 +74,6 @@ ToolBar {
                     }
                 }
 
-                /*
-                NavButton {
-
-                    id: burgerButton
-                    icon.source: "qrc:/assets/icons/burger.svg"
-
-                    onClicked: burgerMenu.open()
-
-                    Menu {
-                        id: burgerMenu
-                        y: burgerButton.height
-
-                        MenuItem {
-                            text: "Add Image"
-                            onTriggered: fileDialog.open()
-                        }
-                    }
-                }
-                */
-
                 // 3. Put the Separator at the very right edge of this container
                 ToolSeparator {
                     Layout.fillHeight: true
@@ -101,8 +81,18 @@ ToolBar {
             }
         }
 
-        NavButton { icon.source: "qrc:/assets/icons/eject.svg" }
-        NavButton { icon.source: "qrc:/assets/icons/folder.svg" }
+        NavButton {
+
+            icon.source: "qrc:/assets/icons/folder.svg"
+            MyToolTip { text: "Open in Finder" }
+
+            enabled: wc.mountPoint !== ""
+
+            onClicked: {
+                console.log("Folder icon clicked: " + wc.mountPoint)
+                Qt.openUrlExternally(wc.mountPoint)
+            }
+        }
         NavButton { icon.source: "qrc:/assets/icons/sync.svg" }
 
         Item { Layout.fillWidth: true } // Spacer

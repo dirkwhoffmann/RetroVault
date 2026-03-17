@@ -11,6 +11,7 @@ RowLayout {
     property alias from: sb.from
     property alias to: sb.to
     property alias stepSize: sb.stepSize
+    property alias pointSize: titleLabel.font.pointSize
 
     Label {
         id: titleLabel

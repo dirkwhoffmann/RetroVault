@@ -76,13 +76,14 @@ Item {
                     label: "Block"
                     to: Math.max(0, pc.numBlocks - 1)
                     value: pc.block
+                    pointSize: Style.regular
                     onValueChanged: { console.log("Stepper: " + value); pc.block = value }
                 }
 
                 Label {
                     id: usageString
-                    text: "Usage description"
-                    font.pointSize: Style.small
+                    text: pc.itemInfo(blockView.selectedRow, blockView.selectedColumn)
+                    // font.pointSize: Style.small
                     Layout.alignment: Qt.AlignHCenter
                 }
 
@@ -92,9 +93,9 @@ Item {
 
                 Label {
                     id: errorString
-                    text: "Holla, die Waldfee"
+                    text: pc.errorInfo(blockView.selectedRow, blockView.selectedColumn)
                     color: "red"
-                    font.pointSize: Style.small
+                    // font.pointSize: Style.small
                     Layout.alignment: Qt.AlignHCenter
                 }
             }
@@ -112,6 +113,7 @@ Item {
             BlockView {
 
                 id: blockView
+                selectable: true
                 model: pc.tableModel
             }
         }

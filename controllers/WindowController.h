@@ -25,6 +25,7 @@ public:
     Q_PROPERTY(QString imageFormat READ currentImageFormat NOTIFY imageFormatChanged)
     Q_PROPERTY(QString deviceIcon READ currentDeviceIcon NOTIFY deviceIconChanged)
     Q_PROPERTY(QString volumeIcon READ currentVolumeIcon NOTIFY volumeIconChanged)
+    Q_PROPERTY(QString mountPoint READ currentMountPoint NOTIFY mountPointChanged)
 
     WindowController(QObject *parent = nullptr);
     ~WindowController() override;
@@ -64,22 +65,21 @@ public:
     QString currentImageFormat() const { return diskImageFormat(device); }
     QString currentDeviceIcon() const { return deviceIcon(device); }
     QString currentVolumeIcon() const { return volumeIcon(device, volume); }
+    QString currentMountPoint() const;
 
     signals:
     void modelChanged();
-    // void deviceChanged();
-    // void volumeChanged();
     void selectionChanged();
     void numDevicesChanged();
     void imageFormatChanged();
     void deviceIconChanged();
     void volumeIconChanged();
+    void mountPointChanged();
 
 public slots:
     void addImage(const QUrl &url);
-    // void removeDevice(isize d);
-    // void removeVolume(isize d, isize v);
     void remove();
+    void save();
 
     void select(int newDevice, int newVolume);
 };

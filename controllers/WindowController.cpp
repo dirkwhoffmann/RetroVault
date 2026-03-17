@@ -153,6 +153,16 @@ WindowController::volumeIcon(isize d, isize v) const
     return "";
 }
 
+QString
+WindowController::currentMountPoint() const
+{
+    if (auto *v = currentVolume())
+    {
+        return QString::fromStdString(v->getMountPoint().string());
+    }
+    return "";
+}
+
 void
 WindowController::addImage(const QUrl &url) {
 
@@ -194,4 +204,24 @@ WindowController::remove() {
 
     emit numDevicesChanged();
     emit selectionChanged();
+}
+
+void
+WindowController::save()
+{
+    try
+    {
+        if (volume == -1)
+        {
+            manager->save(device);
+        }
+        else
+        {
+            manager->save(device, volume);
+        }
+    }
+    catch (std::exception& e)
+    {
+        rethrow(e);
+    }
 }

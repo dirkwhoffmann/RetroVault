@@ -280,6 +280,38 @@ VolumePanelController::getHealthPanelColors() const
     };
 }
 
+ QString
+ VolumePanelController::itemInfo(int row, int col) const
+ {
+    if (auto *volume = currentVolume())
+    {
+        if (row >= 0 && col >= 0)
+        {
+            return QString::fromStdString(volume->typeOf(blkNr, row * 16 + col));
+        }
+        else
+        {
+            return QString::fromStdString(volume->blockType(blkNr));
+        }
+    }
+    return "";
+}
+
+QString
+ VolumePanelController::errorInfo(int row, int col) const
+{
+    if (auto *volume = currentVolume())
+    {
+        if (row >= 0 && col >= 0)
+        {
+            optional<u8> exp;
+            auto err = volume->xray(blkNr, row * 16 + col, true, exp);
+            return QString::fromStdString(err);
+        }
+    }
+    return "";
+}
+
 /*
 void
 VolumePanelController::updateIcon()

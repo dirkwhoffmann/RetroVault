@@ -86,3 +86,29 @@ DeviceManager::removeAll()
 {
     while (!devices.empty()) remove(0);
 }
+
+void
+DeviceManager::save(isize d)
+{
+    if (d >= 0 && d < devices.size())
+    {
+        devices[d]->save();
+    }
+}
+
+void DeviceManager::save(isize d, isize v)
+{
+    if (d >= 0 && d < devices.size())
+    {
+        devices[d]->save(v);
+    }
+}
+
+void
+DeviceManager::saveAll()
+{
+    for (auto &device : devices)
+    {
+        device->save();
+    }
+}
