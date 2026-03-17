@@ -193,22 +193,27 @@ VolumePanelController::computeLegend() const
     if (fmt == "ADF" || fmt == "ADZ" || fmt == "EADF" || fmt == "HDF" || fmt == "HDZ" || fmt == "DMS")
     {
         dataList += {
-            QVariantMap{{"color", QColor("#ffb266")}, {"label", QStringLiteral("Boot Block")}},
-            QVariantMap{{"color", QColor("#b266ff")}, {"label", QStringLiteral("Bitmap Block")}},
-            QVariantMap{{"color", QColor("#ffff66")}, {"label", QStringLiteral("User Directory Block")}},
-            QVariantMap{{"color", QColor("#009900")}, {"label", QStringLiteral("File List Block")}},
-            QVariantMap{{"color", QColor("#ff6666")}, {"label", QStringLiteral("Root Block")}},
-            QVariantMap{{"color", QColor("#ff66ff")}, {"label", QStringLiteral("Bitmap Extension Block")}},
-            QVariantMap{{"color", QColor("#66b2ff")}, {"label", QStringLiteral("File Header Block")}},
-            QVariantMap{{"color", QColor("#66ff66")}, {"label", QStringLiteral("Data Block")}}
+            QVariantMap{{"color", getBootBlockColor()}, {"label", QStringLiteral("Boot Block")}},
+            QVariantMap{{"color", getBitmapBlockColor()}, {"label", QStringLiteral("Bitmap Block")}},
+            QVariantMap{{"color", getDirectoryBlockColor()}, {"label", QStringLiteral("User Directory Block")}},
+            QVariantMap{{"color", getListBlockColor()}, {"label", QStringLiteral("File List Block")}},
+            QVariantMap{{"color", getRootBlockColor()}, {"label", QStringLiteral("Root Block")}},
+            QVariantMap{{"color", getBitmapBlockColor()}, {"label", QStringLiteral("Bitmap Extension Block")}},
+            QVariantMap{{"color", getHeaderBlockColor()}, {"label", QStringLiteral("File Header Block")}},
+            QVariantMap{{"color", getDataBlockColor()}, {"label", QStringLiteral("Data Block")}}
         };
 
     } else if (fmt == "D64")
     {
         dataList += {
-            QVariantMap{{"color", QColor("#ff6666")}, {"label", QStringLiteral("BAM")}},
-            QVariantMap{{"color", QColor("#ffff66")}, {"label", QStringLiteral("Directory Block")}},
-            QVariantMap{{"color", QColor("#66ff66")}, {"label", QStringLiteral("Data Block")}},
+            QVariantMap{{"color", getRootBlockColor()}, {"label", QStringLiteral("BAM")}},
+            QVariantMap{{"color", getDirectoryBlockColor()}, {"label", QStringLiteral("Directory Block")}},
+            QVariantMap{{"color", getDataBlockColor()}, {"label", QStringLiteral("Data Block")}},
+            QVariantMap{{"color", QColor()}, {"label", QStringLiteral("")}},
+            QVariantMap{{"color", QColor()}, {"label", QStringLiteral("")}},
+            QVariantMap{{"color", QColor()}, {"label", QStringLiteral("")}},
+            QVariantMap{{"color", QColor()}, {"label", QStringLiteral("")}},
+            QVariantMap{{"color", QColor()}, {"label", QStringLiteral("")}},
         };
     } else
     {

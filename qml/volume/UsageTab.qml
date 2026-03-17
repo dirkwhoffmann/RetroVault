@@ -78,33 +78,14 @@ Item {
 
             Layout.fillWidth: true
 
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.bootBlockColor
-                label: "Boot Block"
-            }
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.bitmapBlockColor
-                label: "Bitmap Block"
-            }
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.directoryBlockColor
-                label: "User Directory Block"
-            }
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.listBlockColor
-                label: "File List Block"
+            Repeater {
+                model: panelController.legendData.slice(0, 4)
+                delegate: ColorInfo {
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: root.cellWidth
+                    color: modelData.color
+                    label: modelData.label
+                }
             }
         }
 
@@ -114,35 +95,17 @@ Item {
 
             Layout.fillWidth: true
 
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.rootBlockColor
-                label: "Root Block"
-            }
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.bitmapExtBlockColor
-                label: "Bitmap Extension Block"
-            }
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.headerBlockColor
-                label: "File Header Block"
-            }
-            ColorInfo {
-
-                Layout.fillWidth: true
-                Layout.preferredWidth: root.cellWidth
-                color: panelController.dataBlockColor
-                label: "Data Block"
+            Repeater {
+                model: panelController.legendData.slice(4, 8)
+                delegate: ColorInfo {
+                    Layout.fillWidth: true
+                    Layout.preferredWidth: root.cellWidth
+                    color: modelData.color
+                    label: modelData.label
+                }
             }
         }
+
         Item {
             Layout.fillHeight: true
         }

@@ -14,8 +14,7 @@ ApplicationWindow {
 
         id: wc
 
-        onVolumeChanged: { updateStack() }
-        onDeviceChanged: { updateStack() }
+        onSelectionChanged: { updateStack() }
         onNumDevicesChanged: {
             console.log("ApplicationWindow::onNumDevicesChanged: " + numDevices)
             mySidebar.refresh()
@@ -99,7 +98,7 @@ ApplicationWindow {
                     property: "opacity"
                     from: 1.0
                     to: 0.0
-                    duration: 400
+                    duration: 0
                     easing.type: Easing.InOutQuad
                 }
             }

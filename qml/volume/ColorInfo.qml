@@ -12,9 +12,9 @@ RowLayout {
 
     Rectangle {
         id: colorBox
+        visible: label && label !== ""
         width: 12
         height: 12
-        color: "#27ae60"
         radius: 2
         border.color: Style.tertiary
         border.width: 1
