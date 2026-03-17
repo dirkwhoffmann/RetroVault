@@ -7,4 +7,6 @@ class Controller : public QObject {
 
 public:
     explicit Controller(QObject *parent = nullptr) : QObject(parent) {}
+
+    void rethrow(std::exception& e);
 };

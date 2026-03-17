@@ -7,7 +7,6 @@
 #include "FuseVolume.h"
 #include "Assets.h"
 #include <QFile>
-#include <QQmlEngine>
 
 WindowController::WindowController(QObject *parent) : Controller(parent)
 {
@@ -36,7 +35,7 @@ WindowController::setDevice(int value)
     if (device != value)
     {
         device = value;
-        emit deviceChanged();
+        // emit deviceChanged();
         emit selectionChanged();
         emit imageFormatChanged();
     }
@@ -48,7 +47,7 @@ WindowController::setVolume(int value)
     if (volume != value)
     {
         volume = value;
-        emit volumeChanged();
+        // emit volumeChanged();
         emit selectionChanged();
     }
 }
@@ -61,16 +60,17 @@ WindowController::select(int newDevice, int newVolume)
     if (device != newDevice)
     {
         device = newDevice;
-        emit deviceChanged();
+        // emit deviceChanged();
         emit imageFormatChanged();
     }
     if (volume != newVolume)
     {
         volume = newVolume;
-        emit volumeChanged();
+        // emit volumeChanged();
     }
 
     emit selectionChanged();
+    printf("Selection changed!!!\n");
 }
 
 FuseDevice *
@@ -154,16 +154,6 @@ WindowController::volumeIcon(isize d, isize v) const
 }
 
 void
-WindowController::rethrow(std::exception& e)
-{
-    assert(qmlEngine(this));
-
-    QString errorMsg = QString::fromStdString(e.what());
-    printf("%s\n", errorMsg.toStdString().c_str());
-    qmlEngine(this)->throwError(errorMsg);
-}
-
-void
 WindowController::addImage(const QUrl &url) {
 
     QFile file(url.toLocalFile());
@@ -179,4 +169,29 @@ WindowController::addImage(const QUrl &url) {
     {
         rethrow(e);
     }
+}
+
+void
+WindowController::remove() {
+
+    try
+    {
+        if (volume == -1)
+        {
+            manager->remove(device);
+        }
+        else
+        {
+            manager->remove(device, volume);
+        }
+        device = -1;
+        volume = -1;
+    }
+    catch (std::exception& e)
+    {
+        rethrow(e);
+    }
+
+    emit numDevicesChanged();
+    emit selectionChanged();
 }

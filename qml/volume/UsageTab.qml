@@ -12,15 +12,6 @@ Item {
 
     readonly property int cellWidth: width / 4
 
-    Connections {
-        target: windowController
-
-        function onSelectionChanged() {
-
-            scanner.startScan();
-        }
-    }
-
     ColumnLayout {
 
         anchors.fill: parent

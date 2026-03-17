@@ -23,7 +23,7 @@ ColumnLayout {
 
         id: volumeScanner
         windowController: root.windowController
-        // Component.onCompleted: { startScan() }
+        Component.onCompleted: { startScan() }
     }
 
     //

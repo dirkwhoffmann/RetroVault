@@ -19,8 +19,8 @@ protected:
     int volume = -1;
 
 public:
-    Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY deviceChanged)
-    Q_PROPERTY(int volume READ getVolume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY selectionChanged)
+    Q_PROPERTY(int volume READ getVolume WRITE setVolume NOTIFY selectionChanged)
     Q_PROPERTY(int numDevices READ getNumDevices NOTIFY numDevicesChanged)
     Q_PROPERTY(QString imageFormat READ currentImageFormat NOTIFY imageFormatChanged)
     Q_PROPERTY(QString deviceIcon READ currentDeviceIcon NOTIFY deviceIconChanged)
@@ -65,12 +65,10 @@ public:
     QString currentDeviceIcon() const { return deviceIcon(device); }
     QString currentVolumeIcon() const { return volumeIcon(device, volume); }
 
-    void rethrow(std::exception& e);
-
     signals:
     void modelChanged();
-    void deviceChanged();
-    void volumeChanged();
+    // void deviceChanged();
+    // void volumeChanged();
     void selectionChanged();
     void numDevicesChanged();
     void imageFormatChanged();
@@ -79,5 +77,9 @@ public:
 
 public slots:
     void addImage(const QUrl &url);
+    // void removeDevice(isize d);
+    // void removeVolume(isize d, isize v);
+    void remove();
+
     void select(int newDevice, int newVolume);
 };

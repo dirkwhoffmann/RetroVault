@@ -66,11 +66,21 @@ DeviceManager::add(const fs::path &imageFile)
 }
 
 void
-DeviceManager::remove(isize deviceNr)
+DeviceManager::remove(isize d)
 {
-    if (deviceNr >= 0 && deviceNr < devices.size())
-        devices.erase(devices.begin() + deviceNr);
+    if (d >= 0 && d < devices.size())
+        devices.erase(devices.begin() + d);
 }
+
+void
+DeviceManager::remove(isize d, isize v)
+{
+    if (d >= 0 && d < devices.size())
+    {
+        devices[d]->unmount(v);
+    }
+}
+
 void
 DeviceManager::removeAll()
 {

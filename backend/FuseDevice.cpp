@@ -78,6 +78,7 @@ FuseDevice::makeVolumeFor(const fs::path& filename)
 FuseDevice::~FuseDevice()
 {
     printf("Destroying FuseDevice\n");
+    unmount();
 }
 
 void
@@ -137,7 +138,7 @@ FuseDevice::unmount(isize volume)
     // Remove the volume from the vector
     std::unique_ptr<FuseVolume> vol = std::move(volumes[volume]);
     volumes.erase(volumes.begin() + volume);
-    
+
     // Unmount the volume asynchroneously
     std::thread([vol = std::move(vol)]() mutable {
         

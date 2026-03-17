@@ -23,9 +23,11 @@ ToolBar {
                 UIController.showError(e.message)
             }
         }
+        /*
         onRejected: {
             console.log("Canceled")
         }
+        */
     }
 
     property real sidebarWidth: 200
@@ -68,6 +70,7 @@ ToolBar {
 
                     onClicked: {
                         console.log("Minus clicked")
+                        windowController.remove()
                     }
                 }
 

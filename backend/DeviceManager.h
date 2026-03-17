@@ -107,7 +107,8 @@ public:
     // void open(const fs::path &url);
     void add(const fs::path &imageFile);
 
-    void remove(isize deviceNr);
+    void remove(isize d);
+    void remove(isize d, isize v);
     void removeAll();
 
     // void save(isize deviceNr);
