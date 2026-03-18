@@ -106,6 +106,16 @@ VolumePanelController::setBlock(int value)
 }
 
 void
+VolumePanelController::setStrict(bool value)
+{
+    if (strict != value)
+    {
+        strict = value;
+        emit strictChanged();
+    }
+}
+
+void
 VolumePanelController::setName(QString &value)
 {
     name = value;
@@ -262,10 +272,10 @@ QList<QColor>
 VolumePanelController::getAllocPanelColors() const
 {
     return {
-        QColor("#808080"),                  // GRAY
-        getOkColor(),                       // Allocated and used
-        getWarnColor(),                     // Allocated but unused
-        getErrorColor(),                    // Unallocated but used
+        QColor("#808080"),                      // GRAY
+        getOkColor(),                           // Allocated and used
+        strict ? getWarnColor() : getOkColor(), // Allocated but unused
+        getErrorColor(),                        // Unallocated but used
     };
 }
 
@@ -273,10 +283,10 @@ QList<QColor>
 VolumePanelController::getHealthPanelColors() const
 {
     return {
-        QColor("#808080"),                  // GRAY
-        getOkColor(),                       // Consistend
-        getWarnColor(),                     // Erroneous
-        QColor("#ffffff")                   // WHITE
+        QColor("#808080"),                      // GRAY
+        getOkColor(),                           // Consistend
+        getErrorColor(),                        // Erroneous
+        QColor("#ffffff")                       // WHITE
     };
 }
 
@@ -305,7 +315,7 @@ QString
         if (row >= 0 && col >= 0)
         {
             optional<u8> exp;
-            auto err = volume->xray(blkNr, row * 16 + col, true, exp);
+            auto err = volume->xray(blkNr, row * 16 + col, strict, exp);
             return QString::fromStdString(err);
         }
     }

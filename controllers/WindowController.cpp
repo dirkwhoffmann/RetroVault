@@ -53,6 +53,16 @@ WindowController::setVolume(int value)
 }
 
 void
+WindowController::setProtected(bool value)
+{
+    if (auto *volume = currentVolume())
+    {
+        volume->writeProtect(value);
+        emit isProtectedChanged();
+    }
+}
+
+void
 WindowController::select(int newDevice, int newVolume)
 {
     if (device == newDevice && volume == newVolume) return;
@@ -151,6 +161,16 @@ WindowController::volumeIcon(isize d, isize v) const
         return Assets::getIconUrl(it->second).toString();
     }
     return "";
+}
+
+bool
+WindowController::writeProtection(isize d, isize v) const
+{
+    if (auto *volume = fuseVolume(d, v))
+    {
+        return volume->isWriteProtected();
+    }
+    return false;
 }
 
 QString

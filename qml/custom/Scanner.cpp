@@ -7,11 +7,11 @@ Scanner::Scanner(QObject* parent) : QObject(parent)
 }
 
 void
-Scanner::startScan()
+Scanner::startScan(bool strict)
 {
     if (auto* fv = wc ? wc->currentVolume() : nullptr)
     {
-        runTask([fv]()
+        runTask([fv, strict]()
         {
             // Record the start time
             auto startTime = std::chrono::steady_clock::now();
@@ -22,6 +22,7 @@ Scanner::startScan()
             result.healthMap.resize(1024);
 
             // Perform heavy work
+            fv->xray(strict);
             fv->createUsageMap(reinterpret_cast<u8*>(result.usageMap.data()), result.usageMap.size());
             fv->createAllocationMap(reinterpret_cast<u8*>(result.allocMap.data()), result.allocMap.size());
             fv->createHealthMap(reinterpret_cast<u8*>(result.healthMap.data()), result.healthMap.size());

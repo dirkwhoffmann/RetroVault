@@ -19,7 +19,7 @@ Pane {
 
         Image {
             id: ledImage
-            source: controller.hasFuse() ? "qrc:/assets/images/LEDgreen.png" : "qrc:/assets/images/LEDred.png"
+            source: controller.hasFuse() ? Assets.iconUrl(Assets.LEDGreen) : Assets.iconUrl(Assets.LEDRed)
             sourceSize: Qt.size(Style.iconSmall, Style.iconSmall)
         }
         Label {
@@ -29,7 +29,7 @@ Pane {
         Item {  Layout.fillWidth: true } // Spacer
 
         IconLink {
-            iconSource: "qrc:/assets/icons/github.svg"
+            iconSource: Assets.iconUrl(Assets.GitHub)
             targetUrl: "https://dirkwhoffmann.github.io/vAmiga/"
         }
     }

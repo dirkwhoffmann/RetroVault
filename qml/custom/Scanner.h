@@ -41,7 +41,7 @@ public:
     bool isScanning() const { return watcher.isRunning(); }
 
     // Scans the current volume
-    Q_INVOKABLE virtual void startScan();
+    Q_INVOKABLE virtual void startScan(bool strict);
 
 signals:
     void wcChanged();

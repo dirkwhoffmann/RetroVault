@@ -25,6 +25,7 @@ public:
     Q_PROPERTY(QString imageFormat READ currentImageFormat NOTIFY imageFormatChanged)
     Q_PROPERTY(QString deviceIcon READ currentDeviceIcon NOTIFY deviceIconChanged)
     Q_PROPERTY(QString volumeIcon READ currentVolumeIcon NOTIFY volumeIconChanged)
+    Q_PROPERTY(bool isProtected READ currentWriteProtection WRITE setProtected NOTIFY isProtectedChanged)
     Q_PROPERTY(QString mountPoint READ currentMountPoint NOTIFY mountPointChanged)
 
     WindowController(QObject *parent = nullptr);
@@ -49,6 +50,7 @@ protected:
 
     void setDevice(int value);
     void setVolume(int value);
+    void setProtected(bool value);
 
 public:
 
@@ -58,6 +60,7 @@ public:
     QString diskImageFormat(isize d) const;
     QString deviceIcon(isize d) const;
     QString volumeIcon(isize d, isize v) const;
+    bool writeProtection(isize d, isize v) const;
 
     FuseDevice *currentDevice() const { return fuseDevice(device); }
     FuseVolume *currentVolume() const { return fuseVolume(device, volume); }
@@ -65,6 +68,7 @@ public:
     QString currentImageFormat() const { return diskImageFormat(device); }
     QString currentDeviceIcon() const { return deviceIcon(device); }
     QString currentVolumeIcon() const { return volumeIcon(device, volume); }
+    bool currentWriteProtection() const  { return writeProtection(device, volume); }
     QString currentMountPoint() const;
 
     signals:
@@ -74,6 +78,7 @@ public:
     void imageFormatChanged();
     void deviceIconChanged();
     void volumeIconChanged();
+    void isProtectedChanged();
     void mountPointChanged();
 
 public slots:

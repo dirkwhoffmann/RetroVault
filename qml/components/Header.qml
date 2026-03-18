@@ -30,7 +30,6 @@ Pane {
             Image {
 
                 id: image
-                // source: "qrc:/assets/images/floppy35_dd.png"
                 sourceSize: Qt.size(80, 80)
             }
         }

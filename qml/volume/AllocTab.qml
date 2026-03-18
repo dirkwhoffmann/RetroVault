@@ -23,7 +23,6 @@ Item {
             Layout.bottomMargin: Style.smallSpacing
 
             ColorBar {
-
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.iconMedium
                 rawData: scanner.allocMap
@@ -33,7 +32,7 @@ Item {
             BusyButton {
                 imageSource: Assets.iconUrl(Assets.Sync)
                 size: Style.iconMedium
-                onClicked: { scanner.startScan() }
+                onClicked: { scanner.startScan(panelController.strict) }
                 busy: scanner.isScanning
                 ToolTip.text: "Scan Image..."
                 ToolTip.visible: hovered
@@ -77,6 +76,7 @@ Item {
             }
             ColorInfo {
 
+                visible: panelController.strict
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
                 color: panelController.warnColor
@@ -100,7 +100,11 @@ Item {
 
             ImageButton {
                 size: Style.iconMedium
-                icon.source: Assets.iconUrl(Assets.Checked)
+                icon.source: panelController.strict ? Assets.iconUrl(Assets.Checked) : ""
+                onClicked: {
+                    panelController.strict = !panelController.strict
+                    scanner.startScan(panelController.strict)
+                }
             }
         }
 

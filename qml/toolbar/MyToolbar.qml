@@ -83,7 +83,7 @@ ToolBar {
 
         NavButton {
 
-            icon.source: "qrc:/assets/icons/folder.svg"
+            icon.source: Assets.iconUrl(Assets.Folder)
             MyToolTip { text: "Open in Finder" }
 
             enabled: wc.mountPoint !== ""
@@ -93,12 +93,20 @@ ToolBar {
                 Qt.openUrlExternally(wc.mountPoint)
             }
         }
-        NavButton { icon.source: "qrc:/assets/icons/sync.svg" }
+        NavButton { icon.source: Assets.iconUrl(Assets.Sync) }
 
         Item { Layout.fillWidth: true } // Spacer
 
         NavButton {
-            icon.source: "qrc:/assets/icons/locked.svg"
+
+            icon.source: Assets.iconUrl(windowController.isProtected ? Assets.Locked : Assets.Unlocked)
+            enabled: windowController.volume != -1
+            MyToolTip { text: "Toggle Write Protection" }
+
+            onClicked: {
+                console.log("Lock icon clicked: ")
+                windowController.isProtected = !windowController.isProtected
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ Item {
             BusyButton {
                 imageSource: Assets.iconUrl(Assets.Sync)
                 size: Style.iconMedium
-                onClicked: { scanner.startScan() }
+                onClicked: { scanner.startScan(panelController.strict) }
                 busy: scanner.isScanning
 
                 ToolTip.text: "Scan Image..."

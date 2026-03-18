@@ -39,18 +39,15 @@ class VolumePanelController : public CustomController
     // Block view selection
     int blkNr = 0;
 
+    // Strict flag (diagnosis)
+    bool strict = false;
+
     // Block view data
     BlockViewModel tableModel = BlockViewModel(this);
 
 public:
 
     using CustomController::CustomController;
-    /*
-    explicit VolumePanelController(QObject* parent = nullptr) : Controller(parent)
-    {
-        tableModel.controller = this;
-    }
-    */
 
     //
     // Properties
@@ -65,6 +62,8 @@ public:
     Q_PROPERTY(int bsize READ getBsize NOTIFY bsizeChanged)
 
     Q_PROPERTY(int block READ getBlock WRITE setBlock NOTIFY blockChanged)
+    Q_PROPERTY(int strict READ getStrict WRITE setStrict NOTIFY strictChanged)
+
     Q_PROPERTY(BlockViewModel* tableModel READ getTableModel NOTIFY tableModelChanged)
 
     Q_PROPERTY(QVariantList legendData READ getLegendData NOTIFY legendDataChanged)
@@ -100,6 +99,8 @@ private:
     int getBsize() const { return bsize; }
 
     int getBlock() const { return blkNr; }
+    bool getStrict() const { return strict; }
+
     BlockViewModel* getTableModel() { return &tableModel; }
 
     QVariantList getLegendData() const { return computeLegend(); }
@@ -120,6 +121,7 @@ private:
     void setBsize(int value) { bsize = value; emit bsizeChanged(); }
 
     void setBlock(int value);
+    void setStrict(bool value);
 
     //
     // Colors and labels for the layout views
@@ -151,8 +153,6 @@ public:
     Q_INVOKABLE QString errorInfo(int row, int col) const;
 
 signals:
-    // void deviceChanged();
-    // void volumeChanged();
     void nameChanged();
     void imageFmtChanged();
     void iconChanged();
@@ -160,6 +160,7 @@ signals:
     void numBlocksChanged();
     void bsizeChanged();
     void blockChanged();
+    void strictChanged();
     void tableModelChanged();
     void legendDataChanged();
     void usagePanelColorsChanged();
