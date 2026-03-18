@@ -1,18 +1,19 @@
 #include "Scanner.h"
 #include <qtconcurrentrun.h>
 
-Scanner::Scanner(QObject* parent) : QObject(parent)
+Scanner::Scanner(QObject *parent) : QObject(parent)
 {
     connect(&watcher, &QFutureWatcher<QByteArray>::finished, this, &Scanner::onScanFinished);
 }
 
-QString
-Scanner::getAllocInfo() const
+QString Scanner::getAllocInfo() const
 {
-    if (auto* fv = wc ? wc->currentVolume() : nullptr)
-    {
+    if (auto *fv = wc ? wc->currentVolume() : nullptr) {
+
         auto total = fv->usedButUnallocated().size();
-        if (strict) total += fv->unusedButAllocated().size();
+
+        if (strict)
+            total += fv->unusedButAllocated().size();
 
         if (total > 0) {
             const char *blocks = total == 1 ? "block" : "blocks";
@@ -22,11 +23,10 @@ Scanner::getAllocInfo() const
     return "";
 }
 
-QString
-Scanner::getHealthInfo() const
+QString Scanner::getHealthInfo() const
 {
-    if (auto* fv = wc ? wc->currentVolume() : nullptr)
-    {
+    if (auto *fv = wc ? wc->currentVolume() : nullptr) {
+
         auto total = fv->blockErrors().size();
 
         if (total > 0) {
@@ -37,23 +37,47 @@ Scanner::getHealthInfo() const
     return "";
 }
 
-void
-Scanner::setStrict(bool value)
+QString Scanner::itemInfo(int blk, int row, int col) const
 {
-    if (strict != value)
-    {
+    if (auto *volume = wc->currentVolume()) {
+
+        if (row >= 0 && col >= 0) {
+            return QString::fromStdString(volume->typeOf(blk, row * 16 + col));
+        }
+        return QString::fromStdString(volume->blockType(blk));
+    }
+    return "";
+}
+
+QString Scanner::errorInfo(int blk, int row, int col) const
+{
+    if (auto *volume = wc->currentVolume()) {
+
+        if (row >= 0 && col >= 0) {
+
+            optional<u8> exp;
+            auto err = volume->xray(blk, row * 16 + col, strict, exp);
+            return QString::fromStdString(err);
+        }
+    }
+    return "";
+}
+
+void Scanner::setStrict(bool value)
+{
+    if (strict != value) {
+
         strict = value;
         emit strictChanged();
     }
 }
 
-void
-Scanner::startScan()
+void Scanner::startScan()
 {
-    if (auto* fv = wc ? wc->currentVolume() : nullptr)
-    {
-        runTask([this, fv]()
-        {
+    if (auto *fv = wc ? wc->currentVolume() : nullptr) {
+
+        runTask([this, fv]() {
+
             // Record the start time
             auto startTime = std::chrono::steady_clock::now();
 
@@ -64,15 +88,15 @@ Scanner::startScan()
 
             // Perform heavy work
             fv->xray(strict);
-            fv->createUsageMap(reinterpret_cast<u8*>(result.usageMap.data()), result.usageMap.size());
-            fv->createAllocationMap(reinterpret_cast<u8*>(result.allocMap.data()), result.allocMap.size());
-            fv->createHealthMap(reinterpret_cast<u8*>(result.healthMap.data()), result.healthMap.size());
+            fv->createUsageMap(reinterpret_cast<u8 *>(result.usageMap.data()), result.usageMap.size());
+            fv->createAllocationMap(reinterpret_cast<u8 *>(result.allocMap.data()), result.allocMap.size());
+            fv->createHealthMap(reinterpret_cast<u8 *>(result.healthMap.data()), result.healthMap.size());
 
             // Calculate elapsed time
             auto endTime = std::chrono::steady_clock::now();
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
 
-            // For debugging: Make sure the tasks consumes noticable time
+            // For debugging: Make sure the tasks consumes noticeable time
             long long remainingMs = 1500 - elapsed.count();
             if (remainingMs > 0)
                 std::this_thread::sleep_for(std::chrono::milliseconds(remainingMs));
@@ -82,18 +106,17 @@ Scanner::startScan()
     }
 }
 
-void
-Scanner::runTask(std::function<ScanResult()> task)
+void Scanner::runTask(std::function<ScanResult()> task)
 {
     // Only proceed if no scan is in progress
-    if (watcher.isRunning()) return;
+    if (watcher.isRunning())
+        return;
 
     watcher.setFuture(QtConcurrent::run(task));
     emit isScanningChanged();
 }
 
-void
-Scanner::onScanFinished()
+void Scanner::onScanFinished()
 {
     auto result = watcher.result();
 

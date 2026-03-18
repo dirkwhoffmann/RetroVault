@@ -45,6 +45,8 @@ public:
     QByteArray getHealthMap() const { return healthMap; }
     QString getAllocInfo() const;
     QString getHealthInfo() const;
+    Q_INVOKABLE QString itemInfo(int blk, int row, int col) const;
+    Q_INVOKABLE QString errorInfo(int blk, int row, int col) const;
     bool isScanning() const { return watcher.isRunning(); }
 
     void setStrict(bool value);
@@ -63,7 +65,7 @@ signals:
     void isScanningChanged();
 
 protected:
-    void runTask(std::function<ScanResult()> task);
+    void runTask(function<ScanResult()> task);
 
 private slots:
     void onScanFinished();

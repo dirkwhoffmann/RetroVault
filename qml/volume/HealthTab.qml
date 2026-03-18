@@ -107,6 +107,35 @@ Item {
 
             Layout.fillWidth: true
 
+            Row {
+                spacing: 0
+                visible: scanner.healthInfo !== ""
+
+                ImageButton {
+                    size: Style.iconMedium
+                    icon.source: Assets.iconUrl(Assets.ArrowPrev)
+                    MyToolTip {
+                        text: "Goto Previous Corrupted Block"
+                    }
+                    onClicked: {
+                        console.log("Goto clicked")
+                        panelController.gotoPrevCorruptedBlock()
+                    }
+                }
+
+                ImageButton {
+                    size: Style.iconMedium
+                    icon.source: Assets.iconUrl(Assets.ArrowNext)
+                    MyToolTip {
+                        text: "Goto Next Corrupted Block"
+                    }
+                    onClicked: {
+                        console.log("Goto clicked")
+                        panelController.gotoNextCorruptedBlock()
+                    }
+                }
+            }
+
             Label {
                 text: scanner.healthInfo
             }
@@ -121,7 +150,11 @@ Item {
 
             ImageButton {
                 size: Style.iconMedium
-                icon.source: Assets.iconUrl(Assets.Health)
+                icon.source: Assets.iconUrl(Assets.Wrench)
+                onClicked: {
+                    console.log("Rectify health map clicked")
+                    panelController.rectifyHealthMap(scanner.strict)
+                }
             }
         }
 

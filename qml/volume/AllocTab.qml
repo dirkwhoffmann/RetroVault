@@ -26,7 +26,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.iconMedium
                 rawData: scanner.allocMap
-                palette: panelController.allocPanelColors
+                palette: scanner.strict ? panelController.sallocPanelColors : panelController.allocPanelColors
             }
 
             BusyButton {
@@ -128,7 +128,11 @@ Item {
 
             ImageButton {
                 size: Style.iconMedium
-                icon.source: Assets.iconUrl(Assets.Health)
+                icon.source: Assets.iconUrl(Assets.Wrench)
+                onClicked: {
+                    console.log("Rectify alloc map clicked")
+                    panelController.rectifyAllocMap(scanner.strict)
+                }
             }
         }
 

@@ -40,7 +40,7 @@ class VolumePanelController : public CustomController
     int blkNr = 0;
 
     // Strict flag (diagnosis)
-    bool strict = false;
+    // bool strict = false;
 
     // Block view data
     BlockViewModel tableModel = BlockViewModel(this);
@@ -81,6 +81,7 @@ public:
 
     Q_PROPERTY(QList<QColor> usagePanelColors READ getUsagePanelColors NOTIFY usagePanelColorsChanged)
     Q_PROPERTY(QList<QColor> allocPanelColors READ getAllocPanelColors NOTIFY allocPanelColorsChanged)
+    Q_PROPERTY(QList<QColor> strictAllocPanelColors READ getSAllocPanelColors NOTIFY sallocPanelColorsChanged)
     Q_PROPERTY(QList<QColor> healthPanelColors READ getHealthPanelColors NOTIFY healthPanelColorsChanged)
 
     //
@@ -142,12 +143,20 @@ private:
 
     QList<QColor> getUsagePanelColors() const;
     QList<QColor> getAllocPanelColors() const;
+    QList<QColor> getSAllocPanelColors() const;
     QList<QColor> getHealthPanelColors() const;
 
 public:
 
+    /*
     Q_INVOKABLE QString itemInfo(int row, int col) const;
     Q_INVOKABLE QString errorInfo(int row, int col) const;
+    */
+
+    Q_INVOKABLE void gotoNextCorruptedBlock();
+    Q_INVOKABLE void gotoPrevCorruptedBlock();
+    Q_INVOKABLE void rectifyAllocMap(bool strict);
+    Q_INVOKABLE void rectifyHealthMap(bool strict);
 
 signals:
     void nameChanged();
@@ -161,6 +170,7 @@ signals:
     void legendDataChanged();
     void usagePanelColorsChanged();
     void allocPanelColorsChanged();
+    void sallocPanelColorsChanged();
     void healthPanelColorsChanged();
 
 public slots:

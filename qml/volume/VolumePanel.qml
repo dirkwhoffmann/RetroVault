@@ -82,8 +82,7 @@ Item {
 
                 Label {
                     id: usageString
-                    text: pc.itemInfo(blockView.selectedRow, blockView.selectedColumn)
-                    // font.pointSize: Style.small
+                    text: scanner.itemInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
                     Layout.alignment: Qt.AlignHCenter
                 }
 
@@ -93,9 +92,8 @@ Item {
 
                 Label {
                     id: errorString
-                    text: pc.errorInfo(blockView.selectedRow, blockView.selectedColumn)
+                    text: scanner.errorInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
                     color: "red"
-                    // font.pointSize: Style.small
                     Layout.alignment: Qt.AlignHCenter
                 }
             }

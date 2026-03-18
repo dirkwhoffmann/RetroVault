@@ -7,6 +7,8 @@ Assets::getIconUrl(Icon icon)
     {
         case Assets::Unknown:       return QUrl("qrc:/assets/icons/questionmark.svg");
 
+        case Assets::ArrowNext:     return QUrl("qrc:/assets/icons/arrow-next.svg");
+        case Assets::ArrowPrev:     return QUrl("qrc:/assets/icons/arrow-prev.svg");
         case Assets::Burger:        return QUrl("qrc:/assets/icons/burger.svg");
         case Assets::Checked:       return QUrl("qrc:/assets/icons/checked.svg");
         case Assets::Eject:         return QUrl("qrc:/assets/icons/eject.svg");
@@ -16,9 +18,11 @@ Assets::getIconUrl(Icon icon)
         case Assets::Locked:        return QUrl("qrc:/assets/icons/locked.svg");
         case Assets::Minus:         return QUrl("qrc:/assets/icons/minus.svg");
         case Assets::Plus:          return QUrl("qrc:/assets/icons/plus.svg");
+        case Assets::Search:        return QUrl("qrc:/assets/icons/search.svg");
         case Assets::Sync:          return QUrl("qrc:/assets/icons/sync.svg");
         case Assets::Unchecked:     return QUrl("qrc:/assets/icons/unchecked.svg");
         case Assets::Unlocked:      return QUrl("qrc:/assets/icons/unlocked.svg");
+        case Assets::Wrench:        return QUrl("qrc:/assets/icons/wrench.svg");
 
         case Assets::AppIcon:       return QUrl("qrc:/assets/images/AppIcon.png");
         case Assets::Floppy35DD:    return QUrl("qrc:/assets/images/floppy35_dd.png");

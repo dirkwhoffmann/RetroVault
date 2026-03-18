@@ -264,7 +264,18 @@ VolumePanelController::getAllocPanelColors() const
     return {
         QColor("#808080"),                      // GRAY
         getOkColor(),                           // Allocated and used
-        strict ? getWarnColor() : getOkColor(), // Allocated but unused
+        getOkColor(),                           // Allocated but unused
+        getErrorColor(),                        // Unallocated but used
+    };
+}
+
+QList<QColor>
+VolumePanelController::getSAllocPanelColors() const
+{
+    return {
+        QColor("#808080"),                      // GRAY
+        getOkColor(),                           // Allocated and used
+        getWarnColor(),                         // Allocated but unused
         getErrorColor(),                        // Unallocated but used
     };
 }
@@ -280,10 +291,11 @@ VolumePanelController::getHealthPanelColors() const
     };
 }
 
- QString
- VolumePanelController::itemInfo(int row, int col) const
- {
-    if (auto *volume = currentVolume())
+/*
+QString
+VolumePanelController::itemInfo(int row, int col) const
+{
+    if (auto* volume = currentVolume())
     {
         if (row >= 0 && col >= 0)
         {
@@ -298,7 +310,7 @@ VolumePanelController::getHealthPanelColors() const
 }
 
 QString
- VolumePanelController::errorInfo(int row, int col) const
+VolumePanelController::errorInfo(int row, int col) const
 {
     if (auto *volume = currentVolume())
     {
@@ -310,4 +322,63 @@ QString
         }
     }
     return "";
+}
+*/
+
+void
+VolumePanelController::gotoNextCorruptedBlock()
+{
+    if (auto *volume = currentVolume()) {
+
+        const auto &corrupted = volume->blockErrors();
+
+        if (corrupted.empty()) return;
+
+        auto it = std::upper_bound(corrupted.begin(), corrupted.end(), blkNr);
+
+        if (it == corrupted.end()) {
+            it = corrupted.begin(); // wrap to first
+        }
+
+        setBlock(*it);
+    }
+}
+
+void
+VolumePanelController::gotoPrevCorruptedBlock()
+{
+    if (auto *volume = currentVolume()) {
+
+        const auto &corrupted = volume->blockErrors();
+
+        if (corrupted.empty()) return;
+
+        auto it = std::lower_bound(corrupted.begin(), corrupted.end(), blkNr);
+
+        if (it != corrupted.begin()) {
+            --it; // last element < blkNr
+        } else {
+            it = corrupted.end() - 1; // wrap to last
+        }
+
+        setBlock(*it);
+    }
+}
+
+void
+VolumePanelController::rectifyAllocMap(bool strict)
+{
+    if (auto *volume = currentVolume())
+    {
+        volume->rectifyAllocationMap(strict);
+    }
+}
+
+void
+VolumePanelController::rectifyHealthMap(bool strict)
+{
+    if (auto *volume = currentVolume())
+    {
+        volume->rectify(strict);
+    }
 }

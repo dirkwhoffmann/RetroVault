@@ -15,6 +15,8 @@ public:
         Unknown,
 
         // Icons
+        ArrowNext,
+        ArrowPrev,
         Burger,
         Checked,
         Eject,
@@ -24,9 +26,11 @@ public:
         Locked,
         Minus,
         Plus,
+        Search,
         Sync,
         Unchecked,
         Unlocked,
+        Wrench,
 
         // Images
         AppIcon,
