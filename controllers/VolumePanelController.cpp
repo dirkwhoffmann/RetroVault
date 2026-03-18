@@ -106,16 +106,6 @@ VolumePanelController::setBlock(int value)
 }
 
 void
-VolumePanelController::setStrict(bool value)
-{
-    if (strict != value)
-    {
-        strict = value;
-        emit strictChanged();
-    }
-}
-
-void
 VolumePanelController::setName(QString &value)
 {
     name = value;
@@ -321,26 +311,3 @@ QString
     }
     return "";
 }
-
-/*
-void
-VolumePanelController::updateIcon()
-{
-    static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
-        {"ADF", Assets::VolumeAmiga},
-        {"ADZ", Assets::VolumeAmiga},
-        {"EADF", Assets::VolumeAmiga},
-        {"DMS", Assets::VolumeAmiga},
-        {"IMG", Assets::VolumeDOS},
-        {"ST", Assets::VolumeST},
-        {"D64", Assets::VolumeCBM}
-    };
-
-    auto url = QString();
-    if (auto it = formatSuffixes.find(imageFmt.toStdString()); it != formatSuffixes.end())
-    {
-        url = Assets::getIconUrl(it->second).toString();
-    }
-    setIcon(url);
-}
-*/

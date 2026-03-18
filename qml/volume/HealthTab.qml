@@ -93,10 +93,10 @@ Item {
 
             ImageButton {
                 size: Style.iconMedium
-                icon.source: panelController.strict ? Assets.iconUrl(Assets.Checked) : ""
+                icon.source: scanner.strict ? Assets.iconUrl(Assets.Checked) : ""
                 onClicked: {
-                    panelController.strict = !panelController.strict
-                    scanner.startScan(panelController.strict)
+                    scanner.strict = !scanner.strict
+                    scanner.startScan()
                 }
             }
         }
@@ -108,7 +108,7 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                text: "Some error text..."
+                text: scanner.healthInfo
             }
 
             Item {

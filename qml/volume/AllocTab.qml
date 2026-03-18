@@ -32,7 +32,7 @@ Item {
             BusyButton {
                 imageSource: Assets.iconUrl(Assets.Sync)
                 size: Style.iconMedium
-                onClicked: { scanner.startScan(panelController.strict) }
+                onClicked: { scanner.startScan() }
                 busy: scanner.isScanning
                 ToolTip.text: "Scan Image..."
                 ToolTip.visible: hovered
@@ -76,7 +76,7 @@ Item {
             }
             ColorInfo {
 
-                visible: panelController.strict
+                visible: scanner.strict
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
                 color: panelController.warnColor
@@ -100,10 +100,10 @@ Item {
 
             ImageButton {
                 size: Style.iconMedium
-                icon.source: panelController.strict ? Assets.iconUrl(Assets.Checked) : ""
+                icon.source: scanner.strict ? Assets.iconUrl(Assets.Checked) : ""
                 onClicked: {
-                    panelController.strict = !panelController.strict
-                    scanner.startScan(panelController.strict)
+                    scanner.strict = !scanner.strict
+                    scanner.startScan()
                 }
             }
         }
@@ -115,7 +115,7 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                text: "Some error text..."
+                text: scanner.allocInfo
             }
 
             Item {

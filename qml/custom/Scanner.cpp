@@ -6,12 +6,53 @@ Scanner::Scanner(QObject* parent) : QObject(parent)
     connect(&watcher, &QFutureWatcher<QByteArray>::finished, this, &Scanner::onScanFinished);
 }
 
-void
-Scanner::startScan(bool strict)
+QString
+Scanner::getAllocInfo() const
 {
     if (auto* fv = wc ? wc->currentVolume() : nullptr)
     {
-        runTask([fv, strict]()
+        auto total = fv->usedButUnallocated().size();
+        if (strict) total += fv->unusedButAllocated().size();
+
+        if (total > 0) {
+            const char *blocks = total == 1 ? "block" : "blocks";
+            return QString::asprintf("%ld suspicious %s found", total, blocks);
+        }
+    }
+    return "";
+}
+
+QString
+Scanner::getHealthInfo() const
+{
+    if (auto* fv = wc ? wc->currentVolume() : nullptr)
+    {
+        auto total = fv->blockErrors().size();
+
+        if (total > 0) {
+            const char *blocks = total == 1 ? "block" : "blocks";
+            return QString::asprintf("%ld corrupted %s found", total, blocks);
+        }
+    }
+    return "";
+}
+
+void
+Scanner::setStrict(bool value)
+{
+    if (strict != value)
+    {
+        strict = value;
+        emit strictChanged();
+    }
+}
+
+void
+Scanner::startScan()
+{
+    if (auto* fv = wc ? wc->currentVolume() : nullptr)
+    {
+        runTask([this, fv]()
         {
             // Record the start time
             auto startTime = std::chrono::steady_clock::now();
@@ -60,6 +101,8 @@ Scanner::onScanFinished()
     allocMap = result.allocMap;
     healthMap = result.healthMap;
 
+    emit allocInfoChanged();
+    emit healthInfoChanged();
     emit usageMapChanged();
     emit allocMapChanged();
     emit healthMapChanged();
