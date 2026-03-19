@@ -4,12 +4,7 @@ import QtQuick.Layouts
 
 GridLayout {
 
-    // Layout.fillHeight: true
-    // Layout.fillWidth: true
     columns: 2
-    // rows: 3
-    // anchors.fill: parent
-    // anchors.margins: 40
     columnSpacing: 20
     rowSpacing: 20
 
@@ -34,7 +29,7 @@ GridLayout {
             font.family: logoFont.name
             font.weight: 700 // Font.Bold
             // font.bold: true
-            color: palette.windowText
+            color: Style.primary
             Layout.alignment: Qt.AlignLeft
         }
         Label {
@@ -42,16 +37,16 @@ GridLayout {
             font.pixelSize: 24
             // font.bold: false
             font.weight: 300 // Font.Light
-            color: palette.mid
+            color: Style.secondary
             Layout.alignment: Qt.AlignLeft
         }
     }
 
     Rectangle {
-        Layout.columnSpan: 2    // This makes the line cross both columns
-        Layout.fillWidth: true  // Stretches to the edge
+        Layout.columnSpan: 2
+        Layout.fillWidth: true
         height: 1
-        color: palette.mid
+        color: Style.secondary
         opacity: 1.0
     }
 
@@ -69,14 +64,14 @@ GridLayout {
         Label {
             text: "Drag an image file onto this window to add a file system. "
             font.pixelSize: 14
-            // color: "gray"
+            color: Style.tertiary
             Layout.alignment: Qt.AlignLeft
         }
         Label {
             text: "Supported image formats:"
             font.pixelSize: 14
             horizontalAlignment: Text.AlignLeft
-            color: palette.text
+            color: Style.tertiary
             Layout.alignment: Qt.AlignLeft
             Layout.topMargin: 25
         }
@@ -88,16 +83,16 @@ GridLayout {
             Layout.topMargin: 10
 
             Label {
-                text: ".ADF:"; color: "gray"; font.bold: false
+                text: ".ADF:"; color: Style.tertiary; font.bold: false
             }
             Label {
-                text: "Commodore Amiga Floppy Disk"; color: "gray"
+                text: "Commodore Amiga Floppy Disk"; color: Style.tertiary
             }
             Label {
-                text: ".D64:"; color: "gray"; font.bold: false
+                text: ".D64:"; color: Style.tertiary; font.bold: false
             }
             Label {
-                text: "Commodore 64 Floppy Disk"; color: "gray"
+                text: "Commodore 64 Floppy Disk"; color: Style.tertiary
             }
         }
     }

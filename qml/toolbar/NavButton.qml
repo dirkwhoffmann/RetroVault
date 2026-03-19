@@ -4,8 +4,8 @@ import QtQuick.Controls
 ToolButton {
 
     font.pixelSize: Style.fontSize
-    icon.width: Style.iconSize
-    icon.height: Style.iconSize
+    icon.width: Style.iconMedium
+    icon.height: Style.iconMedium
 
     icon.color: {
         if (!enabled) return "#bdc3c7"      // Disabled (Gainsboro)
