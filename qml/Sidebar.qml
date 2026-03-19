@@ -30,6 +30,17 @@ Item {
         anchors.fill: parent
         color: Style.secondaryBg
 
+        Label {
+            anchors.centerIn: parent
+            text: "Click the '+' button or drag and drop to add an image"
+            visible: windowController.numDevices === 0
+            color: Style.tertiary
+            font.pointSize: Style.regular * 1.25
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
+            width: parent.width * 0.8
+        }
+
         TreeView {
 
             id: treeView
