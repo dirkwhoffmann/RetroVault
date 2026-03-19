@@ -9,6 +9,7 @@ ColumnLayout {
     id: root
     required property WindowController windowController
     required property VolumePanelController panelController
+    required property Scanner scanner
 
     anchors.fill: parent
     spacing: 0 // Style.smallSpacing
@@ -19,20 +20,12 @@ ColumnLayout {
         panelController.refresh()
     }
 
-    Scanner {
-
-        id: volumeScanner
-        windowController: root.windowController
-        Component.onCompleted: { startScan(panelController.strict) }
-    }
-
     //
     // Tab bar
     //
 
     TabBar {
         id: bar
-        // Layout.bottomMargin: -Style.iconMedium / 2
         Layout.bottomMargin: -1 //Style.mediumSpacing
         Layout.alignment: Qt.AlignLeft //  Qt.AlignHCenter
         z: 10
@@ -74,12 +67,9 @@ ColumnLayout {
         bottomPadding: Style.mediumSpacing
 
         background: Rectangle {
-            color: Qt.rgba(0,0,0, 0.02)
-            border.color: Qt.rgba(0,0,0, 0.1)
+            color: Style.secondaryBg
+            border.color: Style.border
             radius: Style.borderRadius
-
-            // Optional: Remove top border/radius to make it look
-            // physically attached to the TabBar
         }
 
         StackLayout {

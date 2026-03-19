@@ -21,8 +21,8 @@ Pane {
 
             Layout.alignment: Qt.AlignTop
             background: Rectangle {
-                color: Qt.rgba(0, 0, 0, 0.03) // Subtle darkening tint
-                border.color: Qt.rgba(0, 0, 0, 0.1) // Thin, soft border
+                color: Style.tertiaryBg
+                border.color: Style.border
                 border.width: 2
                 radius: 8
             }
@@ -56,7 +56,7 @@ Pane {
             Rectangle {
 
                 height: 1
-                color: "#cccccc"
+                color: Style.secondary
                 Layout.columnSpan: 5 // gridColumns
                 Layout.fillWidth: true
                 Layout.topMargin: 2
@@ -77,7 +77,7 @@ Pane {
                     elide: Text.ElideRight
 
                     // Logic for styling
-                    color: col === 0 ? "#000" : "#666"
+                    color: col === 0 ? Style.primary : Style.secondary
                     Layout.rightMargin: col === 2 ? 2 * Style.largeSpacing : 0
                     Layout.alignment: Qt.AlignLeft;
                     Layout.fillWidth: col === 0

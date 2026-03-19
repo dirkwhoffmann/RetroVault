@@ -8,9 +8,9 @@ ToolButton {
     icon.height: Style.iconMedium
 
     icon.color: {
-        if (!enabled) return "#bdc3c7"      // Disabled (Gainsboro)
+        if (!enabled) return Style.tertiary // Disabled
         if (down) return Style.primary      // Pressed
-        if (hovered) return "#2c3e50"       // Hovered (Darker)
-        return "#7f8c8d"                    // Normal (Subtle Grey)
+        if (hovered) return Style.primary   // Hovered
+        return Style.secondary
     }
 }

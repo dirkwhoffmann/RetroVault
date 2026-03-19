@@ -19,7 +19,7 @@ Item {
 
         id: sidebarRect
         anchors.fill: parent
-        color: "#ffffff"
+        color: Style.secondaryBg
 
         TreeView {
 

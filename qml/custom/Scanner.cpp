@@ -8,7 +8,7 @@ Scanner::Scanner(QObject *parent) : QObject(parent)
 
 QString Scanner::getAllocInfo() const
 {
-    if (auto *fv = wc ? wc->currentVolume() : nullptr) {
+    if (auto *fv = currentVolume()) {
 
         auto total = fv->usedButUnallocated().size();
 
@@ -25,7 +25,7 @@ QString Scanner::getAllocInfo() const
 
 QString Scanner::getHealthInfo() const
 {
-    if (auto *fv = wc ? wc->currentVolume() : nullptr) {
+    if (auto *fv = currentVolume()) {
 
         auto total = fv->blockErrors().size();
 
@@ -39,24 +39,24 @@ QString Scanner::getHealthInfo() const
 
 QString Scanner::itemInfo(int blk, int row, int col) const
 {
-    if (auto *volume = wc->currentVolume()) {
+    if (auto *fv = currentVolume()) {
 
         if (row >= 0 && col >= 0) {
-            return QString::fromStdString(volume->typeOf(blk, row * 16 + col));
+            return QString::fromStdString(fv->typeOf(blk, row * 16 + col));
         }
-        return QString::fromStdString(volume->blockType(blk));
+        return QString::fromStdString(fv->blockType(blk));
     }
     return "";
 }
 
 QString Scanner::errorInfo(int blk, int row, int col) const
 {
-    if (auto *volume = wc->currentVolume()) {
+    if (auto *fv = currentVolume()) {
 
         if (row >= 0 && col >= 0) {
 
             optional<u8> exp;
-            auto err = volume->xray(blk, row * 16 + col, strict, exp);
+            auto err = fv->xray(blk, row * 16 + col, strict, exp);
             return QString::fromStdString(err);
         }
     }
@@ -74,7 +74,7 @@ void Scanner::setStrict(bool value)
 
 void Scanner::startScan()
 {
-    if (auto *fv = wc ? wc->currentVolume() : nullptr) {
+    if (auto *fv = currentVolume()) {
 
         runTask([this, fv]() {
 

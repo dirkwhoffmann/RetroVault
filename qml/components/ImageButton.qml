@@ -5,7 +5,7 @@ RoundButton {
     id: control
 
     property url imageSource: ""
-    property real size: 32
+    property real size: Style.iconLarge
     property real iconScale: 0.8 // 0.6
 
     implicitWidth: size

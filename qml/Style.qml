@@ -131,14 +131,10 @@ QtObject {
     readonly property color primary: windowText
     readonly property color secondary: Qt.rgba(primary.r, primary.g, primary.b, 0.75)
     readonly property color tertiary: Qt.rgba(primary.r, primary.g, primary.b, 0.5)
-    // readonly property color secondary: darkMode ? Qt.darker(primary, 1.25) : Qt.lighter(primary, 1.25)
-    // readonly property color tertiary: darkMode ? Qt.darker(primary, 1.5) : Qt.lighter(primary, 1.5)
 
     readonly property color primaryBg: window
     readonly property color secondaryBg: base
     readonly property color tertiaryBg: alternateBase
-    // readonly property color secondaryBg: darkMode ? Qt.lighter(primaryBg, 1.2) : Qt.darker(primaryBg, 1.2)
-    // readonly property color tertiaryBg: darkMode ? Qt.lighter(secondaryBg, 1.2) : Qt.darker(secondaryBg, 1.2)
 
     readonly property color separator: darkMode ? "#3c3c4355" : "#3c3c4349"
 
@@ -152,6 +148,7 @@ QtObject {
 
     readonly property real gridUnit: Qt.application.font.pointSize
 
+    readonly property real tinySpacing: 2
     readonly property real smallSpacing: 4
     readonly property real mediumSpacing: 8
     readonly property real largeSpacing: 16
@@ -171,7 +168,7 @@ QtObject {
     readonly property int iconLarge: 32
 
     readonly property int toolbarHeight: 22
-    // readonly property int iconSize: 22 // DEPRECATED
+    readonly property int iconSize: 22 // DEPRECATED
     readonly property int fontSize: 16
 
     //
@@ -189,6 +186,9 @@ QtObject {
     readonly property real heading: _baseSize * 1.5
     readonly property real regular: _baseSize
     readonly property real small: _baseSize * 0.85
+
+    readonly property int weightBold: Font.Bold
+    readonly property int weightMedium: Font.Medium
 
     readonly property font mono: Qt.font({
         family: "Menlo",

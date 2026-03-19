@@ -11,6 +11,7 @@ Rectangle {
     property alias selectedColumn: tableView.selectedColumn
 
     anchors.fill: parent
+    color: Style.secondaryBg
 
     HorizontalHeaderView {
 
@@ -86,7 +87,6 @@ Rectangle {
                 : "transparent"
 
             Label {
-
                 id: label
                 anchors.centerIn: parent
                 text: display

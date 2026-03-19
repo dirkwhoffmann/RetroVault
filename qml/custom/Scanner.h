@@ -39,6 +39,8 @@ public:
     WindowController *getWC() const { return wc; }
     void setWC(WindowController *value) { wc = value; emit wcChanged(); }
 
+    FuseVolume *currentVolume() const { return wc ? wc->currentVolume() : nullptr; }
+
     bool getStrict() const { return strict; }
     QByteArray getUsageMap() const { return usageMap; }
     QByteArray getAllocMap() const { return allocMap; }

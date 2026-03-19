@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
+import QtQuick.Controls.impl
 import "."
 
 Item {
@@ -12,12 +13,14 @@ Item {
     property url iconSource
     property url targetUrl
     property real iconSize: Style.iconMedium
+    property color iconColor: Style.secondary
 
-    Image {
+    ColorImage {
 
         id: iconImage
         anchors.fill: parent
         source: root.iconSource
+        color: root.iconColor
     }
 
     MouseArea {

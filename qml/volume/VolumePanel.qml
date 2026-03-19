@@ -20,6 +20,13 @@ Item {
         windowController: root.windowController
     }
 
+    Scanner {
+
+        id: volumeScanner
+        windowController: root.windowController
+        Component.onCompleted: { startScan(pc.strict) }
+    }
+
     ColumnLayout {
 
         anchors.fill: parent
@@ -56,6 +63,7 @@ Item {
                 id: layoutTab
                 windowController: root.windowController
                 panelController: pc
+                scanner: volumeScanner
             }
         }
 
@@ -82,7 +90,7 @@ Item {
 
                 Label {
                     id: usageString
-                    text: scanner.itemInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
+                    text: volumeScanner.itemInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
                     Layout.alignment: Qt.AlignHCenter
                 }
 
@@ -92,7 +100,7 @@ Item {
 
                 Label {
                     id: errorString
-                    text: scanner.errorInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
+                    text: volumeScanner.errorInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
                     color: "red"
                     Layout.alignment: Qt.AlignHCenter
                 }

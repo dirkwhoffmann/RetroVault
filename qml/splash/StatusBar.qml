@@ -28,9 +28,16 @@ Pane {
 
         Item {  Layout.fillWidth: true } // Spacer
 
+        LinkButton {
+            imageSource: Assets.iconUrl(Assets.GitHub)
+            size: Style.iconMedium
+            targetUrl: "https://dirkwhoffmann.github.io/retrovault/"
+        }
+        /*
         IconLink {
             iconSource: Assets.iconUrl(Assets.GitHub)
             targetUrl: "https://dirkwhoffmann.github.io/vAmiga/"
         }
+        */
     }
 }
