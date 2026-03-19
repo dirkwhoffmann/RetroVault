@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// This file is part of RetroVault
+//
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
+//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
+
 import QtQuick
 pragma Singleton
 
@@ -63,7 +72,12 @@ QtObject {
         shadow: "#00000022",            // subtle shadow (with alpha)
         text: "#000000",                // primary text
         window: "#f5f5f7",              // window background (NOT pure white!)
-        windowText: "#000000"           // main window text
+        windowText: "#000000",          // main window text
+
+        // Extensions
+        ok: "#009900",                  // green
+        warning: "#999900",             // yellow
+        error: "#990000"                // red
     })
 
     readonly property var custom_dark: ({
@@ -84,7 +98,12 @@ QtObject {
         shadow: "#00000066",            // stronger shadow in dark mode
         text: "#ffffff",
         window: "#2c2c2e",              // window background
-        windowText: "#ffffff"
+        windowText: "#ffffff",
+
+        // Extensions
+        ok: "#00cc00",                  // green
+        warning: "#ffff00",             // yellow
+        error: "#cc0000"                // red
     })
 
     //
@@ -123,6 +142,10 @@ QtObject {
     readonly property color text: _base.text
     readonly property color window: _base.window
     readonly property color windowText: _base.windowText
+
+    readonly property color ok: _base.ok
+    readonly property color warning: _base.warning
+    readonly property color error: _base.error
 
     //
     // Derived colors

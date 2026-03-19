@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// This file is part of RetroVault
+//
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
+//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
+
 #include "Scanner.h"
 #include <qtconcurrentrun.h>
 
@@ -61,6 +70,20 @@ QString Scanner::errorInfo(int blk, int row, int col) const
         }
     }
     return "";
+}
+
+int Scanner::expectedValue(int blk, int row, int col) const
+{
+    if (auto *fv = currentVolume()) {
+
+        if (row >= 0 && col >= 0) {
+
+            optional<u8> exp;
+            (void)fv->xray(blk, row * 16 + col, strict, exp);
+            if (exp) return *exp;
+        }
+    }
+    return -1;
 }
 
 void Scanner::setStrict(bool value)

@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// This file is part of RetroVault
+//
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
+//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -5,6 +14,8 @@ import QtQuick.Layouts
 Rectangle {
 
     id: root
+    property int block: 0
+    property Scanner scanner
     property bool selectable: false
     property alias model: tableView.model
     property alias selectedRow: tableView.selectedRow
@@ -43,6 +54,22 @@ Rectangle {
 
         property int selectedRow: -1
         property int selectedColumn: -1
+
+        function textColor(blk: int, row: int, col: int) : color {
+
+            if (!scanner) return Style.primary
+            if (col === 0 || col === tableView.columns - 1)
+                return Style.primary
+            return scanner.expectedValue(blk, row, col - 1) ? Style.primary : Style.error
+        }
+
+        function cellBg(blk: int, row: int, col: int) : color {
+
+            if (!scanner) return Style.primaryBg
+            if (col === 0 || col === tableView.columns - 1)
+                return Style.primaryBg
+            return scanner.expectedValue(blk, row, col - 1) ? Style.primaryBg : Style.error
+        }
 
         columnWidthProvider: function (column) {
 
@@ -90,6 +117,7 @@ Rectangle {
                 id: label
                 anchors.centerIn: parent
                 text: display
+                color: tableView.textColor(block, row, column)
                 Binding {
                     target: label
                     property: "font"

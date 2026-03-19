@@ -1,3 +1,12 @@
+// -----------------------------------------------------------------------------
+// This file is part of RetroVault
+//
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
+//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
+
 #pragma once
 
 #include "WindowController.h"
@@ -49,6 +58,7 @@ public:
     QString getHealthInfo() const;
     Q_INVOKABLE QString itemInfo(int blk, int row, int col) const;
     Q_INVOKABLE QString errorInfo(int blk, int row, int col) const;
+    Q_INVOKABLE int expectedValue(int blk, int row, int col) const;
     bool isScanning() const { return watcher.isRunning(); }
 
     void setStrict(bool value);

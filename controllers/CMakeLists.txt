@@ -4,7 +4,6 @@ target_sources(retrovault PRIVATE
         AppController.cpp
         Controller.cpp
         CustomController.cpp
-        BlockViewController.cpp
         DevicePanelController.cpp
         SplashPanelController.cpp
         SidebarController.cpp
