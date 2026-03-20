@@ -27,6 +27,8 @@ class AppController : public Controller {
     hasFuse() const;
     Q_INVOKABLE void
     showError(const QString &message);
+    Q_INVOKABLE void
+    showNotification(const QString &message);
 
     void
     rethrow(std::exception &e);
@@ -35,4 +37,6 @@ class AppController : public Controller {
 
     void
     requestErrorDialog(const QString &message);
+    void
+    requestNotificationDialog(const QString &message);
 };

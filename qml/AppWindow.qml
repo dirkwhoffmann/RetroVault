@@ -34,6 +34,15 @@ ApplicationWindow {
             errorDialog.text = message
             errorDialog.open()
         }
+
+        function onRequestNotificationDialog(message) {
+
+            const component = Qt.createComponent("components/Toast.qml");
+            if (component.status === Component.Ready) {
+                // Create the toast as a child of the root window
+                component.createObject(root, {"text": message});
+            }
+        }
     }
 
     MessageDialog {
@@ -58,8 +67,9 @@ ApplicationWindow {
         onAccepted: {
             try {
                 wc.addImage(selectedFile)
+                AppController.showNotification("Image mounted")
             } catch (e) {
-                UIController.showError(e.message)
+                AppController.showError(e.message)
             }
         }
     }
@@ -180,19 +190,29 @@ ApplicationWindow {
         }
     }
 
-    /*
-    Connections {
+    // Experimental
+    // Inside ApplicationWindow.qml
 
-        target: UIController
+    Connections {
+        target: AppController
+
         function onRequestErrorDialog(message) {
+            // Option A: The "Hard" stop (Modal)
             errorDialog.text = message
             errorDialog.open()
+
+            // Option B: The "Soft" notification (Toast)
+
+            showToast(message)
         }
     }
 
-    MessageDialog {
-        id: errorDialog
-        title: "Application Error"
+    function showToast(message) {
+        const component = Qt.createComponent("components/Toast.qml");
+        if (component.status === Component.Ready) {
+            // Create the toast as a child of the root window
+            component.
+            createObject(root, {"text": message});
+        }
     }
-     */
 }

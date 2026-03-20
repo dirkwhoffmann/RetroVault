@@ -37,3 +37,9 @@ AppController::showError(const QString &message)
 {
     emit requestErrorDialog(message);
 }
+
+void
+AppController::showNotification(const QString &message)
+{
+    emit requestNotificationDialog(message);
+}
