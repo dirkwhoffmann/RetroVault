@@ -75,9 +75,9 @@ QtObject {
         windowText: "#000000",          // main window text
 
         // Extensions
-        ok: "#009900",                  // green
-        warning: "#999900",             // yellow
-        error: "#990000"                // red
+        ok: "#00aa00",                  // green
+        warning: "#cccc00",             // yellow
+        error: "#ff0000"                // red
     })
 
     readonly property var custom_dark: ({
@@ -101,9 +101,9 @@ QtObject {
         windowText: "#ffffff",
 
         // Extensions
-        ok: "#00cc00",                  // green
-        warning: "#ffff00",             // yellow
-        error: "#cc0000"                // red
+        ok: "#66ff66",                  // green
+        warning: "#ffff66",             // yellow
+        error: "#ff6666"                // red
     })
 
     //

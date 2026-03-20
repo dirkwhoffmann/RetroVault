@@ -1,5 +1,8 @@
 BasedOnStyle: LLVM
 
+ColumnLimit:     120
+IndentWidth:     4
+
 BraceWrapping:
   AfterCaseLabel:  false
   AfterClass:      false
@@ -22,6 +25,8 @@ BraceWrapping:
 
 BreakBeforeBraces: Custom
 
-ColumnLimit:     120
+AlwaysBreakAfterReturnType: All
 
-IndentWidth:     4
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortBlocksOnASingleLine: Empty
+IndentCaseLabels: true

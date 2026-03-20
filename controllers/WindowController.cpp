@@ -28,7 +28,8 @@ WindowController::getImageFormat() const
 }
 */
 
-void WindowController::setDevice(int value)
+void
+WindowController::setDevice(int value)
 {
     if (device != value) {
         device = value;
@@ -38,7 +39,8 @@ void WindowController::setDevice(int value)
     }
 }
 
-void WindowController::setVolume(int value)
+void
+WindowController::setVolume(int value)
 {
     if (volume != value) {
         volume = value;
@@ -47,7 +49,8 @@ void WindowController::setVolume(int value)
     }
 }
 
-void WindowController::setProtected(bool value)
+void
+WindowController::setProtected(bool value)
 {
     if (auto *current = currentVolume()) {
         current->writeProtect(value);
@@ -55,60 +58,62 @@ void WindowController::setProtected(bool value)
     }
 }
 
-void WindowController::select(int newDevice, int newVolume)
+void
+WindowController::select(int newDevice, int newVolume)
 {
-    if (device == newDevice && volume == newVolume)
-        return;
+    if (device == newDevice && volume == newVolume) return;
 
     if (device != newDevice) {
+
         device = newDevice;
-        // emit deviceChanged();
         emit imageFormatChanged();
     }
+
     if (volume != newVolume) {
+
         volume = newVolume;
-        // emit volumeChanged();
     }
 
     emit selectionChanged();
     printf("Selection changed!!!\n");
 }
 
-FuseDevice *WindowController::fuseDevice(isize dev) const
+FuseDevice *
+WindowController::fuseDevice(isize dev) const
 {
-    if (dev >= 0 && manager->numDevices() > dev)
-        return &manager->getDevice(dev);
+    if (dev >= 0 && manager->numDevices() > dev) return &manager->getDevice(dev);
 
     return nullptr;
 }
 
-FuseVolume *WindowController::fuseVolume(isize dev, isize vol) const
+FuseVolume *
+WindowController::fuseVolume(isize dev, isize vol) const
 {
     if (auto d = fuseDevice(dev)) {
 
-        if (vol >= 0 && vol < d->count())
-            return &d->getVolume(vol);
+        if (vol >= 0 && vol < d->count()) return &d->getVolume(vol);
     }
     return nullptr;
 }
 
-DiskImage *WindowController::diskImage(isize dev) const
+DiskImage *
+WindowController::diskImage(isize dev) const
 {
-    if (auto d = fuseDevice(dev))
-        return d->getImage();
+    if (auto d = fuseDevice(dev)) return d->getImage();
 
     return nullptr;
 }
 
-QString WindowController::diskImageFormat(isize d) const
+QString
+WindowController::diskImageFormat(isize d) const
 {
-    if (auto img = diskImage(d))
-        return QString::fromStdString(ImageFormatEnum::key(img->format()));
+    if (auto img = diskImage(d)) return QString::fromStdString(ImageFormatEnum::key(img->format()));
 
     return "";
 }
 
-QString WindowController::deviceIcon(isize d) const
+QString
+WindowController::deviceIcon(isize d) const
 {
     static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
         {"ADF", Assets::Floppy35DD}, {"ADZ", Assets::Floppy35DD}, {"EADF", Assets::Floppy35DD},
@@ -122,7 +127,8 @@ QString WindowController::deviceIcon(isize d) const
     return "";
 }
 
-QString WindowController::volumeIcon(isize d, isize v) const
+QString
+WindowController::volumeIcon(isize d, isize v) const
 {
     static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
         {"ADF", Assets::VolumeAmiga}, {"ADZ", Assets::VolumeAmiga}, {"EADF", Assets::VolumeAmiga},
@@ -137,7 +143,8 @@ QString WindowController::volumeIcon(isize d, isize v) const
     return "";
 }
 
-bool WindowController::writeProtection(isize d, isize v) const
+bool
+WindowController::writeProtection(isize d, isize v) const
 {
     if (auto *volume = fuseVolume(d, v)) {
         return volume->isWriteProtected();
@@ -145,15 +152,16 @@ bool WindowController::writeProtection(isize d, isize v) const
     return false;
 }
 
-QString WindowController::currentMountPoint() const
+QString
+WindowController::currentMountPoint() const
 {
-    if (auto *v = currentVolume())
-        return QString::fromStdString(v->getMountPoint().string());
+    if (auto *v = currentVolume()) return QString::fromStdString(v->getMountPoint().string());
 
     return "";
 }
 
-void WindowController::addImage(const QUrl &url)
+void
+WindowController::addImage(const QUrl &url)
 {
 
     QFile file(url.toLocalFile());
@@ -168,7 +176,8 @@ void WindowController::addImage(const QUrl &url)
     }
 }
 
-void WindowController::remove()
+void
+WindowController::remove()
 {
 
     try {
@@ -187,7 +196,8 @@ void WindowController::remove()
     emit selectionChanged();
 }
 
-void WindowController::save()
+void
+WindowController::save()
 {
     try {
         if (volume == -1) {
@@ -200,7 +210,8 @@ void WindowController::save()
     }
 }
 
-void WindowController::periodicRefresh()
+void
+WindowController::periodicRefresh()
 {
     printf("periodicRefresh()\n");
 
