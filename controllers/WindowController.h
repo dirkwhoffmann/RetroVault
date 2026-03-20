@@ -102,6 +102,7 @@ public:
     void volumeIconChanged();
     void isProtectedChanged();
     void mountPointChanged();
+    void imageAdded();
 
 public slots:
     void requestOpenImage();

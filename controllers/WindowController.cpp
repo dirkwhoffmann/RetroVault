@@ -177,6 +177,7 @@ WindowController::addImage(const QUrl &url)
         manager->add(url.toLocalFile().toStdString());
         select(getNumDevices() - 1, -1);
         emit numDevicesChanged();
+        emit imageAdded();
     } catch (std::exception &e) {
         rethrow(e);
     }

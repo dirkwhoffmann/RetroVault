@@ -55,99 +55,107 @@ Rectangle {
         property int selectedRow: -1
         property int selectedColumn: -1
 
-        function textColor(blk: int, row: int, col: int) : color {
+        function offset(row: int, col: int) {
+
+            if (row < 0 || col < 1) return -1;
+            return (row * 16) + col - 1;
+        }
+
+        function textColor(blk: int, row: int, col: int): color {
 
             if (!scanner) return Style.primary
             if (col === 0 || col === tableView.columns - 1)
                 return Style.primary
-            return scanner.expectedValue(blk, row, col - 1) ? Style.primary : Style.error
+            return scanner.hasError(blk, row, col - 1) ? Style.error : Style.primary
         }
 
-        function cellBg(blk: int, row: int, col: int) : color {
+    /*
+    function cellBg(blk: int, row: int, col: int) : color {
 
-            if (!scanner) return Style.primaryBg
-            if (col === 0 || col === tableView.columns - 1)
-                return Style.primaryBg
-            return scanner.expectedValue(blk, row, col - 1) ? Style.primaryBg : Style.error
-        }
+        if (!scanner) return Style.primaryBg
+        if (col === 0 || col === tableView.columns - 1)
+            return Style.primaryBg
+        return scanner.hasError(blk, row, col - 1) ? : Style.error : Style.primaryBg
+    }
+    */
 
-        columnWidthProvider: function (column) {
+    columnWidthProvider: function (column) {
 
-            let n = tableView.columns
-            if (n === 0) return 0
+        let n = tableView.columns
+        if (n === 0) return 0
 
-            // Calculate total units: (n-1) columns of weight 1 + 1 column of weight 8
-            let totalUnits = (n - 1) + 8
+        // Calculate total units: (n-1) columns of weight 1 + 1 column of weight 8
+        let totalUnits = (n - 1) + 8
 
-            // Subtract spacing from total width to get actual drawable area
-            let availableWidth = tableView.width - (tableView.columnSpacing * (n - 1))
-            let unitWidth = availableWidth / totalUnits
+        // Subtract spacing from total width to get actual drawable area
+        let availableWidth = tableView.width - (tableView.columnSpacing * (n - 1))
+        let unitWidth = availableWidth / totalUnits
 
-            if (column < n - 1) {
-                return Math.max(16, unitWidth)  // Standard column
-            } else {
-                return Math.max(100, unitWidth * 8) // The "8x" stretching column
-            }
-        }
-
-        // Refresh layout whenever the window resizes
-        onWidthChanged: tableView.forceLayout()
-
-        ScrollBar.vertical: ScrollBar {
-
-            policy: ScrollBar.AsNeeded
-            active: true // Makes it visible when scrolling
-        }
-
-        ScrollBar.horizontal: ScrollBar {
-
-            policy: ScrollBar.AsNeeded
-            active: true
-        }
-
-        delegate: Rectangle {
-
-            implicitHeight: 20
-
-            color: (row === tableView.selectedRow && column === tableView.selectedColumn)
-                ? "#87cefa"   // light blue
-                : "transparent"
-
-            Label {
-                id: label
-                anchors.centerIn: parent
-                text: display
-                color: tableView.textColor(block, row, column)
-                Binding {
-                    target: label
-                    property: "font"
-                    value: Style.mono
-                    when: column !== 0
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                enabled: root.selectable
-                hoverEnabled: root.selectable
-
-                onClicked: {
-
-                    if (column === 0 || column === tableView.columns - 1)
-                        return
-
-                    if (row == tableView.selectedRow && column == tableView.selectedColumn) {
-                        tableView.selectedRow = -1
-                        tableView.selectedColumn = -1
-                    } else {
-                        tableView.selectedRow = row
-                        tableView.selectedColumn = column
-                    }
-                }
-
-                onEntered: label.opacity = 0.5
-                onExited: label.opacity = 1.0
-            }
+        if (column < n - 1) {
+            return Math.max(16, unitWidth)  // Standard column
+        } else {
+            return Math.max(100, unitWidth * 8) // The "8x" stretching column
         }
     }
+
+    // Refresh layout whenever the window resizes
+    onWidthChanged: tableView.forceLayout()
+
+    ScrollBar.vertical: ScrollBar {
+
+        policy: ScrollBar.AsNeeded
+        active: true // Makes it visible when scrolling
+    }
+
+    ScrollBar.horizontal: ScrollBar {
+
+        policy: ScrollBar.AsNeeded
+        active: true
+    }
+
+    delegate: Rectangle {
+
+        implicitHeight: 20
+
+        color: (row === tableView.selectedRow && column === tableView.selectedColumn)
+            ? "#87cefa"   // light blue
+            : "transparent"
+
+        Label {
+            id: label
+            anchors.centerIn: parent
+            text: display
+            color: tableView.textColor(block, row, column)
+            Binding {
+                target: label
+                property: "font"
+                value: Style.mono
+                when: column !== 0
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: root.selectable
+            hoverEnabled: root.selectable
+
+            onClicked: {
+
+                if (column === 0 || column === tableView.columns - 1)
+                    return
+
+                if (row == tableView.selectedRow && column == tableView.selectedColumn) {
+                    tableView.selectedRow = -1
+                    tableView.selectedColumn = -1
+                } else {
+                    tableView.selectedRow = row
+                    tableView.selectedColumn = column
+                }
+            }
+
+            onEntered: label.opacity = 0.5
+            onExited: label.opacity = 1.0
+        }
+    }
+}
 }

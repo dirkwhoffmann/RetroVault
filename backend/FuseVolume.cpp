@@ -328,6 +328,12 @@ FuseAmigaVolume::xray(bool strict)
     fs->doctor.xray(strict);
 }
 
+int
+FuseAmigaVolume::xray8(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
+{
+    return (int)fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
+}
+
 string
 FuseAmigaVolume::xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
 {
@@ -460,6 +466,12 @@ void
 FuseCBMVolume::xray(bool strict)
 {
     fs->doctor.xray(strict);
+}
+
+int
+FuseCBMVolume::xray8(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
+{
+    return (int)fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
 }
 
 string

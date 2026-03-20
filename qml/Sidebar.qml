@@ -113,7 +113,6 @@ Item {
 
                     onTapped: {
 
-                        console.log("Sidebar::select " + deviceId + " " + volumeId);
                         windowController.select(deviceId, volumeId);
                     }
                 }
@@ -121,18 +120,8 @@ Item {
         }
     }
 
-    // Right-side divider
-    /*
-    Rectangle {
-
-        width: 1
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        color: "#d0d0d0"
-    }
-    */
     function refresh() {
+
         console.log("Sidebar::refresh")
         panelController.refresh()
     }

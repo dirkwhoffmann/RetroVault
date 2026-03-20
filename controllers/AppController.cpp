@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "AppController.h"
+#include "DeviceManager.h"
 
 AppController*
 AppController::instance() {
@@ -26,5 +27,6 @@ AppController::create(QQmlEngine *qmlEngine, QJSEngine *jsEngine) {
 bool
 AppController::hasFuse() const
 {
-    return false;
+    // return false;
+    return DeviceManager::hasFuse();
 }

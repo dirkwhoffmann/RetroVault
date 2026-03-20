@@ -125,7 +125,6 @@ Item {
                         text: "Goto Previous Corrupted Block"
                     }
                     onClicked: {
-                        console.log("Goto clicked")
                         panelController.gotoPrevCorruptedBlock()
                     }
                 }
@@ -137,7 +136,6 @@ Item {
                         text: "Goto Next Corrupted Block"
                     }
                     onClicked: {
-                        console.log("Goto clicked")
                         panelController.gotoNextCorruptedBlock()
                     }
                 }

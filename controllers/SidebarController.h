@@ -67,7 +67,6 @@ class SidebarController : public CustomController
 
 public:
 
-    // explicit SidebarController(QObject *parent = nullptr);
     using CustomController::CustomController;
 
     Q_PROPERTY(SidebarModel* sidebarModel READ getSidebarModel NOTIFY sidebarModelChanged)

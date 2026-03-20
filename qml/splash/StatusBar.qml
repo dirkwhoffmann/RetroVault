@@ -17,7 +17,7 @@ Item {
     id: root
 
     required property SplashPanelController controller
-    property bool fuseInstalled: controller.hasFuse()
+    property bool fuseInstalled: AppController.hasFuse()
 
     Layout.fillWidth: true
     implicitHeight: content.implicitHeight

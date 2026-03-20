@@ -15,14 +15,14 @@ Scanner::Scanner(QObject *parent) : QObject(parent)
     connect(&watcher, &QFutureWatcher<QByteArray>::finished, this, &Scanner::onScanFinished);
 }
 
-QString Scanner::getAllocInfo() const
+QString
+Scanner::getAllocInfo() const
 {
     if (auto *fv = currentVolume()) {
 
         auto total = fv->usedButUnallocated().size();
 
-        if (strict)
-            total += fv->unusedButAllocated().size();
+        if (strict) total += fv->unusedButAllocated().size();
 
         if (total > 0) {
             const char *blocks = total == 1 ? "block" : "blocks";
@@ -32,7 +32,8 @@ QString Scanner::getAllocInfo() const
     return "";
 }
 
-QString Scanner::getHealthInfo() const
+QString
+Scanner::getHealthInfo() const
 {
     if (auto *fv = currentVolume()) {
 
@@ -46,47 +47,65 @@ QString Scanner::getHealthInfo() const
     return "";
 }
 
-QString Scanner::itemInfo(int blk, int row, int col) const
+QString
+Scanner::itemInfo(int blk, int offset) const
 {
     if (auto *fv = currentVolume()) {
 
-        if (row >= 0 && col >= 0) {
-            return QString::fromStdString(fv->typeOf(blk, row * 16 + col));
+        if (offset >= 0) {
+            return QString::fromStdString(fv->typeOf(blk, offset));
         }
         return QString::fromStdString(fv->blockType(blk));
     }
     return "";
 }
 
-QString Scanner::errorInfo(int blk, int row, int col) const
+QString
+Scanner::errorInfo(int blk, int offset) const
 {
     if (auto *fv = currentVolume()) {
 
-        if (row >= 0 && col >= 0) {
+        if (offset >= 0) {
 
             optional<u8> exp;
-            auto err = fv->xray(blk, row * 16 + col, strict, exp);
+            auto err = fv->xray(blk, offset, strict, exp);
             return QString::fromStdString(err);
         }
     }
     return "";
 }
 
-int Scanner::expectedValue(int blk, int row, int col) const
+bool
+Scanner::hasError(int blk, int offset) const
 {
     if (auto *fv = currentVolume()) {
 
-        if (row >= 0 && col >= 0) {
+        if (offset >= 0) {
 
             optional<u8> exp;
-            (void)fv->xray(blk, row * 16 + col, strict, exp);
+            return fv->xray8(blk, offset, strict, exp) != 0;
+        }
+    }
+    return false;
+}
+
+int
+Scanner::expectedValue(int blk, int offset) const
+{
+    if (auto *fv = currentVolume()) {
+
+        if (offset >= 0) {
+
+            optional<u8> exp;
+            (void)fv->xray(blk, offset, strict, exp);
             if (exp) return *exp;
         }
     }
     return -1;
 }
 
-void Scanner::setStrict(bool value)
+void
+Scanner::setStrict(bool value)
 {
     if (strict != value) {
 
@@ -95,12 +114,12 @@ void Scanner::setStrict(bool value)
     }
 }
 
-void Scanner::startScan()
+void
+Scanner::startScan()
 {
     if (auto *fv = currentVolume()) {
 
         runTask([this, fv]() {
-
             // Record the start time
             auto startTime = std::chrono::steady_clock::now();
 
@@ -121,25 +140,25 @@ void Scanner::startScan()
 
             // For debugging: Make sure the tasks consumes noticeable time
             long long remainingMs = 1500 - elapsed.count();
-            if (remainingMs > 0)
-                std::this_thread::sleep_for(std::chrono::milliseconds(remainingMs));
+            if (remainingMs > 0) std::this_thread::sleep_for(std::chrono::milliseconds(remainingMs));
 
             return result;
         });
     }
 }
 
-void Scanner::runTask(std::function<ScanResult()> task)
+void
+Scanner::runTask(std::function<ScanResult()> task)
 {
     // Only proceed if no scan is in progress
-    if (watcher.isRunning())
-        return;
+    if (watcher.isRunning()) return;
 
     watcher.setFuture(QtConcurrent::run(task));
     emit isScanningChanged();
 }
 
-void Scanner::onScanFinished()
+void
+Scanner::onScanFinished()
 {
     auto result = watcher.result();
 

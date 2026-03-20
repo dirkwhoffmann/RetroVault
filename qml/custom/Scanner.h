@@ -56,9 +56,16 @@ public:
     QByteArray getHealthMap() const { return healthMap; }
     QString getAllocInfo() const;
     QString getHealthInfo() const;
+    Q_INVOKABLE QString itemInfo(int blk, int offset) const;
+    Q_INVOKABLE QString errorInfo(int blk, int offset) const;
+    Q_INVOKABLE bool hasError(int blk, int offset) const;
+    Q_INVOKABLE int expectedValue(int blk, int offset) const;
+    /*
     Q_INVOKABLE QString itemInfo(int blk, int row, int col) const;
     Q_INVOKABLE QString errorInfo(int blk, int row, int col) const;
+    Q_INVOKABLE bool hasError(int blk, int row, int col) const;
     Q_INVOKABLE int expectedValue(int blk, int row, int col) const;
+    */
     bool isScanning() const { return watcher.isRunning(); }
 
     void setStrict(bool value);

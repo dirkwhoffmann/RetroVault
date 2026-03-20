@@ -66,6 +66,8 @@ class DeviceManager : Loggable {
     // Static functions
     //
 
+public:
+
     // Returns true if FUSE is installed and ready to use
     static bool hasFuse();
 
