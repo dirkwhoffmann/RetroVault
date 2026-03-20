@@ -23,12 +23,6 @@ Item {
         windowController: root.windowController
     }
 
-    FontLoader {
-
-        id: logoFont
-        source: "qrc:/assets/fonts/SourceSans3-VariableFont_wght.ttf"
-    }
-
     // Background Image
     Image {
 
@@ -36,8 +30,27 @@ Item {
         source: "qrc:/assets/images/splash.png"
         fillMode: Image.PreserveAspectCrop
         opacity: 1.0
+        cache: true
     }
 
+    ColumnLayout {
+        anchors.fill: parent
+
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            Logo { anchors.centerIn: parent }
+        }
+
+        StatusBar {
+            Layout.fillWidth: true
+            Layout.margins: Style.mediumSpacing
+            controller: controller
+        }
+    }
+
+    /*
     ColumnLayout {
 
         anchors.fill: parent
@@ -71,4 +84,5 @@ Item {
             }
         }
     }
+     */
 }

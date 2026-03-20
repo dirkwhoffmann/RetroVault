@@ -12,41 +12,42 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Controllers
 
-Pane {
-
-    property SplashPanelController controller
+Item {
 
     id: root
-    anchors.fill: parent
-    padding: 0
-    background: Rectangle { color: "transparent" }
 
-    contentItem: RowLayout {
+    required property SplashPanelController controller
+    property bool fuseInstalled: controller.hasFuse()
 
+    Layout.fillWidth: true
+    implicitHeight: content.implicitHeight
+
+    RowLayout {
+
+        id: content
         anchors.fill: parent
         spacing: Style.mediumSpacing
 
         Image {
             id: ledImage
-            source: controller.hasFuse() ? Assets.iconUrl(Assets.LEDGreen) : Assets.iconUrl(Assets.LEDRed)
+            source: fuseInstalled
+                ? Assets.iconUrl(Assets.LEDGreen)
+                : Assets.iconUrl(Assets.LEDRed)
             sourceSize: Qt.size(Style.iconSmall, Style.iconSmall)
         }
+
         Label {
-            text: parent.installed ? "macFUSE installed" : "macFUSE not installed"
+            text: fuseInstalled
+                ? "macFUSE installed"
+                : "macFUSE not installed"
         }
 
-        Item {  Layout.fillWidth: true } // Spacer
+        Item { Layout.fillWidth: true } // Spacer
 
         LinkButton {
             imageSource: Assets.iconUrl(Assets.GitHub)
             size: Style.iconMedium
             targetUrl: "https://dirkwhoffmann.github.io/retrovault/"
         }
-        /*
-        IconLink {
-            iconSource: Assets.iconUrl(Assets.GitHub)
-            targetUrl: "https://dirkwhoffmann.github.io/vAmiga/"
-        }
-        */
     }
 }

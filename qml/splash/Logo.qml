@@ -17,6 +17,12 @@ GridLayout {
     columnSpacing: 20
     rowSpacing: 20
 
+    FontLoader {
+
+        id: logoFont
+        source: "qrc:/assets/fonts/SourceSans3-VariableFont_wght.ttf"
+    }
+
     // 1. Upper Left: Image
     Image {
 
