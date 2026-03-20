@@ -27,6 +27,22 @@ ApplicationWindow {
         onOpenImageRequested: { fileDialog.open() }
     }
 
+    Connections {
+        target: AppController
+
+        function onRequestErrorDialog(message) {
+            errorDialog.text = message
+            errorDialog.open()
+        }
+    }
+
+    MessageDialog {
+        id: errorDialog
+        title: "RetroVault Error"
+        buttons: MessageDialog.Ok
+        // icon: MessageDialog.Critical
+    }
+
     Timer {
 
         interval: 500
@@ -34,6 +50,7 @@ ApplicationWindow {
         repeat: true
         onTriggered: { wc.periodicRefresh() }
     }
+
     FileDialog {
 
         id: fileDialog
@@ -163,6 +180,7 @@ ApplicationWindow {
         }
     }
 
+    /*
     Connections {
 
         target: UIController
@@ -176,4 +194,5 @@ ApplicationWindow {
         id: errorDialog
         title: "Application Error"
     }
+     */
 }

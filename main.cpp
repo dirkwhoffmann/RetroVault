@@ -37,8 +37,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<VolumePanelController>("RetroVault.Controllers", 1, 0, "VolumePanelController");
     qmlRegisterType<WindowController>("RetroVault.Controllers", 1, 0, "WindowController");
 
-    qmlRegisterSingletonType(QUrl("qrc:/qt/qml/retrovaultUI/qml/UIController.qml"),
-                             "RetroVault.Signals", 1, 0, "UIController");
+    // Register singletons
     qmlRegisterSingletonInstance("RetroVault.Controllers", 1, 0, "AppController", AppController::instance());
     qmlRegisterSingletonInstance("RetroVault.Assets", 1, 0, "Assets", Assets::instance());
 

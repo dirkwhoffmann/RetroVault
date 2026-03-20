@@ -10,15 +10,16 @@
 #include "AppController.h"
 #include "DeviceManager.h"
 
-AppController*
-AppController::instance() {
-    static AppController* inst = new AppController();
+AppController *
+AppController::instance()
+{
+    static AppController *inst = new AppController();
     return inst;
 }
 
-
-AppController*
-AppController::create(QQmlEngine *qmlEngine, QJSEngine *jsEngine) {
+AppController *
+AppController::create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+{
     Q_UNUSED(qmlEngine)
     Q_UNUSED(jsEngine)
     return instance();
@@ -29,4 +30,10 @@ AppController::hasFuse() const
 {
     // return false;
     return DeviceManager::hasFuse();
+}
+
+void
+AppController::showError(const QString &message)
+{
+    emit requestErrorDialog(message);
 }
