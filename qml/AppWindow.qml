@@ -22,12 +22,16 @@ ApplicationWindow {
     WindowController {
 
         id: wc
-
         onSelectionChanged: { updateStack() }
-        onNumDevicesChanged: {
-            console.log("ApplicationWindow::onNumDevicesChanged: " + numDevices)
-            mySidebar.refresh()
-        }
+        onNumDevicesChanged: { mySidebar.refresh() }
+    }
+
+    Timer {
+
+        interval: 500
+        running: true
+        repeat: true
+        onTriggered: { wc.periodicRefresh() }
     }
 
     visible: true

@@ -104,12 +104,15 @@ public:
 
 public:
 
-    // void open(const fs::path &url);
     void add(const fs::path &imageFile);
 
     void remove(isize d);
     void remove(isize d, isize v);
     void removeAll();
+
+    bool isDirty(isize d) const;
+    bool isDirty(isize d, isize v) const;
+
     void save(isize d);
     void save(isize d, isize v);
     void saveAll();

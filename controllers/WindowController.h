@@ -27,9 +27,17 @@ protected:
     int device = -1;
     int volume = -1;
 
+    // Indicates if the selected device or volume needs saving
+    bool isDirty = false;
+
+    // File system generation
+    isize generation = -1;
+
 public:
     Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY selectionChanged)
     Q_PROPERTY(int volume READ getVolume WRITE setVolume NOTIFY selectionChanged)
+    Q_PROPERTY(bool isDirty READ getIsDirty NOTIFY isDirtyChanged)
+    Q_PROPERTY(int generation READ getGeneration NOTIFY generationChanged)
     Q_PROPERTY(int numDevices READ getNumDevices NOTIFY numDevicesChanged)
     Q_PROPERTY(QString imageFormat READ currentImageFormat NOTIFY imageFormatChanged)
     Q_PROPERTY(QString deviceIcon READ currentDeviceIcon NOTIFY deviceIconChanged)
@@ -49,7 +57,9 @@ public:
     DeviceManager* getManager() const { return manager; }
     int getDevice() const { return device; }
     int getVolume() const { return volume; }
-    int getNumDevices() const { return manager->numDevices(); }
+    bool getIsDirty() const { return isDirty; }
+    int getGeneration() const { return  (int)generation; }
+int getNumDevices() const { return manager->numDevices(); }
 
     //
     // Setter
@@ -83,6 +93,8 @@ public:
     signals:
     void modelChanged();
     void selectionChanged();
+    void isDirtyChanged();
+    void generationChanged();
     void numDevicesChanged();
     void imageFormatChanged();
     void deviceIconChanged();
@@ -94,6 +106,7 @@ public slots:
     void addImage(const QUrl &url);
     void remove();
     void save();
+    void periodicRefresh();
 
     void select(int newDevice, int newVolume);
 };

@@ -40,6 +40,7 @@ class VolumePanelController : public CustomController
     QString imageFmt = "";
     QString icon = "";
     QVariantList volumeInfo;
+    bool isDirty = false;
 
     // Volume layout
     int numBlocks = 0;
@@ -47,9 +48,6 @@ class VolumePanelController : public CustomController
 
     // Block view selection
     int blkNr = 0;
-
-    // Strict flag (diagnosis)
-    // bool strict = false;
 
     // Block view data
     BlockViewModel tableModel = BlockViewModel(this);
@@ -66,6 +64,7 @@ public:
     Q_PROPERTY(QString imageFmt READ getImageFmt NOTIFY imageFmtChanged)
     Q_PROPERTY(QString icon READ getIcon NOTIFY iconChanged)
     Q_PROPERTY(QVariantList volumeInfo READ getVolumeInfo NOTIFY volumeInfoChanged)
+    Q_PROPERTY(bool isDirty READ getIsDirty NOTIFY isDirtyChanged)
 
     Q_PROPERTY(int numBlocks READ getNumBlocks NOTIFY numBlocksChanged)
     Q_PROPERTY(int bsize READ getBsize NOTIFY bsizeChanged)
@@ -103,6 +102,7 @@ private:
     QString getImageFmt() const { return imageFmt; }
     QString getIcon() const { return icon; }
     QVariantList getVolumeInfo() const { return volumeInfo; }
+    bool getIsDirty() const { return isDirty; }
 
     int getNumBlocks() const { return numBlocks; }
     int getBsize() const { return bsize; }
@@ -167,6 +167,7 @@ signals:
     void imageFmtChanged();
     void iconChanged();
     void volumeInfoChanged();
+    void isDirtyChanged();
     void numBlocksChanged();
     void bsizeChanged();
     void blockChanged();

@@ -87,6 +87,24 @@ DeviceManager::removeAll()
     while (!devices.empty()) remove(0);
 }
 
+bool
+DeviceManager::isDirty(isize d) const
+{
+    if (d >= 0 && d < devices.size())
+        return devices[d]->isDirty();
+
+    return false;
+}
+
+bool
+DeviceManager::isDirty(isize d, isize v) const
+{
+    if (d >= 0 && d < devices.size())
+        return devices[d]->isDirty(v);
+
+    return false;
+}
+
 void
 DeviceManager::save(isize d)
 {

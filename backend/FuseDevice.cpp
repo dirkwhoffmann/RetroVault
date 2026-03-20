@@ -31,14 +31,18 @@ FuseDevice::FuseDevice(const fs::path &path)
     loginfo(FUSE_DEBUG, "Format: %s\n", ImageFormatEnum::key(format));
 
     switch (format) {
-            
-        case ImageFormat::ADF: makeVolumeFor<ADFFile,FuseAmigaVolume>(path); break;
-        case ImageFormat::D64: makeVolumeFor<D64File,FuseCBMVolume>(path); break;
 
-        default:
-            throw IOError(IOError::FILE_TYPE_UNSUPPORTED);
+    case ImageFormat::ADF:
+        makeVolumeFor<ADFFile, FuseAmigaVolume>(path);
+        break;
+    case ImageFormat::D64:
+        makeVolumeFor<D64File, FuseCBMVolume>(path);
+        break;
+
+    default:
+        throw IOError(IOError::FILE_TYPE_UNSUPPORTED);
     }
-    
+
     // image = std::make_unique<MediaFile>(filename);
 
     /*
@@ -68,8 +72,7 @@ FuseDevice::FuseDevice(const fs::path &path)
     loginfo(FUSE_DEBUG, "Installed volumes: %zu\n", volumes.size());
 }
 
-template<typename I, typename V> void
-FuseDevice::makeVolumeFor(const fs::path& filename)
+template <typename I, typename V> void FuseDevice::makeVolumeFor(const fs::path &filename)
 {
     image = make_unique<I>(filename);
     volumes.push_back(make_unique<V>(*this, make_unique<Volume>(*image)));
@@ -81,43 +84,33 @@ FuseDevice::~FuseDevice()
     unmount();
 }
 
-void
-FuseDevice::setListener(void *listener, AdapterCallback *callback)
+void FuseDevice::setListener(void *listener, AdapterCallback *callback)
 {
-    for (auto &volume : volumes) volume->setListener(listener, callback);
+    for (auto &volume : volumes)
+        volume->setListener(listener, callback);
 }
 
-vector<string>
-FuseDevice::describe() const noexcept
-{
-    return image->describeImage();
-}
+vector<string> FuseDevice::describe() const noexcept { return image->describeImage(); }
 
-bool
-FuseDevice::needsSaving() const
+bool FuseDevice::needsSaving() const
 {
-    for (auto &volume: volumes) {
-        if (volume->stat().dirtyBlocks > 0) return true;
+    for (auto &volume : volumes) {
+        if (volume->stat().dirtyBlocks > 0)
+            return true;
     }
-    
+
     return dirty;
 }
 
-FuseVolume &
-FuseDevice::getVolume(isize v)
-{
-    return *volumes.at(v);
-}
+FuseVolume &FuseDevice::getVolume(isize v) { return *volumes.at(v); }
 
-void
-FuseDevice::mount(const fs::path &mountPoint, isize partition)
+void FuseDevice::mount(const fs::path &mountPoint, isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     volumes[partition]->mount(mountPoint);
 }
 
-void
-FuseDevice::mount(const fs::path &mountPoint)
+void FuseDevice::mount(const fs::path &mountPoint)
 {
     if (volumes.size() == 1) {
 
@@ -130,8 +123,7 @@ FuseDevice::mount(const fs::path &mountPoint)
     }
 }
 
-void
-FuseDevice::unmount(isize volume)
+void FuseDevice::unmount(isize volume)
 {
     assert(volume >= 0 && volume < volumes.size());
 
@@ -141,30 +133,46 @@ FuseDevice::unmount(isize volume)
 
     // Unmount the volume asynchroneously
     std::thread([vol = std::move(vol)]() mutable {
-        
         vol->unmount();
-        
     }).detach();
 }
 
-void
-FuseDevice::unmount()
+void FuseDevice::unmount()
 {
-    while (!volumes.empty()) { unmount(0); }
+    while (!volumes.empty()) {
+        unmount(0);
+    }
 }
 
-void
-FuseDevice::save()
+bool FuseDevice::isDirty() const
+{
+    for (auto &volume : volumes)
+        if (volume->isDirty())
+            return true;
+
+    return false;
+}
+
+bool FuseDevice::isDirty(isize volume) const
+{
+    if (volume >= 0 && volume < isize(volumes.size()))
+        return volumes[volume]->isDirty();
+
+    return false;
+}
+
+void FuseDevice::save()
 {
     // Flush all volumes
-    for (auto &volume : volumes) { volume->flush(); }
-    
+    for (auto &volume : volumes) {
+        volume->flush();
+    }
+
     // Update image
     image->save();
 }
 
-void
-FuseDevice::save(isize volume)
+void FuseDevice::save(isize volume)
 {
     assert(volume < isize(volumes.size()));
 
@@ -172,111 +180,87 @@ FuseDevice::save(isize volume)
     image->saveBlocks(volumes[volume]->getRange());
 }
 
-void
-FuseDevice::saveAs(const fs::path &url)
+void FuseDevice::saveAs(const fs::path &url)
 {
     flush();
     image->saveAs(url);
 }
 
-void
-FuseDevice::saveAs(const fs::path &url, isize volume)
+void FuseDevice::saveAs(const fs::path &url, isize volume)
 {
     // TODO
 }
 
-void
-FuseDevice::revert()
+void FuseDevice::revert() {}
+
+void FuseDevice::revert(isize volume) { assert(volume < isize(volumes.size())); }
+
+void FuseDevice::flush()
 {
-    
+    for (isize i = 0; i < volumes.size(); ++i) {
+        flush(i);
+    }
 }
 
-void
-FuseDevice::revert(isize volume)
+void FuseDevice::flush(isize volume)
 {
     assert(volume < isize(volumes.size()));
-}
 
-void
-FuseDevice::flush()
-{
-    for (isize i = 0; i < volumes.size(); ++i) { flush(i); }
-}
-
-void
-FuseDevice::flush(isize volume)
-{
-    assert(volume < isize(volumes.size()));
-        
     if (volumes[volume]->stat().dirtyBlocks > 0) {
-        
+
         volumes[volume]->flush();
         dirty = true;
     }
 }
 
-void
-FuseDevice::invalidate()
+void FuseDevice::invalidate()
 {
-    for (auto &volume : volumes) { volume->invalidate(); }
+    for (auto &volume : volumes) {
+        volume->invalidate();
+    }
 }
 
-void
-FuseDevice::invalidate(isize volume)
+void FuseDevice::invalidate(isize volume)
 {
     assert(volume < isize(volumes.size()));
     volumes[volume]->invalidate();
 }
 
-bool
-FuseDevice::isWriteProtected(isize volume)
+bool FuseDevice::isWriteProtected(isize volume)
 {
     assert(volume >= 0 && volume < volumes.size());
     return volumes[volume]->isWriteProtected();
 }
 
-void
-FuseDevice::writeProtect(bool yesno, isize volume)
+void FuseDevice::writeProtect(bool yesno, isize volume)
 {
     assert(volume >= 0 && volume < volumes.size());
     volumes[volume]->writeProtect(yesno);
 }
 
-FSPosixStat
-FuseDevice::stat(isize partition)
+FSPosixStat FuseDevice::stat(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     return volumes[partition]->stat();
 }
 
-u8
-FuseDevice::readByte(isize offset) const
-{
-    return image->readByte(offset);
-}
+u8 FuseDevice::readByte(isize offset) const { return image->readByte(offset); }
 
-u8
-FuseDevice::readByte(isize offset, isize volume) const
-{
-    return volumes[volume]->getVolume().readByte(offset);
-}
+u8 FuseDevice::readByte(isize offset, isize volume) const { return volumes[volume]->getVolume().readByte(offset); }
 
-void
-FuseDevice::writeByte(isize offset, u8 value)
+void FuseDevice::writeByte(isize offset, u8 value)
 {
     if (image->readByte(offset) != value) {
-     
+
         image->writeByte(offset, value);
         dirty = true;
     }
-    
 }
 
-void
-FuseDevice::writeByte(isize offset, u8 value, isize volume)
+void FuseDevice::writeByte(isize offset, u8 value, isize volume)
 {
     if (volumes[volume]->getVolume().readByte(offset) != value) {
-        
+
         volumes[volume]->getVolume().writeByte(offset, value);
         dirty = true;
     }

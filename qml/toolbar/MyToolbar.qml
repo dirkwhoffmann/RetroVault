@@ -95,14 +95,22 @@ ToolBar {
             icon.source: Assets.iconUrl(Assets.Folder)
             MyToolTip { text: "Open in Finder" }
 
-            enabled: wc.mountPoint !== ""
+            enabled: windowController.mountPoint !== ""
 
             onClicked: {
                 console.log("Folder icon clicked: " + wc.mountPoint)
                 Qt.openUrlExternally(wc.mountPoint)
             }
         }
-        NavButton { icon.source: Assets.iconUrl(Assets.Sync) }
+        NavButton {
+
+            icon.source: Assets.iconUrl(Assets.Sync)
+            enabled: windowController.isDirty
+
+            onClicked: {
+                console.log("Sync icon clicked")
+            }
+        }
 
         Item { Layout.fillWidth: true } // Spacer
 

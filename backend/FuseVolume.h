@@ -96,6 +96,8 @@ public:
     bool isWriteProtected() { return dos->isWriteProtected(); }
     void writeProtect(bool yesno) { dos->writeProtect(yesno); }
 
+    bool isDirty() { return stat().dirtyBlocks > 0; }
+
     // Writes all changes back to the image file
     void push();
     

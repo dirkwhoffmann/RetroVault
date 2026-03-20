@@ -87,7 +87,10 @@ public:
 
     void unmount(isize volume);
     void unmount();
-    
+
+    bool isDirty() const;
+    bool isDirty(isize volume) const;
+
     void save();
     void save(isize volume);
     
