@@ -13,22 +13,17 @@ import QtQuick.Layouts
 
 GridLayout {
 
+    id: root
     columns: 2
     columnSpacing: 20
     rowSpacing: 20
-
-    FontLoader {
-
-        id: logoFont
-        source: "qrc:/assets/fonts/SourceSans3-VariableFont_wght.ttf"
-    }
 
     // 1. Upper Left: Image
     Image {
 
         source: "qrc:/assets/images/AppIcon.png"
-        Layout.preferredWidth: 100
-        Layout.preferredHeight: 100
+        Layout.preferredWidth: Style.iconEpic
+        Layout.preferredHeight: Style.iconEpic
         Layout.row: 0
         Layout.column: 0
     }
@@ -37,39 +32,37 @@ GridLayout {
     ColumnLayout {
 
         Layout.alignment: Qt.AlignTop // | Qt.AlignLeft
-        // spacing: 5
+        spacing: 0
         Label {
-            text: "Retro Vault"
+            text: qsTr("Retro Vault")
             font.pixelSize: 38
-            font.family: logoFont.name
+            font.family: Fonts.logoFont.name
             font.weight: 700 // Font.Bold
-            // font.bold: true
+            padding: 0
+            topPadding: -5
+            bottomPadding: -5
             color: Style.primary
-            Layout.alignment: Qt.AlignLeft
+            // background: Rectangle { color: "red" }
         }
         Label {
-            text: "Where Sectors Come to Life"
+            text: qsTr("Where Sectors Come to Life")
             font.pixelSize: 24
-            // font.bold: false
-            font.weight: 300 // Font.Light
+            font.family: Fonts.logoFont.name
+            font.weight: 400 // Font.Light
             color: Style.secondary
-            Layout.alignment: Qt.AlignLeft
+            // Layout.alignment: Qt.AlignLeft
         }
     }
 
     Rectangle {
         Layout.columnSpan: 2
         Layout.fillWidth: true
-        height: 1
-        color: Style.secondary
-        opacity: 1.0
+        implicitHeight: 1
+        color: Style.tertiary
     }
 
-    // 3. Lower Left: (Empty or Spacer)
-    Item {
-        // Layout.row: 2
-        // Layout.column: 0
-    }
+    // 3. Lower Left: Spacer
+    Item { Layout.fillWidth: true }
 
     // 4. Lower Right: Multi-line Text with different sizes
     ColumnLayout {
@@ -80,35 +73,28 @@ GridLayout {
             text: "Drag an image file onto this window to add a file system. "
             font.pixelSize: 14
             color: Style.tertiary
-            Layout.alignment: Qt.AlignLeft
+            // Layout.alignment: Qt.AlignLeft
         }
         Label {
             text: "Supported image formats:"
             font.pixelSize: 14
             horizontalAlignment: Text.AlignLeft
             color: Style.tertiary
-            Layout.alignment: Qt.AlignLeft
+            // Layout.alignment: Qt.AlignLeft
             Layout.topMargin: 25
         }
 
         GridLayout {
+
             columns: 2
             rowSpacing: 5
             columnSpacing: 10
             Layout.topMargin: 10
 
-            Label {
-                text: ".ADF:"; color: Style.tertiary; font.bold: false
-            }
-            Label {
-                text: "Commodore Amiga Floppy Disk"; color: Style.tertiary
-            }
-            Label {
-                text: ".D64:"; color: Style.tertiary; font.bold: false
-            }
-            Label {
-                text: "Commodore 64 Floppy Disk"; color: Style.tertiary
-            }
+            Label { text: ".ADF:"; color: Style.tertiary; font.bold: false }
+            Label { text: "Commodore Amiga Floppy Disk"; color: Style.tertiary }
+            Label { text: ".D64:"; color: Style.tertiary; font.bold: false }
+            Label { text: "Commodore 64 Floppy Disk"; color: Style.tertiary }
         }
     }
 }

@@ -59,7 +59,7 @@ public:
     int getVolume() const { return volume; }
     bool getIsDirty() const { return isDirty; }
     int getGeneration() const { return  (int)generation; }
-int getNumDevices() const { return manager->numDevices(); }
+    int getNumDevices() const { return manager->numDevices(); }
 
     //
     // Setter
@@ -91,6 +91,7 @@ public:
     QString currentMountPoint() const;
 
     signals:
+    void openImageRequested();
     void modelChanged();
     void selectionChanged();
     void isDirtyChanged();
@@ -103,9 +104,11 @@ public:
     void mountPointChanged();
 
 public slots:
+    void requestOpenImage();
     void addImage(const QUrl &url);
     void remove();
     void save();
+    void toggleProtection();
     void periodicRefresh();
 
     void select(int newDevice, int newVolume);

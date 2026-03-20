@@ -88,6 +88,7 @@ set_target_properties(retrovault
         MACOSX_BUNDLE_ICON_FILE AppIcon.icns
 )
 
+set_source_files_properties(qml/Fonts.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 

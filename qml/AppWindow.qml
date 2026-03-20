@@ -24,6 +24,7 @@ ApplicationWindow {
         id: wc
         onSelectionChanged: { updateStack() }
         onNumDevicesChanged: { mySidebar.refresh() }
+        onOpenImageRequested: { fileDialog.open() }
     }
 
     Timer {
@@ -32,6 +33,18 @@ ApplicationWindow {
         running: true
         repeat: true
         onTriggered: { wc.periodicRefresh() }
+    }
+    FileDialog {
+
+        id: fileDialog
+        title: "Please choose a file"
+        onAccepted: {
+            try {
+                wc.addImage(selectedFile)
+            } catch (e) {
+                UIController.showError(e.message)
+            }
+        }
     }
 
     visible: true

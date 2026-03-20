@@ -189,9 +189,11 @@ QtObject {
     readonly property int iconSmall: 16
     readonly property int iconMedium: 22
     readonly property int iconLarge: 32
+    readonly property int iconHuge: 64
+    readonly property int iconEpic: 96
 
     readonly property int toolbarHeight: 22
-    readonly property int iconSize: 22 // DEPRECATED
+    // readonly property int iconSize: 22 // DEPRECATED
     readonly property int fontSize: 16
 
     //

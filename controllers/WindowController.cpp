@@ -161,6 +161,12 @@ WindowController::currentMountPoint() const
 }
 
 void
+WindowController::requestOpenImage()
+{
+    emit openImageRequested();
+}
+
+void
 WindowController::addImage(const QUrl &url)
 {
 
@@ -211,10 +217,14 @@ WindowController::save()
 }
 
 void
+WindowController::toggleProtection()
+{
+    setProtected(!currentWriteProtection());
+}
+
+void
 WindowController::periodicRefresh()
 {
-    printf("periodicRefresh()\n");
-
     if (isDirty != manager->isDirty(device, volume)) {
 
         isDirty = !isDirty;

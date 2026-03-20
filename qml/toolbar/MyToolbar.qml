@@ -16,33 +16,9 @@ import RetroVault.Assets
 
 ToolBar {
 
+    id: root
     required property WindowController windowController
-
-    FileDialog {
-
-        id: fileDialog
-        title: "Please choose a file"
-        // currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-        onAccepted: {
-            console.log("Selected file URL: " + selectedFile)
-            try {
-                windowController.addImage(selectedFile)
-            } catch (e) {
-                console.log("Calling showError...")
-                UIController.showError(e.message)
-            }
-        }
-        /*
-        onRejected: {
-            console.log("Canceled")
-        }
-        */
-    }
-
     property real sidebarWidth: 200
-
-    // Ensure the toolbar has a default height if the layout is empty
-    implicitHeight: 40
 
     RowLayout {
 
@@ -65,10 +41,10 @@ ToolBar {
 
                     id: plusButton
                     icon.source: Assets.iconUrl(Assets.Plus)
+                    MyToolTip { text: "Mount New Image" }
 
                     onClicked: {
-                        console.log("Plus clicked")
-                        fileDialog.open()
+                        windowController.requestOpenImage()
                     }
                 }
 
@@ -76,14 +52,13 @@ ToolBar {
 
                     id: minusButton
                     icon.source: Assets.iconUrl(Assets.Minus)
+                    MyToolTip { text: "Unmount" }
 
                     onClicked: {
-                        console.log("Minus clicked")
                         windowController.remove()
                     }
                 }
 
-                // 3. Put the Separator at the very right edge of this container
                 ToolSeparator {
                     Layout.fillHeight: true
                 }
@@ -93,12 +68,10 @@ ToolBar {
         NavButton {
 
             icon.source: Assets.iconUrl(Assets.Folder)
+            enabled: windowController.mountPoint !== ""
             MyToolTip { text: "Open in Finder" }
 
-            enabled: windowController.mountPoint !== ""
-
             onClicked: {
-                console.log("Folder icon clicked: " + wc.mountPoint)
                 Qt.openUrlExternally(wc.mountPoint)
             }
         }
@@ -106,9 +79,10 @@ ToolBar {
 
             icon.source: Assets.iconUrl(Assets.Sync)
             enabled: windowController.isDirty
+            MyToolTip { text: "Update Image on Disk" }
 
             onClicked: {
-                console.log("Sync icon clicked")
+                windowController.save()
             }
         }
 
@@ -118,11 +92,10 @@ ToolBar {
 
             icon.source: Assets.iconUrl(windowController.isProtected ? Assets.Locked : Assets.Unlocked)
             enabled: windowController.volume != -1
-            MyToolTip { text: "Toggle Write Protection" }
+            MyToolTip { text: windowController.isProtected ? "Unprotect File System" : "Protect File System" }
 
             onClicked: {
-                console.log("Lock icon clicked: ")
-                windowController.isProtected = !windowController.isProtected
+                windowController.toggleProtection()
             }
         }
     }

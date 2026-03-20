@@ -8,24 +8,11 @@
 // -----------------------------------------------------------------------------
 
 import QtQuick
-import QtQuick.Controls
+pragma Singleton
 
-ToolTip {
+QtObject {
 
-    id: root
-    delay: 500
-    timeout: 3000
-    visible: parent.hovered
-
-    contentItem: Text {
-        text: root.text
-        font.pixelSize: Style.regular
-        color: Style.primary
-    }
-
-    background: Rectangle {
-        color: Style.primaryBg
-        border.color: Style.border
-        radius: 4
+    property FontLoader logoFont: FontLoader {
+        source: "qrc:/assets/fonts/SourceSans3-VariableFont_wght.ttf"
     }
 }
