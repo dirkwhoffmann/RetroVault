@@ -92,9 +92,7 @@ Item {
                 label: "Corrupted Blocks"
             }
 
-            Item {
-                Layout.fillWidth: true
-            } // Spacer
+            Spacer {}
 
             Label {
                 text: "Strict"
@@ -149,9 +147,7 @@ Item {
                 text: scanner.healthInfo
             }
 
-            Item {
-                Layout.fillWidth: true
-            } // Spacer
+            Spacer {}
 
             Label {
                 text: "Rectify"
@@ -167,7 +163,7 @@ Item {
             }
         }
 
-        // Spacer
+        Spacer {}
 
         Item {
             Layout.fillHeight: true

@@ -22,6 +22,8 @@ RowLayout {
     property alias stepSize: sb.stepSize
     property alias pointSize: titleLabel.font.pointSize
 
+    signal valueModified()
+
     Label {
         id: titleLabel
         font.pointSize: Style.small
@@ -34,5 +36,7 @@ RowLayout {
         editable: true
         Layout.preferredWidth: 64
         Layout.alignment: Qt.AlignHCenter
+
+        onValueModified: control.valueModified()
     }
 }

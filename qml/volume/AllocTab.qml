@@ -43,8 +43,10 @@ Item {
                 size: Style.iconMedium
                 onClicked: { scanner.startScan() }
                 busy: scanner.isScanning
-                ToolTip.text: "Scan Image..."
-                ToolTip.visible: hovered
+                MyToolTip {
+                    text: "Scan Image..."
+                    visible: parent.hovered && !scanner.isScanning
+                }
             }
         }
         // Row 2
@@ -58,10 +60,10 @@ Item {
                 Layout.fillWidth: true
                 from: 0
                 value: panelController.block
-                to: panelController.numBlocks
+                to: Math.max(0, panelController.numBlocks - 1)
                 stepSize: 1
                 snapMode: Slider.SnapAlways
-                onMoved: panelController.block = Math.floor(value)
+                onMoved: panelController.block = value
             }
 
             Item {
@@ -99,9 +101,7 @@ Item {
                 label: "Used but Unallocated"
             }
 
-            Item {
-                Layout.fillWidth: true
-            } // Spacer
+            Spacer {}
 
             Label {
                 text: "Strict"
@@ -113,6 +113,9 @@ Item {
                 onClicked: {
                     scanner.strict = !scanner.strict
                     scanner.startScan()
+                }
+                MyToolTip {
+                    text: "Toggle detail level"
                 }
             }
         }
@@ -127,9 +130,7 @@ Item {
                 text: scanner.allocInfo
             }
 
-            Item {
-                Layout.fillWidth: true
-            } // Spacer
+            Spacer {}
 
             Label {
                 text: "Rectify"
@@ -142,13 +143,12 @@ Item {
                     console.log("Rectify alloc map clicked")
                     panelController.rectifyAllocMap(scanner.strict)
                 }
+                MyToolTip {
+                    text: "Fix all recoverable errors"
+                }
             }
         }
-
-        // Spacer
-
-        Item {
-            Layout.fillHeight: true
-        }
     }
+
+    Spacer {}
 }

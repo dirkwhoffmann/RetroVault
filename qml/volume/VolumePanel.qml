@@ -62,7 +62,6 @@ Item {
 
             id: tabPane
             Layout.fillWidth: true
-            // background: Rectangle { color: "blue" }
             topPadding: Style.mediumSpacing
             leftPadding: Style.largeSpacing
             rightPadding: Style.largeSpacing
@@ -91,10 +90,12 @@ Item {
                 LabeledStepper {
                     id: blockStepper
                     label: "Block"
+                    enabled: pc.numBlocks > 0
                     to: Math.max(0, pc.numBlocks - 1)
                     value: pc.block
                     pointSize: Style.regular
-                    onValueChanged: { console.log("Stepper: " + value); pc.block = value }
+                    onValueModified: pc.block = value
+                    //onMoved: pc.block = value
                 }
 
                 Label {
@@ -138,7 +139,6 @@ Item {
 
     Component.onCompleted: {
 
-        // console.log("VolumePanelController loaded.");
         pc.refresh()
     }
 }

@@ -67,54 +67,56 @@ Item {
 
                 LabeledStepper {
                     label: "Cylinder"
+                    enabled: pc.numCylinders > 0
+                    from: 0
                     to: Math.max(0, pc.numCylinders - 1)
                     value: pc.cylinder
-                    onValueChanged: { pc.cylinder = value }
+                    onValueModified: pc.cylinder = value
                 }
 
-                Item {
-                    Layout.fillWidth: true
-                }
+                Spacer {}
 
                 LabeledStepper {
                     label: "Head"
+                    enabled: pc.numHeads > 0
+                    from: 0
                     to: Math.max(0, pc.numHeads - 1)
                     value: pc.head
-                    onValueChanged: { pc.head = value }
+                    onValueModified: pc.head = value
                 }
 
-                Item {
-                    Layout.fillWidth: true
-                }
+                Spacer {}
 
                 LabeledStepper {
                     label: "Track"
+                    enabled: pc.numTracks > 0
+                    from: 0
                     to: Math.max(0, pc.numTracks - 1)
                     value: pc.track
-                    onValueChanged: { pc.track = value }
+                    onValueModified: pc.track = value
                 }
 
-                Item {
-                    Layout.fillWidth: true
-                }
+                Spacer {}
 
                 LabeledStepper {
                     label: "Sector"
+                    enabled: pc.numSectors > 0
+                    from: 0
                     to: Math.max(0, pc.numSectors - 1)
                     value: pc.sector
-                    onValueChanged: { pc.sector = value }
+                    onValueModified: pc.sector = value
                 }
 
-                Item {
-                    Layout.fillWidth: true
-                }
+                Spacer {}
 
                 LabeledStepper {
                     id: blockStepper
                     label: "Block"
+                    enabled: pc.numBlocks > 0
+                    from: 0
                     to: Math.max(0, pc.numBlocks - 1)
                     value: pc.block
-                    onValueChanged: { pc.block = value }
+                    onValueModified: pc.block = value
                 }
             }
         }

@@ -86,7 +86,7 @@ ToolBar {
             }
         }
 
-        Item { Layout.fillWidth: true } // Spacer
+        Spacer {}
 
         NavButton {
 

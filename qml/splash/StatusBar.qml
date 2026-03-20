@@ -42,7 +42,7 @@ Item {
                 : "macFUSE not installed"
         }
 
-        Item { Layout.fillWidth: true } // Spacer
+        Spacer {}
 
         LinkButton {
             imageSource: Assets.iconUrl(Assets.GitHub)
