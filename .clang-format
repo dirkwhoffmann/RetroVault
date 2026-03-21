@@ -1,12 +1,22 @@
 BasedOnStyle: LLVM
 
-ColumnLimit:     120
-IndentWidth:     4
+ColumnLimit: 120
+IndentWidth: 4
+MaxEmptyLinesToKeep: 2
 
 IndentPPDirectives: BeforeHash
 
 AlignArrayOfStructures: Left
 AlignConsecutiveMacros: true
+AlignConsecutiveAssignments:
+  Enabled: yes
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCompound: true
+  AlignFunctionDeclarations: false
+  AlignFunctionPointers: true
+  PadOperators: true
+
 AlignConsecutiveShortCaseStatements:
   Enabled: true
   AcrossEmptyLines: true
@@ -16,21 +26,21 @@ AlignConsecutiveShortCaseStatements:
 AllowAllParametersOfDeclarationOnNextLine: true
 
 BraceWrapping:
-  AfterCaseLabel:  false
-  AfterClass:      false
+  AfterCaseLabel: false
+  AfterClass: false
   AfterControlStatement: Never
-  AfterEnum:       false
+  AfterEnum: false
   AfterExternBlock: false
-  AfterFunction:   true
-  AfterNamespace:  false
+  AfterFunction: true
+  AfterNamespace: false
   AfterObjCDeclaration: false
-  AfterStruct:     false
-  AfterUnion:      false
-  BeforeCatch:     false
-  BeforeElse:      false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
   BeforeLambdaBody: false
-  BeforeWhile:     false
-  IndentBraces:    false
+  BeforeWhile: false
+  IndentBraces: false
   SplitEmptyFunction: true
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
