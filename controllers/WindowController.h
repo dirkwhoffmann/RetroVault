@@ -103,7 +103,7 @@ class WindowController : public Controller {
     void volumeIconChanged();
     void isProtectedChanged();
     void mountPointChanged();
-    void imageAdded();
+    void imageMounted(QString imageName);
 
   public slots:
     void requestOpenImage();

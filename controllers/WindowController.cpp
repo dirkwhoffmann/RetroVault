@@ -173,15 +173,16 @@ WindowController::requestOpenImage()
 void
 WindowController::addImage(const QUrl &url)
 {
-    QFile file(url.toLocalFile());
+    auto path = fs::path(url.toLocalFile().toStdString());
+    auto mountPoint = path.stem();
 
     try {
 
-        printf("addImage(%s)\n", url.toLocalFile().toStdString().c_str());
-        manager->add(url.toLocalFile().toStdString());
+        manager->add(path, mountPoint);
         select(getNumDevices() - 1, -1);
         emit numDevicesChanged();
-        emit imageAdded();
+        printf("Emitting imageMounted\n");
+        emit imageMounted(QString::fromStdString(mountPoint.string()));
 
     } catch (std::exception &e) {
 

@@ -25,6 +25,10 @@ ApplicationWindow {
         onSelectionChanged: { updateStack() }
         onNumDevicesChanged: { mySidebar.refresh() }
         onOpenImageRequested: { fileDialog.open() }
+
+        onImageMounted: (mountPoint) => {
+            AppController.showNotification("Mounted: " + mountPoint)
+        }
     }
 
     Connections {
@@ -67,7 +71,7 @@ ApplicationWindow {
         onAccepted: {
             try {
                 wc.addImage(selectedFile)
-                AppController.showNotification("Image mounted")
+                // AppController.showNotification("Image mounted")
             } catch (e) {
                 AppController.showError(e.message)
             }

@@ -106,7 +106,7 @@ public:
 
 public:
 
-    void add(const fs::path &imageFile);
+    void add(const fs::path &imageFile, const fs::path &mountPoint);
 
     void remove(isize d);
     void remove(isize d, isize v);

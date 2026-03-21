@@ -55,14 +55,21 @@ DeviceManager::getDevice(isize deviceNr)
 }
 
 void
-DeviceManager::add(const fs::path &imageFile)
+DeviceManager::add(const fs::path &imageFile, const fs::path &mountPoint)
 {
     printf("DeviceManager::add(%s)\n", imageFile.string().c_str());
 
-    devices.push_back(std::make_unique<FuseDevice>(imageFile));
+    loginfo(FUSE_DEBUG, "Create device...\n");
+    auto fd = std::make_unique<FuseDevice>(imageFile);
+
+    loginfo(FUSE_DEBUG, "Mount file system as /Volumes/%s\n", mountPoint.string().c_str());
+    fd->mount(mountPoint);
+
+    loginfo(FUSE_DEBUG, "Adding device to the database...\n");
+    devices.push_back(std::move(fd));
 
     // Inform the GUI
-   if (callback) callback(listener, 42);
+    // if (callback) callback(listener, 42);
 }
 
 void
