@@ -73,12 +73,9 @@ ToolBar {
         NavButton {
 
             icon.source: Assets.iconUrl(Assets.Folder)
-            enabled: windowController.mountPoint !== ""
+            enabled: root.windowController.mountPoint !== ""
             MyToolTip { text: "Open in Finder" }
-
-            onClicked: {
-                Qt.openUrlExternally(windowController.mountPoint)
-            }
+            onClicked: Qt.openUrlExternally(encodeURI("file://" + windowController.mountPoint));
         }
         NavButton {
 

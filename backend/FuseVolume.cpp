@@ -201,8 +201,6 @@ FuseVolume::statfs(const char *path, struct statvfs *st)
     st->f_flag    = 0;              // No mount flags
     st->f_namemax = 30;             // Amiga filename limit (OFS/FFS)
 
-    printf("Free blocks: %u\n", free);
-    
     return 0;
 }
 
@@ -225,9 +223,11 @@ FuseVolume::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
         filler(buf, ".",  NULL, 0);
         filler(buf, "..", NULL, 0);
 
+        /*
         for (auto &name : dos->readDir(path)) {
             printf("dir: %s\n", name.c_str());
         }
+        */
         for (auto &name : dos->readDir(path)) {
             filler(buf, name.c_str(), NULL, 0);
         }

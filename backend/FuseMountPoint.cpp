@@ -81,6 +81,12 @@ FuseMountPoint::mount(const fs::path &mp)
                 return;
             }
 
+            char actualPath[PATH_MAX];
+            if (realpath(mountPoint.c_str(), actualPath)) {
+                printf("The absolute mount point is: %s\n", actualPath);
+                // This 'actualPath' is what you should use for your file:/// URL
+            }
+
             // Blocking loop (runs until unmounted or fuse_exit called)
             printf("Launching fuse loop...\n");
             fuse_loop(gateway);

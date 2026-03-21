@@ -62,6 +62,7 @@ DeviceManager::add(const fs::path &imageFile, const fs::path &mountPoint)
     loginfo(FUSE_DEBUG, "Create device...\n");
     auto fd = std::make_unique<FuseDevice>(imageFile);
 
+    printf("Mount file system at %s\n", mountPoint.string().c_str());
     loginfo(FUSE_DEBUG, "Mount file system as /Volumes/%s\n", mountPoint.string().c_str());
     fd->mount(mountPoint);
 

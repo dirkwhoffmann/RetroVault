@@ -17,6 +17,12 @@ Item {
     id: root
     required property WindowController windowController
 
+    function offset(row: int, col: int) : int {
+
+        if (row < 0 || col < 1) return -1;
+        return (row * 16) + col - 1;
+    }
+
     Connections {
         target: windowController
         function onSelectionChanged() { pc.refresh(); }
@@ -100,7 +106,7 @@ Item {
 
                 Label {
                     id: usageString
-                    text: volumeScanner.itemInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
+                    text: volumeScanner.itemInfo(pc.block, offset(blockView.selectedRow, blockView.selectedColumn))
                     Layout.alignment: Qt.AlignHCenter
                 }
 
@@ -110,7 +116,7 @@ Item {
 
                 Label {
                     id: errorString
-                    text: volumeScanner.errorInfo(pc.block, blockView.selectedRow, blockView.selectedColumn)
+                    text: volumeScanner.errorInfo(pc.block, offset(blockView.selectedRow, blockView.selectedColumn))
                     color: "red"
                     Layout.alignment: Qt.AlignHCenter
                 }

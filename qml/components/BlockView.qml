@@ -55,13 +55,13 @@ Rectangle {
         property int selectedRow: -1
         property int selectedColumn: -1
 
-        function offset(row: int, col: int) {
+        function offset(row: int, col: int) : int {
 
             if (row < 0 || col < 1) return -1;
             return (row * 16) + col - 1;
         }
 
-        function textColor(blk: int, row: int, col: int): color {
+        function textColor(blk: int, row: int, col: int) : color {
 
             if (!scanner) return Style.primary
             if (col === 0 || col === tableView.columns - 1)

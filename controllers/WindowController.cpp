@@ -18,9 +18,7 @@ WindowController::WindowController(QObject *parent) : Controller(parent)
     manager = std::make_unique<DeviceManager>();
 }
 
-WindowController::~WindowController()
-{
-}
+WindowController::~WindowController() {}
 
 void
 WindowController::setDevice(int value)
@@ -69,6 +67,7 @@ WindowController::select(int newDevice, int newVolume)
     }
 
     emit selectionChanged();
+    emit mountPointChanged();
     printf("Selection changed!!!\n");
 }
 
@@ -159,8 +158,12 @@ WindowController::writeProtection(isize d, isize v) const
 QString
 WindowController::currentMountPoint() const
 {
-    if (auto *v = currentVolume()) return QString::fromStdString(v->getMountPoint().string());
+    printf("currentMountPoint...\n");
+    if (auto *v = currentVolume()) {
 
+        printf("MP: %s\n", v->getMountPoint().string().c_str());
+        return QString::fromStdString(v->getMountPoint().string());
+    }
     return "";
 }
 
@@ -174,7 +177,9 @@ void
 WindowController::addImage(const QUrl &url)
 {
     auto path = fs::path(url.toLocalFile().toStdString());
-    auto mountPoint = path.stem();
+    auto mountPoint = "/Volumes" / path.stem();
+
+    printf("addImage: mountPoint = %s\n", mountPoint.c_str());
 
     try {
 
