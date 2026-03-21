@@ -64,6 +64,8 @@ Rectangle {
         function textColor(blk: int, row: int, col: int) : color {
 
             if (!scanner) return Style.primary
+            if (row === tableView.selectedRow && col === tableView.selectedColumn)
+                return "#ffffff" // Style.highlight
             if (col === 0 || col === tableView.columns - 1)
                 return Style.primary
             return scanner.hasError(blk, offset(row, col)) ? Style.error : Style.primary
@@ -118,7 +120,7 @@ Rectangle {
         implicitHeight: 20
 
         color: (row === tableView.selectedRow && column === tableView.selectedColumn)
-            ? "#87cefa"   // light blue
+            ? Style.accent
             : "transparent"
 
         Label {

@@ -102,7 +102,6 @@ Item {
                     value: pc.block
                     pointSize: Style.regular
                     onValueModified: pc.block = value
-                    //onMoved: pc.block = value
                 }
 
                 Label {
@@ -118,7 +117,7 @@ Item {
                 Label {
                     id: errorString
                     text: volumeScanner.errorInfo(pc.block, offset(blockView.selectedRow, blockView.selectedColumn))
-                    color: "red"
+                    color: Style.error
                     Layout.alignment: Qt.AlignHCenter
                 }
             }

@@ -42,7 +42,6 @@ GridLayout {
             topPadding: -5
             bottomPadding: -5
             color: Style.primary
-            // background: Rectangle { color: "red" }
         }
         Label {
             text: qsTr("Where Sectors Come to Life")
@@ -51,6 +50,12 @@ GridLayout {
             font.weight: 400 // Font.Light
             color: Style.secondary
             // Layout.alignment: Qt.AlignLeft
+        }
+        Label {
+            // visible: false
+            text: qsTr("BETA RELEASE: BACK UP IMAGE FILES BEFORE MOUNTING!")
+            font.pixelSize: Style.small
+            color: Style.error
         }
     }
 

@@ -44,6 +44,11 @@ Item {
 
         Spacer {}
 
+        Label {
+            text: qsTr("v0.9b1")
+            font.pixelSize: Style.regular
+            // color: Style.error
+        }
         LinkButton {
             imageSource: Assets.iconUrl(Assets.GitHub)
             size: Style.iconMedium

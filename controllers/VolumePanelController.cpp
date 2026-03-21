@@ -203,7 +203,7 @@ VolumePanelController::computeLegend() const
             QVariantMap{{"color", getDirectoryBlockColor()}, {"label", QStringLiteral("User Directory Block")}},
             QVariantMap{{"color", getListBlockColor()}, {"label", QStringLiteral("File List Block")}},
             QVariantMap{{"color", getRootBlockColor()}, {"label", QStringLiteral("Root Block")}},
-            QVariantMap{{"color", getBitmapBlockColor()}, {"label", QStringLiteral("Bitmap Extension Block")}},
+            QVariantMap{{"color", getBitmapExtBlockColor()}, {"label", QStringLiteral("Bitmap Extension Block")}},
             QVariantMap{{"color", getHeaderBlockColor()}, {"label", QStringLiteral("File Header Block")}},
             QVariantMap{{"color", getDataBlockColor()}, {"label", QStringLiteral("Data Block")}}
         };

@@ -118,6 +118,7 @@ Item {
                 spacing: 0
                 visible: scanner.healthInfo !== ""
 
+                /*
                 ImageButton {
                     size: Style.iconMedium
                     icon.source: Assets.iconUrl(Assets.ArrowPrev)
@@ -132,6 +133,18 @@ Item {
                 ImageButton {
                     size: Style.iconMedium
                     icon.source: Assets.iconUrl(Assets.ArrowNext)
+                    MyToolTip {
+                        text: qsTr("Goto Next Corrupted Block")
+                    }
+                    onClicked: {
+                        panelController.gotoNextCorruptedBlock()
+                    }
+                }
+                */
+
+                ImageButton {
+                    size: Style.iconMedium
+                    icon.source: Assets.iconUrl(Assets.Search)
                     MyToolTip {
                         text: qsTr("Goto Next Corrupted Block")
                     }
