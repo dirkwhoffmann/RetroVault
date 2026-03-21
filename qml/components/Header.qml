@@ -65,7 +65,7 @@ Pane {
             Rectangle {
 
                 height: 1
-                color: Style.secondary
+                color: Style.border
                 Layout.columnSpan: 5 // gridColumns
                 Layout.fillWidth: true
                 Layout.topMargin: 2

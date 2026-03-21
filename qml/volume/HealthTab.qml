@@ -153,7 +153,7 @@ Item {
 
             ImageButton {
                 size: Style.iconMedium
-                icon.source: Assets.iconUrl(Assets.Wrench)
+                icon.source: Assets.iconUrl(Assets.Doctor)
                 onClicked: {
                     console.log("Rectify health map clicked")
                     panelController.rectifyHealthMap(scanner.strict)

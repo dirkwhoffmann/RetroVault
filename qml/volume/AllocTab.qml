@@ -138,7 +138,7 @@ Item {
 
             ImageButton {
                 size: Style.iconMedium
-                icon.source: Assets.iconUrl(Assets.Wrench)
+                icon.source: Assets.iconUrl(Assets.Doctor)
                 onClicked: {
                     console.log("Rectify alloc map clicked")
                     panelController.rectifyAllocMap(scanner.strict)

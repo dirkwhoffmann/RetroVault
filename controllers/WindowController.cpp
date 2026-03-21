@@ -116,9 +116,14 @@ QString
 WindowController::deviceIcon(isize d) const
 {
     static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
-        {"ADF", Assets::Floppy35DD}, {"ADZ", Assets::Floppy35DD}, {"EADF", Assets::Floppy35DD},
-        {"DMS", Assets::Floppy35DD}, {"IMG", Assets::Floppy35DD}, {"ST", Assets::Floppy35DD},
-        {"D64", Assets::Floppy525DD}};
+        {"ADF",  Assets::Icon::Floppy35DD },
+        {"ADZ",  Assets::Icon::Floppy35DD },
+        {"EADF", Assets::Icon::Floppy35DD },
+        {"DMS",  Assets::Icon::Floppy35DD },
+        {"IMG",  Assets::Icon::Floppy35DD },
+        {"ST",   Assets::Icon::Floppy35DD },
+        {"D64",  Assets::Icon::Floppy525DD}
+    };
 
     auto url = QString();
     if (auto it = formatSuffixes.find(diskImageFormat(d).toStdString()); it != formatSuffixes.end()) {
@@ -131,9 +136,14 @@ QString
 WindowController::volumeIcon(isize d, isize v) const
 {
     static const std::unordered_map<string, Assets::Icon> formatSuffixes = {
-        {"ADF", Assets::VolumeAmiga}, {"ADZ", Assets::VolumeAmiga}, {"EADF", Assets::VolumeAmiga},
-        {"DMS", Assets::VolumeAmiga}, {"IMG", Assets::VolumeDOS},   {"ST", Assets::VolumeST},
-        {"D64", Assets::VolumeCBM}};
+        {"ADF",  Assets::Icon::VolumeAmiga},
+        {"ADZ",  Assets::Icon::VolumeAmiga},
+        {"EADF", Assets::Icon::VolumeAmiga},
+        {"DMS",  Assets::Icon::VolumeAmiga},
+        {"IMG",  Assets::Icon::VolumeDOS  },
+        {"ST",   Assets::Icon::VolumeST   },
+        {"D64",  Assets::Icon::VolumeCBM  }
+    };
 
     auto url = QString();
 
@@ -169,16 +179,18 @@ WindowController::requestOpenImage()
 void
 WindowController::addImage(const QUrl &url)
 {
-
     QFile file(url.toLocalFile());
 
     try {
+
         printf("addImage(%s)\n", url.toLocalFile().toStdString().c_str());
         manager->add(url.toLocalFile().toStdString());
         select(getNumDevices() - 1, -1);
         emit numDevicesChanged();
         emit imageAdded();
+
     } catch (std::exception &e) {
+
         rethrow(e);
     }
 }
@@ -186,8 +198,8 @@ WindowController::addImage(const QUrl &url)
 void
 WindowController::remove()
 {
-
     try {
+
         if (volume == -1) {
             manager->remove(device);
         } else {
@@ -195,7 +207,9 @@ WindowController::remove()
         }
         device = -1;
         volume = -1;
+
     } catch (std::exception &e) {
+
         rethrow(e);
     }
 
@@ -207,12 +221,15 @@ void
 WindowController::save()
 {
     try {
+
         if (volume == -1) {
             manager->save(device);
         } else {
             manager->save(device, volume);
         }
+
     } catch (std::exception &e) {
+
         rethrow(e);
     }
 }

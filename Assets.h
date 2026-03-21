@@ -19,7 +19,7 @@ class Assets : public QObject
 
 public:
 
-    enum Icon {
+    enum class Icon {
 
         Unknown,
 
@@ -28,6 +28,7 @@ public:
         ArrowPrev,
         Burger,
         Checked,
+        Doctor,
         Eject,
         Folder,
         GitHub,
@@ -39,6 +40,7 @@ public:
         Sync,
         Unchecked,
         Unlocked,
+        Vaccine,
         Wrench,
 
         // Images

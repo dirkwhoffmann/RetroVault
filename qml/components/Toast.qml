@@ -6,12 +6,15 @@ Rectangle {
     id: root
     property alias text: label.text
 
-    anchors.horizontalCenter: parent.horizontalCenter
+    // anchors.horizontalCenter: parent.horizontalCenter
+    anchors.right: parent.right
+    anchors.rightMargin: Style.largeSpacing
     y: parent.height // Start off-screen
     width: Math.min(parent.width * 0.8, 400)
     height: 50
-    radius: 8
-    color: "#333333"
+    radius: Style.borderRadius
+    border.color: Style.border
+    color: Style.secondaryBg
     opacity: 0
     z: 100
 
@@ -23,15 +26,15 @@ Rectangle {
         Rectangle {
             width: 4
             Layout.fillHeight: true
-            color: Style.accent // Or Style.error
+            color: Style.accent
             radius: 2
         }
 
         Label {
             id: label
             Layout.fillWidth: true
-            color: "white"
-            font.pointSize: 11
+            color: Style.primary
+            font.pointSize: Style.small
             elide: Text.ElideRight
         }
     }
@@ -40,16 +43,23 @@ Rectangle {
     SequentialAnimation on y {
         id: anim
         running: false
-        NumberAnimation { to: root.parent.height - 80; duration: 400; easing.type: Easing.OutCubic }
-        PauseAnimation  { duration: 3000 }
-        NumberAnimation { to: root.parent.height; duration: 400; easing.type: Easing.InCubic }
+        NumberAnimation {
+            to: root.parent.height - 80; duration: 400; easing.type: Easing.OutCubic
+        }
+        PauseAnimation {
+            duration: 4000
+        }
+        NumberAnimation {
+            to: root.parent.height; duration: 400; easing.type: Easing.InCubic
+        }
         onFinished: root.destroy() // Clean up memory after showing
     }
 
     NumberAnimation on opacity {
         id: fade
         running: anim.running
-        from: 0; to: 1; duration: 400
+        from: 0;
+        to: 1; duration: 400
     }
 
     Component.onCompleted: anim.start()

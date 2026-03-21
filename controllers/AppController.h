@@ -16,27 +16,20 @@ class AppController : public Controller {
     Q_OBJECT
 
   public:
-    static AppController *
-    instance();
-    static AppController *
-    create(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
+
+    static AppController *instance();
+    static AppController *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
     using Controller::Controller;
 
-    Q_INVOKABLE bool
-    hasFuse() const;
-    Q_INVOKABLE void
-    showError(const QString &message);
-    Q_INVOKABLE void
-    showNotification(const QString &message);
+    Q_INVOKABLE bool hasFuse() const;
+    Q_INVOKABLE void showError(const QString &message);
+    Q_INVOKABLE void showNotification(const QString &message);
 
-    void
-    rethrow(std::exception &e);
+    void rethrow(std::exception &e);
 
   signals:
 
-    void
-    requestErrorDialog(const QString &message);
-    void
-    requestNotificationDialog(const QString &message);
+    void requestErrorDialog(const QString &message);
+    void requestNotificationDialog(const QString &message);
 };

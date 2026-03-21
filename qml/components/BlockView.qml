@@ -66,7 +66,7 @@ Rectangle {
             if (!scanner) return Style.primary
             if (col === 0 || col === tableView.columns - 1)
                 return Style.primary
-            return scanner.hasError(blk, row, col - 1) ? Style.error : Style.primary
+            return scanner.hasError(blk, offset(row, col)) ? Style.error : Style.primary
         }
 
     /*
@@ -75,7 +75,7 @@ Rectangle {
         if (!scanner) return Style.primaryBg
         if (col === 0 || col === tableView.columns - 1)
             return Style.primaryBg
-        return scanner.hasError(blk, row, col - 1) ? : Style.error : Style.primaryBg
+        return scanner.hasError(blk, offset(row, col)) ? : Style.error : Style.primaryBg
     }
     */
 
