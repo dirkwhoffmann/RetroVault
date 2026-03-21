@@ -17,6 +17,7 @@ Item {
     height: parent.height
 
     required property WindowController windowController
+    property bool dragActive: false
 
     SidebarController {
 
@@ -29,6 +30,41 @@ Item {
         id: sidebarRect
         anchors.fill: parent
         color: Style.secondaryBg // "red"
+
+        DropArea {
+
+            id: globalDropArea
+            anchors.fill: parent
+
+            onEntered: (drag) => {
+
+                if (drag.hasUrls) {
+                    dragActive = true
+                    drag.accept(Qt.LinkAction);
+                }
+            }
+
+            onExited: dragActive = false
+
+            onDropped: (drop) => {
+
+                dragActive = false
+                if (drop.hasUrls) {
+                    for (var i = 0; i < drop.urls.length; i++) {
+                        console.log("Dropped file:", drop.urls[i]);
+                        windowController.addImage(drop.urls[i])
+                    }
+                    drop.acceptProposedAction();
+                }
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+            border.color: dragActive ? Style.border : "transparent"
+            border.width: 4
+        }
 
         Label {
             anchors.centerIn: parent
@@ -55,8 +91,11 @@ Item {
             alternatingRows: true
             model: panelController.sidebarModel
             selectionMode: TreeView.SingleSelection
-            selectionModel: ItemSelectionModel { }
-            columnWidthProvider: function(column) { return treeView.width }
+            selectionModel: ItemSelectionModel {
+            }
+            columnWidthProvider: function (column) {
+                return treeView.width
+            }
 
             delegate: TreeViewDelegate {
 
@@ -101,7 +140,7 @@ Item {
                             text: subtitle
                             visible: subtitle !== ""
                             font.pixelSize: 11
-                            color:  highlighted ? "white" : treeView.palette.text
+                            color: highlighted ? "white" : treeView.palette.text
                             Layout.fillWidth: true
                             elide: Text.ElideRight
                         }
@@ -120,8 +159,6 @@ Item {
     }
 
     function refresh() {
-
-        console.log("Sidebar::refresh")
         panelController.refresh()
     }
 }
