@@ -20,14 +20,19 @@ ToolBar {
     required property WindowController windowController
     property real sidebarWidth: 200
 
-    RowLayout {
+    topPadding: Style.smallSpacing
+    bottomPadding: Style.smallSpacing
+
+    contentItem: RowLayout {
 
         anchors.fill: parent
-        spacing: Style.mediumSpacing
+        spacing: 0
+
+        // DebugRect{}
 
         Item {
 
-            Layout.preferredWidth: sidebarWidth + 2
+            Layout.preferredWidth: sidebarWidth + 2 * Style.smallSpacing
             Layout.fillHeight: true
 
             RowLayout {
@@ -72,7 +77,7 @@ ToolBar {
             MyToolTip { text: "Open in Finder" }
 
             onClicked: {
-                Qt.openUrlExternally(wc.mountPoint)
+                Qt.openUrlExternally(windowController.mountPoint)
             }
         }
         NavButton {

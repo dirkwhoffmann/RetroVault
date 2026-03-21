@@ -28,7 +28,7 @@ Item {
 
         id: sidebarRect
         anchors.fill: parent
-        color: Style.secondaryBg
+        color: Style.secondaryBg // "red"
 
         Label {
             anchors.centerIn: parent
@@ -53,7 +53,6 @@ Item {
             }
             clip: true
             alternatingRows: true
-            topMargin: 10
             model: panelController.sidebarModel
             selectionMode: TreeView.SingleSelection
             selectionModel: ItemSelectionModel { }

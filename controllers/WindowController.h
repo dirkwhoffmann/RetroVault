@@ -14,14 +14,14 @@
 #include <QObject>
 #include <QUrl>
 
-class WindowController : public Controller
-{
+class WindowController : public Controller {
     Q_OBJECT
 
-protected:
+  protected:
 
     // Gateway to the device manager
-    DeviceManager *manager = nullptr;
+    std::unique_ptr<DeviceManager> manager;
+    // DeviceManager *manager = nullptr;
 
     // Current selection
     int device = -1;
@@ -33,7 +33,8 @@ protected:
     // File system generation
     isize generation = -1;
 
-public:
+  public:
+
     Q_PROPERTY(int device READ getDevice WRITE setDevice NOTIFY selectionChanged)
     Q_PROPERTY(int volume READ getVolume WRITE setVolume NOTIFY selectionChanged)
     Q_PROPERTY(bool isDirty READ getIsDirty NOTIFY isDirtyChanged)
@@ -52,26 +53,26 @@ public:
     // Getter
     //
 
-public:
+  public:
 
-    DeviceManager* getManager() const { return manager; }
+    DeviceManager *getManager() const { return manager.get(); }
     int getDevice() const { return device; }
     int getVolume() const { return volume; }
     bool getIsDirty() const { return isDirty; }
-    int getGeneration() const { return  (int)generation; }
+    int getGeneration() const { return (int)generation; }
     int getNumDevices() const { return manager->numDevices(); }
 
     //
     // Setter
     //
 
-protected:
+  protected:
 
     void setDevice(int value);
     void setVolume(int value);
     void setProtected(bool value);
 
-public:
+  public:
 
     FuseDevice *fuseDevice(isize d) const;
     FuseVolume *fuseVolume(isize d, isize v) const;
@@ -87,10 +88,10 @@ public:
     QString currentImageFormat() const { return diskImageFormat(device); }
     QString currentDeviceIcon() const { return deviceIcon(device); }
     QString currentVolumeIcon() const { return volumeIcon(device, volume); }
-    bool currentWriteProtection() const  { return writeProtection(device, volume); }
+    bool currentWriteProtection() const { return writeProtection(device, volume); }
     QString currentMountPoint() const;
 
-    signals:
+  signals:
     void openImageRequested();
     void modelChanged();
     void selectionChanged();
@@ -104,7 +105,7 @@ public:
     void mountPointChanged();
     void imageAdded();
 
-public slots:
+  public slots:
     void requestOpenImage();
     void addImage(const QUrl &url);
     void remove();

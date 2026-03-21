@@ -83,7 +83,9 @@ ApplicationWindow {
     header: MyToolbar {
 
         id: mainToolbar
+        // padding: 50
         windowController: wc
+        sidebarWidth: mySidebar.width
     }
 
     // title: "RetroVault"
@@ -123,7 +125,7 @@ ApplicationWindow {
             SplitView.fillHeight: true
             z: 1
 
-            onWidthChanged: mainToolbar.sidebarWidth = width
+            // onWidthChanged: mainToolbar.sidebarWidth = width
         }
 
         StackView {
@@ -187,32 +189,6 @@ ApplicationWindow {
             mainStack.replace(devicePanel);
         } else {
             mainStack.replace(volumePanel);
-        }
-    }
-
-    // Experimental
-    // Inside ApplicationWindow.qml
-
-    Connections {
-        target: AppController
-
-        function onRequestErrorDialog(message) {
-            // Option A: The "Hard" stop (Modal)
-            errorDialog.text = message
-            errorDialog.open()
-
-            // Option B: The "Soft" notification (Toast)
-
-            showToast(message)
-        }
-    }
-
-    function showToast(message) {
-        const component = Qt.createComponent("components/Toast.qml");
-        if (component.status === Component.Ready) {
-            // Create the toast as a child of the root window
-            component.
-            createObject(root, {"text": message});
         }
     }
 }

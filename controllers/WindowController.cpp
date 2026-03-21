@@ -13,20 +13,14 @@
 #include "FuseVolume.h"
 #include <QFile>
 
-WindowController::WindowController(QObject *parent) : Controller(parent) { manager = new DeviceManager(); }
-
-WindowController::~WindowController() { delete manager; }
-
-/*
-QString
-WindowController::getImageFormat() const
+WindowController::WindowController(QObject *parent) : Controller(parent)
 {
-    if (const auto *img = currentImage())
-        return QString::fromStdString(ImageFormatEnum::key(img->format()));
-
-    return "";
+    manager = std::make_unique<DeviceManager>();
 }
-*/
+
+WindowController::~WindowController()
+{
+}
 
 void
 WindowController::setDevice(int value)

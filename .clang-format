@@ -43,6 +43,7 @@ EmptyLineAfterAccessModifier: Always
 
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Inline
 IndentCaseLabels: true
 
 SpaceBeforeCpp11BracedList: true
