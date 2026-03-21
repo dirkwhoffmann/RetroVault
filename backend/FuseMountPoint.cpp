@@ -14,28 +14,26 @@
 
 using namespace utl;
 
-fuse_operations
-FuseMountPoint::callbacks = {
+fuse_operations FuseMountPoint::callbacks = {
 
-    .getattr    = hooks::getattr,
-    .mkdir      = hooks::mkdir,
-    .unlink     = hooks::unlink,
-    .rmdir      = hooks::rmdir,
-    .rename     = hooks::rename,
-    .chmod      = hooks::chmod,
-    .truncate   = hooks::truncate,
-    .open       = hooks::open,
-    .read       = hooks::read,
-    .write      = hooks::write,
-    .statfs     = hooks::statfs,
-    .release    = hooks::release,
-    .readdir    = hooks::readdir,
-    .init       = hooks::init,
-    .destroy    = hooks::destroy,
-    .access     = hooks::access,
-    .create     = hooks::create,
-    .utimens    = hooks::utimens
-};
+    .getattr  = hooks::getattr,
+    .mkdir    = hooks::mkdir,
+    .unlink   = hooks::unlink,
+    .rmdir    = hooks::rmdir,
+    .rename   = hooks::rename,
+    .chmod    = hooks::chmod,
+    .truncate = hooks::truncate,
+    .open     = hooks::open,
+    .read     = hooks::read,
+    .write    = hooks::write,
+    .statfs   = hooks::statfs,
+    .release  = hooks::release,
+    .readdir  = hooks::readdir,
+    .init     = hooks::init,
+    .destroy  = hooks::destroy,
+    .access   = hooks::access,
+    .create   = hooks::create,
+    .utimens  = hooks::utimens};
 
 void
 FuseMountPoint::setListener(void *listener, AdapterCallback *callback)

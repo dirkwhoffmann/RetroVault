@@ -7,22 +7,18 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
 #include "FuseVolume.h"
-#include "FuseDevice.h"
-#include "FileSystems/Amiga/PosixAdapter.h"
 #include "FileSystems/Amiga/FileSystem.h"
-#include "FileSystems/CBM/PosixAdapter.h"
+#include "FileSystems/Amiga/PosixAdapter.h"
 #include "FileSystems/CBM/FileSystem.h"
+#include "FileSystems/CBM/PosixAdapter.h"
+#include "FuseDevice.h"
+#include "config.h"
 #include <format>
 
 using namespace retro::vault;
 
-FuseVolume::FuseVolume(class FuseDevice &d, unique_ptr<Volume> v) :
-device(d), vol(std::move(v))
-{
-    
-}
+FuseVolume::FuseVolume(class FuseDevice &d, unique_ptr<Volume> v) : device(d), vol(std::move(v)) {}
 
 FuseAmigaVolume::FuseAmigaVolume(FuseDevice &d, unique_ptr<Volume> v) : FuseVolume(d, std::move(v))
 {
@@ -50,7 +46,6 @@ FuseCBMVolume::FuseCBMVolume(class FuseDevice &d, unique_ptr<Volume> v) : FuseVo
     dos = std::make_unique<cbm::PosixAdapter>(*this->fs);
 }
 
-
 FuseVolume::~FuseVolume()
 {
     printf("Destroying FuseVolume\n");
@@ -61,15 +56,14 @@ FuseVolume::getattr(const char *path, struct stat *st)
 {
     memset(st, 0, sizeof(*st));
 
-    return fsexec([&]{
+    return fsexec([&] {
+        auto attr                    = dos->attr(path);
+        auto create                  = attr.ctime;
+        auto modify                  = attr.mtime;
 
-        auto attr   = dos->attr(path);
-        auto create = attr.ctime;
-        auto modify = attr.mtime;
-
-        st->st_mode = attr.prot;
-        st->st_nlink = 1;
-        st->st_size = attr.size;
+        st->st_mode                  = attr.prot;
+        st->st_nlink                 = 1;
+        st->st_size                  = attr.size;
         st->st_birthtimespec.tv_sec  = create;
         st->st_birthtimespec.tv_nsec = 0;
         st->st_mtimespec.tv_sec      = modify ? modify : create;
@@ -86,8 +80,7 @@ FuseVolume::getattr(const char *path, struct stat *st)
 int
 FuseVolume::mkdir(const char *path, mode_t mode)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->mkdir(path);
         return 0;
     });
@@ -96,8 +89,7 @@ FuseVolume::mkdir(const char *path, mode_t mode)
 int
 FuseVolume::unlink(const char *path)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->unlink(path);
         return 0;
     });
@@ -106,8 +98,7 @@ FuseVolume::unlink(const char *path)
 int
 FuseVolume::rmdir(const char *path)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->rmdir(path);
         return 0;
     });
@@ -116,8 +107,7 @@ FuseVolume::rmdir(const char *path)
 int
 FuseVolume::rename(const char *oldpath, const char *newpath)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->move(oldpath, newpath);
         return 0;
     });
@@ -126,8 +116,7 @@ FuseVolume::rename(const char *oldpath, const char *newpath)
 int
 FuseVolume::chmod(const char *path, mode_t mode)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->chmod(path, mode);
         return 0;
     });
@@ -136,32 +125,30 @@ FuseVolume::chmod(const char *path, mode_t mode)
 int
 FuseVolume::truncate(const char *path, off_t size)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->resize(path, size);
         return 0;
-    });}
+    });
+}
 
 int
 FuseVolume::open(const char *path, struct fuse_file_info *fi)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         fi->fh = (uint64_t)dos->open(path, (u32)fi->flags);
         return 0;
     });
 }
 
 int
-FuseVolume::read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi)
+FuseVolume::read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         auto handle = HandleRef(fi->fh);
-        
+
         dos->lseek(handle, offset);
-        auto count = dos->read(handle, std::span{(u8 *)buf, size});
-        
+        auto count = dos->read(handle, std::span {(u8 *)buf, size});
+
         return int(count);
     });
 }
@@ -169,13 +156,12 @@ FuseVolume::read(const char *path, char *buf, size_t size, off_t offset, struct 
 int
 FuseVolume::write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         auto handle = HandleRef(fi->fh);
-        
+
         dos->lseek(handle, offset);
-        auto count = dos->write(handle, std::span{(u8 *)buf, size});
-        
+        auto count = dos->write(handle, std::span {(u8 *)buf, size});
+
         return int(count);
     });
 }
@@ -190,16 +176,16 @@ FuseVolume::statfs(const char *path, struct statvfs *st)
     const auto total = (fsblkcnt_t)stat.blocks;
     const auto free  = (fsblkcnt_t)stat.freeBlocks;
 
-    st->f_bsize   = bsize;          // Preferred block size
-    st->f_frsize  = bsize;          // Fundamental block size
+    st->f_bsize      = bsize; // Preferred block size
+    st->f_frsize     = bsize; // Fundamental block size
 
-    st->f_blocks  = total;          // Total data blocks in FS
-    st->f_bfree   = free;           // Free blocks
-    st->f_bavail  = free;           // Same as bfree (no root user concept)
+    st->f_blocks     = total; // Total data blocks in FS
+    st->f_bfree      = free;  // Free blocks
+    st->f_bavail     = free;  // Same as bfree (no root user concept)
 
-    st->f_fsid    = 0;              // Not required — FUSE ignores this
-    st->f_flag    = 0;              // No mount flags
-    st->f_namemax = 30;             // Amiga filename limit (OFS/FFS)
+    st->f_fsid       = 0;     // Not required — FUSE ignores this
+    st->f_flag       = 0;     // No mount flags
+    st->f_namemax    = 30;    // Amiga filename limit (OFS/FFS)
 
     return 0;
 }
@@ -207,20 +193,17 @@ FuseVolume::statfs(const char *path, struct statvfs *st)
 int
 FuseVolume::release(const char *path, struct fuse_file_info *fi)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->close(HandleRef(fi->fh));
         return 0;
     });
 }
 
 int
-FuseVolume::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
-                          off_t offset, struct fuse_file_info *fi)
+FuseVolume::readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi)
 {
-    return fsexec([&]{
-
-        filler(buf, ".",  NULL, 0);
+    return fsexec([&] {
+        filler(buf, ".", NULL, 0);
         filler(buf, "..", NULL, 0);
 
         /*
@@ -236,7 +219,7 @@ FuseVolume::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 }
 
 void *
-FuseVolume::init(struct fuse_conn_info *conn)
+FuseVolume::init(fuse_conn_info *conn)
 {
     return nullptr;
 }
@@ -244,7 +227,6 @@ FuseVolume::init(struct fuse_conn_info *conn)
 void
 FuseVolume::destroy(void *)
 {
-
 }
 
 int
@@ -256,8 +238,7 @@ FuseVolume::access(const char *path, const int mask)
 int
 FuseVolume::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
-    return fsexec([&]{
-
+    return fsexec([&] {
         dos->create(path);
         fi->fh = (uint64_t)dos->open(path, mode);
         return 0;
@@ -282,7 +263,7 @@ FuseVolume::push()
 {
     // Write all dirty blocks back to the image
     flush();
-    
+
     // Write the image back to the image file
     device.image->save(getRange());
 }
@@ -338,11 +319,11 @@ string
 FuseAmigaVolume::xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
 {
     using amiga::FSBlockError;
-    
+
     auto error = fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
-    
+
     switch (error) {
-            
+
         case FSBlockError::OK:
             return "";
         case FSBlockError::EXPECTED_VALUE:
@@ -389,7 +370,7 @@ FuseAmigaVolume::usedButUnallocated() const
 {
     return fs->doctor.diagnosis.usedButUnallocated;
 }
-    
+
 const std::vector<BlockNr> &
 FuseAmigaVolume::unusedButAllocated() const
 {
@@ -434,7 +415,7 @@ FuseAmigaVolume::createHealthMap(u8 *buf, isize len) const
 vector<string>
 FuseCBMVolume::blockTypes() const noexcept
 {
-    
+
     vector<string> result;
     result.reserve(cbm::FSBlockTypeEnum::maxVal);
     for (isize i = 0; i < cbm::FSBlockTypeEnum::maxVal; ++i) {
@@ -478,11 +459,11 @@ string
 FuseCBMVolume::xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
 {
     using cbm::FSBlockError;
-    
+
     auto error = fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
-    
+
     switch (error) {
-            
+
         case FSBlockError::OK:
             return "";
         case FSBlockError::EXPECTED_VALUE:
@@ -507,7 +488,7 @@ FuseCBMVolume::usedButUnallocated() const
 {
     return fs->doctor.diagnosis.usedButUnallocated;
 }
-    
+
 const std::vector<BlockNr> &
 FuseCBMVolume::unusedButAllocated() const
 {

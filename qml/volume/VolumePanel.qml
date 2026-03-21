@@ -24,9 +24,10 @@ Item {
     }
 
     Connections {
-        target: windowController
-        function onSelectionChanged() { pc.refresh(); }
+        target: root.windowController
         function onGenerationChanged() { pc.refresh(); }
+        function onIsDirtyChanged() { pc.refresh(); }
+        function onSelectionChanged() { pc.refresh(); }
     }
 
     VolumePanelController {

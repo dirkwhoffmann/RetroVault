@@ -23,6 +23,10 @@ AlignConsecutiveShortCaseStatements:
   AcrossComments: true
   AlignCaseColons: false
 
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 1
+
 AllowAllParametersOfDeclarationOnNextLine: true
 
 BraceWrapping:

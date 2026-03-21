@@ -41,31 +41,15 @@ FuseDevice::FuseDevice(const fs::path &path)
             throw IOError(IOError::FILE_TYPE_UNSUPPORTED);
     }
 
-    // image = std::make_unique<MediaFile>(filename);
-
     /*
+    image = std::make_unique<MediaFile>(filename);
+
     if (image->type() != FileType::ADF) {
 
         warn("%s is not an ADF. Aborting.\n", filename.string().c_str());
         return;
     }
     */
-
-    // Get the ADF
-    // unique_ptr<ADFFile> adf = make_unique<ADFFile>(filename);
-
-    // image = std::move(adf);
-
-    // Create the block device
-    // mylog("Creating block device...\n");
-    // image = make_unique<ADFFile>(filename); // std::move(adf);
-
-    // Create a logical volume
-    // mylog("Creating volume...\n");
-    // unique_ptr<Volume> vol = make_unique<Volume>(*image);
-
-    // mylog("Creating FuseVolume...\n");
-    // volumes.push_back(make_unique<FuseAmigaVolume>(std::move(vol)));
 
     loginfo(FUSE_DEBUG, "Installed volumes: %zu\n", volumes.size());
 }

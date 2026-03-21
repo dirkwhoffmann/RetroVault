@@ -32,6 +32,7 @@ ApplicationWindow {
     }
 
     Connections {
+
         target: AppController
 
         function onRequestErrorDialog(message) {
@@ -50,6 +51,7 @@ ApplicationWindow {
     }
 
     MessageDialog {
+
         id: errorDialog
         title: "RetroVault Error"
         buttons: MessageDialog.Ok

@@ -176,7 +176,7 @@ WindowController::requestOpenImage()
 void
 WindowController::addImage(const QUrl &url)
 {
-    auto path = fs::path(url.toLocalFile().toStdString());
+    auto path       = fs::path(url.toLocalFile().toStdString());
     auto mountPoint = "/Volumes" / path.stem();
 
     printf("addImage: mountPoint = %s\n", mountPoint.c_str());
@@ -227,6 +227,7 @@ WindowController::save()
         } else {
             manager->save(device, volume);
         }
+        // emit isDirtyChanged();
 
     } catch (std::exception &e) {
 
