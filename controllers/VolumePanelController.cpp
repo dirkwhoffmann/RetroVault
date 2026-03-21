@@ -173,12 +173,15 @@ VolumePanelController::refresh()
         auto txt2 = QString::fromStdString(info.size() > 1 ? info[1] : "");
         auto txt3 = "";
 
+        auto reads = QString::asprintf("%lld Bytes", fv->reads());
+        auto writes = QString::asprintf("%lld Bytes", fv->writes());
+
         list << txt1;
         list << "Blocks:" << qint64(stat.blocks) << "Cached:" << qint64(stat.cachedBlocks);
         list << txt2;
         list << "Used:" << qint64(stat.usedBlocks) << "Dirty:" << qint64(stat.dirtyBlocks);
         list << txt3;
-        list << "Read:" << qint64(fv->reads()) << "Write:" << qint64(fv->writes());
+        list << "Read:" << reads << "Write:" << writes;
 
         tableModel.refresh(blkNr);
 

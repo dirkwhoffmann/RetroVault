@@ -72,21 +72,20 @@ GridLayout {
     // 4. Lower Right: Multi-line Text with different sizes
     ColumnLayout {
         Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-        // pacing: 25
 
+        /*
         Label {
             text: qsTr("Drag an image file onto this window to add a file system. ")
             font.pixelSize: 14
             color: Style.tertiary
-            // Layout.alignment: Qt.AlignLeft
         }
+         */
         Label {
             text: qsTr("Supported image formats:")
             font.pixelSize: 14
             horizontalAlignment: Text.AlignLeft
             color: Style.tertiary
-            // Layout.alignment: Qt.AlignLeft
-            Layout.topMargin: 25
+            // Layout.topMargin: 25
         }
 
         GridLayout {

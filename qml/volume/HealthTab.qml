@@ -114,6 +114,10 @@ Item {
 
             Layout.fillWidth: true
 
+            Label {
+                text: scanner.healthInfo
+            }
+
             Row {
                 spacing: 0
                 visible: scanner.healthInfo !== ""
@@ -145,6 +149,8 @@ Item {
                 ImageButton {
                     size: Style.iconMedium
                     icon.source: Assets.iconUrl(Assets.Search)
+                    background: Rectangle { color: "transparent" }
+
                     MyToolTip {
                         text: qsTr("Goto Next Corrupted Block")
                     }
@@ -152,10 +158,6 @@ Item {
                         panelController.gotoNextCorruptedBlock()
                     }
                 }
-            }
-
-            Label {
-                text: scanner.healthInfo
             }
 
             Spacer {}

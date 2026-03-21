@@ -14,7 +14,7 @@ ColorBar::ColorBar(QQuickItem *parent) : CustomComponent(parent) {
     printf("ColorBar created\n");
     setAntialiasing(true);
 
-    m_cachedImage = QImage(1024, 24, QImage::Format_ARGB32);
+    m_cachedImage = QImage(1024, 48, QImage::Format_ARGB32);
     m_cachedImage.fill(Qt::transparent);
 }
 
@@ -43,7 +43,8 @@ void
 ColorBar::updateImage()
 {
     int w = m_rawData.size();
-    int h = 24;
+    int h = m_cachedImage.height();
+    float step = 175.0 / (double)h;
 
     for (int x = 0; x < w; ++x) {
 
@@ -52,7 +53,7 @@ ColorBar::updateImage()
 
         for (int y = 0; y < h; ++y) {
 
-            float factor = qMax(0, 255 - 2 * y) / 255.0f;
+            float factor = qMax(0.0f, 255.0 - step * y) / 255.0f;
 
             int r = static_cast<int>(color.red()   * factor);
             int g = static_cast<int>(color.green() * factor);

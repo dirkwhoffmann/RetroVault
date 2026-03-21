@@ -11,11 +11,12 @@ import QtQuick
 import QtQuick.Controls
 
 RoundButton {
+
     id: control
 
     property url imageSource: ""
     property real size: Style.iconLarge
-    property real iconScale: 0.8 // 0.6
+    property real iconScale: 0.8
 
     implicitWidth: size
     implicitHeight: size
