@@ -70,13 +70,13 @@ GridLayout {
         // pacing: 25
 
         Label {
-            text: "Drag an image file onto this window to add a file system. "
+            text: qsTr("Drag an image file onto this window to add a file system. ")
             font.pixelSize: 14
             color: Style.tertiary
             // Layout.alignment: Qt.AlignLeft
         }
         Label {
-            text: "Supported image formats:"
+            text: qsTr("Supported image formats:")
             font.pixelSize: 14
             horizontalAlignment: Text.AlignLeft
             color: Style.tertiary
@@ -91,10 +91,10 @@ GridLayout {
             columnSpacing: 10
             Layout.topMargin: 10
 
-            Label { text: ".ADF:"; color: Style.tertiary; font.bold: false }
-            Label { text: "Commodore Amiga Floppy Disk"; color: Style.tertiary }
-            Label { text: ".D64:"; color: Style.tertiary; font.bold: false }
-            Label { text: "Commodore 64 Floppy Disk"; color: Style.tertiary }
+            Label { text: qsTr(".ADF:"); color: Style.tertiary; font.bold: false }
+            Label { text: qsTr("Commodore Amiga Floppy Disk"); color: Style.tertiary }
+            Label { text: qsTr(".D64:"); color: Style.tertiary; font.bold: false }
+            Label { text: qsTr("Commodore 64 Floppy Disk"); color: Style.tertiary }
         }
     }
 }

@@ -44,7 +44,7 @@ Item {
                 onClicked: { scanner.startScan(panelController.strict) }
                 busy: scanner.isScanning
 
-                ToolTip.text: "Scan Image..."
+                ToolTip.text: qsTr("Scan Image...")
                 ToolTip.visible: hovered
             }
         }

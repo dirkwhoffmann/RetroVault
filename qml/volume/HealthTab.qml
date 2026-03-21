@@ -44,7 +44,7 @@ Item {
                 size: Style.iconMedium
                 onClicked: { scanner.startScan(panelController.strict) }
                 busy: scanner.isScanning
-                ToolTip.text: "Scan Image..."
+                ToolTip.text: qsTr("Scan Image...")
                 ToolTip.visible: hovered
             }
         }
@@ -82,20 +82,20 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
                 color: panelController.okColor
-                label: "Consistent Blocks"
+                label: qsTr("Consistent Blocks")
             }
             ColorInfo {
 
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
                 color: panelController.errorColor
-                label: "Corrupted Blocks"
+                label: qsTr("Corrupted Blocks")
             }
 
             Spacer {}
 
             Label {
-                text: "Strict"
+                text: qsTr("Strict")
             }
 
             ImageButton {
@@ -122,7 +122,7 @@ Item {
                     size: Style.iconMedium
                     icon.source: Assets.iconUrl(Assets.ArrowPrev)
                     MyToolTip {
-                        text: "Goto Previous Corrupted Block"
+                        text: qsTr("Goto Previous Corrupted Block")
                     }
                     onClicked: {
                         panelController.gotoPrevCorruptedBlock()
@@ -133,7 +133,7 @@ Item {
                     size: Style.iconMedium
                     icon.source: Assets.iconUrl(Assets.ArrowNext)
                     MyToolTip {
-                        text: "Goto Next Corrupted Block"
+                        text: qsTr("Goto Next Corrupted Block")
                     }
                     onClicked: {
                         panelController.gotoNextCorruptedBlock()
@@ -148,7 +148,7 @@ Item {
             Spacer {}
 
             Label {
-                text: "Rectify"
+                text: qsTr("Rectify")
             }
 
             ImageButton {

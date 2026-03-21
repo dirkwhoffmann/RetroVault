@@ -28,8 +28,6 @@ ToolBar {
         anchors.fill: parent
         spacing: 0
 
-        // DebugRect{}
-
         Item {
 
             Layout.preferredWidth: sidebarWidth + 2 * Style.smallSpacing
@@ -46,7 +44,7 @@ ToolBar {
 
                     id: plusButton
                     icon.source: Assets.iconUrl(Assets.Plus)
-                    MyToolTip { text: "Mount New Image" }
+                    MyToolTip { text: qsTr("Mount New Image") }
 
                     onClicked: {
                         windowController.requestOpenImage()
@@ -57,7 +55,7 @@ ToolBar {
 
                     id: minusButton
                     icon.source: Assets.iconUrl(Assets.Minus)
-                    MyToolTip { text: "Unmount" }
+                    MyToolTip { text: qsTr("Unmount") }
 
                     onClicked: {
                         windowController.remove()
@@ -74,14 +72,14 @@ ToolBar {
 
             icon.source: Assets.iconUrl(Assets.Folder)
             enabled: windowController.mountPoint !== ""
-            MyToolTip { text: "Open in Finder" }
+            MyToolTip { text: qsTr("Open in Finder") }
             onClicked: Qt.openUrlExternally(encodeURI("file://" + windowController.mountPoint));
         }
         NavButton {
 
             icon.source: Assets.iconUrl(Assets.Sync)
             enabled: windowController.isDirty
-            MyToolTip { text: "Update Image on Disk" }
+            MyToolTip { text: qsTr("Update Image on Disk") }
 
             onClicked: {
                 windowController.save()

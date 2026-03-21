@@ -40,17 +40,17 @@ ColumnLayout {
         z: 10
 
         TabButton {
-            text: "Block Map"
+            text: qsTr("Block Map")
             implicitWidth: 128
             implicitHeight: Style.iconMedium
         }
         TabButton {
-            text: "Allocation Map"
+            text: qsTr("Allocation Map")
             implicitWidth: 128
             implicitHeight: Style.iconMedium
         }
         TabButton {
-            text: "Diagnose"
+            text: qsTr("Diagnose")
             implicitWidth: 128
             implicitHeight: Style.iconMedium
         }

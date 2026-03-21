@@ -36,7 +36,6 @@ RowLayout {
         id: textLabel
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignVCenter
-        text: ""
         font.pointSize: Style.small
         elide: Text.ElideRight
     }

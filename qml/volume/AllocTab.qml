@@ -44,7 +44,7 @@ Item {
                 onClicked: { scanner.startScan() }
                 busy: scanner.isScanning
                 MyToolTip {
-                    text: "Scan Image..."
+                    text: qsTr("Scan Image...")
                     visible: parent.hovered && !scanner.isScanning
                 }
             }
@@ -83,7 +83,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
                 color: panelController.okColor
-                label: "Used and Allocated"
+                label: qsTr("Used and Allocated")
             }
             ColorInfo {
 
@@ -91,20 +91,20 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
                 color: panelController.warnColor
-                label: "Unused but Allocated"
+                label: qsTr("Unused but Allocated")
             }
             ColorInfo {
 
                 Layout.fillWidth: true
                 Layout.preferredWidth: 164
                 color: panelController.errorColor
-                label: "Used but Unallocated"
+                label: qsTr("Used but Unallocated")
             }
 
             Spacer {}
 
             Label {
-                text: "Strict"
+                text: qsTr("Strict")
             }
 
             ImageButton {
@@ -115,7 +115,7 @@ Item {
                     scanner.startScan()
                 }
                 MyToolTip {
-                    text: "Toggle detail level"
+                    text: qsTr("Toggle detail level")
                 }
             }
         }
@@ -133,7 +133,7 @@ Item {
             Spacer {}
 
             Label {
-                text: "Rectify"
+                text: qsTr("Rectify")
             }
 
             ImageButton {
@@ -144,7 +144,7 @@ Item {
                     panelController.rectifyAllocMap(scanner.strict)
                 }
                 MyToolTip {
-                    text: "Fix all recoverable errors"
+                    text: qsTr("Fix all recoverable errors")
                 }
             }
         }

@@ -32,7 +32,7 @@ Item {
 
         Label {
             anchors.centerIn: parent
-            text: "Click the '+' button or drag and drop to add an image"
+            text: qsTr("Click the '+' button or drag and drop to add an image")
             visible: windowController.numDevices === 0
             color: Style.tertiary
             font.pointSize: Style.regular * 1.25
