@@ -22,27 +22,27 @@ FuseVolume::FuseVolume(class FuseDevice &d, unique_ptr<Volume> v) : device(d), v
 
 FuseAmigaVolume::FuseAmigaVolume(FuseDevice &d, unique_ptr<Volume> v) : FuseVolume(d, std::move(v))
 {
-    loginfo(FUSE_DEBUG, "Creating Amiga file system...\n");
+    loginfo(MNT_DEBUG, "Creating Amiga file system...\n");
     fs = std::make_unique<amiga::FileSystem>(*vol);
 
     std::stringstream ss;
     fs->dumpInfo(ss);
     std::cout << ss.str();
 
-    loginfo(FUSE_DEBUG, "Wrapping into API layer...\n");
+    loginfo(MNT_DEBUG, "Wrapping into API layer...\n");
     dos = std::make_unique<amiga::PosixAdapter>(*this->fs);
 }
 
 FuseCBMVolume::FuseCBMVolume(class FuseDevice &d, unique_ptr<Volume> v) : FuseVolume(d, std::move(v))
 {
-    loginfo(FUSE_DEBUG, "Creating CBM file system...\n");
+    loginfo(MNT_DEBUG, "Creating CBM file system...\n");
     fs = std::make_unique<cbm::FileSystem>(*vol);
 
     std::stringstream ss;
     fs->dumpStatfs(ss);
     std::cout << ss.str();
 
-    loginfo(FUSE_DEBUG, "Wrapping into API layer...\n");
+    loginfo(MNT_DEBUG, "Wrapping into API layer...\n");
     dos = std::make_unique<cbm::PosixAdapter>(*this->fs);
 }
 

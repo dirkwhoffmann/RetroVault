@@ -49,7 +49,7 @@ FuseMountPoint::mount(const fs::path &mp)
     volname = mp.stem().string();
 
     // Unmount existing volume (if any)
-    loginfo(FUSE_DEBUG, "Unmounting existing volume %s...\n", mountPoint.string().c_str());
+    loginfo(MNT_DEBUG, "Unmounting existing volume %s...\n", mountPoint.string().c_str());
     (void)::unmount(mountPoint.c_str(), 0);
 
     fuseThread = std::thread([&]() {

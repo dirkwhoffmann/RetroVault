@@ -26,7 +26,7 @@ ToolBar {
     contentItem: RowLayout {
 
         anchors.fill: parent
-        spacing: 0
+        spacing: Style.smallSpacing
 
         Item {
 
@@ -44,7 +44,7 @@ ToolBar {
 
                     id: plusButton
                     icon.source: Assets.iconUrl(Assets.Plus)
-                    MyToolTip { text: qsTr("Mount New Image") }
+                    MyToolTip { text: qsTr("Mount Image") }
 
                     onClicked: {
                         windowController.requestOpenImage()
@@ -90,6 +90,7 @@ ToolBar {
 
         NavButton {
 
+            rightPadding: Style.largeSpacing
             icon.source: Assets.iconUrl(windowController.isProtected ? Assets.Locked : Assets.Unlocked)
             enabled: windowController.volume != -1
             MyToolTip { text: windowController.isProtected ? "Unprotect File System" : "Protect File System" }

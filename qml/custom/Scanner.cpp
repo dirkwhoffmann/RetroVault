@@ -139,7 +139,7 @@ Scanner::startScan()
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
 
             // For debugging: Make sure the tasks consumes noticeable time
-            long long remainingMs = 1500 - elapsed.count();
+            long long remainingMs = 1000 - elapsed.count();
             if (remainingMs > 0) std::this_thread::sleep_for(std::chrono::milliseconds(remainingMs));
 
             return result;

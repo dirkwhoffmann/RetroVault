@@ -1,21 +1,48 @@
 BasedOnStyle: LLVM
 
-ColumnLimit: 120
+#
+# General
+#
+
+ColumnLimit: 100
 IndentWidth: 4
 MaxEmptyLinesToKeep: 2
 
+#
+# Indentation
+#
+
+IndentCaseLabels: true
 IndentPPDirectives: BeforeHash
+SpaceBeforeCpp11BracedList: true
+Cpp11BracedListStyle: false
+
+#
+#  Empty lines
+#
+
+EmptyLineBeforeAccessModifier: Always
+EmptyLineAfterAccessModifier: Always
+
+#
+# Alignment
+#
 
 AlignArrayOfStructures: Left
-AlignConsecutiveMacros: true
+
 AlignConsecutiveAssignments:
   Enabled: yes
-  AcrossEmptyLines: true
-  AcrossComments: true
+  AcrossEmptyLines: false
+  AcrossComments: false
   AlignCompound: true
   AlignFunctionDeclarations: false
   AlignFunctionPointers: true
   PadOperators: true
+
+AlignConsecutiveBitFields:
+  Enabled: true
+
+AlignConsecutiveMacros: true
 
 AlignConsecutiveShortCaseStatements:
   Enabled: true
@@ -27,7 +54,17 @@ AlignTrailingComments:
   Kind: Always
   OverEmptyLines: 1
 
+AlignConsecutiveTableGenDefinitionColons:
+  Enabled: true
+
+#
+# Wrapping
+#
+
 AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
 
 BraceWrapping:
   AfterCaseLabel: false
@@ -49,18 +86,14 @@ BraceWrapping:
   SplitEmptyRecord: true
   SplitEmptyNamespace: true
 
+BinPackArguments: false
+BinPackParameters: OnePerLine
+
 BreakBeforeBraces: Custom
 BreakAfterReturnType: TopLevel
 
-EmptyLineBeforeAccessModifier: Always
-EmptyLineAfterAccessModifier: Always
+#
+# Comments
+#
 
-AllowShortIfStatementsOnASingleLine: WithoutElse
-AllowShortBlocksOnASingleLine: Empty
-AllowShortFunctionsOnASingleLine: Inline
-IndentCaseLabels: true
-
-SpaceBeforeCpp11BracedList: true
-Cpp11BracedListStyle: true
-BinPackArguments: false
-BinPackParameters: OnePerLine
+FixNamespaceComments: false

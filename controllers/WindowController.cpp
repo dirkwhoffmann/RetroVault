@@ -256,6 +256,7 @@ WindowController::periodicRefresh()
 
         if (stat.generation != generation) {
 
+            printf("Generation changed to %d\n", (int)stat.generation);
             generation = stat.generation;
             emit generationChanged();
         }

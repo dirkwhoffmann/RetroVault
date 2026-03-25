@@ -18,22 +18,23 @@ namespace utl::debug {
 //
 
 // Default channels
-constexpr long NULLDEV            = 0;
-constexpr long STDERR             = 1;
+constexpr long NULLDEV    = 0;
+constexpr long STDERR     = 1;
 
 // General
-constexpr long FUSE_DEBUG         = 0;
+constexpr long FUSE_DEBUG = 0;
+constexpr long MNT_DEBUG  = 0;
 
 // Image files
-constexpr long FS_DEBUG           = 0;
+constexpr long FS_DEBUG   = 0;
 
 // Image files
-constexpr long ADF_DEBUG          = 0;
-constexpr long HDF_DEBUG          = 0;
-constexpr long DMS_DEBUG          = 0;
-constexpr long IMG_DEBUG          = 0;
+constexpr long ADF_DEBUG  = 0;
+constexpr long HDF_DEBUG  = 0;
+constexpr long DMS_DEBUG  = 0;
+constexpr long IMG_DEBUG  = 0;
 
-}
+} // namespace utl::debug
 
 //
 // Forced error conditions
@@ -41,19 +42,19 @@ constexpr long IMG_DEBUG          = 0;
 
 namespace utl::force {
 
-constexpr long HDR_TOO_LARGE          = 0;
-constexpr long HDR_UNSUPPORTED_C      = 0;
-constexpr long HDR_UNSUPPORTED_H      = 0;
-constexpr long HDR_UNSUPPORTED_S      = 0;
-constexpr long HDR_UNSUPPORTED_B      = 0;
-constexpr long HDR_UNKNOWN_GEOMETRY   = 0;
-constexpr long HDR_MODIFIED           = 0;
-constexpr long FS_WRONG_BSIZE         = 0;
-constexpr long FS_WRONG_CAPACITY      = 0;
-constexpr long FS_WRONG_DOS_TYPE      = 0;
-constexpr long DMS_CANT_CREATE        = 0;
+constexpr long HDR_TOO_LARGE        = 0;
+constexpr long HDR_UNSUPPORTED_C    = 0;
+constexpr long HDR_UNSUPPORTED_H    = 0;
+constexpr long HDR_UNSUPPORTED_S    = 0;
+constexpr long HDR_UNSUPPORTED_B    = 0;
+constexpr long HDR_UNKNOWN_GEOMETRY = 0;
+constexpr long HDR_MODIFIED         = 0;
+constexpr long FS_WRONG_BSIZE       = 0;
+constexpr long FS_WRONG_CAPACITY    = 0;
+constexpr long FS_WRONG_DOS_TYPE    = 0;
+constexpr long DMS_CANT_CREATE      = 0;
 
-}
+} // namespace utl::force
 
 //
 // Logging channels
@@ -76,7 +77,8 @@ extern long NULLDEV;
 extern long STDERR;
 
 // General
-extern long FUSE_DEBUG;
+extern long FUSE_DEBUG; // FUSE callbacks
+extern long MNT_DEBUG;  // Mount / Unmount procedure
 
 // File systems
 extern long FS_DEBUG;
@@ -87,7 +89,7 @@ extern long HDF_DEBUG;
 extern long DMS_DEBUG;
 extern long IMG_DEBUG;
 
-}
+} // namespace utl::channel
 
 
 //
@@ -96,20 +98,18 @@ extern long IMG_DEBUG;
 
 #if NDEBUG
 
-#define logMsg(key, level, format, ...) \
-    do { \
-        if constexpr (debug::key) \
-            log(channel::key, level, std::source_location::current(), \
-                format __VA_OPT__(,) __VA_ARGS__); \
-    } while (0)
+    #define logMsg(key, level, format, ...)                                                                            \
+        do {                                                                                                           \
+            if constexpr (debug::key)                                                                                  \
+                log(channel::key, level, std::source_location::current(), format __VA_OPT__(, ) __VA_ARGS__);          \
+        } while (0)
 
 #else
 
-#define logMsg(key, level, format, ...)                           \
-do { \
-    log(channel::key, level, std::source_location::current(), \
-        format __VA_OPT__(,) __VA_ARGS__); \
-} while (0)
+    #define logMsg(key, level, format, ...)                                                                            \
+        do {                                                                                                           \
+            log(channel::key, level, std::source_location::current(), format __VA_OPT__(, ) __VA_ARGS__);              \
+        } while (0)
 
 #endif
 
@@ -118,43 +118,18 @@ do { \
 // Wrappers for all syslog levels
 //
 
-#define logemergency(format, ...) \
-    logMsg(STDERR, LogLevel::LOG_EMERG, format __VA_OPT__(,) __VA_ARGS__)
-
-#define logalert(format, ...) \
-    logMsg(STDERR, LogLevel::LOG_ALERT, format __VA_OPT__(,) __VA_ARGS__)
-
-#define logcritical(format, ...) \
-    logMsg(STDERR, LogLevel::LOG_CRIT, format __VA_OPT__(,) __VA_ARGS__)
-
-#define logerror(format, ...) \
-    logMsg(STDERR, LogLevel::LOG_ERR, format __VA_OPT__(,) __VA_ARGS__)
-
-#define logwarn(format, ...) \
-    logMsg(STDERR, LogLevel::LOG_WARNING, format __VA_OPT__(,) __VA_ARGS__)
-
-#define lognotice(channel, format, ...) \
-    logMsg(channel, LogLevel::LOG_NOTICE, format __VA_OPT__(,) __VA_ARGS__)
-
-#define loginfo(channel, format, ...) \
-    logMsg(channel, LogLevel::LOG_INFO, format __VA_OPT__(,) __VA_ARGS__)
-
-#define logdebug(channel, format, ...) \
-    logMsg(channel, LogLevel::LOG_DEBUG, format __VA_OPT__(,) __VA_ARGS__)
+#define logemergency(format, ...)       logMsg(STDERR, LogLevel::LOG_EMERG, format __VA_OPT__(, ) __VA_ARGS__)
+#define logalert(format, ...)           logMsg(STDERR, LogLevel::LOG_ALERT, format __VA_OPT__(, ) __VA_ARGS__)
+#define logcritical(format, ...)        logMsg(STDERR, LogLevel::LOG_CRIT, format __VA_OPT__(, ) __VA_ARGS__)
+#define logerror(format, ...)           logMsg(STDERR, LogLevel::LOG_ERR, format __VA_OPT__(, ) __VA_ARGS__)
+#define logwarn(format, ...)            logMsg(STDERR, LogLevel::LOG_WARNING, format __VA_OPT__(, ) __VA_ARGS__)
+#define lognotice(channel, format, ...) logMsg(channel, LogLevel::LOG_NOTICE, format __VA_OPT__(, ) __VA_ARGS__)
+#define loginfo(channel, format, ...)   logMsg(channel, LogLevel::LOG_INFO, format __VA_OPT__(, ) __VA_ARGS__)
+#define logdebug(channel, format, ...)  logMsg(channel, LogLevel::LOG_DEBUG, format __VA_OPT__(, ) __VA_ARGS__)
 
 
 //
 // Convenience wrappers
 //
 
-/*
-#define fatal(format, ...) \
-    do { \
-        logemergency(format __VA_OPT__(,) __VA_ARGS__); \
-        assert(false); \
-        std::terminate(); \
-    } while(0)
-*/
-
-#define xfiles(format, ...) \
-    logMsg(XFILES, LogLevel::LOG_INFO, format __VA_OPT__(,) __VA_ARGS__)
+#define xfiles(format, ...) logMsg(XFILES, LogLevel::LOG_INFO, format __VA_OPT__(, ) __VA_ARGS__)

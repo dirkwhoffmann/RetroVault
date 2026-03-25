@@ -17,16 +17,14 @@ using retro::vault::image::D64File;
 
 FuseDevice::FuseDevice(const fs::path &path)
 {
-    printf("path = %s\n", path.c_str());
-
-    loginfo(FUSE_DEBUG, "Scanning image %s...\n", path.string().c_str());
+    loginfo(MNT_DEBUG, "Scanning image %s...\n", path.string().c_str());
 
     if (!utl::fileExists(path)) throw IOError(IOError::FILE_NOT_FOUND, path.string());
 
     ImageFormat format = ImageFormat::UNKNOWN;
     if (auto info = DiskImage::about(path)) format = info->format;
 
-    loginfo(FUSE_DEBUG, "Format: %s\n", ImageFormatEnum::key(format));
+    loginfo(MNT_DEBUG, "Format: %s\n", ImageFormatEnum::key(format));
 
     switch (format) {
 
@@ -51,7 +49,7 @@ FuseDevice::FuseDevice(const fs::path &path)
     }
     */
 
-    loginfo(FUSE_DEBUG, "Installed volumes: %zu\n", volumes.size());
+    loginfo(MNT_DEBUG, "Installed volumes: %zu\n", volumes.size());
 }
 
 template <typename I, typename V>

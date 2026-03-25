@@ -53,16 +53,16 @@ DeviceManager::add(const fs::path &imageFile, const fs::path &mountPoint)
 {
     printf("DeviceManager::add(%s)\n", imageFile.string().c_str());
 
-    loginfo(FUSE_DEBUG, "Create device...\n");
+    loginfo(MNT_DEBUG, "Create device...\n");
     auto fd = std::make_unique<FuseDevice>(imageFile);
 
     if (hasFuse()) {
 
-        loginfo(FUSE_DEBUG, "Mount file system at %s\n", mountPoint.string().c_str());
+        loginfo(MNT_DEBUG, "Mount file system at %s\n", mountPoint.string().c_str());
         fd->mount(mountPoint);
     }
 
-    loginfo(FUSE_DEBUG, "Adding device to the database...\n");
+    loginfo(MNT_DEBUG, "Adding device to the database...\n");
     devices.push_back(std::move(fd));
 
     // Inform the GUI

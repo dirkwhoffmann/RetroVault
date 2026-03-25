@@ -117,17 +117,17 @@ protected:
 
         } catch (const FSError &err) {
 
-            loginfo(FUSE_DEBUG, "           FSError: %ld (%s)\n", err.payload, err.what());
+            loginfo(MNT_DEBUG, "           FSError: %ld (%s)\n", err.payload, err.what());
             return -err.posixErrno();
             
         } catch (const Error &err) {
             
-            loginfo(FUSE_DEBUG, "           Error: %ld (%s)\n", err.payload, err.what());
+            loginfo(MNT_DEBUG, "           Error: %ld (%s)\n", err.payload, err.what());
             return -EIO;
             
         } catch (...) {
             
-            loginfo(FUSE_DEBUG, "           Exception: %d\n", EIO);
+            loginfo(MNT_DEBUG, "           Exception: %d\n", EIO);
             return -EIO;
         }
     }

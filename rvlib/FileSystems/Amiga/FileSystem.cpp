@@ -7,14 +7,14 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
 #include "FileSystems/Amiga/FileSystem.h"
+#include "config.h"
 #include "utl/io.h"
 #include "utl/support/Strings.h"
-#include <climits>
-#include <unordered_set>
-#include <stack>
 #include <algorithm>
+#include <climits>
+#include <stack>
+#include <unordered_set>
 
 namespace retro::vault::amiga {
 
@@ -23,22 +23,21 @@ FSTraits::adf() const
 {
     auto size = blocks * bsize;
 
-    return
-    size == 901120   ||   //  880 KB (DD)
-    size == 912384   ||   //  891 KB (DD + 1 cyl)
-    size == 923648   ||   //  902 KB (DD + 2 cyls)
-    size == 934912   ||   //  913 KB (DD + 3 cyls)
-    size == 946176   ||   //  924 KB (DD + 4 cyls)
-    size == 1802240;      // 1760 KB (HD)
+    return size == 901120 || //  880 KB (DD)
+           size == 912384 || //  891 KB (DD + 1 cyl)
+           size == 923648 || //  902 KB (DD + 2 cyls)
+           size == 934912 || //  913 KB (DD + 3 cyls)
+           size == 946176 || //  924 KB (DD + 4 cyls)
+           size == 1802240;  // 1760 KB (HD)
 }
 
 FileSystem::FileSystem(Volume &vol) : cache(*this, vol)
 {
     loginfo(FS_DEBUG, "Creating file system...\n");
 
-    auto layout = FSDescriptor(vol.capacity());
+    auto layout  = FSDescriptor(vol.capacity());
     layout.bsize = vol.bsize();
-    
+
     // Check consistency (may throw)
     layout.checkCompatibility();
 
@@ -137,14 +136,18 @@ FileSystem::dumpProps(std::ostream &os) const noexcept
     os << dec(st.usedBlocks);
     os << tab("Free");
     os << dec(st.freeBlocks);
-    os << " (" <<  std::fixed << std::setprecision(2) << fill << "%)" << std::endl;
+    os << " (" << std::fixed << std::setprecision(2) << fill << "%)" << std::endl;
     os << tab("Root block");
     os << dec(rootBlock) << std::endl;
     os << tab("Bitmap blocks");
-    for (auto& it : bmBlocks) { os << dec(it) << " "; }
+    for (auto &it : bmBlocks) {
+        os << dec(it) << " ";
+    }
     os << std::endl;
     os << tab("Extension blocks");
-    for (auto& it : bmExtBlocks) { os << dec(it) << " "; }
+    for (auto &it : bmExtBlocks) {
+        os << dec(it) << " ";
+    }
     os << std::endl;
 }
 
@@ -157,11 +160,8 @@ FileSystem::dumpBlocks(std::ostream &os) const noexcept
 vector<string>
 FileSystem::describe() const noexcept
 {
-    if (traits.ofs())
-        return { "Amiga File System", "OFS" };
-
-    if (traits.ffs())
-        return { "Amiga File System", "FFS" };
+    if (traits.ofs()) return { "Amiga File System", "OFS" };
+    if (traits.ffs()) return { "Amiga File System", "FFS" };
 
     return { "Unknown File System" };
 }
@@ -188,17 +188,17 @@ FileSystem::stat() const noexcept
 
         .traits = traits,
 
-        .freeBlocks     = numUnallocated,
-        .usedBlocks     = numAllocated,
-        .cachedBlocks   = cache.cachedBlocks(),
-        .dirtyBlocks    = cache.dirtyBlocks(),
-        .fill           = (double)numAllocated / (double)traits.blocks,
+        .freeBlocks   = numUnallocated,
+        .usedBlocks   = numAllocated,
+        .cachedBlocks = cache.cachedBlocks(),
+        .dirtyBlocks  = cache.dirtyBlocks(),
+        .fill         = (double)numAllocated / (double)traits.blocks,
 
-        .name           = rb.name(),
-        .bDate          = rb.getCreationDate(),
-        .mDate          = rb.getModificationDate(),
+        .name  = rb.name(),
+        .bDate = rb.getCreationDate(),
+        .mDate = rb.getModificationDate(),
 
-        .generation     = 0 // TODO
+        .generation = generation
     };
 
     return result;
@@ -209,12 +209,9 @@ FileSystem::bootStat() const noexcept
 {
     auto bb = FSBootBlockImage(cache[0].data(), cache[1].data());
 
-    FSBootStat result = {
-
-        .name = bb.name,
-        .type = bb.type,
-        .hasVirus = bb.type == BootBlockType::VIRUS
-    };
+    FSBootStat result = { .name     = bb.name,
+                          .type     = bb.type,
+                          .hasVirus = bb.type == BootBlockType::VIRUS };
 
     return result;
 }
@@ -227,7 +224,7 @@ FileSystem::attr(BlockNr nr) const
     auto blocks = allocator.requiredBlocks(size);
 
     FSAttr result = {
-        
+
         .size   = size,
         .blocks = blocks,
         .prot   = fhd.getProtectionBits(),
