@@ -26,7 +26,6 @@ ColumnLayout {
 
     Component.onCompleted: {
 
-        console.log("VolumeTablBar loaded");
         panelController.refresh()
     }
 
@@ -38,7 +37,7 @@ ColumnLayout {
         id: bar
         Layout.bottomMargin: 0 //Style.mediumSpacing
         Layout.alignment: Qt.AlignLeft //  Qt.AlignHCenter
-        z: 10
+        // z: 10
 
         TabButton {
             text: qsTr("Block Map")
@@ -77,9 +76,9 @@ ColumnLayout {
         bottomPadding: Style.mediumSpacing
 
         background: Rectangle {
-            color: Palette.secondaryBg
+            color: Palette.tableBg
             border.color: Palette.border
-            radius: Style.borderRadius
+            border.width: 1
         }
 
         StackLayout {

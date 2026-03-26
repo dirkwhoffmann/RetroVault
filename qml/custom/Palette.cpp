@@ -249,7 +249,7 @@ Palette::getDefaultColor(Color c) const
         case Color::Text:
             return darkMode ? QColor("#ffffff") : QColor("#000000");
         case Color::Window:
-            return darkMode ? QColor("#2c2c2e") : QColor("#f5f5f7");
+            return darkMode ? QColor("#2c2c2e") : QColor("#ececec");
         case Color::WindowText:
             return darkMode ? QColor("#ffffff") : QColor("#000000");
 
@@ -307,8 +307,7 @@ Palette::getDefaultColor(Color c) const
             return darkMode ? base.darker(200) : base.darker(200);
         }
         case Color::Border: {
-            auto base = getColor(Color::WindowText);
-            return QColor(base.red(), base.green(), base.blue(), 128);
+            return darkMode ? QColor("#ff6666") : QColor("#c8c8c8");
         }
     }
 

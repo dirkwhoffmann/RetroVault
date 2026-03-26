@@ -88,7 +88,6 @@ Item {
                 top: parent.top
                 bottom: parent.bottom
                 right: parent.right
-                rightMargin: Style.mediumSpacing
             }
             clip: true
             alternatingRows: true

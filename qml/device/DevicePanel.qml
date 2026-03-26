@@ -38,8 +38,8 @@ Item {
 
         Pane {
 
-            background: Rectangle { color: Palette.primaryBg }
             id: headerPane
+            background: Rectangle { color: Palette.window }
             Layout.fillWidth: true
             topPadding: Style.largeSpacing
             leftPadding: Style.largeSpacing
@@ -56,8 +56,8 @@ Item {
 
         Pane {
 
-            background: Rectangle { color: Palette.primaryBg }
             id: blockSelectorPane
+            background: Rectangle { color: Palette.window }
             Layout.fillWidth: true
             topPadding: Style.mediumSpacing
             leftPadding: Style.largeSpacing
@@ -126,8 +126,8 @@ Item {
 
         Pane {
 
-            background: Rectangle { color: Palette.primaryBg }
             id: blockViewPane
+            background: Rectangle { color: Palette.window }
             Layout.fillHeight: true
             Layout.fillWidth: true
             topPadding: Style.smallSpacing
