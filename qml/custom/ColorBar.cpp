@@ -30,11 +30,11 @@ ColorBar::setRawData(const QByteArray &data) {
 }
 
 void
-ColorBar::setPalette(const QList<QColor> &palette) {
+ColorBar::setColors(const QList<QColor> &colors) {
 
-    if (m_palette != palette) {
+    if (m_palette != colors) {
 
-        m_palette = palette;
+        m_palette = colors;
         update();
     }
 }

@@ -10,6 +10,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import RetroVault.Theme
 
 Pane {
 
@@ -30,8 +31,8 @@ Pane {
 
             Layout.alignment: Qt.AlignTop
             background: Rectangle {
-                color: Style.tertiaryBg
-                border.color: Style.border
+                color: Palette.tertiaryBg
+                border.color: Palette.border
                 border.width: 2
                 radius: 8
             }
@@ -65,7 +66,7 @@ Pane {
             Rectangle {
 
                 height: 1
-                color: Style.border
+                color: Palette.border
                 Layout.columnSpan: 5 // gridColumns
                 Layout.fillWidth: true
                 Layout.topMargin: 2
@@ -86,7 +87,7 @@ Pane {
                     elide: Text.ElideRight
 
                     // Logic for styling
-                    color: col === 0 ? Style.primary : Style.secondary
+                    color: col === 0 ? Palette.primary : Palette.secondary
                     Layout.rightMargin: col === 2 ? 2 * Style.largeSpacing : 0
                     Layout.alignment: Qt.AlignLeft;
                     Layout.fillWidth: col === 0

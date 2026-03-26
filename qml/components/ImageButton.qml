@@ -24,7 +24,7 @@ RoundButton {
     radius: 4
 
     icon.source: imageSource
-    icon.color: Style.secondary
+    icon.color: Palette.secondary
     icon.width: size * iconScale
     icon.height: size * iconScale
 }

@@ -9,6 +9,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import RetroVault.Theme
 
 ToolTip {
 
@@ -20,12 +21,12 @@ ToolTip {
     contentItem: Text {
         text: root.text
         font.pixelSize: Style.regular
-        color: Style.primary
+        color: Palette.primary
     }
 
     background: Rectangle {
-        color: Style.primaryBg
-        border.color: Style.border
+        color: Palette.primaryBg
+        border.color: Palette.border
         radius: 4
     }
 }

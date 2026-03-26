@@ -76,8 +76,8 @@ ColumnLayout {
         bottomPadding: Style.mediumSpacing
 
         background: Rectangle {
-            color: Style.secondaryBg
-            border.color: Style.border
+            color: Palette.secondaryBg
+            border.color: Palette.border
             radius: Style.borderRadius
         }
 

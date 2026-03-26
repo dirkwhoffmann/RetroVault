@@ -10,6 +10,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Theme
 
 RowLayout {
     id: control
@@ -27,7 +28,7 @@ RowLayout {
     Label {
         id: titleLabel
         font.pointSize: Style.small
-        color: Style.primary
+        color: Palette.primary
         Layout.alignment: Qt.AlignHCenter
     }
 

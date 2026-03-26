@@ -10,6 +10,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Theme
 
 RowLayout {
 
@@ -28,7 +29,7 @@ RowLayout {
         Layout.preferredHeight: 12
         Layout.alignment: Qt.AlignVCenter
         radius: 2
-        border.color: Style.tertiary
+        border.color: Palette.tertiary
         border.width: 1
     }
 

@@ -10,6 +10,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Theme
 
 Rectangle {
 
@@ -22,7 +23,7 @@ Rectangle {
     property alias selectedColumn: tableView.selectedColumn
 
     anchors.fill: parent
-    color: Style.secondaryBg
+    color: Palette.secondaryBg
 
     HorizontalHeaderView {
 
@@ -63,21 +64,21 @@ Rectangle {
 
         function textColor(blk: int, row: int, col: int) : color {
 
-            if (!scanner) return Style.primary
+            if (!scanner) return Palette.primary
             if (row === tableView.selectedRow && col === tableView.selectedColumn)
                 return "#ffffff" // Style.highlight
             if (col === 0 || col === tableView.columns - 1)
-                return Style.primary
-            return scanner.hasError(blk, offset(row, col)) ? Style.error : Style.primary
+                return Palette.primary
+            return scanner.hasError(blk, offset(row, col)) ? Palette.error : Palette.primary
         }
 
     /*
     function cellBg(blk: int, row: int, col: int) : color {
 
-        if (!scanner) return Style.primaryBg
+        if (!scanner) return Palette.primaryBg
         if (col === 0 || col === tableView.columns - 1)
-            return Style.primaryBg
-        return scanner.hasError(blk, offset(row, col)) ? : Style.error : Style.primaryBg
+            return Palette.primaryBg
+        return scanner.hasError(blk, offset(row, col)) ? : Palette.error : Palette.primaryBg
     }
     */
 

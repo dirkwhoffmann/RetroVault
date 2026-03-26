@@ -4,4 +4,4 @@ target_sources(retrovault PRIVATE
         ColorBar.cpp
         CustomComponent.cpp
         Scanner.cpp
-        MyStyle.cpp)
+        Palette.cpp)

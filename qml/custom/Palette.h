@@ -13,7 +13,7 @@
 #include <QQmlEngine>
 #include <QQuickAttachedPropertyPropagator>
 
-class MyStyle : public QQuickAttachedPropertyPropagator {
+class Palette : public QQuickAttachedPropertyPropagator {
 
   public:
 
@@ -61,67 +61,76 @@ class MyStyle : public QQuickAttachedPropertyPropagator {
 
     Q_OBJECT
 
-    // Setting MyStyle.theme to undefined calls the reset function
+    // Setting the property to undefined calls the reset function
     Q_PROPERTY(Theme theme READ theme WRITE setTheme RESET resetTheme NOTIFY themeChanged FINAL)
+    Q_PROPERTY(bool darkMode READ getDarkMode WRITE setDarkMode RESET resetDarkMode NOTIFY themeChanged FINAL)
 
     // As the values of these properties only depend on the theme, they can all use the theme
     // property's change signal.
 
-    Q_PROPERTY(QColor accentColor READ accentColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor alternateBaseColor READ alternateBaseColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor baseColor READ baseColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor buttonColor READ buttonColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor buttonTextColor READ buttonTextColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor darkColor READ darkColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor highlightColor READ highlightColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor highlightedTextColor READ highlightedTextColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor lightColor READ lightColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor midColor READ midColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor midlightColor READ midlightColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor placeholderTextColor READ placeholderTextColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor shadowColor READ shadowColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor textColor READ textColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor windowColor READ windowColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor windowTextColor READ windowTextColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor accent READ accentColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor alternateBase READ alternateBaseColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor base READ baseColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor button READ buttonColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor buttonText READ buttonTextColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor dark READ darkColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor highlight READ highlightColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor highlightedText READ highlightedTextColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor light READ lightColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor mid READ midColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor midlight READ midlightColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor placeholderText READ placeholderTextColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor shadow READ shadowColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor text READ textColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor window READ windowColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor windowText READ windowTextColor NOTIFY themeChanged FINAL)
 
     // Additions
-    Q_PROPERTY(QColor okColor READ okColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor errorColor READ errorColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor warningColor READ warningColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor ok READ okColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor error READ errorColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor warning READ warningColor NOTIFY themeChanged FINAL)
 
     // Derived
-    Q_PROPERTY(QColor primaryColor READ primaryColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor secondaryColor READ secondaryColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor tertiaryColor READ tertiaryColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor primaryBgColor READ primaryBgColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor secondaryBgColor READ secondaryBgColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor tertiaryBgColor READ tertiaryBgColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor separatorColor READ separatorColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor accentHoverColor READ accentHoverColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor accentPressedColor READ accentPressedColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor bordeColor READ borderColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor primary READ primaryColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor secondary READ secondaryColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor tertiary READ tertiaryColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor primaryBg READ primaryBgColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor secondaryBg READ secondaryBgColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor tertiaryBg READ tertiaryBgColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor separator READ separatorColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor accentHover READ accentHoverColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor accentPressed READ accentPressedColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor border READ borderColor NOTIFY themeChanged FINAL)
 
     QML_ELEMENT
-    QML_ATTACHED(MyStyle)
+    QML_ATTACHED(Palette)
     QML_UNCREATABLE("")
     QML_ADDED_IN_VERSION(1, 0)
 
-    static bool darkMode;
-
     bool m_explicitTheme = false;
-    Theme m_theme        = AppDefault;
+    bool m_explicitDarkMode = false;
+
+    Theme m_theme = AppDefault;
+    bool darkMode = false;
 
     Q_ENUM(Theme)
 
-    explicit MyStyle(QObject *parent = nullptr);
+    explicit Palette(QObject *parent = nullptr);
 
-    static MyStyle *qmlAttachedProperties(QObject *object);
+    static Palette *qmlAttachedProperties(QObject *object);
 
-    Theme theme() const;
+    bool getDarkMode() const { return darkMode; }
+    void setDarkMode(bool value);
+    void inheritDarkMode(bool value);
+    void propagateDarkMode();
+    void resetDarkMode();
+
+    Theme theme() const { return m_theme; }
     void setTheme(Theme theme);
     void inheritTheme(Theme theme);
     void propagateTheme();
     void resetTheme();
+
     void themeChange();
 
     QColor accentColor() const { return getColor(Color::Accent); }

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Theme
 
 Rectangle {
     id: root
@@ -13,8 +14,8 @@ Rectangle {
     width: Math.min(parent.width * 0.8, 400)
     height: 50
     radius: Style.borderRadius
-    border.color: Style.border
-    color: Style.secondaryBg
+    border.color: Palette.border
+    color: Palette.secondaryBg
     opacity: 0
     z: 100
 
@@ -26,14 +27,14 @@ Rectangle {
         Rectangle {
             width: 4
             Layout.fillHeight: true
-            color: Style.accent
+            color: Palette.accent
             radius: 2
         }
 
         Label {
             id: label
             Layout.fillWidth: true
-            color: Style.primary
+            color: Palette.primary
             font.pointSize: Style.small
             elide: Text.ElideRight
         }

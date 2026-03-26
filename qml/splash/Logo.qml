@@ -10,6 +10,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import RetroVault.Theme
 
 GridLayout {
 
@@ -41,21 +42,21 @@ GridLayout {
             padding: 0
             topPadding: -5
             bottomPadding: -5
-            color: Style.primary
+            color: Palette.primary
         }
         Label {
             text: qsTr("Where Sectors Come to Life")
             font.pixelSize: 24
             font.family: Fonts.logoFont.name
             font.weight: 400 // Font.Light
-            color: Style.secondary
+            color: Palette.secondary
             // Layout.alignment: Qt.AlignLeft
         }
         Label {
             // visible: false
             text: qsTr("BETA RELEASE: BACK UP IMAGE FILES BEFORE MOUNTING!")
             font.pixelSize: Style.small
-            color: Style.error
+            color: Palette.error
         }
     }
 
@@ -63,7 +64,7 @@ GridLayout {
         Layout.columnSpan: 2
         Layout.fillWidth: true
         implicitHeight: 1
-        color: Style.tertiary
+        color: Palette.tertiary
     }
 
     // 3. Lower Left: Spacer
@@ -77,14 +78,14 @@ GridLayout {
         Label {
             text: qsTr("Drag an image file onto this window to add a file system. ")
             font.pixelSize: 14
-            color: Style.tertiary
+            color: Palette.tertiary
         }
          */
         Label {
             text: qsTr("Supported image formats:")
             font.pixelSize: 14
             horizontalAlignment: Text.AlignLeft
-            color: Style.tertiary
+            color: Palette.tertiary
             // Layout.topMargin: 25
         }
 
@@ -95,10 +96,10 @@ GridLayout {
             columnSpacing: 10
             Layout.topMargin: 10
 
-            Label { text: qsTr(".ADF:"); color: Style.tertiary; font.bold: false }
-            Label { text: qsTr("Commodore Amiga Floppy Disk"); color: Style.tertiary }
-            Label { text: qsTr(".D64:"); color: Style.tertiary; font.bold: false }
-            Label { text: qsTr("Commodore 64 Floppy Disk"); color: Style.tertiary }
+            Label { text: qsTr(".ADF:"); color: Palette.tertiary; font.bold: false }
+            Label { text: qsTr("Commodore Amiga Floppy Disk"); color: Palette.tertiary }
+            Label { text: qsTr(".D64:"); color: Palette.tertiary; font.bold: false }
+            Label { text: qsTr("Commodore 64 Floppy Disk"); color: Palette.tertiary }
         }
     }
 }

@@ -7,58 +7,80 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "MyStyle.h"
+#include "Palette.h"
 #include <QGuiApplication>
 #include <QStyleHints>
 
 // Default theme (if no theme is inherited or explicitely set)
-static MyStyle::Theme globalTheme = MyStyle::AppDefault;
+// static Palette::Theme globalTheme = Palette::AppDefault;
 
-bool MyStyle::darkMode = false;
-
-MyStyle::MyStyle(QObject *parent) : QQuickAttachedPropertyPropagator(parent), m_theme(globalTheme)
+Palette::Palette(QObject *parent) : QQuickAttachedPropertyPropagator(parent)
 {
-    static bool inited = false;
+    auto *hints = QGuiApplication::styleHints();
 
-    if (!inited) {
-        inited = true;
-
-        // 1. Get the system default
-        auto *hints = QGuiApplication::styleHints();
-        darkMode    = hints->colorScheme() == Qt::ColorScheme::Dark;
-        printf("Dark mode = %d\n", darkMode);
-
-        connect(hints, &QStyleHints::colorSchemeChanged, this, [this](Qt::ColorScheme scheme) {
-            darkMode = scheme == Qt::ColorScheme::Dark;
-            printf("colorSchemeChanged %d\n", darkMode);
-            this->themeChange();
-        });
-    }
-
-    // A static function could be called here that reads globalTheme from a
-    // settings file once at startup. That value would override the global
-    // value. This is similar to what the Imagine and Material styles do, for
-    // example.
+    darkMode = hints->colorScheme() == Qt::ColorScheme::Dark;
+    m_theme = AppDefault;
 
     initialize();
 }
 
-MyStyle *
-MyStyle::qmlAttachedProperties(QObject *object)
+Palette *
+Palette::qmlAttachedProperties(QObject *object)
 {
-    return new MyStyle(object);
-}
-
-MyStyle::Theme
-MyStyle::theme() const
-{
-    return m_theme;
+    return new Palette(object);
 }
 
 void
-MyStyle::setTheme(Theme theme)
+Palette::setDarkMode(bool value)
 {
-    printf("setTheme %d\n", theme);
+    m_explicitDarkMode = true;
+
+    if (darkMode != value) {
+
+        darkMode = value;
+        propagateDarkMode();
+        themeChange();
+    }
+}
+
+void
+Palette::inheritDarkMode(bool value)
+{
+    if (!m_explicitDarkMode) {
+
+        darkMode = value;
+        propagateDarkMode();
+        themeChange();
+    }
+}
+void
+Palette::propagateDarkMode()
+{
+    const auto styles = attachedChildren();
+
+    for (QQuickAttachedPropertyPropagator *child : styles) {
+
+        if (auto *palette = qobject_cast<Palette *>(child)) {
+            palette->inheritDarkMode(darkMode);
+        }
+    }
+}
+
+void
+Palette::resetDarkMode()
+{
+    if (m_explicitDarkMode) {
+
+        m_explicitDarkMode = false;
+        Palette *palette = qobject_cast<Palette *>(attachedParent());
+        inheritDarkMode(palette ? palette->getDarkMode() : false);
+    }
+}
+
+
+void
+Palette::setTheme(Theme theme)
+{
     m_explicitTheme = true;
 
     if (m_theme != theme) {
@@ -70,9 +92,9 @@ MyStyle::setTheme(Theme theme)
 }
 
 void
-MyStyle::inheritTheme(Theme theme)
+Palette::inheritTheme(Theme theme)
 {
-    if (!m_explicitTheme && m_theme != theme) {
+    if (!m_explicitTheme) {
 
         m_theme = theme;
         propagateTheme();
@@ -81,31 +103,31 @@ MyStyle::inheritTheme(Theme theme)
 }
 
 void
-MyStyle::propagateTheme()
+Palette::propagateTheme()
 {
     const auto styles = attachedChildren();
 
     for (QQuickAttachedPropertyPropagator *child : styles) {
 
-        if (auto *myStyle = qobject_cast<MyStyle *>(child)) {
-            myStyle->inheritTheme(m_theme);
+        if (auto *palette = qobject_cast<Palette *>(child)) {
+            palette->inheritTheme(m_theme);
         }
     }
 }
 
 void
-MyStyle::resetTheme()
+Palette::resetTheme()
 {
     if (m_explicitTheme) {
 
         m_explicitTheme  = false;
-        MyStyle *myStyle = qobject_cast<MyStyle *>(attachedParent());
-        inheritTheme(myStyle ? myStyle->theme() : globalTheme);
+        Palette *palette = qobject_cast<Palette *>(attachedParent());
+        inheritTheme(palette ? palette->theme() : Palette::AppDefault);
     }
 }
 
 void
-MyStyle::themeChange()
+Palette::themeChange()
 {
     emit themeChanged();
 
@@ -115,51 +137,51 @@ MyStyle::themeChange()
 
 /*
 QColor
-MyStyle::windowColor() const
+Palette::windowColor() const
 {
     if (m_theme == AppDebug) return QColor::fromRgb(0xFF0000);
     return darkMode ? QColor::fromRgb(0x303030) : QColor::fromRgb(0xf0f0f0);
 }
 
 QColor
-MyStyle::windowTextColor() const
+Palette::windowTextColor() const
 {
     return darkMode ? QColor::fromRgb(0xe0e0e0) : QColor::fromRgb(0x5c5c5c);
 }
 
 QColor
-MyStyle::buttonColor() const
+Palette::buttonColor() const
 {
     return darkMode ? QColor::fromRgb(0x74bbff) : QColor::fromRgb(0xc2e1ff);
 }
 
 QColor
-MyStyle::buttonTextColor() const
+Palette::buttonTextColor() const
 {
     return darkMode ? QColor::fromRgb(0xffffff) : QColor::fromRgb(0x5c5c5c);
 }
 
 QColor
-MyStyle::toolBarColor() const
+Palette::toolBarColor() const
 {
     return darkMode ? QColor::fromRgb(0x0066cc) : QColor::fromRgb(0x4da6ff);
 }
 
 QColor
-MyStyle::popupColor() const
+Palette::popupColor() const
 {
     return windowColor().lighter(120);
 }
 
 QColor
-MyStyle::popupBorderColor() const
+Palette::popupBorderColor() const
 {
     const QColor winColor = windowColor();
     return darkMode ? winColor.lighter(140) : winColor.darker(140);
 }
 
 QColor
-MyStyle::backgroundDimColor() const
+Palette::backgroundDimColor() const
 {
     const QColor winColor = windowColor().darker();
     return QColor::fromRgb(winColor.red(), winColor.green(), winColor.blue(), 100);
@@ -167,11 +189,11 @@ MyStyle::backgroundDimColor() const
 */
 
 void
-MyStyle::attachedParentChange(QQuickAttachedPropertyPropagator *newParent,
+Palette::attachedParentChange(QQuickAttachedPropertyPropagator *newParent,
                               QQuickAttachedPropertyPropagator *oldParent)
 {
     Q_UNUSED(oldParent);
-    MyStyle *attachedParentStyle = qobject_cast<MyStyle *>(newParent);
+    Palette *attachedParentStyle = qobject_cast<Palette *>(newParent);
 
     if (attachedParentStyle) {
 
@@ -181,7 +203,7 @@ MyStyle::attachedParentChange(QQuickAttachedPropertyPropagator *newParent,
 }
 
 QColor
-MyStyle::getColor(Color c) const
+Palette::getColor(Color c) const
 {
     switch (m_theme) {
 
@@ -195,7 +217,7 @@ MyStyle::getColor(Color c) const
 }
 
 QColor
-MyStyle::getDefaultColor(Color c) const
+Palette::getDefaultColor(Color c) const
 {
     switch (c) {
         case Color::Accent:
@@ -285,7 +307,7 @@ MyStyle::getDefaultColor(Color c) const
 }
 
 QColor
-MyStyle::getDebugColor(Color c) const
+Palette::getDebugColor(Color c) const
 {
     return getDefaultColor(c);
 }

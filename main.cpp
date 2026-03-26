@@ -11,15 +11,15 @@
 #include "Assets.h"
 #include "DeviceManager.h"
 #include "DevicePanelController.h"
-#include "MyStyle.h"
+#include "Palette.h"
 #include "SidebarController.h"
 #include "SplashPanelController.h"
 #include "VolumePanelController.h"
 #include "WindowController.h"
 #include <QGuiApplication>
+#include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
-#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     // Register attachments
     // qmlRegisterUncreatableType<Theme>("RetroVault.Theme", 1, 0, "Theme", "Theme is an attached property");
-    qmlRegisterUncreatableType<MyStyle>("RetroVault.MyStyle", 1, 0, "MyStyle", "MyStyle is an attached property");
+    qmlRegisterUncreatableType<Palette>("RetroVault.Theme", 1, 0, "Palette", "Palette is an attached property");
 
     // Register singletons
     qmlRegisterSingletonInstance("RetroVault.Controllers", 1, 0, "AppController", AppController::instance());

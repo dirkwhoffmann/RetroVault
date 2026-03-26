@@ -13,23 +13,32 @@
 #include <QtQml>
 
 class AppController : public Controller {
+
     Q_OBJECT
+
+    bool m_darkMode = false;
 
   public:
 
     static AppController *instance();
     static AppController *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
-    using Controller::Controller;
+    AppController();
+
+    Q_PROPERTY(bool darkMode READ getDarkMode NOTIFY darkModeChanged FINAL)
 
     Q_INVOKABLE bool hasFuse() const;
     Q_INVOKABLE void showError(const QString &message);
     Q_INVOKABLE void showNotification(const QString &message);
 
+    bool getDarkMode() const { return m_darkMode; }
+    void setDarkMode(bool value) { m_darkMode = value; emit darkModeChanged(); }
+
     void rethrow(std::exception &e);
 
   signals:
 
+    void darkModeChanged();
     void requestErrorDialog(const QString &message);
     void requestNotificationDialog(const QString &message);
 };

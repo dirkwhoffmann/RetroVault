@@ -9,6 +9,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import RetroVault.Theme
 
 ToolButton {
 
@@ -17,9 +18,9 @@ ToolButton {
     icon.height: Style.iconMedium
 
     icon.color: {
-        if (!enabled) return Style.tertiary // Disabled
-        if (down) return Style.primary      // Pressed
-        if (hovered) return Style.primary   // Hovered
-        return Style.secondary
+        if (!enabled) return Palette.tertiary // Disabled
+        if (down) return Palette.primary      // Pressed
+        if (hovered) return Palette.primary   // Hovered
+        return Palette.secondary
     }
 }

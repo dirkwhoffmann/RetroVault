@@ -9,6 +9,21 @@
 
 #include "AppController.h"
 #include "DeviceManager.h"
+#include <QGuiApplication>
+#include <QStyleHints>
+
+AppController::AppController() : Controller()
+{
+    auto *hints = QGuiApplication::styleHints();
+    m_darkMode = hints->colorScheme() == Qt::ColorScheme::Dark;
+    printf("Dark mode = %d\n", m_darkMode);
+
+    connect(hints, &QStyleHints::colorSchemeChanged, this, [this](Qt::ColorScheme scheme) {
+
+        setDarkMode(scheme == Qt::ColorScheme::Dark);
+        printf("Dark mode changed to %d %d\n", scheme, m_darkMode);
+    });
+}
 
 AppController *
 AppController::instance()

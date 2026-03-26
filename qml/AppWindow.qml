@@ -13,11 +13,14 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Effects
 import RetroVault.Controllers
+import RetroVault.Theme
 import "components"
 
 ApplicationWindow {
 
     id: root
+
+    Palette.darkMode: AppController.darkMode
 
     WindowController {
 

@@ -11,6 +11,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Controllers
+import RetroVault.Theme
 
 Item {
 
@@ -117,7 +118,7 @@ Item {
                 Label {
                     id: errorString
                     text: volumeScanner.errorInfo(pc.block, offset(blockView.selectedRow, blockView.selectedColumn))
-                    color: Style.error
+                    color: Palette.error
                     Layout.alignment: Qt.AlignHCenter
                 }
             }

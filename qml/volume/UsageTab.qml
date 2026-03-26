@@ -35,7 +35,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Style.iconMedium
                 rawData: scanner.usageMap
-                palette: panelController.usagePanelColors
+                colors: panelController.usagePanelColors
             }
 
             BusyButton {

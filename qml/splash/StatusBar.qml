@@ -47,7 +47,7 @@ Item {
         Label {
             text: qsTr("v0.9b1")
             font.pixelSize: Style.regular
-            // color: Style.error
+            // color: Palette.error
         }
         LinkButton {
             imageSource: Assets.iconUrl(Assets.GitHub)

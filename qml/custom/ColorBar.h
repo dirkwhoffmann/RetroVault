@@ -28,15 +28,15 @@ public:
     Q_PROPERTY(QByteArray rawData READ rawData WRITE setRawData)
 
     // The color palette
-    Q_PROPERTY(QList<QColor> palette READ palette WRITE setPalette)
+    Q_PROPERTY(QList<QColor> colors READ getColors WRITE setColors)
 
 private:
 
     QByteArray rawData() const { return m_rawData; }
     void setRawData(const QByteArray &data);
 
-    QList<QColor> palette() const { return m_palette; }
-    void setPalette(const QList<QColor> &palette);
+    QList<QColor> getColors() const { return m_palette; }
+    void setColors(const QList<QColor> &colors);
 
 signals:
     // void rawDataChanged();

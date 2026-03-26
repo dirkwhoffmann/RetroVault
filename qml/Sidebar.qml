@@ -11,8 +11,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Controllers
-
-import RetroVault.MyStyle
+import RetroVault.Theme
 
 Item {
     id: root
@@ -31,9 +30,9 @@ Item {
 
         id: sidebarRect
         anchors.fill: parent
-        color: MyStyle.windowColor
-        MyStyle.theme: MyStyle.AppDefault
-        // color: Style.secondaryBg // "red"
+        Palette.theme: Palette.AppDefault
+        color: Palette.window
+        // color: Palette.secondaryBg // "red"
 
         DropArea {
 
@@ -74,7 +73,7 @@ Item {
             anchors.centerIn: parent
             text: qsTr("Click the '+' button or drag and drop to add an image")
             visible: windowController.numDevices === 0
-            color: Style.tertiary
+            color: Palette.tertiary
             font.pointSize: Style.regular * 1.25
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap

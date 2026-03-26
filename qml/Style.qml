@@ -12,6 +12,7 @@ pragma Singleton
 
 QtObject {
 
+    /*
     //
     // Theme mode
     //
@@ -164,6 +165,7 @@ QtObject {
     readonly property color accentHover: Qt.lighter(accent, 1.2)
     readonly property color accentPressed: Qt.darker(accent, 1.2)
     readonly property color border: Qt.rgba(primary.r, primary.g, primary.b, 0.15)
+    */
 
     //
     // Layout
