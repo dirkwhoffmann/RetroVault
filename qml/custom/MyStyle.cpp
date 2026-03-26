@@ -7,9 +7,9 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#include "MyStyle.h"
 #include <QGuiApplication>
 #include <QStyleHints>
-#include "MyStyle.h"
 
 // Default theme (if no theme is inherited or explicitely set)
 static MyStyle::Theme globalTheme = MyStyle::AppDefault;
@@ -25,11 +25,10 @@ MyStyle::MyStyle(QObject *parent) : QQuickAttachedPropertyPropagator(parent), m_
 
         // 1. Get the system default
         auto *hints = QGuiApplication::styleHints();
-        darkMode = hints->colorScheme() == Qt::ColorScheme::Dark;
+        darkMode    = hints->colorScheme() == Qt::ColorScheme::Dark;
         printf("Dark mode = %d\n", darkMode);
 
         connect(hints, &QStyleHints::colorSchemeChanged, this, [this](Qt::ColorScheme scheme) {
-
             darkMode = scheme == Qt::ColorScheme::Dark;
             printf("colorSchemeChanged %d\n", darkMode);
             this->themeChange();
@@ -114,6 +113,7 @@ MyStyle::themeChange()
     // ...
 }
 
+/*
 QColor
 MyStyle::windowColor() const
 {
@@ -155,7 +155,7 @@ QColor
 MyStyle::popupBorderColor() const
 {
     const QColor winColor = windowColor();
-    return darkMode ?  winColor.lighter(140) : winColor.darker(140);
+    return darkMode ? winColor.lighter(140) : winColor.darker(140);
 }
 
 QColor
@@ -164,6 +164,7 @@ MyStyle::backgroundDimColor() const
     const QColor winColor = windowColor().darker();
     return QColor::fromRgb(winColor.red(), winColor.green(), winColor.blue(), 100);
 }
+*/
 
 void
 MyStyle::attachedParentChange(QQuickAttachedPropertyPropagator *newParent,
@@ -177,4 +178,114 @@ MyStyle::attachedParentChange(QQuickAttachedPropertyPropagator *newParent,
         inheritTheme(attachedParentStyle->theme());
         // Do any other inheriting here...
     }
+}
+
+QColor
+MyStyle::getColor(Color c) const
+{
+    switch (m_theme) {
+
+        case AppDefault:
+            return getDefaultColor(c);
+        case AppDebug:
+            return getDebugColor(c);
+        default:
+            return getDefaultColor(c);
+    }
+}
+
+QColor
+MyStyle::getDefaultColor(Color c) const
+{
+    switch (c) {
+        case Color::Accent:
+            return darkMode ? QColor("#0a84ff") : QColor("#0a84ff");
+        case Color::AlternateBase:
+            return darkMode ? QColor("#2c2c2e") : QColor("#f2f2f7");
+        case Color::Base:
+            return darkMode ? QColor("#1c1c1e") : QColor("#ffffff");
+        case Color::Button:
+            return darkMode ? QColor("#2c2c2e") : QColor("#f2f2f7");
+        case Color::ButtonText:
+            return darkMode ? QColor("#ffffff") : QColor("#000000");
+        case Color::Dark:
+            return darkMode ? QColor("#3a3a3c") : QColor("#d1d1d6");
+        case Color::Highlight:
+            return darkMode ? QColor("#0a84ff") : QColor("#0a84ff");
+        case Color::HighlightedText:
+            return darkMode ? QColor("#ffffff") : QColor("#ffffff");
+        case Color::Light:
+            return darkMode ? QColor("#3a3a3c") : QColor("#ffffff");
+        case Color::Mid:
+            return darkMode ? QColor("#48484a") : QColor("#c7c7cc");
+        case Color::Midlight:
+            return darkMode ? QColor("#636366") : QColor("#e5e5ea");
+        case Color::PlaceholderText:
+            return darkMode ? QColor("#8e8e93") : QColor("#8e8e93");
+        case Color::Shadow:
+            return darkMode ? QColor("#00000066") : QColor("#00000022");
+        case Color::Text:
+            return darkMode ? QColor("#ffffff") : QColor("#000000");
+        case Color::Window:
+            return darkMode ? QColor("#2c2c2e") : QColor("#f5f5f7");
+        case Color::WindowText:
+            return darkMode ? QColor("#ffffff") : QColor("#000000");
+
+        // Extensions
+        case Color::Ok:
+            return darkMode ? QColor("#66ff66") : QColor("#00aa00");
+        case Color::Warning:
+            return darkMode ? QColor("#ffff66") : QColor("#cccc00");
+        case Color::Error:
+            return darkMode ? QColor("#ff6666") : QColor("#ff0000");
+
+            // Derived colors
+        case Color::Primary: {
+            auto base = getColor(Color::WindowText);
+            return QColor(base.red(), base.green(), base.blue(), 255);
+        }
+        case Color::Secondary: {
+            auto base = getColor(Color::WindowText);
+            return QColor(base.red(), base.green(), base.blue(), 192);
+        }
+        case Color::Tertiary: {
+            auto base = getColor(Color::WindowText);
+            return QColor(base.red(), base.green(), base.blue(), 128);
+        }
+        case Color::PrimaryBg: {
+            auto base = getColor(Color::WindowText);
+            return darkMode ? base.lighter(125) : base.darker(125);
+        }
+        case Color::SecondaryBg: {
+            auto base = getColor(Color::WindowText);
+            return darkMode ? base.lighter(150) : base.darker(150);
+        }
+        case Color::TertiaryBg: {
+            auto base = getColor(Color::WindowText);
+            return darkMode ? base.lighter(200) : base.darker(200);
+        }
+        case Color::Separator:
+            return darkMode ? QColor("#3c3c4355") : QColor("#3c3c4349");
+
+        case Color::AccentHover: {
+            auto base = getColor(Color::Accent);
+            return darkMode ? base.lighter(200) : base.lighter(200);
+        }
+        case Color::AccentPressed: {
+            auto base = getColor(Color::Accent);
+            return darkMode ? base.darker(200) : base.darker(200);
+        }
+        case Color::Border: {
+            auto base = getColor(Color::WindowText);
+            return QColor(base.red(), base.green(), base.blue(), 48);
+        }
+    }
+
+    return QColor("#ff0000");
+}
+
+QColor
+MyStyle::getDebugColor(Color c) const
+{
+    return getDefaultColor(c);
 }
