@@ -12,6 +12,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Controllers
 
+import RetroVault.MyStyle
+
 Item {
     id: root
     height: parent.height
@@ -29,7 +31,9 @@ Item {
 
         id: sidebarRect
         anchors.fill: parent
-        color: Style.secondaryBg // "red"
+        color: MyStyle.windowColor
+        MyStyle.theme: MyStyle.AppDefault
+        // color: Style.secondaryBg // "red"
 
         DropArea {
 
