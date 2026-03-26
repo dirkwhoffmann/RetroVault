@@ -23,7 +23,7 @@ Rectangle {
     property alias selectedColumn: tableView.selectedColumn
 
     anchors.fill: parent
-    color: Palette.secondaryBg
+    color: Palette.tableBg
 
     HorizontalHeaderView {
 
@@ -66,21 +66,22 @@ Rectangle {
 
             if (!scanner) return Palette.primary
             if (row === tableView.selectedRow && col === tableView.selectedColumn)
-                return "#ffffff" // Style.highlight
+                return Palette.highlight
             if (col === 0 || col === tableView.columns - 1)
                 return Palette.primary
             return scanner.hasError(blk, offset(row, col)) ? Palette.error : Palette.primary
         }
 
-    /*
-    function cellBg(blk: int, row: int, col: int) : color {
+        function textBg(blk: int, row: int, col: int) : color {
 
+            return Palette.tableBg
+            /*
         if (!scanner) return Palette.primaryBg
         if (col === 0 || col === tableView.columns - 1)
             return Palette.primaryBg
         return scanner.hasError(blk, offset(row, col)) ? : Palette.error : Palette.primaryBg
-    }
     */
+        }
 
     columnWidthProvider: function (column) {
 
@@ -120,10 +121,12 @@ Rectangle {
 
         implicitHeight: 20
 
+        color: Palette.tableBg //  tableView.textBg(block, row, column)
+        /*
         color: (row === tableView.selectedRow && column === tableView.selectedColumn)
             ? Style.accent
             : "transparent"
-
+        */
         Label {
             id: label
             anchors.centerIn: parent

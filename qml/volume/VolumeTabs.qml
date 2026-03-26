@@ -12,6 +12,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import retrovaultUI
 import RetroVault.Controllers
+import RetroVault.Theme
 
 ColumnLayout {
 
@@ -35,7 +36,7 @@ ColumnLayout {
 
     TabBar {
         id: bar
-        Layout.bottomMargin: -1 //Style.mediumSpacing
+        Layout.bottomMargin: 0 //Style.mediumSpacing
         Layout.alignment: Qt.AlignLeft //  Qt.AlignHCenter
         z: 10
 

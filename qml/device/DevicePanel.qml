@@ -12,6 +12,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import RetroVault.Controllers
 import RetroVault.Assets
+import RetroVault.Theme
 
 Item {
 
@@ -37,6 +38,7 @@ Item {
 
         Pane {
 
+            background: Rectangle { color: Palette.primaryBg }
             id: headerPane
             Layout.fillWidth: true
             topPadding: Style.largeSpacing
@@ -54,6 +56,7 @@ Item {
 
         Pane {
 
+            background: Rectangle { color: Palette.primaryBg }
             id: blockSelectorPane
             Layout.fillWidth: true
             topPadding: Style.mediumSpacing
@@ -123,6 +126,7 @@ Item {
 
         Pane {
 
+            background: Rectangle { color: Palette.primaryBg }
             id: blockViewPane
             Layout.fillHeight: true
             Layout.fillWidth: true
