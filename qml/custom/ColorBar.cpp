@@ -9,7 +9,8 @@
 
 #include "ColorBar.h"
 
-ColorBar::ColorBar(QQuickItem *parent) : CustomComponent(parent) {
+ColorBar::ColorBar(QQuickItem *parent) : CustomComponent(parent)
+{
 
     printf("ColorBar created\n");
     setAntialiasing(true);
@@ -19,10 +20,10 @@ ColorBar::ColorBar(QQuickItem *parent) : CustomComponent(parent) {
 }
 
 void
-ColorBar::setRawData(const QByteArray &data) {
+ColorBar::setRawData(const QByteArray &data)
+{
 
-    if (m_rawData != data)
-    {
+    if (m_rawData != data) {
         m_rawData = data;
         updateImage();
         update();
@@ -30,7 +31,8 @@ ColorBar::setRawData(const QByteArray &data) {
 }
 
 void
-ColorBar::setColors(const QList<QColor> &colors) {
+ColorBar::setColors(const QList<QColor> &colors)
+{
 
     if (m_palette != colors) {
 
@@ -42,25 +44,37 @@ ColorBar::setColors(const QList<QColor> &colors) {
 void
 ColorBar::updateImage()
 {
-    int w = m_rawData.size();
-    int h = m_cachedImage.height();
-    float step = 175.0 / (double)h;
+    const int w = m_rawData.size();
+    const int h = m_cachedImage.height();
+    if (w <= 0 || h <= 0) return;
 
+    // Pre-calculate the gradient factors for the column
+    QVector<float> factors(h);
+    float step = 175.0f / h;
+    for (int y = 0; y < h; ++y) {
+        factors[y] = qBound(0.0f, (255.0f - step * y) / 255.0f, 1.0f);
+    }
+
+    // Process the image
     for (int x = 0; x < w; ++x) {
 
         uint8_t val = m_rawData[x];
-        QColor color = val >= 0 && val < m_palette.size() ? m_palette[val] : QColor();
+
+        // Boundary check and color lookup
+        QColor baseColor = (val < m_palette.size()) ? m_palette[val] : Qt::black;
+
+        int br = baseColor.red();
+        int bg = baseColor.green();
+        int bb = baseColor.blue();
+        int ba = baseColor.alpha();
 
         for (int y = 0; y < h; ++y) {
+            float f = factors[y];
 
-            float factor = qMax(0.0f, 255.0 - step * y) / 255.0f;
+            QRgb pixel = qRgba(
+                static_cast<int>(br * f), static_cast<int>(bg * f), static_cast<int>(bb * f), ba);
 
-            int r = static_cast<int>(color.red()   * factor);
-            int g = static_cast<int>(color.green() * factor);
-            int b = static_cast<int>(color.blue()  * factor);
-            int a = color.alpha();
-
-            m_cachedImage.setPixelColor(x, y, QColor(r, g, b, a));
+            m_cachedImage.setPixel(x, y, pixel);
         }
     }
 }
@@ -84,7 +98,8 @@ ColorBar::paint(QPainter *painter)
 }
 
 void
-ColorBar::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) {
+ColorBar::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
+{
     QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
 
     if (newGeometry.size() != oldGeometry.size()) {
