@@ -17,7 +17,7 @@ Pane {
     id: root
     anchors.fill: parent
     padding: 0
-    background: Palette.primaryBg
+    background: Rectangle { color: Palette.primaryBg }
 
     property alias image: image
 

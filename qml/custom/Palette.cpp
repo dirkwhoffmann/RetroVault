@@ -11,9 +11,6 @@
 #include <QGuiApplication>
 #include <QStyleHints>
 
-// Default theme (if no theme is inherited or explicitely set)
-// static Palette::Theme globalTheme = Palette::AppDefault;
-
 Palette::Palette(QObject *parent) : QQuickAttachedPropertyPropagator(parent)
 {
     auto *hints = QGuiApplication::styleHints();
@@ -135,59 +132,6 @@ Palette::themeChange()
     // ...
 }
 
-/*
-QColor
-Palette::windowColor() const
-{
-    if (m_theme == AppDebug) return QColor::fromRgb(0xFF0000);
-    return darkMode ? QColor::fromRgb(0x303030) : QColor::fromRgb(0xf0f0f0);
-}
-
-QColor
-Palette::windowTextColor() const
-{
-    return darkMode ? QColor::fromRgb(0xe0e0e0) : QColor::fromRgb(0x5c5c5c);
-}
-
-QColor
-Palette::buttonColor() const
-{
-    return darkMode ? QColor::fromRgb(0x74bbff) : QColor::fromRgb(0xc2e1ff);
-}
-
-QColor
-Palette::buttonTextColor() const
-{
-    return darkMode ? QColor::fromRgb(0xffffff) : QColor::fromRgb(0x5c5c5c);
-}
-
-QColor
-Palette::toolBarColor() const
-{
-    return darkMode ? QColor::fromRgb(0x0066cc) : QColor::fromRgb(0x4da6ff);
-}
-
-QColor
-Palette::popupColor() const
-{
-    return windowColor().lighter(120);
-}
-
-QColor
-Palette::popupBorderColor() const
-{
-    const QColor winColor = windowColor();
-    return darkMode ? winColor.lighter(140) : winColor.darker(140);
-}
-
-QColor
-Palette::backgroundDimColor() const
-{
-    const QColor winColor = windowColor().darker();
-    return QColor::fromRgb(winColor.red(), winColor.green(), winColor.blue(), 100);
-}
-*/
-
 void
 Palette::attachedParentChange(QQuickAttachedPropertyPropagator *newParent,
                               QQuickAttachedPropertyPropagator *oldParent)
@@ -249,19 +193,11 @@ Palette::getDefaultColor(Color c) const
         case Color::Text:
             return darkMode ? QColor("#ffffff") : QColor("#000000");
         case Color::Window:
-            return darkMode ? QColor("#2c2c2e") : QColor("#ececec");
+            return darkMode ? QColor("#262424") : QColor("#ececec");
         case Color::WindowText:
             return darkMode ? QColor("#ffffff") : QColor("#000000");
 
-        // Extensions
-        case Color::Ok:
-            return darkMode ? QColor("#66ff66") : QColor("#00aa00");
-        case Color::Warning:
-            return darkMode ? QColor("#ffff66") : QColor("#cccc00");
-        case Color::Error:
-            return darkMode ? QColor("#ff6666") : QColor("#ff0000");
-
-        // Derived colors
+        // Additions
         case Color::Primary: {
             auto base = getColor(Color::WindowText);
             return QColor(base.red(), base.green(), base.blue(), 255);
@@ -274,30 +210,30 @@ Palette::getDefaultColor(Color c) const
             auto base = getColor(Color::WindowText);
             return QColor(base.red(), base.green(), base.blue(), 128);
         }
-        case Color::PrimaryBg: {
-            return darkMode ? QColor("#ff6666") : QColor("#ececec");
-            // auto base = getColor(Color::Window);
-            // return darkMode ? base.lighter(100) : base.darker(100);
-        }
-        case Color::SecondaryBg: {
-            return darkMode ? QColor("#ff6666") : QColor("#e2e2e2");
-            // auto base = getColor(Color::Window);
-            // return darkMode ? base.lighter(125) : base.darker(105);
-        }
-        case Color::TertiaryBg: {
-            return darkMode ? QColor("#ff6666") : QColor("#d2d2d2");
-            // auto base = getColor(Color::Window);
-            // return darkMode ? base.lighter(150) : base.darker(110);
-        }
+        case Color::Ok:
+            return darkMode ? QColor("#66ff66") : QColor("#00aa00");
+        case Color::Warning:
+            return darkMode ? QColor("#ffff66") : QColor("#cccc00");
+        case Color::Error:
+            return darkMode ? QColor("#ff6666") : QColor("#ff0000");
+
+        case Color::PrimaryBg:
+            return darkMode ? QColor("#262424") : QColor("#ececec");
+        case Color::SecondaryBg:
+            return darkMode ? QColor("#2c2c2e") : QColor("#e2e2e2");
+        case Color::TertiaryBg:
+            return darkMode ? QColor("#3C3A3B") : QColor("#d2d2d2");
         case Color::TableBg:
             return darkMode ? QColor("#111111") : QColor("#ffffff");
-
         case Color::SidebarBg:
-            return darkMode ? QColor("#0000ff") : QColor("#0000ff");
+            return darkMode ? QColor("#2f2d2d") : QColor("#e2e2e2");
+        case Color::PositiveBg:
+            return darkMode ? QColor("#006137") : QColor("#e3fae9");
+        case Color::NegativeBg:
+            return darkMode ? QColor("#941100") : QColor("#e7d5d6");
 
-        case Color::Separator:
+            case Color::Separator:
             return darkMode ? QColor("#3c3c4355") : QColor("#3c3c4349");
-
         case Color::AccentHover: {
             auto base = getColor(Color::Accent);
             return darkMode ? base.lighter(200) : base.lighter(200);
@@ -306,9 +242,8 @@ Palette::getDefaultColor(Color c) const
             auto base = getColor(Color::Accent);
             return darkMode ? base.darker(200) : base.darker(200);
         }
-        case Color::Border: {
-            return darkMode ? QColor("#ff6666") : QColor("#c8c8c8");
-        }
+        case Color::Border:
+            return darkMode ? QColor("#6C6B6B") : QColor("#c8c8c8");
     }
 
     return QColor("#ff0000");

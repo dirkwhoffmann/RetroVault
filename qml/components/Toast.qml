@@ -7,7 +7,6 @@ Rectangle {
     id: root
     property alias text: label.text
 
-    // anchors.horizontalCenter: parent.horizontalCenter
     anchors.right: parent.right
     anchors.rightMargin: Style.largeSpacing
     y: parent.height // Start off-screen
@@ -15,7 +14,7 @@ Rectangle {
     height: 50
     radius: Style.borderRadius
     border.color: Palette.border
-    color: Palette.secondaryBg
+    color: Palette.positiveBg
     opacity: 0
     z: 100
 
@@ -27,7 +26,7 @@ Rectangle {
         Rectangle {
             width: 4
             Layout.fillHeight: true
-            color: Palette.accent
+            color: Palette.ok
             radius: 2
         }
 

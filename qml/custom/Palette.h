@@ -39,20 +39,24 @@ class Palette : public QQuickAttachedPropertyPropagator {
         Window,
         WindowText,
 
-        // Additions
+        // Additions (Text)
+        Primary,
+        Secondary,
+        Tertiary,
         Ok,
         Warning,
         Error,
 
-        // Derived
-        Primary,
-        Secondary,
-        Tertiary,
+        // Additions (Background)
         PrimaryBg,
         SecondaryBg,
         TertiaryBg,
         TableBg,
         SidebarBg,
+        PositiveBg,
+        NegativeBg,
+
+        // Additions (Elements)
         Separator,
         AccentHover,
         AccentPressed,
@@ -88,19 +92,21 @@ class Palette : public QQuickAttachedPropertyPropagator {
     Q_PROPERTY(QColor windowText READ windowTextColor NOTIFY themeChanged FINAL)
 
     // Additions
+    Q_PROPERTY(QColor primary READ primaryColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor secondary READ secondaryColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor tertiary READ tertiaryColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor ok READ okColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor error READ errorColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor warning READ warningColor NOTIFY themeChanged FINAL)
 
-    // Derived
-    Q_PROPERTY(QColor primary READ primaryColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor secondary READ secondaryColor NOTIFY themeChanged FINAL)
-    Q_PROPERTY(QColor tertiary READ tertiaryColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor primaryBg READ primaryBgColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor secondaryBg READ secondaryBgColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor tertiaryBg READ tertiaryBgColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor tableBg READ tableBgColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor sidebarBg READ sidebarBgColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor positiveBg READ positiveBgColor NOTIFY themeChanged FINAL)
+    Q_PROPERTY(QColor negativeBg READ negativeBgColor NOTIFY themeChanged FINAL)
+
     Q_PROPERTY(QColor separator READ separatorColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor accentHover READ accentHoverColor NOTIFY themeChanged FINAL)
     Q_PROPERTY(QColor accentPressed READ accentPressedColor NOTIFY themeChanged FINAL)
@@ -162,11 +168,15 @@ class Palette : public QQuickAttachedPropertyPropagator {
     QColor primaryColor() const { return getColor(Color::Primary); }
     QColor secondaryColor() const { return getColor(Color::Secondary); }
     QColor tertiaryColor() const { return getColor(Color::Tertiary); }
+
     QColor primaryBgColor() const { return getColor(Color::PrimaryBg); }
     QColor secondaryBgColor() const { return getColor(Color::SecondaryBg); }
     QColor tertiaryBgColor() const { return getColor(Color::TertiaryBg); }
     QColor tableBgColor() const { return getColor(Color::TableBg); }
     QColor sidebarBgColor() const { return getColor(Color::SidebarBg); }
+    QColor positiveBgColor() const { return getColor(Color::PositiveBg); }
+    QColor negativeBgColor() const { return getColor(Color::NegativeBg); }
+
     QColor separatorColor() const { return getColor(Color::Separator); }
     QColor accentHoverColor() const { return getColor(Color::AccentHover); }
     QColor accentPressedColor() const { return getColor(Color::AccentPressed); }

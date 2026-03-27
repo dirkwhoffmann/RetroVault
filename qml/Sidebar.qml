@@ -31,7 +31,7 @@ Item {
         id: sidebarRect
         anchors.fill: parent
         Palette.theme: Palette.AppDefault
-        color: Palette.window
+        color: Palette.sidebarBg
         // color: Palette.secondaryBg // "red"
 
         DropArea {

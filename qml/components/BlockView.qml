@@ -23,12 +23,12 @@ Rectangle {
     property alias selectedColumn: tableView.selectedColumn
 
     anchors.fill: parent
-    color: Palette.tableBg
+    color: Palette.primaryBg
 
     HorizontalHeaderView {
 
         property var columnLabels: [
-            "",
+            "Q",
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F",
             "ASCII"
         ]
@@ -54,6 +54,7 @@ Rectangle {
 
             contentItem: Text {
                 text: horizontalDelegate.modelData
+                color: Palette.primary
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
             }
@@ -67,13 +68,33 @@ Rectangle {
         anchors.left: parent.left
         syncView: tableView
         clip: true
+
+        delegate: VerticalHeaderViewDelegate {
+
+            id: verticalDelegate
+            required property int index
+            required property string modelData
+
+            // implicitWidth: 24
+
+            background: Rectangle {
+                color: Palette.secondaryBg
+            }
+
+            contentItem: Text {
+                text: ((verticalDelegate.index * 16).toString(16)).toUpperCase().padStart(2, '0')
+                color: Palette.primary
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
     }
 
     TableView {
 
         id: tableView
         model: model
-        anchors.left: parent.left
+        anchors.left: verticalHeader.right
         anchors.top: horizontalHeader.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
