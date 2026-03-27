@@ -8,6 +8,8 @@ set(CMAKE_AUTOUIC ON)
 
 set(ICON_FILE "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/AppIcon.icns")
 
+list(PREPEND CMAKE_PREFIX_PATH "/Users/hoff/Qt/6.11.0/macos")
+
 find_package(Qt6 COMPONENTS
         Core
         Concurrent
@@ -20,6 +22,9 @@ find_package(Qt6 COMPONENTS
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(FUSE REQUIRED fuse)
+
+# Set minimum macOS version
+set(CMAKE_OSX_DEPLOYMENT_TARGET "15.7")
 
 qt_add_executable(retrovault
         MACOSX_BUNDLE

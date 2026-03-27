@@ -45,7 +45,7 @@ Item {
         Spacer {}
 
         Label {
-            text: qsTr("v0.9b1")
+            text: qsTr("v0.9b2")
             font.pixelSize: Style.regular
             // color: Palette.error
         }
