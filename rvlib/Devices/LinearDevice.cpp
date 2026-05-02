@@ -7,8 +7,8 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
-#include "LinearDevice.h"
+#include "rvconfig.h"
+#include "Devices/LinearDevice.h"
 #include "utl/storage/Buffer.h"
 #include <format>
 

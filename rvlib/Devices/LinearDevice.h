@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "DeviceTypes.h"
+#include "Devices/DeviceTypes.h"
 #include "utl/common.h"
 #include "utl/primitives/Range.h"
 

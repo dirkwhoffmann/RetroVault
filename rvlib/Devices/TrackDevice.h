@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "BlockDevice.h"
+#include "Devices/BlockDevice.h"
 
 namespace retro::vault {
 

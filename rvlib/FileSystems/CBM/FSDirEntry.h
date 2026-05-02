@@ -9,9 +9,8 @@
 
 #pragma once
 
-#include "FSTypes.h"
-#include "FSObjects.h"
-// #include "utl/common.h"
+#include "FileSystems/CBM/FSTypes.h"
+#include "FileSystems/CBM/FSObjects.h"
 
 namespace retro::vault::cbm {
 

@@ -7,11 +7,11 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
+#include "rvconfig.h"
 #include "FileSystems/CBM/FSTraits.h"
 #include "FileSystems/FSError.h"
-#include "BlockDevice.h"
-#include "D64File.h"
+#include "Devices/BlockDevice.h"
+#include "Images/D64/D64File.h"
 #include "utl/io.h"
 
 namespace retro::vault::cbm {

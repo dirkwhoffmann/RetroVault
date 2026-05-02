@@ -8,7 +8,6 @@
 // -----------------------------------------------------------------------------
 
 #include "FileSystems/FSError.h"
-// #include "FileSystems/Amiga/FileSystem.h"
 
 namespace retro::vault {
 

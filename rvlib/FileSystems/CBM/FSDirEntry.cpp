@@ -7,8 +7,8 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
-#include "FSDirEntry.h"
+#include "rvconfig.h"
+#include "FileSystems/CBM/FSDirEntry.h"
 #include "utl/primitives.h"
 #include "utl/support/Strings.h"
 

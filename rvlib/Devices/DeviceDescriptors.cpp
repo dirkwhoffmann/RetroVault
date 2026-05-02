@@ -7,9 +7,9 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
-#include "DeviceDescriptors.h"
-#include "DeviceError.h"
+#include "rvconfig.h"
+#include "Devices/DeviceDescriptors.h"
+#include "Devices/DeviceError.h"
 #include "FileSystems/Amiga/FSTypes.h"
 #include "utl/io.h"
 #include "utl/types/Literals.h"

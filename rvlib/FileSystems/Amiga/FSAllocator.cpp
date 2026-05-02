@@ -7,7 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
+#include "rvconfig.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include "utl/support.h"
 #include <bit>
@@ -332,7 +332,7 @@ FSAllocator::numUnallocated() const noexcept
     isize result = 0;
     for (auto &it : readBitmap()) result += std::popcount(it);
 
-    if constexpr (debug::FS_DEBUG) {
+    if constexpr (FS_DEBUG) {
 
         isize count = 0;
         for (isize i = 0; i < fs.blocks(); i++) { if (isUnallocated(BlockNr(i))) count++; }

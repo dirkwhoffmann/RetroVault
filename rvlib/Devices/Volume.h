@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "BlockDevice.h"
-#include "DeviceDescriptors.h"
+#include "Devices/BlockDevice.h"
+#include "Devices/DeviceDescriptors.h"
 #include "utl/primitives.h"
 
 namespace retro::vault {

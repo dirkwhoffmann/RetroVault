@@ -7,7 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "Volume.h"
+#include "Devices/Volume.h"
 
 namespace retro::vault {
 

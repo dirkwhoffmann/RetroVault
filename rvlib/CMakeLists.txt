@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.20)
 add_library(rvlib)
 
 # Include paths
@@ -39,6 +39,7 @@ target_compile_options(rvlib PUBLIC
 )
 
 # Source files
+target_sources(rvlib PRIVATE rvdebug.cpp)
 add_subdirectory(Devices)
 add_subdirectory(Images)
 add_subdirectory(FileSystems)

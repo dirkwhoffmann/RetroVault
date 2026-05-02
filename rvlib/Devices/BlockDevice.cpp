@@ -7,7 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "BlockDevice.h"
+#include "Devices/BlockDevice.h"
 
 namespace retro::vault {
 

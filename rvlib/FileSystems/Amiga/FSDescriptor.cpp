@@ -7,11 +7,11 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
+#include "rvconfig.h"
 #include "FileSystems/Amiga/FSDescriptor.h"
 #include "FileSystems/FSError.h"
-#include "BlockDevice.h"
-#include "ADFFile.h"
+#include "Devices/BlockDevice.h"
+#include "Images/ADF/ADFFile.h"
 #include "utl/io.h"
 #include "utl/types/Literals.h"
 

@@ -7,9 +7,9 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
-#include "TrackDevice.h"
-#include "DeviceError.h"
+#include "rvconfig.h"
+#include "Devices/TrackDevice.h"
+#include "Devices/DeviceError.h"
 #include <algorithm>
 
 namespace retro::vault {
