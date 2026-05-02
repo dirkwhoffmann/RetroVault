@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
+#include "rvconfig.h"
 #include "HDFFile.h"
 #include "Images/ImageError.h"
 #include "FileSystems/Amiga/FSBlock.h"

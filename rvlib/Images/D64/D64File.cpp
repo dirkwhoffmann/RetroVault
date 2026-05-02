@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
+#include "rvconfig.h"
 #include "D64File.h"
 #include "C64Encoder.h"
 #include "C64Decoder.h"

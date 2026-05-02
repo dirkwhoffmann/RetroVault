@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
+#include "rvconfig.h"
 #include "EXEFile.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include "utl/io.h"
@@ -75,7 +75,7 @@ EXEFile::didInitialize()
     // fs.importer.updateChecksums();
     fs.flush();
 
-    if constexpr (debug::FS_DEBUG) {
+    if constexpr (FS_DEBUG) {
 
         // Print some debug information about the volume
         fs.dumpState();

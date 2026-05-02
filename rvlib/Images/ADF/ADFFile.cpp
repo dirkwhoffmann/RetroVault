@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
+#include "rvconfig.h"
 #include "FileSystems/Amiga/FSBootBlockImage.h"
 #include "EADFFile.h"
 #include "AmigaEncoder.h"
