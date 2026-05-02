@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "EXEFile.h"
+#include "Images/EXE/EXEFile.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include "utl/io.h"
 #include "utl/support/Strings.h"

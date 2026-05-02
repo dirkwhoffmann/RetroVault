@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "ImageTypes.h"
+#include "Images/ImageTypes.h"
 #include "utl/abilities.h"
 #include "utl/storage.h"
 #include "utl/primitives/Range.h"

@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "DiskImage.h"
+#include "Images/DiskImage.h"
 
 namespace retro::vault {
 

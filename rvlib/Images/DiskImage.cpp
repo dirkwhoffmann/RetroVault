@@ -8,17 +8,17 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "DiskImage.h"
+#include "Images/DiskImage.h"
 #include "utl/support/Strings.h"
 
-#include "ADFFile.h"
-#include "EADFFile.h"
-#include "HDFFile.h"
-#include "IMGFile.h"
-#include "STFile.h"
-#include "DMSFile.h"
-#include "EXEFile.h"
-#include "D64File.h"
+#include "Images/ADF/ADFFile.h"
+#include "Images/EADF/EADFFile.h"
+#include "Images/HDF/HDFFile.h"
+#include "Images/IMG/IMGFile.h"
+#include "Images/ST/STFile.h"
+#include "Images/DMS/DMSFile.h"
+#include "Images/EXE/EXEFile.h"
+#include "Images/D64/D64File.h"
 
 namespace retro::vault {
 

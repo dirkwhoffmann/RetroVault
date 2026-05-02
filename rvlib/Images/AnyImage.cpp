@@ -8,14 +8,14 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "AnyImage.h"
-#include "ADFFile.h"
-#include "EADFFile.h"
-#include "IMGFile.h"
-#include "STFile.h"
-#include "DMSFile.h"
-#include "EXEFile.h"
-#include "HDFFile.h"
+#include "Images/AnyImage.h"
+#include "Images/ADF/ADFFile.h"
+#include "Images/EADF/EADFFile.h"
+#include "Images/IMG/IMGFile.h"
+#include "Images/ST/STFile.h"
+#include "Images/DMS/DMSFile.h"
+#include "Images/EXE/EXEFile.h"
+#include "Images/HDF/HDFFile.h"
 #include "utl/io.h"
 #include "utl/support.h"
 #include <fstream>

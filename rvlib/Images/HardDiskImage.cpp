@@ -8,8 +8,8 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "HardDiskImage.h"
-#include "HDFFile.h"
+#include "Images/HardDiskImage.h"
+#include "Images/HDF/HDFFile.h"
 #include "utl/io.h"
 
 using retro::vault::image::HDFFile;

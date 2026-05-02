@@ -8,10 +8,10 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "HDFFile.h"
+#include "Images/HDF/HDFFile.h"
 #include "Images/ImageError.h"
 #include "FileSystems/Amiga/FSBlock.h"
-#include "DeviceError.h"
+#include "Devices/DeviceError.h"
 #include "utl/common.h"
 #include "utl/chrono.h"
 #include "utl/io.h"

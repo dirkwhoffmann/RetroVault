@@ -8,9 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "DOSDecoder.h"
-#include "DeviceError.h"
-#include "MFM.h"
+#include "Images/Encoders/DOSDecoder.h"
+#include "Images/Encoders/MFM.h"
+#include "Devices/DeviceError.h"
 #include <unordered_set>
 
 namespace retro::vault {

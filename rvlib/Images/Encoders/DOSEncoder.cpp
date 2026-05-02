@@ -8,9 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "DOSEncoder.h"
-#include "DeviceError.h"
-#include "MFM.h"
+#include "Images/Encoders/DOSEncoder.h"
+#include "Images/Encoders/MFM.h"
+#include "Devices/DeviceError.h"
 #include "utl/support/Bits.h"
 #include <array>
 

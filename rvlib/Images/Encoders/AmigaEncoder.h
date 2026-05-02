@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "DiskEncoder.h"
+#include "Images/Encoders/DiskEncoder.h"
 
 namespace retro::vault {
 

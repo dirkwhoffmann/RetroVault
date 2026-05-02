@@ -8,9 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "C64Encoder.h"
-#include "DeviceError.h"
-#include "GCR.h"
+#include "Images/Encoders/C64Encoder.h"
+#include "Images/Encoders/GCR.h"
+#include "Devices/DeviceError.h"
 #include "utl/support/Bits.h"
 
 /* Notes on tracks vs. halftracks

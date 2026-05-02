@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "ADFFile.h"
+#include "Images/ADF/ADFFile.h"
 
 namespace retro::vault::image {
 

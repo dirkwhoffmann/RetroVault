@@ -8,9 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "D64File.h"
-#include "C64Encoder.h"
-#include "C64Decoder.h"
+#include "Images/D64/D64File.h"
+#include "Images/Encoders/C64Encoder.h"
+#include "Images/Encoders/C64Decoder.h"
 #include "utl/io.h"
 #include "utl/support/Strings.h"
 #include <format>

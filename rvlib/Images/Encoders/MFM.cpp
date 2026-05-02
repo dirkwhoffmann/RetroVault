@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "MFM.h"
+#include "Images/Encoders/MFM.h"
 #include "utl/support/Bits.h"
 
 namespace retro::vault::MFM {

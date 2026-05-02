@@ -8,9 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "AmigaEncoder.h"
-#include "DeviceError.h"
-#include "MFM.h"
+#include "Images/Encoders/AmigaEncoder.h"
+#include "Images/Encoders/MFM.h"
+#include "Devices/DeviceError.h"
 #include "utl/support/Bits.h"
 
 namespace retro::vault {

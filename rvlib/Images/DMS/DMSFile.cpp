@@ -8,8 +8,8 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "DMSFile.h"
-#include "ImageError.h"
+#include "Images/DMS/DMSFile.h"
+#include "Images/ImageError.h"
 #include "utl/io.h"
 #include "utl/support/Strings.h"
 #include <format>

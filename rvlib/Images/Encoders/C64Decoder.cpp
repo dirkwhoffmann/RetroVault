@@ -8,10 +8,10 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "C64Decoder.h"
-#include "DeviceError.h"
-#include "D64File.h"
-#include "GCR.h"
+#include "Images/Encoders/C64Decoder.h"
+#include "Images/Encoders/GCR.h"
+#include "Images/D64/D64File.h"
+#include "Devices/DeviceError.h"
 #include "utl/support/Bits.h"
 #include <unordered_set>
 

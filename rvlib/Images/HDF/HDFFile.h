@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "HardDiskImage.h"
-#include "DeviceDescriptors.h"
+#include "Images/HardDiskImage.h"
+#include "Devices/DeviceDescriptors.h"
 #include "utl/common.h"
 
 namespace retro::vault::image {

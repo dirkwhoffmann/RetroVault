@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "GCR.h"
+#include "Images/Encoders/GCR.h"
 
 namespace retro::vault::GCR {
 

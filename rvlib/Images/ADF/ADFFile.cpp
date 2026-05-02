@@ -9,9 +9,9 @@
 
 #include "rvconfig.h"
 #include "FileSystems/Amiga/FSBootBlockImage.h"
-#include "EADFFile.h"
-#include "AmigaEncoder.h"
-#include "AmigaDecoder.h"
+#include "Images/EADF/EADFFile.h"
+#include "Images/Encoders/AmigaEncoder.h"
+#include "Images/Encoders/AmigaDecoder.h"
 #include "Images/ImageError.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include "utl/io.h"

@@ -8,9 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "AmigaDecoder.h"
-#include "DeviceError.h"
-#include "MFM.h"
+#include "Images/Encoders/AmigaDecoder.h"
+#include "Images/Encoders/MFM.h"
+#include "Devices/DeviceError.h"
 #include "utl/support/Bits.h"
 #include <unordered_set>
 

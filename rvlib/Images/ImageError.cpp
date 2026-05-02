@@ -8,8 +8,8 @@
 // -----------------------------------------------------------------------------
 
 #include "rvconfig.h"
-#include "ImageTypes.h"
-#include "ImageError.h"
+#include "Images/ImageTypes.h"
+#include "Images/ImageError.h"
 
 namespace retro::vault {
 
